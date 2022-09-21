@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "./",
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": ["es6", "es7", "ES2017", "ES2018", "ES2019", "dom"],
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "noEmitHelpers": true,
+    "outDir": "./lib",
+    "preserveSymlinks": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": false,
+    "target": "es5"
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
