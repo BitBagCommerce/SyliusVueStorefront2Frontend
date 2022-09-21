@@ -5,6 +5,8 @@
 
 # Vue Storefront 2 integration with Sylius
 
+The current repository is an actively developed fork of [vuestorefront-community/sylius](https://github.com/vuestorefront-community/sylius) repository.
+
 Check the [DEMO](https://vsf-sylius.herokuapp.com/) or [read the documentation](https://vsf-sylius-docs.herokuapp.com/).
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
