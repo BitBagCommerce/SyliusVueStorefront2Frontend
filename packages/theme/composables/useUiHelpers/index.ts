@@ -47,9 +47,6 @@ const useUiHelpers = () => {
       return [{ between: range }];
     };
 
-    console.log('query');
-    console.log(params);
-
     return {
       categorySlug: Object.values(params).filter(Boolean).join('/'),
       page: parseInt(getQueryParameter(query.page)) || 1,

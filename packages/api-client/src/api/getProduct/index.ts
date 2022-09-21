@@ -4,9 +4,6 @@ import gql from 'graphql-tag';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function getProduct(context, params, customQuery?: CustomQuery) {
-  console.log('params and sort');
-  console.log(params);
-
   let pagination = {};
   let products = [];
 

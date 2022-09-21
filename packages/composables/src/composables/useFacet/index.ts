@@ -37,9 +37,6 @@ const factoryParams = {
       Logger.error(e);
     }
 
-    console.log('attr');
-    console.log(attr);
-
     return {
       products,
       productsNotFiltered,
