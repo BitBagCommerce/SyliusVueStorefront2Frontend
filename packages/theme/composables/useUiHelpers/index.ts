@@ -40,12 +40,30 @@ const useUiHelpers = () => {
 
       return [{ translations_name: 'ASC' }];
     };
+
     const getPriceRange = (range: string | string[]) => {
       if (!range) return;
       if (Array.isArray(range)) return [{ between: range[0] }];
 
       return [{ between: range }];
     };
+
+    const getAttribute = (filters: any) => {
+      let attributes: Record<string, string[]>;
+
+      if (Array.isArray(filters?.textFilters)) {
+        const textFilters = filters.textFilters.map(filter => filter.split(':'));
+
+        textFilters.forEach(filter => {
+          attributes = {...attributes, [filter[0]]: [...attributes[filter[0]], filter[1]] };
+        });
+      }
+
+      return attributes;
+    };
+
+    console.log('getAttribute');
+    console.log(getAttribute(query));
 
     return {
       categorySlug: Object.values(params).filter(Boolean).join('/'),
@@ -71,12 +89,13 @@ const useUiHelpers = () => {
 
   // eslint-disable-next-line
   const changeFilters = (filters) => {
-    const { priceRange } = filters;
+    const { priceRange, textFilters } = filters;
 
     router.push({
       query: {
         ...query,
-        priceRange: `${(priceRange[0] * 100).toFixed(0)}..${(priceRange[1] * 100).toFixed(0)}`
+        priceRange: `${(priceRange[0] * 100).toFixed(0)}..${(priceRange[1] * 100).toFixed(0)}`,
+        textFilters: textFilters.map(filter => `${filter.code}:${filter.stringValue}`)
       }
     });
   };

@@ -66,6 +66,7 @@ export const getProductsAttributesQuery = gql`
         attributes(localeCode: $locale) {
           collection {
             id
+            code
             name
             stringValue
             type

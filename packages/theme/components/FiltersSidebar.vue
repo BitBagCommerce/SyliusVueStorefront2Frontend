@@ -109,7 +109,6 @@ import {
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useFacet, facetGetters } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState } from '~/composables';
-import Vue from 'vue';
 
 export default {
   name: 'FiltersSidebar',
@@ -152,15 +151,12 @@ export default {
     const products = computed(() => facetGetters.getProductsNotFiltered(result.value));
 
     const getMaxRange = computed(() => {
+      if (!products.value.length) return [0, 1];
+
       const prices = products.value.map((prod) => prod.variants[0].channelPricings[0].price);
 
-      return [
-        Math.min(...prices) / 100,
-        Math.max(...prices) / 100
-      ];
+      return [Math.min(...prices) / 100, Math.max(...prices) / 100];
     });
-
-    const priceRange = ref([0, 1]);
 
     const selectedFilters = ref({
       priceRange: [0, 1],
@@ -194,16 +190,16 @@ export default {
     //   }), {});
     // };
 
-    const isFilterSelected = (facet) => selectedFilters.value.textFilters.includes(facet.id);
+    const isFilterSelected = (facet) => selectedFilters.value.textFilters.some(filter => filter.id === facet.id);
 
     const selectFilter = (facet) => {
       if (isFilterSelected(facet)) {
-        selectedFilters.value.textFilters = selectedFilters.value.textFilters.filter(filter => filter !== facet.id);
+        selectedFilters.value.textFilters = selectedFilters.value.textFilters.filter(filter => filter.id !== facet.id);
 
         return;
       }
 
-      selectedFilters.value.textFilters.push(facet.id);
+      selectedFilters.value.textFilters.push(facet);
     };
 
     const clearFilters = () => {
@@ -233,7 +229,6 @@ export default {
       clearFilters,
       applyFilters,
       rangeConfig,
-      priceRange,
       setPriceRange
     };
   }
