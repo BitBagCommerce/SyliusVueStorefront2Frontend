@@ -40,11 +40,10 @@ const factoryParams = {
     return {
       products,
       productsNotFiltered,
-      attr,
       category,
       categories,
       categoriesFlat,
-      facets: [...attr],
+      facets: attr,
       page: params.input.page,
       total: pagination.totalCount,
       totalPages: pagination.lastPage,

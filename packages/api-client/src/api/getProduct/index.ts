@@ -167,6 +167,30 @@ export async function getProductAttribute(context, params, customQuery?: CustomQ
     ...curr.attributes.collection
   ]), {});
 
-  return attributes;
+  const groupedAttributes = [];
+
+  attributes.forEach(attr => {
+    const index = groupedAttributes.findIndex(a => a.id === attr.code);
+
+    if (index === -1) {
+      const group = {
+        id: attr.code,
+        label: attr.name,
+        options: [
+          attr
+        ]
+      };
+
+      groupedAttributes.push(group);
+
+      return;
+    }
+
+    if (groupedAttributes[index].options.some(option => option.stringValue === attr.stringValue)) return;
+
+    groupedAttributes[index].options.push(attr);
+  });
+
+  return groupedAttributes;
 }
 

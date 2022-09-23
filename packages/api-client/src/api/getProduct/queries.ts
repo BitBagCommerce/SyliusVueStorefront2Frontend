@@ -7,22 +7,24 @@ export const BaseQuery = gql`
     $categorySlug: String,
     $orderBy: [ProductFilter_order],
     $averageRating: [ProductFilter_averageRating],
+    $price: [ProductFilter_variants_channelPricings_price],
+    $attributes: Iterable,
     $itemsPerPage: Int,
     $page: Int,
     $search: String,
     $channelsCode: String,
-    $price: [ProductFilter_variants_channelPricings_price]
   ) {
     products(
       translations_name: $search,
       translations_slug: $slug,
       productTaxons_taxon_translations_slug: $categorySlug,
       order: $orderBy,
-      averageRating: $averageRating
+      averageRating: $averageRating,
+      variants_channelPricings_price: $price,
+      attributes: $attributes,
       page: $page,
       itemsPerPage: $itemsPerPage,
       channels_code: $channelsCode,
-      variants_channelPricings_price: $price
     ) {
       collection {
         ${productFragment}

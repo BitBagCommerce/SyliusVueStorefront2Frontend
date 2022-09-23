@@ -48,22 +48,31 @@ const useUiHelpers = () => {
       return [{ between: range }];
     };
 
-    const getAttribute = (filters: any) => {
-      let attributes: Record<string, string[]>;
+    const getAttributes = (filters: any) => {
+      let attributes = {};
 
-      if (Array.isArray(filters?.textFilters)) {
-        const textFilters = filters.textFilters.map(filter => filter.split(':'));
+      if (Array.isArray(filters)) {
+        const textFilters = filters.map(filter => filter.split(':'));
 
         textFilters.forEach(filter => {
-          attributes = {...attributes, [filter[0]]: [...attributes[filter[0]], filter[1]] };
+          if (attributes?.[filter[0]]) {
+            attributes = {
+              ...attributes,
+              [filter[0]]: [...attributes[filter[0]], filter[1]]
+            };
+
+            return;
+          }
+
+          attributes = {
+            ...attributes,
+            [filter[0]]: [filter[1]]
+          };
         });
       }
 
       return attributes;
     };
-
-    console.log('getAttribute');
-    console.log(getAttribute(query));
 
     return {
       categorySlug: Object.values(params).filter(Boolean).join('/'),
@@ -71,9 +80,10 @@ const useUiHelpers = () => {
       phrase: query.phrase,
       orderBy: getOrderBy(query.sort),
       averageRating: (query.sort === 'rating-highest' || query.sort === 'rating-lowest') ? [{ between: '1..5' }] : null,
+      price: getPriceRange(query.priceRange),
+      attributes: getAttributes(query.filters),
       itemsPerPage: parseInt(getQueryParameter(query.itemsPerPage)) || 10,
-      channelsCode: 'FASHION_WEB',
-      price: getPriceRange(query.priceRange)
+      channelsCode: 'FASHION_WEB'
     } as any;
   };
 
@@ -88,14 +98,18 @@ const useUiHelpers = () => {
   };
 
   // eslint-disable-next-line
-  const changeFilters = (filters) => {
-    const { priceRange, textFilters } = filters;
+  const changeFilters = (filters: any, priceRange: number[]) => {
+    const options = [];
+
+    for (const filter in filters) {
+      filters[filter].forEach(option => options.push(`${filter}:${option}`));
+    }
 
     router.push({
       query: {
         ...query,
         priceRange: `${(priceRange[0] * 100).toFixed(0)}..${(priceRange[1] * 100).toFixed(0)}`,
-        textFilters: textFilters.map(filter => `${filter.code}:${filter.stringValue}`)
+        filters: options
       }
     });
   };

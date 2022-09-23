@@ -7,54 +7,34 @@
       @close="toggleFilterSidebar"
     >
       <div class="filters desktop-only">
+        <div v-for="(facet, i) in facets" :key="i">
+          <SfHeading
+            :level="4"
+            :title="facet.label"
+            class="filters__title sf-heading--left"
+            :key="`filter-title-${facet.id}`"
+          />
+          <SfFilter
+            v-for="option in facet.options"
+            :key="`${facet.id}-${option.stringValue}`"
+            :label="option.stringValue"
+            :selected="isFilterSelected(facet, option)"
+            class="filters__item"
+            @change="() => selectFilter(facet, option)"
+          />
+        </div>
         <SfHeading
           :level="4"
-          title="Price:"
+          title="Price"
           class="filters__title sf-heading--left"
         />
         <SfRange
           :config="rangeConfig"
-          class="filters__price"
+          class="filters__range"
           @change="setPriceRange"
         />
-        <SfHeading
-          :level="4"
-          title="Attributes:"
-          class="filters__title sf-heading--left"
-        />
-        <div v-for="(facet, i) in facets" :key="i">
-          <!-- <div
-            v-if="isFacetColor(facet)"
-            class="filters__colors"
-            :key="`${facet.id}-colors`"
-          >
-            <SfColor
-              v-for="option in facet.options"
-              :key="`${facet.id}-${option.value}`"
-              :color="option.value"
-              :selected="isFilterSelected(facet, option)"
-              class="filters__color"
-              @click="() => selectFilter(facet, option)"
-            />
-          </div> -->
-          <div>
-            <SfFilter
-              v-if="facet.type === 'text'"
-              :label="facet.stringValue"
-              :selected="isFilterSelected(facet)"
-              class="filters__item"
-              @change="() => selectFilter(facet)"
-            />
-            <SfRange
-              v-else
-              :config="rangeConfig"
-              class="filters__price"
-              @change="setPriceRange"
-            />
-          </div>
-        </div>
       </div>
-      <!-- <SfAccordion class="filters smartphone-only">
+      <SfAccordion class="filters smartphone-only">
         <div v-for="(facet, i) in facets" :key="i">
           <SfAccordionItem
             :key="`filter-title-${facet.id}`"
@@ -63,15 +43,15 @@
           >
             <SfFilter
               v-for="option in facet.options"
-              :key="`${facet.id}-${option.id}`"
-              :label="option.id"
+              :key="`${facet.id}-${option.stringValue}`"
+              :label="option.stringValue"
               :selected="isFilterSelected(facet, option)"
               class="filters__item"
               @change="() => selectFilter(facet, option)"
             />
           </SfAccordionItem>
         </div>
-      </SfAccordion> -->
+      </SfAccordion>
       <template #content-bottom>
         <div class="filters__buttons">
           <SfButton
@@ -102,13 +82,13 @@ import {
   SfFilter,
   SfAccordion,
   SfColor,
-  SfRange,
-  SfInput
+  SfRange
 } from '@storefront-ui/vue';
 
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useFacet, facetGetters } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState } from '~/composables';
+import Vue from 'vue';
 
 export default {
   name: 'FiltersSidebar',
@@ -119,36 +99,53 @@ export default {
     SfAccordion,
     SfColor,
     SfHeading,
-    SfRange,
-    SfInput
+    SfRange
   },
   setup(props, context) {
     const { changeFilters, isFacetColor } = useUiHelpers();
     const { toggleFilterSidebar, isFilterSidebarOpen } = useUiState();
     const { result } = useFacet();
-    const facets = computed(() => {
-      const data = facetGetters.getGrouped(result.value);
 
-      const uniqueIds = [];
-      const uniqueFacets = data.filter(facet => {
-        if (facet.type === 'text' && !uniqueIds.includes(facet.stringValue)) {
-          uniqueIds.push(facet.stringValue);
-
-          return true;
-        }
-
-        if (facet.type === 'integer' && !uniqueIds.includes(facet.name)) {
-          uniqueIds.push(facet.name);
-
-          return true;
-        }
-
-        return false;
-      });
-
-      return uniqueFacets;
-    });
+    const facets = computed(() => facetGetters.getGrouped(result.value));
     const products = computed(() => facetGetters.getProductsNotFiltered(result.value));
+    const selectedFilters = ref({});
+    const priceRange = ref([0, 1]);
+
+    const setSelectedFilters = () => {
+      if (!facets.value.length || Object.keys(selectedFilters.value).length) return;
+      selectedFilters.value = facets.value.reduce((prev, curr) => ({
+        ...prev,
+        [curr.id]: curr.options
+          .filter(o => o.selected)
+          .map(o => o.stringValue)
+      }), {});
+    };
+
+    const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.stringValue);
+
+    const selectFilter = (facet, option) => {
+      if (!selectedFilters.value[facet.id]) {
+        Vue.set(selectedFilters.value, facet.id, []);
+      }
+
+      if (selectedFilters.value[facet.id].find(f => f === option.stringValue)) {
+        selectedFilters.value[facet.id] = selectedFilters.value[facet.id].filter(f => f !== option.stringValue);
+        return;
+      }
+
+      selectedFilters.value[facet.id].push(option.stringValue);
+    };
+
+    const clearFilters = () => {
+      toggleFilterSidebar();
+      selectedFilters.value = {};
+      changeFilters(selectedFilters.value, priceRange.value);
+    };
+
+    const applyFilters = () => {
+      toggleFilterSidebar();
+      changeFilters(selectedFilters.value, priceRange.value);
+    };
 
     const getMaxRange = computed(() => {
       if (!products.value.length) return [0, 1];
@@ -156,12 +153,6 @@ export default {
       const prices = products.value.map((prod) => prod.variants[0].channelPricings[0].price);
 
       return [Math.min(...prices) / 100, Math.max(...prices) / 100];
-    });
-
-    const selectedFilters = ref({
-      priceRange: [0, 1],
-      textFilters: [],
-      integerFilters: []
     });
 
     const getRange = computed(() => result.value.input.price?.[0].between.split('..').map(price => price / 100) || getMaxRange.value);
@@ -177,46 +168,13 @@ export default {
     }));
 
     const setPriceRange = (range) => {
-      selectedFilters.value.priceRange = range;
-    };
-
-    // const setSelectedFilters = () => {
-    //   if (!facets.value.length || Object.keys(selectedFilters.value).length) return;
-    //   selectedFilters.value = facets.value.reduce((prev, curr) => ({
-    //     ...prev,
-    //     [curr.id]: curr.options
-    //       .filter(o => o.selected)
-    //       .map(o => o.id)
-    //   }), {});
-    // };
-
-    const isFilterSelected = (facet) => selectedFilters.value.textFilters.some(filter => filter.id === facet.id);
-
-    const selectFilter = (facet) => {
-      if (isFilterSelected(facet)) {
-        selectedFilters.value.textFilters = selectedFilters.value.textFilters.filter(filter => filter.id !== facet.id);
-
-        return;
-      }
-
-      selectedFilters.value.textFilters.push(facet);
-    };
-
-    const clearFilters = () => {
-      toggleFilterSidebar();
-      selectedFilters.value = [];
-      // changeFilters(selectedFilters.value);
-    };
-
-    const applyFilters = () => {
-      toggleFilterSidebar();
-      changeFilters(selectedFilters.value);
+      priceRange.value = range;
     };
 
     onMounted(() => {
       context.root.$scrollTo(context.root.$el, 2000);
-      setPriceRange(getRange.value);
-      // setSelectedFilters();
+      setSelectedFilters();
+      setPriceRange(getRange);
     });
 
     return {
@@ -262,10 +220,6 @@ export default {
   &__color {
     margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
   }
-  &__price {
-    margin: var(--spacer-xl) auto calc(var(--spacer-xl) + var(--spacer-base)) auto;
-    width: calc(100% - var(--spacer-sm));
-  }
   &__chosen {
     color: var(--c-text-muted);
     font-weight: var(--font-weight--normal);
@@ -286,10 +240,13 @@ export default {
     }
     @include for-desktop {
       --checkbox-padding: 0;
-      margin-left: var(--spacer-xs);
+      margin: var(--spacer-sm) 0;
       border: 0;
       padding: 0;
     }
+  }
+  &__range {
+    margin: 0;
   }
   &__accordion-item {
     --accordion-item-content-padding: 0;
