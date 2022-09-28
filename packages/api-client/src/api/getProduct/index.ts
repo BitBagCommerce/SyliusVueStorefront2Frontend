@@ -3,7 +3,7 @@ import { BaseQuery, getProductsNotFilteredQuery, getProductsAttributesQuery } fr
 import gql from 'graphql-tag';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function getProduct(context, params, customQuery?: CustomQuery) {
+export async function getProduct(context, params, customQuery?: CustomQuery): Promise<any> {
   let pagination = {};
   let products = [];
 
@@ -176,9 +176,8 @@ export async function getProductAttribute(context, params, customQuery?: CustomQ
       const group = {
         id: attr.code,
         label: attr.name,
-        options: [
-          attr
-        ]
+        type: attr.type,
+        options: [attr]
       };
 
       groupedAttributes.push(group);

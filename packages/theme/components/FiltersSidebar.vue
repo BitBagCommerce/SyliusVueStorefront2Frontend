@@ -14,14 +14,30 @@
             class="filters__title sf-heading--left"
             :key="`filter-title-${facet.id}`"
           />
-          <SfFilter
-            v-for="option in facet.options"
-            :key="`${facet.id}-${option.stringValue}`"
-            :label="option.stringValue"
-            :selected="isFilterSelected(facet, option)"
-            class="filters__item"
-            @change="() => selectFilter(facet, option)"
-          />
+          <div v-if="facet.type === 'text'">
+            <SfFilter
+              v-for="option in facet.options"
+              :key="`${facet.id}-${option.stringValue}`"
+              :label="option.stringValue"
+              :selected="isFilterSelected(facet, option)"
+              class="filters__item"
+              @change="() => selectFilter(facet, option)"
+            />
+          </div>
+          <div v-else>
+            <SfRange
+              :config="{
+                start: getRange(facet),
+                range: { min: 0, max: 20 },
+                step: 1,
+                margin: 1,
+                tooltips: true,
+                connect: true
+              }"
+              class="filters__range"
+              @change="setRange(facet, $event)"
+            />
+          </div>
         </div>
         <SfHeading
           :level="4"
@@ -29,9 +45,14 @@
           class="filters__title sf-heading--left"
         />
         <SfRange
-          :config="rangeConfig"
+          :config="{
+            start: priceRange,
+            range: getMaxPrice(),
+            tooltips: true,
+            connect: true
+          }"
           class="filters__range"
-          @change="setPriceRange"
+          @change="setPrice"
         />
       </div>
       <SfAccordion class="filters smartphone-only">
@@ -85,7 +106,7 @@ import {
   SfRange
 } from '@storefront-ui/vue';
 
-import { ref, computed, onMounted } from '@nuxtjs/composition-api';
+import { ref, computed, onMounted, watch } from '@nuxtjs/composition-api';
 import { useFacet, facetGetters } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState } from '~/composables';
 import Vue from 'vue';
@@ -109,7 +130,7 @@ export default {
     const facets = computed(() => facetGetters.getGrouped(result.value));
     const products = computed(() => facetGetters.getProductsNotFiltered(result.value));
     const selectedFilters = ref({});
-    const priceRange = ref([0, 1]);
+    const priceRange = ref([]);
 
     const setSelectedFilters = () => {
       if (!facets.value.length || Object.keys(selectedFilters.value).length) return;
@@ -136,9 +157,28 @@ export default {
       selectedFilters.value[facet.id].push(option.stringValue);
     };
 
+    const getMaxPrice = () => {
+      if (!products.value.length) return { min: 0, max: 1 };
+
+      const prices = products.value.map(prod => prod.variants[0].channelPricings[0].price / 100);
+
+      return {
+        min: Math.min(...prices),
+        max: Math.max(...prices)
+      };
+    };
+
+    const getPrice = () => result.value.input.price?.[0].between.split('..').map(price => price / 100) || Object.values(getMaxPrice());
+    const setPrice = range => priceRange.value = range;
+
+    const getRange = facet => selectedFilters.value[facet.id]?.length ? selectedFilters.value[facet.id] : [0, 20];
+    const setRange = (facet, range) => selectedFilters.value[facet.id] = range.map(num => parseInt(num));
+
     const clearFilters = () => {
-      toggleFilterSidebar();
       selectedFilters.value = {};
+      priceRange.value = Object.values(getMaxPrice());
+
+      toggleFilterSidebar();
       changeFilters(selectedFilters.value, priceRange.value);
     };
 
@@ -147,34 +187,14 @@ export default {
       changeFilters(selectedFilters.value, priceRange.value);
     };
 
-    const getMaxRange = computed(() => {
-      if (!products.value.length) return [0, 1];
-
-      const prices = products.value.map((prod) => prod.variants[0].channelPricings[0].price);
-
-      return [Math.min(...prices) / 100, Math.max(...prices) / 100];
-    });
-
-    const getRange = computed(() => result.value.input.price?.[0].between.split('..').map(price => price / 100) || getMaxRange.value);
-
-    const rangeConfig = computed(() => ({
-      start: getRange.value,
-      range: {
-        min: getMaxRange.value[0],
-        max: getMaxRange.value[1]
-      },
-      tooltips: true,
-      connect: true
-    }));
-
-    const setPriceRange = (range) => {
-      priceRange.value = range;
-    };
-
     onMounted(() => {
       context.root.$scrollTo(context.root.$el, 2000);
+      setPrice(getPrice());
+    });
+
+    watch(facets, () => {
+      setPrice(getPrice());
       setSelectedFilters();
-      setPriceRange(getRange);
     });
 
     return {
@@ -186,8 +206,13 @@ export default {
       toggleFilterSidebar,
       clearFilters,
       applyFilters,
-      rangeConfig,
-      setPriceRange
+      priceRange,
+      getPrice,
+      getMaxPrice,
+      setPrice,
+      getRange,
+      setRange,
+      selectedFilters
     };
   }
 };
@@ -246,7 +271,7 @@ export default {
     }
   }
   &__range {
-    margin: 0;
+    margin: var(--spacer-xl) 0 calc(var(--spacer-xl) + var(--spacer-base)) 0;
   }
   &__accordion-item {
     --accordion-item-content-padding: 0;

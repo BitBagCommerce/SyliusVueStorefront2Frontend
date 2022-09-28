@@ -4,7 +4,7 @@ const factoryParams = {
   search: async (context: Context, params: FacetSearchResult<any>) => {
     let products = [];
     let productsNotFiltered = [];
-    let attr = [];
+    let attributes = [];
     let category = [];
     let categories = [];
     let categoriesFlat = [];
@@ -32,7 +32,14 @@ const factoryParams = {
       pagination = loadedPagination;
 
       productsNotFiltered = data[2].products;
-      attr = data[3];
+
+      attributes = data[3];
+      attributes.forEach(attr => {
+        attr.options = attr.options.map(option => ({
+          ...option,
+          selected: params.input.attributes[option.code]?.includes(option.stringValue) || false
+        }));
+      });
     } catch (e) {
       Logger.error(e);
     }
@@ -43,7 +50,7 @@ const factoryParams = {
       category,
       categories,
       categoriesFlat,
-      facets: attr,
+      facets: attributes,
       page: params.input.page,
       total: pagination.totalCount,
       totalPages: pagination.lastPage,
