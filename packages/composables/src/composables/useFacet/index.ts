@@ -35,10 +35,23 @@ const factoryParams = {
 
       attributes = data[3];
       attributes.forEach(attr => {
-        attr.options = attr.options.map(option => ({
-          ...option,
-          selected: params.input.attributes[option.code]?.includes(option.stringValue) || false
-        }));
+        if (attr.type === 'text') {
+          attr.options = attr.options.map(option => ({
+            ...option,
+            selected: params.input.attributes[option.code]?.includes(option.stringValue) || false
+          }));
+
+          return;
+        }
+
+        if (params.input.attributes?.[attr.id]) {
+          attr.options[0].selected = true;
+          attr.range = params.input.attributes[attr.id];
+
+          return;
+        }
+
+        attr.options[0].selected = false;
       });
     } catch (e) {
       Logger.error(e);

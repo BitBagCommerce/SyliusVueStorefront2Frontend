@@ -8,13 +8,13 @@
     >
       <div class="filters desktop-only">
         <div v-for="(facet, i) in facets" :key="i">
-          <SfHeading
-            :level="4"
-            :title="facet.label"
-            class="filters__title sf-heading--left"
-            :key="`filter-title-${facet.id}`"
-          />
           <div v-if="facet.type === 'text'">
+            <SfHeading
+              :level="4"
+              :title="facet.label"
+              class="filters__title sf-heading--left"
+              :key="`filter-title-${facet.id}`"
+            />
             <SfFilter
               v-for="option in facet.options"
               :key="`${facet.id}-${option.stringValue}`"
@@ -25,6 +25,21 @@
             />
           </div>
           <div v-else>
+            <div class="filters__wrapper filters__title sf-heading--left">
+              <SfHeading
+                :level="4"
+                :title="facet.label"
+                :key="`filter-title-${facet.id}`"
+              />
+              <SfCircleIcon
+                v-if="isRangeSelected(facet)"
+                icon-size="12px"
+                aria-label="Remove filter"
+                icon="cross"
+                class="sf-circle-icon__icon desktop-only"
+                @click="removeRange(facet)"
+              />
+            </div>
             <SfRange
               :config="{
                 start: getRange(facet),
@@ -103,7 +118,8 @@ import {
   SfFilter,
   SfAccordion,
   SfColor,
-  SfRange
+  SfRange,
+  SfCircleIcon
 } from '@storefront-ui/vue';
 
 import { ref, computed, onMounted, watch } from '@nuxtjs/composition-api';
@@ -120,7 +136,8 @@ export default {
     SfAccordion,
     SfColor,
     SfHeading,
-    SfRange
+    SfRange,
+    SfCircleIcon
   },
   setup(props, context) {
     const { changeFilters, isFacetColor } = useUiHelpers();
@@ -133,13 +150,22 @@ export default {
     const priceRange = ref([]);
 
     const setSelectedFilters = () => {
-      if (!facets.value.length || Object.keys(selectedFilters.value).length) return;
+      if (!facets.value.length) return;
+
       selectedFilters.value = facets.value.reduce((prev, curr) => ({
         ...prev,
         [curr.id]: curr.options
           .filter(o => o.selected)
           .map(o => o.stringValue)
       }), {});
+
+      for (const filter in selectedFilters.value) {
+        const find = facets.value.find(f => f.id === filter);
+
+        if (find?.type === 'integer') {
+          Vue.set(selectedFilters.value, filter, find.range || []);
+        }
+      }
     };
 
     const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.stringValue);
@@ -171,8 +197,13 @@ export default {
     const getPrice = () => result.value.input.price?.[0].between.split('..').map(price => price / 100) || Object.values(getMaxPrice());
     const setPrice = range => priceRange.value = range;
 
-    const getRange = facet => selectedFilters.value[facet.id]?.length ? selectedFilters.value[facet.id] : [0, 20];
-    const setRange = (facet, range) => selectedFilters.value[facet.id] = range.map(num => parseInt(num));
+    const isRangeSelected = facet => Boolean(selectedFilters.value[facet.id]?.length);
+    const getRange = facet => isRangeSelected(facet) ? selectedFilters.value[facet.id] : [0, 20];
+    const setRange = (facet, range) => Vue.set(selectedFilters.value, facet.id, range.map(num => parseInt(num)));
+    const removeRange = facet => {
+      selectedFilters.value[facet.id] = [];
+
+    };
 
     const clearFilters = () => {
       selectedFilters.value = {};
@@ -186,6 +217,8 @@ export default {
       toggleFilterSidebar();
       changeFilters(selectedFilters.value, priceRange.value);
     };
+
+    setSelectedFilters();
 
     onMounted(() => {
       context.root.$scrollTo(context.root.$el, 2000);
@@ -210,8 +243,10 @@ export default {
       getPrice,
       getMaxPrice,
       setPrice,
+      isRangeSelected,
       getRange,
       setRange,
+      removeRange,
       selectedFilters
     };
   }
@@ -289,6 +324,12 @@ export default {
     --button-background: var(--c-light);
     --button-color: var(--c-dark-variant);
     margin: var(--spacer-xs) 0 0 0;
+  }
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacer-xs);
   }
 }
 </style>
