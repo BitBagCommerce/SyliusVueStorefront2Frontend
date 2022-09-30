@@ -111,6 +111,13 @@
         </i18n>
         <p class="thank-you__paragraph">{{ $t('Thank You Inbox') }}</p>
       </div>
+      <div v-else-if="isVerifyUser" class="form">
+          <p class="verify__paragraph">Please check your email to verify your account.</p>
+
+          <SfButton type="submit" class="verify__button" @click="closeModal()">
+            {{ $t('Go back') }}
+          </SfButton>
+      </div>
       <div v-else class="form">
         <ValidationObserver v-slot="{ handleSubmit }" key="sign-up">
           <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
@@ -232,6 +239,7 @@ export default {
     const isLogin = ref(false);
     const isForgotten = ref(false);
     const isThankYouAfterForgotten = ref(false);
+    const isVerifyUser = ref(false);
     const userEmail = ref('');
     const createAccount = ref(false);
     const rememberMe = ref(false);
@@ -276,6 +284,13 @@ export default {
       isLogin.value = !value;
     };
 
+    const setIsVerifyUser = (value) => {
+      resetErrorValues();
+      isForgotten.value = false;
+      isLogin.value = !value;
+      isVerifyUser.value = value;
+    };
+
     const handleForm = (fn) => async () => {
       resetErrorValues();
       await fn({ user: form.value });
@@ -284,13 +299,24 @@ export default {
       if (hasUserErrors) {
         error.login = userError.value.login?.message;
         error.register = userError.value.register?.message;
+
+        if (error.login === 'Can\'t authenticate, user not verified') setIsVerifyUser(true);
+
         return;
       }
+
+      if (fn === register) {
+        setIsVerifyUser(true);
+
+        return;
+      }
+
       toggleLoginModal();
     };
 
     const closeModal = () => {
       setIsForgottenValue(false);
+      setIsVerifyUser(false);
       toggleLoginModal();
     };
 
@@ -326,6 +352,7 @@ export default {
       forgotPasswordError,
       forgotPasswordLoading,
       handleForgotten,
+      isVerifyUser,
       closeModal,
       isThankYouAfterForgotten,
       userEmail,
@@ -382,6 +409,17 @@ export default {
     &--bold {
       font-weight: var(--font-weight--semibold);
     }
+  }
+}
+.verify {
+  &__button {
+    width: 100%;
+    margin-top: var(--spacer-xl);
+  }
+
+  &__paragraph {
+    margin: var(--spacer-lg) 0;
+    text-align: center;
   }
 }
 </style>

@@ -22,7 +22,12 @@ const params: UseUserFactoryParams<User, any, any> = {
       try {
         return await context.$sylius.api.getUser(customerId);
       } catch (e) {
+        await params.logOut(context);
+
         Logger.error(e);
+        throw {
+          message: 'Can\'t authenticate, user not verified'
+        };
       }
     }
     return null;
@@ -60,7 +65,6 @@ const params: UseUserFactoryParams<User, any, any> = {
           email
         }
       });
-      await params.logIn(context, { username: email, password});
       return registerUserResponse;
     } catch (err) {
       const error = {
