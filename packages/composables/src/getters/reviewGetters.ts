@@ -20,7 +20,7 @@ export const getReviewRating = (item: ReviewItem): number => item.rating;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getReviewDate = (item: ReviewItem): string => {
-  const parsedDate = parseDate(item.createdAt, 'yyyy-MM-dd\'T\'HH:mm:ssxxx', new Date());
+  const parsedDate = parseDate(item.createdAt, 'yyyy-MM-dd HH:mm:ss', new Date());
   return formatDate(parsedDate, 'dd.MM.yyyy');
 };
 
