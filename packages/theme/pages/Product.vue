@@ -179,12 +179,23 @@ export default {
     const { addItem, loading } = useCart();
     const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
 
+    onSSR(async () => {
+      await search({ slug, query: context.root.$route.query});
+      await searchReviews({ productId: id });
+    });
     const product = computed(() => products.value.products && productGetters.getFiltered(products.value.products, { master: true, attributes: context.root.$route.query })[0]);
 
     const options = computed(() => productGetters.getAttributes(products.value?.products, ['color', 'size'])) || [];
+
     const configuration = computed(() => productGetters.getAttributes(product?.value, ['color', 'size'])) || [];
     const categories = computed(() => productGetters.getCategoryIds(product?.value)) || [];
-    const reviews = computed(() => reviewGetters.getItems(productReviews?.value)) || [];
+
+    const reviews = computed(() => {
+      return productReviews?.value ? reviewGetters.getItems(productReviews?.value) : [];
+    });
+    const totalReviewsCount = computed(() => {
+      return productReviews?.value ? reviewGetters.getTotalReviews(productReviews.value) : 0;
+    });
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
@@ -195,11 +206,6 @@ export default {
       big: { url: img.small },
       alt: product?.value?.name
     })));
-
-    onSSR(async () => {
-      await search({ slug, query: context.root.$route.query});
-      await searchReviews({ productId: id });
-    });
 
     const updateFilter = (item) => {
       const filterObj = {};
@@ -214,6 +220,7 @@ export default {
     };
     const handleReviewSubmit = async ({form, onComplete, onError}) => {
       try {
+        form.value.productId = parseInt(id);
         await addReview(form.value);
         onComplete();
       } catch (e) {
@@ -238,7 +245,7 @@ export default {
       reviewGetters,
       price: computed(() => productGetters.getPrice(product.value)),
       averageRating: computed(() => productGetters.getAverageRating(product.value)),
-      totalReviews: computed(() => reviewGetters.getTotalReviews(productReviews.value)),
+      totalReviews: totalReviewsCount,
       options,
       qty,
       addItem,

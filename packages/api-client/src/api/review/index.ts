@@ -1,4 +1,4 @@
-import { getReviewsQuery } from './queries';
+import {getReviewsQuery} from './queries';
 import { addReviewMutation } from './mutations';
 import {mutate, query, extendQuery } from '../helpers';
 import { CustomQuery } from '@vue-storefront/core';

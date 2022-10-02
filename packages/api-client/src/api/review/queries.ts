@@ -9,6 +9,7 @@ export const getReviewsQuery = gql`
     productReviews(
       reviewSubject_id: $productId,
       author_id: $userId
+      status: "accepted"
     ) {
       collection {
         ${reviewFragment}

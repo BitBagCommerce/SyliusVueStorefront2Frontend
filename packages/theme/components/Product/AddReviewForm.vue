@@ -1,6 +1,9 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }">
-    <form class="form" @submit.prevent="handleSubmit(submitForm(reset))">
+    <div v-show="thankyou.show === true">
+      Thank you for your review.
+    </div>
+    <form class="form" @submit.prevent="handleSubmit(submitForm(reset))" v-show="thankyou.show === false">
       <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
         <SfInput
           v-model="form.title"
@@ -67,13 +70,17 @@ export default {
       reviewSubject: props.productId,
       rating: null
     });
+    const resetThankyou = () => ({
+      show: false
+    });
     const form = ref(resetForm());
+    const thankyou = ref(resetThankyou());
     const submitForm = (resetValidationFn) => {
-      console.log(form.value);
       return () => {
         const onComplete = () => {
           form.value = resetForm();
           resetValidationFn();
+          thankyou.value.show = true;
         };
 
         const onError = () => {
@@ -86,6 +93,7 @@ export default {
 
     return {
       form,
+      thankyou,
       submitForm
     };
   }
