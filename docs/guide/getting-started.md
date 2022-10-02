@@ -26,8 +26,8 @@ module.exports = {
           storeCookieName: 'vsf-store'
         },
         imagePaths: {
-          thumbnail: 'https://sylius-vsf2.bitbag.shop/media/cache/sylius_shop_product_thumbnail',
-          regular: 'https://sylius-vsf2.bitbag.shop/media/cache/sylius_shop_product_large_thumbnail'
+          thumbnail: 'https://localhost:8000/media/cache/sylius_shop_product_thumbnail',
+          regular: 'https://localhost:8000/media/cache/sylius_shop_product_large_thumbnail'
         },
         customHeaders: {}
       }
