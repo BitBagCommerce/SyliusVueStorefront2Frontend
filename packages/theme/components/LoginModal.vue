@@ -173,7 +173,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="create-account"
-                label="I want to create an account"
+                label="I accept the terms & conditions"
                 class="form__element"
               />
             </ValidationProvider>
