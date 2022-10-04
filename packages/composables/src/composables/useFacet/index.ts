@@ -15,8 +15,19 @@ const factoryParams = {
     };
 
     try {
+      const getCategoryInput = () => {
+        const parent = params.input.categorySlug?.split('/')[0];
+
+        if (parent === 'category') return params.input;
+
+        return {
+          ...params.input,
+          categorySlug: `category/${parent}`
+        };
+      };
+
       const data = await Promise.all([
-        context.$sylius.api.getCategory(params.input),
+        context.$sylius.api.getCategory(getCategoryInput()),
         context.$sylius.api.getProduct(params.input),
         context.$sylius.api.getProductNotFiltered(params.input),
         context.$sylius.api.getProductAttribute(params.input)
