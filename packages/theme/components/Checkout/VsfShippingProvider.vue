@@ -33,7 +33,7 @@
       </template>
     </SfRadio>
 
-    <div class="form__action">
+    <div class="form__action go-payment">
       <SfButton
         type="button"
         class="sf-button color-secondary form__back-button"
@@ -107,6 +107,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.go-payment {
+  margin: var(--spacer-xl) 0 0 0;
+}
 .form {
   &__action {
     @include for-desktop {
