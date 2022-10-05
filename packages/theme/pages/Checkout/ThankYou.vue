@@ -39,9 +39,6 @@
             <p class="contact__email">{{ companyDetails.email }}</p>
           </div>
         </div>
-        <SfButton class="order__notifications-button button-size"
-          >{{ $t('Allow order notifications') }}</SfButton
-        >
       </div>
       <div class="additional-info">
         <div>
@@ -54,23 +51,9 @@
             {{ $t('Info after order') }}
           </p>
         </div>
-        <div>
-          <SfHeading
-            title="What can we improve"
-            class="heading sf-heading--left"
-            :level="3"
-          />
-          <p class="paragraph">
-            {{ $t('Feedback') }}
-          </p>
-          <SfButton
-            class="feedback-button color-secondary sf-button--full-width button-size"
-            >{{ $t('Send my feedback') }}</SfButton
-          >
-        </div>
       </div>
     </section>
-    <SfButton link="/" class="back-button color-secondary button-size">{{ $t('Go back to shop') }}</SfButton
+    <SfButton link="/" class="back-button button-size">{{ $t('Go back to shop') }}</SfButton
     >
   </div>
 </template>
