@@ -169,8 +169,7 @@ export default {
         slot: 'banner-A',
         subtitle: categories.value[0].name,
         title: 'Cocktail & Party',
-        description:
-          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
+        description: categories.value[0].description,
         buttonText: 'Shop now',
         image: {
           mobile: $config.theme.home.bannerA.image.mobile,
@@ -183,8 +182,7 @@ export default {
         slot: 'banner-B',
         subtitle: categories.value[1].name,
         title: 'Linen Dresses',
-        description:
-          'Find stunning women\'s cocktail dresses and party dresses. Stand out in lace and metallic cocktail dresses from all your favorite brands.',
+        description: categories.value[1].description,
         buttonText: 'Shop now',
         image: $config.theme.home.bannerB.image,
         class: 'sf-banner--slim banner-central desktop-only',
