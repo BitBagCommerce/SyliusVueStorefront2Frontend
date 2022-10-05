@@ -173,7 +173,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="create-account"
-                label="I want to create an account"
+                label="I accept the terms & conditions"
                 class="form__element"
               />
             </ValidationProvider>
@@ -233,7 +233,7 @@ export default {
     ValidationObserver,
     SfBar
   },
-  setup() {
+  setup(props, context) {
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(false);
@@ -243,8 +243,9 @@ export default {
     const userEmail = ref('');
     const createAccount = ref(false);
     const rememberMe = ref(false);
-    const { register, login, loading, error: userError } = useUser();
+    const { register, login, logout, loading, error: userError } = useUser();
     const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
+    const { $router } = context.root;
 
     const error = reactive({
       login: null,
@@ -307,6 +308,8 @@ export default {
 
       if (fn === register) {
         setIsVerifyUser(true);
+        await logout();
+        $router.push(context.root.localePath({ name: 'home' }));
 
         return;
       }
