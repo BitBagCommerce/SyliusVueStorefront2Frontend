@@ -48,8 +48,8 @@
               label="Remember me"
               class="form__element checkbox"
             />
-            <div v-if="error.login">
-              {{ error.login }}
+            <div v-if="error.login" class="login-error">
+              <SfAlert :message="error.login" type="danger"/>
             </div>
             <SfButton v-e2e="'login-modal-submit'"
               type="submit"
@@ -423,6 +423,18 @@ export default {
   &__paragraph {
     margin: var(--spacer-lg) 0;
     text-align: center;
+  }
+}
+
+.login-error {
+  text-align: center;
+  background: red;
+  margin: 20px;
+  padding: 15px;
+
+  .sf-alert {
+    color: white;
+    --icon-color: white;
   }
 }
 </style>
