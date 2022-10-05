@@ -58,7 +58,7 @@
         </p>
         <div v-if="orders.length === 0" class="no-orders">
           <p class="no-orders__title">{{ $t('You currently have no orders') }}</p>
-          <SfButton class="no-orders__button">{{ $t('Start shopping') }}</SfButton>
+          <SfButton class="no-orders__button" link="/">{{ $t('Start shopping') }}</SfButton>
         </div>
         <SfTable v-else class="orders">
           <SfTableHeading>
@@ -96,7 +96,7 @@
             </SfTableData>
           </SfTableRow>
         </SfTable>
-        <p>Total orders - {{ totalOrders }}</p>
+        <p v-show="totalOrders > 0">Total orders - {{ totalOrders }}</p>
       </div>
     </SfTab>
   </SfTabs>

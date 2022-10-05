@@ -28,7 +28,7 @@ export const getCartItems = (cart: Cart): CartLineItem[] => {
 export const getCartItemName = (product: CartLineItem): string => product.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemImage = (product: CartLineItem): string => product.images[0] || '';
+export const getCartItemImage = (product: CartLineItem): string => product.images[0].replace(/\/media\/image/, '') || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemPrice = (product: CartLineItem): AgnosticPrice => {
