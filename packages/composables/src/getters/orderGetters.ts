@@ -6,7 +6,7 @@ import { Order, OrderItem } from '../types';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getDate = (order: any): string => {
   if (order?.createdAt) {
-    const parsedDate = parseDate(order.createdAt, 'yyyy-MM-dd\'T\'HH:mm:ssxxx', new Date());
+    const parsedDate = parseDate(order.createdAt, 'yyyy-MM-dd HH:mm:ss', new Date());
     return formatDate(parsedDate, 'dd.MM.yyyy');
   }
   return '-';
