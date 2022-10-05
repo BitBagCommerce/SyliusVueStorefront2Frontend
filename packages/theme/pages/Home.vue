@@ -68,6 +68,7 @@
               isInWishlistIcon=""
               :link="localePath({ name: 'home' })"
               class="carousel__item__product"
+              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
             />
           </SfCarouselItem>
         </SfCarousel>
@@ -94,7 +95,7 @@ import {
   SfButton
 } from '@storefront-ui/vue';
 import { computed, useContext } from '@nuxtjs/composition-api';
-import { useCategory } from '@vue-storefront/sylius';
+import {useCart, useCategory} from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -126,9 +127,11 @@ export default {
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
     const { result, search } = useFacet('category/t-shirts');
+    const { addItem: addItemToCart } = useCart();
     const productsRaw = computed(() => facetGetters.getProducts(result.value));
 
     const products = computed(() => productsRaw.value.map(product => ({
+      ...product,
       title: product.name,
       image: productGetters.getCoverImage(product),
       price: {
@@ -215,7 +218,8 @@ export default {
     return {
       banners,
       heroes,
-      products
+      products,
+      addItemToCart
     };
   }
 };
