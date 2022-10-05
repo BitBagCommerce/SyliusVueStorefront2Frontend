@@ -142,7 +142,7 @@
                 />
                 <SfProperty class="desktop-only" name="Color" value="white" />
               </template>
-              <template #actions>
+              <!-- <template #actions>
                 <SfButton
                   class="sf-button--text desktop-only"
                   style="margin: 0 0 1rem auto; display: block;"
@@ -150,7 +150,7 @@
                 >
                   {{ $t('Save for later') }}
                 </SfButton>
-              </template>
+              </template> -->
             </SfProductCardHorizontal>
           </transition-group>
 
