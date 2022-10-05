@@ -15,30 +15,21 @@ const factoryParams = {
     };
 
     try {
-      const getCategoryInput = () => {
-        const parent = params.input.categorySlug?.split('/')[0];
-
-        if (parent === 'category') return params.input;
-
-        return {
-          ...params.input,
-          categorySlug: `category/${parent}`
-        };
-      };
-
       const data = await Promise.all([
-        context.$sylius.api.getCategory(getCategoryInput()),
+        context.$sylius.api.getCategory(),
         context.$sylius.api.getProduct(params.input),
         context.$sylius.api.getProductNotFiltered(params.input),
         context.$sylius.api.getProductAttribute(params.input)
       ]);
-      categories = data[0];
+
+      const foundCategory = data[0].filter(cat => cat.children.some(child => child.slug === params.input.categorySlug));
+      categories = foundCategory.length ? foundCategory : data[0].filter(cat => cat.slug === params.input.categorySlug);
       categoriesFlat = categories.reduce((acc, curr) => {
         return acc.concat(curr.children);
       }, categories);
       category = categoriesFlat.find(cat => cat.slug === params.input.categorySlug);
 
-      const {products: loadedProducts, pagination: loadedPagination } = data[1];
+      const { products: loadedProducts, pagination: loadedPagination } = data[1];
       products = loadedProducts;
       pagination = loadedPagination;
 
