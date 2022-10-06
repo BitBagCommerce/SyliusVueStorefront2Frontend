@@ -108,7 +108,7 @@ const params: UseUserFactoryParams<User, any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   changePassword: async (context: Context, { currentUser, currentPassword, newPassword, customQuery }) => {
     const apiState = context.$sylius.config.state;
-    await context.$sylius.api.updateUserPassword({
+    const updatePassword = await context.$sylius.api.updateUserPassword({
       customerPassword: {
         shopUserId: apiState.getCustomerId().replace('/api/v2/shop/customers/', ''),
         currentPassword,
@@ -116,10 +116,20 @@ const params: UseUserFactoryParams<User, any, any> = {
         confirmNewPassword: newPassword
       }
     }, customQuery);
-    await params.logOut(context, { currentUser });
-    const { cartToken } = await context.$sylius.api.createCart();
-    apiState.setCartId(cartToken);
-    return await params.logIn(context, { username: currentUser.email, password: newPassword });
+    const errors = updatePassword.graphQLErrors?.[0];
+
+    if (!errors) {
+      await params.logOut(context, { currentUser });
+      const { cartToken } = await context.$sylius.api.createCart();
+      apiState.setCartId(cartToken);
+
+      return await params.logIn(context, { username: currentUser.email, password: newPassword });
+    }
+
+    throw {
+      ...errors,
+      message: errors.debugMessage
+    };
   }
 };
 
