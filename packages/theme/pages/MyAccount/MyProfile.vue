@@ -72,16 +72,20 @@ export default {
   },
 
   setup() {
-    const { updateUser, changePassword, user } = useUser();
+    const { updateUser, changePassword, user, error } = useUser();
     const currentEmail = userGetters.getEmailAddress(user.value);
 
     const formHandler = async (fn, onComplete, onError) => {
-      try {
-        const data = await fn();
-        await onComplete(data);
-      } catch (error) {
-        onError(error);
+      const data = await fn();
+      const userError = Object.values(error.value).find(err => err !== null);
+
+      if (userError) {
+        onError(userError.message);
+
+        return;
       }
+
+      onComplete(data);
     };
 
     const updatePersonalData = ({ form, onComplete, onError }) => formHandler(() => updateUser({ user: form.value }), onComplete, onError);

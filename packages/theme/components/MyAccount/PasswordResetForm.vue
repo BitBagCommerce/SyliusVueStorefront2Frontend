@@ -45,6 +45,7 @@
 import { ref } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { SfInput, SfButton } from '@storefront-ui/vue';
+import { useUiNotification } from '~/composables/';
 
 export default {
   name: 'PasswordResetForm',
@@ -57,6 +58,8 @@ export default {
   },
 
   setup(_, { emit }) {
+    const { send } = useUiNotification();
+
     const resetForm = () => ({
       currentPassword: '',
       newPassword: '',
@@ -70,10 +73,13 @@ export default {
         const onComplete = () => {
           form.value = resetForm();
           resetValidationFn();
+          send({ type: 'info', message: 'Password changed' });
         };
 
-        const onError = () => {
-          // TODO: Handle error
+        const onError = (error) => {
+          form.value = resetForm();
+          resetValidationFn();
+          send({ type: 'danger', message: error });
         };
 
         emit('submit', { form, onComplete, onError });
