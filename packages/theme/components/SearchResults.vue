@@ -48,6 +48,8 @@
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+                  @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+                  :is-added-to-cart="isInCart({ product })"
                 />
               </div>
             </SfScrollable>
@@ -65,6 +67,8 @@
                 :alt="productGetters.getName(product)"
                 :title="productGetters.getName(product)"
                 :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+                @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+                :is-added-to-cart="isInCart({ product })"
               />
             </div>
           </SfMegaMenuColumn>
@@ -94,7 +98,7 @@ import {
   SfImage
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@vue/composition-api';
-import { productGetters } from '@vue-storefront/sylius';
+import { productGetters, useCart } from '@vue-storefront/sylius';
 
 export default {
   name: 'SearchResults',
@@ -118,6 +122,7 @@ export default {
     }
   },
   setup(props, { emit }) {
+    const { addItem: addItemToCart, isInCart } = useCart();
     const isSearchOpen = ref(props.visible);
     const products = computed(() => props.result?.products);
     const categories = computed(() => props.result?.categories);
@@ -136,7 +141,9 @@ export default {
       isSearchOpen,
       productGetters,
       products,
-      categories
+      categories,
+      addItemToCart,
+      isInCart
     };
   }
 };

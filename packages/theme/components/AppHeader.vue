@@ -58,42 +58,50 @@
         </div>
       </template>
       <template #search>
-        <SfSearchBar
-          ref="searchBarRef"
-          :placeholder="$t('Search for items')"
-          aria-label="Search"
-          class="sf-header__search"
-          :value="term"
-          @input="handleSearch"
-          @keydown.enter="handleSearch($event)"
-          @focus="isSearchOpen = true"
-          @keydown.esc="closeSearch"
-          v-click-outside="closeSearch"
-        >
-          <template #icon>
-            <SfButton
-              v-if="!!term"
-              class="sf-search-bar__button sf-button--pure"
-              @click="closeOrFocusSearchBar"
-            >
-              <span class="sf-search-bar__icon">
-                <SfIcon color="var(--c-text)" size="18px" icon="cross" />
-              </span>
-            </SfButton>
-            <SfButton
-              v-else
-              class="sf-search-bar__button sf-button--pure"
-              @click="isSearchOpen ? isSearchOpen = false : isSearchOpen = true"
-            >
-              <span class="sf-search-bar__icon">
-                <SfIcon color="var(--c-text)" size="20px" icon="search" />
-              </span>
-            </SfButton>
-          </template>
-        </SfSearchBar>
+        <div>
+          <SfSearchBar
+            ref="searchBarRef"
+            :placeholder="$t('Search for items')"
+            aria-label="Search"
+            class="sf-header__search"
+            :value="term"
+            @input="handleSearch"
+            @keydown.enter="handleSearch($event)"
+            @focus="openSearch"
+            @blur="isSearchFocus = false"
+            @keydown.esc="closeSearch"
+          >
+            <template #icon>
+              <SfButton
+                v-if="!!term"
+                class="sf-search-bar__button sf-button--pure"
+                @click="closeOrFocusSearchBar"
+              >
+                <span class="sf-search-bar__icon">
+                  <SfIcon color="var(--c-text)" size="18px" icon="cross" />
+                </span>
+              </SfButton>
+              <SfButton
+                v-else
+                class="sf-search-bar__button sf-button--pure"
+                @click="isSearchOpen ? isSearchOpen = false : isSearchOpen = true"
+              >
+                <span class="sf-search-bar__icon">
+                  <SfIcon color="var(--c-text)" size="20px" icon="search" />
+                </span>
+              </SfButton>
+            </template>
+          </SfSearchBar>
+        </div>
       </template>
     </SfHeader>
-    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
+    <SearchResults
+      :visible="isSearchOpen"
+      :result="result"
+      @close="closeSearch"
+      @removeSearchResults="removeSearchResults"
+      v-click-outside="closeSearch"
+    />
     <SfOverlay :visible="isSearchOpen" />
   </div>
 </template>
@@ -137,6 +145,7 @@ export default {
     const { cart } = useCart();
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
+    const isSearchFocus = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
     const isMobile = ref(mapMobileObserver().isMobile.get());
@@ -160,11 +169,16 @@ export default {
       toggleLoginModal();
     };
 
-    const closeSearch = () => {
-      if (!isSearchOpen.value) return;
+    const openSearch = () => {
+      isSearchOpen.value = true;
+      isSearchFocus.value = true;
+    };
+
+    const closeSearch = debounce(() => {
+      if (!isSearchOpen.value || isSearchFocus.value) return;
       term.value = '';
       isSearchOpen.value = false;
-    };
+    }, 100);
 
     const handleSearch = debounce(async (paramValue) => {
       if (!paramValue.target) {
@@ -217,6 +231,8 @@ export default {
       setTermForUrl,
       term,
       isSearchOpen,
+      isSearchFocus,
+      openSearch,
       closeSearch,
       handleSearch,
       result,
