@@ -208,7 +208,7 @@ import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 import { useUser, useForgotPassword } from '@vue-storefront/sylius';
-import { useUiState } from '~/composables';
+import { useUiState, useUiNotification } from '~/composables';
 
 extend('email', {
   ...email,
@@ -246,6 +246,7 @@ export default {
     const { register, login, logout, loading, error: userError } = useUser();
     const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
     const { $router } = context.root;
+    const { send } = useUiNotification();
 
     const error = reactive({
       login: null,
@@ -311,8 +312,12 @@ export default {
         await logout();
         $router.push(context.root.localePath({ name: 'home' }));
 
+        send({ type: 'info', message: 'User registered' });
+
         return;
       }
+
+      send({ type: 'info', message: 'Logged in' });
 
       toggleLoginModal();
     };
