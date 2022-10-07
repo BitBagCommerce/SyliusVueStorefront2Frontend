@@ -36,10 +36,15 @@ const params: UseUserFactoryParams<User, any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logOut: async (context: Context) => {
     const apiState = context.$sylius.config.state;
+
     apiState.setCustomerToken(null);
     apiState.setCustomerRefreshToken(null);
     apiState.setCustomerId(null);
     apiState.setCartId(null);
+
+    const { cartToken } = await context.$sylius.api.createCart();
+
+    apiState.setCartId(cartToken);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -120,8 +125,6 @@ const params: UseUserFactoryParams<User, any, any> = {
 
     if (!errors) {
       await params.logOut(context, { currentUser });
-      const { cartToken } = await context.$sylius.api.createCart();
-      apiState.setCartId(cartToken);
 
       return await params.logIn(context, { username: currentUser.email, password: newPassword });
     }
