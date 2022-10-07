@@ -252,9 +252,6 @@ export default {
       return category?.label || items[0].label;
     });
 
-    console.log('products');
-    console.log(products);
-
     const initProductsQuantity = async () => {
       await products.value?.forEach(product => {
         productsQuantity.value[product._id] = 1;
