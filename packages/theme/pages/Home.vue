@@ -68,7 +68,7 @@
               isInWishlistIcon=""
               :link="localePath({ name: 'home' })"
               class="carousel__item__product"
-              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+              @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
             />
           </SfCarouselItem>
         </SfCarousel>
@@ -101,6 +101,7 @@ import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import cacheControl from './../helpers/cacheControl';
 import { useFacet, facetGetters, productGetters } from '@vue-storefront/sylius';
+import { useUiNotification } from '~/composables';
 
 export default {
   name: 'Home',
@@ -127,7 +128,8 @@ export default {
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
     const { result, search } = useFacet('category/t-shirts');
-    const { addItem: addItemToCart } = useCart();
+    const { addItem: addItemToCart, error } = useCart();
+    const { send } = useUiNotification();
     const productsRaw = computed(() => facetGetters.getProducts(result.value));
 
     const products = computed(() => productsRaw.value.map(product => ({
@@ -209,6 +211,20 @@ export default {
       }
     ];
 
+    const handleAddToCart = async (params) => {
+      await addItemToCart(params);
+
+      const cartError = Object.values(error.value).find(err => err !== null);
+
+      if (cartError) {
+        send({ type: 'danger', message: cartError.message });
+
+        return;
+      }
+
+      send({ type: 'success', message: 'Product added to cart' });
+    };
+
     onSSR(() => search({
       categorySlug: 'category/t-shirts',
       channelsCode: 'FASHION_WEB',
@@ -219,7 +235,7 @@ export default {
       banners,
       heroes,
       products,
-      addItemToCart
+      handleAddToCart
     };
   }
 };
