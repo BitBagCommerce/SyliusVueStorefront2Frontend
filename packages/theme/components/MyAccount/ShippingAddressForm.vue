@@ -161,6 +161,8 @@ import {
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { reactive } from '@vue/composition-api';
+import { useUiNotification } from '~/composables/';
+
 const COUNTRIES = [
   { key: 'US', label: 'United States' },
   { key: 'UK', label: 'United Kingdom' },
@@ -214,6 +216,7 @@ export default {
   },
 
   setup(props, { emit }) {
+    const { send } = useUiNotification();
     const form = reactive({
       id: props.address.id,
       firstName: props.address.firstName,
@@ -228,11 +231,12 @@ export default {
     const submitForm = () => {
       emit('submit', {
         form,
-        onComplete: () => {
-
+        onComplete: (msg) => {
+          send({ type: 'info', message: msg });
         },
-        // TODO: Handle Error
-        onError: () => {}
+        onError: (msg) => {
+          send({ type: 'danger', message: msg });
+        }
       });
     };
 
