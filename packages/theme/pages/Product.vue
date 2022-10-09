@@ -78,7 +78,7 @@
             v-model="qty"
             :disabled="loading || product.selectedVariant.onHand === 0"
             class="product__add-to-cart"
-            @click="addItem({ product, quantity: parseInt(qty) })"
+            @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
         </div>
 
@@ -166,6 +166,7 @@ import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser 
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
+import { useUiNotification } from '~/composables';
 
 export default {
   name: 'Product',
@@ -175,8 +176,9 @@ export default {
     const { id, slug } = context.root.$route.params;
     const { isAuthenticated } = useUser();
     const { products, search } = useProduct('products');
+    const { send } = useUiNotification();
 
-    const { addItem, loading } = useCart();
+    const { addItem, loading, error } = useCart();
     const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
 
     onSSR(async () => {
@@ -206,6 +208,20 @@ export default {
       big: { url: img.small },
       alt: product?.value?.name
     })));
+
+    const handleAddToCart = async (params) => {
+      await addItem(params);
+
+      const cartError = Object.values(error.value).find(err => err !== null);
+
+      if (cartError) {
+        send({ type: 'danger', message: cartError.message });
+
+        return;
+      }
+
+      send({ type: 'success', message: 'Product added to cart' });
+    };
 
     const updateFilter = (item) => {
       const filterObj = {};
@@ -248,7 +264,7 @@ export default {
       totalReviews: totalReviewsCount,
       options,
       qty,
-      addItem,
+      handleAddToCart,
       loading,
       productGetters,
       productGallery,

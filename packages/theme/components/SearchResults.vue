@@ -48,7 +48,7 @@
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-                  @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+                  @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
                   :is-added-to-cart="isInCart({ product })"
                 />
               </div>
@@ -67,7 +67,7 @@
                 :alt="productGetters.getName(product)"
                 :title="productGetters.getName(product)"
                 :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-                @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+                @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
                 :is-added-to-cart="isInCart({ product })"
               />
             </div>
@@ -99,6 +99,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@vue/composition-api';
 import { productGetters, useCart } from '@vue-storefront/sylius';
+import { useUiNotification } from '~/composables/';
 
 export default {
   name: 'SearchResults',
@@ -122,10 +123,25 @@ export default {
     }
   },
   setup(props, { emit }) {
-    const { addItem: addItemToCart, isInCart } = useCart();
+    const { addItem: addItemToCart, isInCart, error } = useCart();
+    const { send } = useUiNotification();
     const isSearchOpen = ref(props.visible);
     const products = computed(() => props.result?.products);
     const categories = computed(() => props.result?.categories);
+
+    const handleAddToCart = async (params) => {
+      await addItemToCart(params);
+
+      const cartError = Object.values(error.value).find(err => err !== null);
+
+      if (cartError) {
+        send({ type: 'danger', message: cartError.message });
+
+        return;
+      }
+
+      send({ type: 'success', message: 'Product added to cart' });
+    };
 
     watch(() => props.visible, (newVal) => {
       isSearchOpen.value = newVal;
@@ -142,7 +158,7 @@ export default {
       productGetters,
       products,
       categories,
-      addItemToCart,
+      handleAddToCart,
       isInCart
     };
   }

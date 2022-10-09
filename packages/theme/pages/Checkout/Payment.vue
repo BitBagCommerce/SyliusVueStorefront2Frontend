@@ -114,6 +114,7 @@ import {
 import { onSSR } from '@vue-storefront/core';
 import { ref, computed } from '@vue/composition-api';
 import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
+import { useUiNotification } from '~/composables/';
 
 export default {
   name: 'ReviewOrder',
@@ -133,7 +134,8 @@ export default {
   },
   setup(props, context) {
     const { cart, load, setCart } = useCart();
-    const { order, make, loading } = useMakeOrder();
+    const { order, make, loading, error } = useMakeOrder();
+    const { send } = useUiNotification();
 
     const isPaymentReady = ref(false);
 
@@ -143,7 +145,18 @@ export default {
 
     const processOrder = async () => {
       await make();
+
+      const cartError = Object.values(error.value).find(err => err !== null);
+
+      if (cartError) {
+        send({ type: 'danger', message: cartError.message });
+
+        return;
+      }
+
       const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
+
+      send({ type: 'info', message: 'Order placed' });
       context.root.$router.push(context.root.localePath(thankYouPath));
       setCart(null);
     };

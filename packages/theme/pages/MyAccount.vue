@@ -35,6 +35,7 @@
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
 import { computed, onBeforeUnmount } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/sylius';
+import { useUiNotification } from '~/composables/';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import OrderHistory from './MyAccount/OrderHistory';
@@ -59,6 +60,7 @@ export default {
   setup(props, context) {
     const { $router, $route } = context.root;
     const { logout } = useUser();
+    const { send } = useUiNotification();
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
     const activePage = computed(() => {
       const { pageName } = $route.params;
@@ -76,6 +78,7 @@ export default {
       if (title === 'Log out') {
         await logout();
         $router.push(context.root.localePath({ name: 'home' }));
+        send({ type: 'info', message: 'Logged out' });
         return;
       }
 

@@ -80,6 +80,7 @@ import ShippingAddressForm from '~/components/MyAccount/ShippingAddressForm';
 import { useUserShipping, userShippingGetters } from '@vue-storefront/sylius';
 import { ref, computed } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
+import { useUiNotification } from '~/composables/';
 
 export default {
   name: 'ShippingDetails',
@@ -91,29 +92,47 @@ export default {
     ShippingAddressForm
   },
   setup() {
-    const { shipping, load: loadUserShipping, addAddress, deleteAddress, updateAddress } = useUserShipping();
+    const { shipping, load: loadUserShipping, addAddress, deleteAddress, updateAddress, error } = useUserShipping();
+    const { send } = useUiNotification();
     const addresses = computed(() => userShippingGetters.getAddresses(shipping.value));
     const edittingAddress = ref(false);
     const activeAddress = ref(undefined);
     const isNewAddress = computed(() => !activeAddress.value);
+
+    const getShippingError = () => Object.values(error.value).find(err => err !== null);
 
     const changeAddress = (address = undefined) => {
       activeAddress.value = address;
       edittingAddress.value = true;
     };
 
-    const removeAddress = address => deleteAddress({ address });
+    const removeAddress = async address => {
+      await deleteAddress({ address });
+
+      if (getShippingError()) {
+        send({ type: 'danger', message: getShippingError().message });
+
+        return;
+      }
+
+      send({ type: 'info', message: 'Address removed' });
+    };
 
     const saveAddress = async ({ form, onComplete, onError }) => {
-      try {
-        const actionMethod = isNewAddress.value ? addAddress : updateAddress;
-        const data = await actionMethod({ address: form });
-        edittingAddress.value = false;
-        activeAddress.value = undefined;
-        await onComplete(data);
-      } catch (error) {
-        onError(error);
+      const completeMsg = isNewAddress.value ? 'Address added' : 'Address updated';
+      const actionMethod = isNewAddress.value ? addAddress : updateAddress;
+
+      await actionMethod({ address: form });
+      edittingAddress.value = false;
+      activeAddress.value = undefined;
+
+      if (getShippingError()) {
+        onError(getShippingError().message);
+
+        return;
       }
+
+      onComplete(completeMsg);
     };
 
     onSSR(async () => {

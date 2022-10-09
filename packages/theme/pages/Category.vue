@@ -103,7 +103,7 @@
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+              @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
             />
           </transition-group>
           <transition-group
@@ -131,7 +131,7 @@
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               @input="productsQuantity[product._id] = $event"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="addItemToCart({ product, quantity: Number(productsQuantity[product._id]) })"
+              @click:add-to-cart="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
             >
               <template #configuration>
                 <SfProperty
@@ -212,9 +212,9 @@ import {
   SfColor,
   SfProperty
 } from '@storefront-ui/vue';
-import { computed, ref } from '@nuxtjs/composition-api';
+import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters, wishlistGetters } from '@vue-storefront/sylius';
-import { useUiHelpers, useUiState } from '~/composables';
+import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import cacheControl from './../helpers/cacheControl';
@@ -230,12 +230,13 @@ export default {
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
-    const { addItem: addItemToCart, isInCart } = useCart();
+    const { addItem: addItemToCart, isInCart, error: useCartError } = useCart();
     const { result, search, loading, error } = useFacet();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist, wishlist } = useWishlist();
+    const { send } = useUiNotification();
 
-    const productsQuantity = ref({});
     const products = computed(() => facetGetters.getProducts(result.value));
+    const productsQuantity = ref({});
     const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
     const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
     const pagination = computed(() => facetGetters.getPagination(result.value));
@@ -250,6 +251,29 @@ export default {
 
       return category?.label || items[0].label;
     });
+
+    const initProductsQuantity = async () => {
+      await products.value?.forEach(product => {
+        productsQuantity.value[product._id] = 1;
+      });
+    };
+
+    initProductsQuantity();
+    watch(products, initProductsQuantity);
+
+    const handleAddToCart = async (params) => {
+      await addItemToCart(params);
+
+      const cartError = Object.values(useCartError.value).find(err => err !== null);
+
+      if (cartError) {
+        send({ type: 'danger', message: cartError.message });
+
+        return;
+      }
+
+      send({ type: 'success', message: 'Product added to cart' });
+    };
 
     const removeProductFromWishlist = (productItem) => {
       const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlist.value));
@@ -272,7 +296,7 @@ export default {
       pagination,
       activeCategory,
       breadcrumbs,
-      addItemToCart,
+      handleAddToCart,
       addItemToWishlist,
       removeProductFromWishlist,
       isInWishlist,

@@ -103,6 +103,7 @@ import { ref, onMounted } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { useUser, userGetters } from '@vue-storefront/sylius';
 import { SfInput, SfButton, SfSelect, SfCheckbox } from '@storefront-ui/vue';
+import { useUiNotification } from '~/composables/';
 import { parse as parseDate, format as formatDate } from 'date-fns';
 export default {
   name: 'ProfileUpdateForm',
@@ -118,6 +119,7 @@ export default {
 
   setup(_, { emit }) {
     const { user } = useUser();
+    const { send } = useUiNotification();
     const resetForm = () => ({
       firstName: userGetters.getFirstName(user.value),
       lastName: userGetters.getLastName(user.value),
@@ -149,12 +151,13 @@ export default {
     const submitForm = (resetValidationFn) => {
       return () => {
         const onComplete = () => {
+          send({ type: 'info', message: 'Profile updated' });
           form.value = resetForm();
           resetValidationFn();
         };
 
-        const onError = () => {
-          // TODO: Handle error
+        const onError = (error) => {
+          send({ type: 'danger', message: error });
         };
 
         emit('submit', { form, onComplete, onError });
