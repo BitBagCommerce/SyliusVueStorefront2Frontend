@@ -19,11 +19,11 @@
         <div v-if="totalItems" key="my-cart" class="my-cart">
           <div class="collected-product-list">
             <transition-group name="sf-fade" tag="div">
-              <SfCollectedProduct
+              <ProductItem
                 v-for="product in products"
                 v-e2e="'collected-product'"
                 :key="cartGetters.getItemSku(product)"
-                :image="cartGetters.getItemImage(product)"
+                :image="productGetters.getCoverImage(product)"
                 :title="cartGetters.getItemName(product)"
                 :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
@@ -51,7 +51,7 @@
                     />
                   </div>
                 </template>
-              </SfCollectedProduct>
+              </ProductItem>
             </transition-group>
           </div>
         </div>
@@ -116,12 +116,12 @@ import {
   SfIcon,
   SfProperty,
   SfPrice,
-  SfCollectedProduct,
   SfImage,
   SfQuantitySelector
 } from '@storefront-ui/vue';
+import ProductItem from '~/components/CartSidebar/ProductItem';
 import { computed } from '@vue/composition-api';
-import { useCart, useUser, cartGetters } from '@vue-storefront/sylius';
+import { useCart, useUser, cartGetters, productGetters } from '@vue-storefront/sylius';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
 
@@ -134,9 +134,9 @@ export default {
     SfIcon,
     SfProperty,
     SfPrice,
-    SfCollectedProduct,
     SfImage,
-    SfQuantitySelector
+    SfQuantitySelector,
+    ProductItem
   },
   setup() {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
@@ -161,7 +161,8 @@ export default {
       toggleCartSidebar,
       totals,
       totalItems,
-      cartGetters
+      cartGetters,
+      productGetters
     };
   }
 };

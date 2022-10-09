@@ -3,11 +3,11 @@ module.exports = {
     sylius: {
       location: '@vue-storefront/sylius-api/server',
       configuration: {
-        api: 'http://localhost:8000/api/v2/graphql',
+        api: 'http://sylius-graphql.local/api/v2/graphql',
         locale: 'en_US',
         imagePaths: {
-          thumbnail: 'http://localhost:8000/media/cache/sylius_shop_product_thumbnail',
-          regular: 'http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail'
+          thumbnail: 'http://sylius-graphql.local/media/cache/sylius_shop_product_thumbnail',
+          regular: 'http://sylius-graphql.local/media/cache/sylius_shop_product_large_thumbnail'
         },
         customHeaders: {}
       }
