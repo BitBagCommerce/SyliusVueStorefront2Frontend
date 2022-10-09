@@ -135,12 +135,18 @@
             >
               <template #configuration>
                 <SfProperty
-                  class="desktop-only"
-                  name="Size"
-                  value="XS"
-                  style="margin: 0 0 1rem 0;"
-                />
-                <SfProperty class="desktop-only" name="Color" value="white" />
+                  v-for="(property, i) in product.attributes"
+                  :key="i"
+                  :name="property.name"
+                  :value="property.stringValue"
+                  class="product__property"
+                >
+                  <template v-if="property.name === 'Category'" #value>
+                    <SfButton class="product__property__button sf-button--text">
+                      {{ property.value }}
+                    </SfButton>
+                  </template>
+                </SfProperty>
               </template>
               <!-- <template #actions>
                 <SfButton
@@ -392,6 +398,7 @@ export default {
   box-sizing: border-box;
   flex: 1;
   margin: 0;
+
   &__grid {
     justify-content: center;
     @include for-desktop {
@@ -460,6 +467,11 @@ export default {
     }
   }
 }
+.product {
+  &__property {
+    margin: 0.4em 0;
+  }
+}
 .sidebar {
   flex: 0 0 15%;
   padding: var(--spacer-sm);
@@ -477,4 +489,5 @@ export default {
     }
   }
 }
+
 </style>
