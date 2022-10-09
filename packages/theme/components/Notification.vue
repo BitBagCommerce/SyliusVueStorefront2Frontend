@@ -50,7 +50,7 @@ export default {
     left: auto;
     bottom: auto;
     right: 5%;
-    width: 320px;
+    width: 450px;
   }
 }
 .sf-notification {

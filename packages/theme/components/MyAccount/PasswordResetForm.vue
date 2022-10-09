@@ -73,7 +73,7 @@ export default {
         const onComplete = () => {
           form.value = resetForm();
           resetValidationFn();
-          send({ type: 'info', message: 'Password changed' });
+          send({ type: 'info', message: 'Password has been changed' });
         };
 
         const onError = (error) => {

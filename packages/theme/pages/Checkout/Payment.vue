@@ -156,7 +156,7 @@ export default {
 
       const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
 
-      send({ type: 'info', message: 'Order placed' });
+      send({ type: 'info', message: 'Your order has been placed' });
       context.root.$router.push(context.root.localePath(thankYouPath));
       setCart(null);
     };
