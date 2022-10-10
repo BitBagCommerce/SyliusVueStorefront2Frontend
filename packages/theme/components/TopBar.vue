@@ -3,13 +3,13 @@
     <template #left>
       <SfButton class="sf-button--text">
         <p>
-          <SfButton class="topbar__button sf-button--text" :link="bitbagLink">{{ $t('Sylius integration powered by BitBag') }}</SfButton>
+          <SfButton class="topbar__button sf-button--text" :link="bitbagLink" target="_blank">{{ $t('Sylius integration powered by BitBag') }}</SfButton>
         </p>
       </SfButton>
     </template>
     <template #center>
       <p>{{ $t('The source code available on') }}</p>
-      <SfButton class="topbar__button sf-button--text" :link="githubLink">{{ $t('GitHub') }}</SfButton>
+      <SfButton class="topbar__button sf-button--text" :link="githubLink" target="_blank">{{ $t('GitHub') }}</SfButton>
     </template>
     <template #right>
       <LocaleSelector />
@@ -29,8 +29,8 @@ export default {
   },
   data() {
     return {
-      githubLink: 'https://bitbag.io',
-      bitbagLink: 'https://github.com/BitBagCommerce/SyliusVueStorefrontFrontend',
+      githubLink: 'https://github.com/BitBagCommerce/SyliusVueStorefrontFrontend',
+      bitbagLink: 'https://bitbag.io',
     };
   }
 };
