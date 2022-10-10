@@ -84,29 +84,35 @@ const params: UseUserFactoryParams<User, any, any> = {
   logIn: async (context: Context, { username, password }) => {
     const apiState = context.$sylius.config.state;
     const orderTokenValue = apiState.getCartId()?.replace('/api/v2/shop/orders/', '');
-    if (orderTokenValue) {
-      try {
-        const loginUserResponse = await context.$sylius.api.loginUser({
-          login: {
-            username,
-            password,
-            orderTokenValue
-          }
-        });
-        // if (typeof window !== 'undefined') {
-        //   localStorage.setItem('customer/token', loginUserResponse.token);
-        //   localStorage.setItem('customer/id', loginUserResponse.user.customer.id);
-        // }
-        apiState.setCustomerToken(loginUserResponse.token);
-        apiState.setCustomerRefreshToken(loginUserResponse.refreshToken);
-        apiState.setCustomerId(loginUserResponse.user.customer.id);
-      } catch (e) {
-        console.log(e);
-        throw {
-          message: 'Can\'t authenticate with provided username/password.'
-        };
-      }
+
+    if (!orderTokenValue) {
+      throw {
+        message: `orderTokenValue is equal to ${orderTokenValue}`
+      };
     }
+
+    try {
+      const loginUserResponse = await context.$sylius.api.loginUser({
+        login: {
+          username,
+          password,
+          orderTokenValue
+        }
+      });
+      // if (typeof window !== 'undefined') {
+      //   localStorage.setItem('customer/token', loginUserResponse.token);
+      //   localStorage.setItem('customer/id', loginUserResponse.user.customer.id);
+      // }
+      apiState.setCustomerToken(loginUserResponse.token);
+      apiState.setCustomerRefreshToken(loginUserResponse.refreshToken);
+      apiState.setCustomerId(loginUserResponse.user.customer.id);
+    } catch (e) {
+      console.log(e);
+      throw {
+        message: 'Can\'t authenticate with provided username/password.'
+      };
+    }
+
     return params.load(context);
   },
 
