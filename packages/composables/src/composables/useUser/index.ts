@@ -99,10 +99,6 @@ const params: UseUserFactoryParams<User, any, any> = {
           orderTokenValue
         }
       });
-      // if (typeof window !== 'undefined') {
-      //   localStorage.setItem('customer/token', loginUserResponse.token);
-      //   localStorage.setItem('customer/id', loginUserResponse.user.customer.id);
-      // }
       apiState.setCustomerToken(loginUserResponse.token);
       apiState.setCustomerRefreshToken(loginUserResponse.refreshToken);
       apiState.setCustomerId(loginUserResponse.user.customer.id);
