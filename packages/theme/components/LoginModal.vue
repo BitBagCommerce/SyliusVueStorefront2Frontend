@@ -18,6 +18,9 @@
       <div v-if="isLogin">
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
           <form class="form" @submit.prevent="handleSubmit(handleLogin)">
+            <div v-show="error.login" class="login-error">
+              <SfAlert :message="error.login" type="danger"/>
+            </div>
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
                 v-e2e="'login-modal-email'"
@@ -46,11 +49,8 @@
               v-model="rememberMe"
               name="remember-me"
               label="Remember me"
-              class="form__element checkbox"
+              class="form__element checkbox remember-me-checkbox"
             />
-            <div v-if="error.login" class="login-error">
-              <SfAlert :message="error.login" type="danger"/>
-            </div>
             <SfButton v-e2e="'login-modal-submit'"
               type="submit"
               class="sf-button--full-width form__button"
@@ -62,14 +62,15 @@
             </SfButton>
           </form>
         </ValidationObserver>
-        <div class="action">
-          <SfButton class="sf-button--text" @click="setIsForgottenValue(true)">
-            {{ $t('Forgotten password?') }}
-          </SfButton>
-        </div>
+<!--        <div class="action">-->
+<!--          <SfButton class="sf-button&#45;&#45;text" @click="setIsForgottenValue(true)">-->
+<!--            {{ $t('Forgotten password?') }}-->
+<!--          </SfButton>-->
+<!--        </div>-->
         <div class="bottom">
+          <hr class="light-line login-register-separator" />
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
-          <SfButton class="sf-button--text" @click="setIsLoginValue(false)">
+          <SfButton class="register-today-button sf-button--full-width form__button color-light" @click="setIsLoginValue(false)">
             {{ $t('Register today') }}
           </SfButton>
         </div>
@@ -236,7 +237,7 @@ export default {
   setup(props, context) {
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
-    const isLogin = ref(false);
+    const isLogin = ref(true);
     const isForgotten = ref(false);
     const isThankYouAfterForgotten = ref(false);
     const isVerifyUser = ref(false);
@@ -318,6 +319,7 @@ export default {
       }
 
       send({ type: 'info', message: 'Login successful' });
+      $router.push('/my-account');
 
       toggleLoginModal();
     };
@@ -434,12 +436,31 @@ export default {
 .login-error {
   text-align: center;
   background: red;
-  margin: 20px;
+  margin: 0px;
+  margin-bottom: 40px;
   padding: 15px;
 
   .sf-alert {
     color: white;
     --icon-color: white;
   }
+}
+
+.light-line {
+  border: none;
+  border-bottom: solid #ddd 1px;
+}
+
+.login-register-separator {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.register-today-button {
+  margin-top: 20px;
+}
+
+.remember-me-checkbox {
+  height: 0px;
 }
 </style>
