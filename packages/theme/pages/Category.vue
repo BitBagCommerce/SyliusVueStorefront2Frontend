@@ -125,7 +125,7 @@
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
-              :score-rating="3"
+              :score-rating="productGetters.getAverageRating(product)"
               :qty="1"
               :is-in-wishlist="isInWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
@@ -148,15 +148,6 @@
                   </template>
                 </SfProperty>
               </template>
-              <!-- <template #actions>
-                <SfButton
-                  class="sf-button--text desktop-only"
-                  style="margin: 0 0 1rem auto; display: block;"
-                  @click="() => {}"
-                >
-                  {{ $t('Save for later') }}
-                </SfButton>
-              </template> -->
             </SfProductCardHorizontal>
           </transition-group>
 
