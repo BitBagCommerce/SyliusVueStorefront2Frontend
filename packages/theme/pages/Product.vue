@@ -6,7 +6,7 @@
     />
     <div class="product">
       <LazyHydrate when-idle>
-        <SfGallery v-if="productGallery" :images="productGallery" class="product__gallery" />
+        <SfGallery v-if="productGallery" :images="productGallery" imageWidth="550" imageHeight="412" class="product__gallery" />
       </LazyHydrate>
 
       <div class="product__info" v-if="product">
@@ -204,7 +204,7 @@ export default {
 
     const productGallery = computed(() => product?.value && productGetters.getGallery(product?.value).map(img => ({
       mobile: { url: img.small },
-      desktop: { url: img.small },
+      desktop: { url: img.normal },
       big: { url: img.small },
       alt: product?.value?.name
     })));
