@@ -18,9 +18,15 @@ const factoryParams: UseMakeOrderFactoryParams<Order> = {
       id: `/api/v2/shop/orders/${context.cart.cart.value.tokenValue}`,
       orderTokenValue: context.cart.cart.value.tokenValue
     };
+
     const makeOrderResponse = await context.$sylius.api.createOrder({ order }, customQuery);
+
     apiState.setCartId(null);
     context.cart.load({ customQuery });
+
+    const { cartToken } = await context.$sylius.api.createCart();
+    apiState.setCartId(cartToken);
+
     return makeOrderResponse;
   }
 };
