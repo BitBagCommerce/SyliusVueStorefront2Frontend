@@ -139,7 +139,7 @@ export default {
     ];
 
     const handleBirthday = (val) => {
-      val = val.replace(' 00:00:00', '');
+      val = val.split(' ')[0];
       selectedBirthday.value = val;
       const birthday = parseDate(val, 'yyyy-MM-dd', new Date());
       form.value.birthday = formatDate(birthday, 'yyyy-MM-dd 00:00:00');
