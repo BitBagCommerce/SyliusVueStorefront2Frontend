@@ -278,7 +278,7 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: 'Product added to cart' });
+      send({ type: 'success', message: 'Product has been added to the cart' });
     };
 
     const removeProductFromWishlist = (productItem) => {

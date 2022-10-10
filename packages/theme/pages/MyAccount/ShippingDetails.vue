@@ -115,7 +115,7 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Address removed' });
+      send({ type: 'info', message: 'Address has been removed' });
     };
 
     const saveAddress = async ({ form, onComplete, onError }) => {

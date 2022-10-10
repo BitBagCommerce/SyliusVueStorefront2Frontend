@@ -142,5 +142,7 @@ export default {
   'Password': 'Password',
   'Repeat Password': 'Repeat Password',
   'Forgot Password Modal Email': 'Email you are using to sign in:',
+  'The source code available on': 'The source code available on',
+  'Sylius integration powered by BitBag': 'Sylius integration powered by BitBag',
   forgotPasswordConfirmation: 'Thanks! If there is an account registered with the {0} email, you will find message with a password reset link in your inbox.'
 };

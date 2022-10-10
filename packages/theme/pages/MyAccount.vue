@@ -78,7 +78,7 @@ export default {
       if (title === 'Log out') {
         await logout();
         $router.push(context.root.localePath({ name: 'home' }));
-        send({ type: 'info', message: 'Logged out' });
+        send({ type: 'info', message: 'Logout successful' });
         return;
       }
 

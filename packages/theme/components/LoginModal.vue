@@ -312,12 +312,12 @@ export default {
         await logout();
         $router.push(context.root.localePath({ name: 'home' }));
 
-        send({ type: 'info', message: 'User registered' });
+        send({ type: 'info', message: 'Your account has been registered' });
 
         return;
       }
 
-      send({ type: 'info', message: 'Logged in' });
+      send({ type: 'info', message: 'Login successful' });
 
       toggleLoginModal();
     };
