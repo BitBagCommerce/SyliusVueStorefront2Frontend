@@ -105,6 +105,7 @@ import {
   SfLink,
   SfProperty
 } from '@storefront-ui/vue';
+import { computed } from '@nuxtjs/composition-api';
 import productPlaceholder from '@storefront-ui/shared/images/product_placeholder.svg';
 export default {
   name: 'ProductItem',
@@ -171,18 +172,15 @@ export default {
       default: true
     }
   },
-  data() {
+  setup(props) {
+    const componentIs = computed(() => props.link ? 'SfLink' : 'div');
+    const quantity = computed(() => typeof props.qty === 'string' ? Number(props.qty) : props.qty);
+
     return {
-      productPlaceholder
+      productPlaceholder,
+      componentIs,
+      quantity
     };
-  },
-  computed: {
-    componentIs() {
-      return this.link ? 'SfLink' : 'div';
-    },
-    quantity() {
-      return typeof this.qty === 'string' ? Number(this.qty) : this.qty;
-    }
   },
   methods: {
     removeHandler() {
