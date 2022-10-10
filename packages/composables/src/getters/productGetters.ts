@@ -30,7 +30,7 @@ export const getProductPrice = (product: Product): AgnosticPrice => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => product?.galleryImages.map((image, i) => ({
   small: ((Array.isArray(product?.images) && product?.images?.length) ? product.images[i] : '').replace(/\/media\/image/, ''),
-  normal: image.replace(/\/media\/image/, ''),
+  normal: ((Array.isArray(product?.galleryImages) && product?.galleryImages?.length) ? product.galleryImages[i] : '').replace(/\/media\/image/, ''),
   big: image.replace(/\/media\/image/, '')
 })) || [];
 
