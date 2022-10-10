@@ -41,6 +41,7 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
+      <SfLoader class="loading" :loading="loading">
         <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
           <template #prev="{go}">
             <SfArrow
@@ -58,20 +59,21 @@
           </template>
           <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
             <SfProductCard
-              :title="product.title"
-              :image="product.image"
-              :regular-price="product.price.regular"
-              :max-rating="product.rating.max"
-              :score-rating="product.rating.score"
+              :title="product.name"
+              :image="productGetters.getCoverImage(product)"
+              :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+              :max-rating="5"
+              :score-rating="product.averageRating"
               :show-add-to-cart-button="true"
               wishlistIcon=""
               isInWishlistIcon=""
-              :link="localePath({ name: 'home' })"
+              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="carousel__item__product"
               @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
             />
           </SfCarouselItem>
         </SfCarousel>
+      </SfLoader>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -92,7 +94,8 @@ import {
   SfBannerGrid,
   SfHeading,
   SfArrow,
-  SfButton
+  SfButton,
+  SfLoader
 } from '@storefront-ui/vue';
 import { computed, useContext } from '@nuxtjs/composition-api';
 import {useCart, useCategory} from '@vue-storefront/sylius';
@@ -122,29 +125,16 @@ export default {
     SfHeading,
     SfArrow,
     SfButton,
-    LazyHydrate
+    LazyHydrate,
+    SfLoader
   },
   setup() {
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
-    const { result, search } = useFacet('category/t-shirts');
+    const { result, search, loading } = useFacet('category/t-shirts');
     const { addItem: addItemToCart, error } = useCart();
     const { send } = useUiNotification();
-    const productsRaw = computed(() => facetGetters.getProducts(result.value));
-
-    const products = computed(() => productsRaw.value.map(product => ({
-      ...product,
-      title: product.name,
-      image: productGetters.getCoverImage(product),
-      price: {
-        regular: `${product.variants[0].channelPricings[0].price / 100} $`
-      },
-      rating: {
-        max: 5,
-        min: product.averageRating
-      },
-      isInWishlist: false
-    })));
+    const products = computed(() => facetGetters.getProducts(result.value));
 
     const heroes = [
       {
@@ -235,6 +225,8 @@ export default {
       banners,
       heroes,
       products,
+      productGetters,
+      loading,
       handleAddToCart
     };
   }
@@ -346,6 +338,10 @@ export default {
      -webkit-transform-origin: center;
      transform-origin: center;
   }
+}
+
+.loading {
+  margin-top: var(--spacer-lg);
 }
 
 </style>
