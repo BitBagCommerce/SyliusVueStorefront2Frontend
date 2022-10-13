@@ -92,7 +92,6 @@ export default {
     }
   }
   &__lang {
-    width: 20px;
     --button-box-shadow: none;
     background: none;
     padding: 0 5px;

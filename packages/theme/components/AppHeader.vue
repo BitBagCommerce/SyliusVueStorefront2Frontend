@@ -251,10 +251,10 @@ export default {
   background-color: red !important;
 }
 .sf-header {
-  --header-padding:  var(--spacer-sm);
+  --header-padding: var(--spacer-sm);
 
   @include for-desktop {
-    --header-padding: 0;
+    --header-padding: 0 var(--spacer-sm);
   }
 
   @include for-mobile {
