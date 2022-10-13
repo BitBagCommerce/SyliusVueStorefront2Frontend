@@ -15,7 +15,6 @@
         <HeaderNavigation :isMobile="isMobile" />
       </template>
       <template #aside>
-        <LocaleSelector class="smartphone-only" />
       </template>
       <template #header-icons>
         <div class="sf-header__icons">
@@ -58,12 +57,12 @@
         </div>
       </template>
       <template #search>
-        <div>
+        <div class="sf-header__search">
           <SfSearchBar
             ref="searchBarRef"
             :placeholder="$t('Search for items')"
             aria-label="Search"
-            class="sf-header__search"
+            class="sf-header__search--bar"
             :value="term"
             @input="handleSearch"
             @keydown.enter="handleSearch($event)"
@@ -92,6 +91,7 @@
               </SfButton>
             </template>
           </SfSearchBar>
+          <LocaleSelector class="smartphone-only sf-header__search--locale" />
         </div>
       </template>
     </SfHeader>
@@ -247,11 +247,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.test {
+  background-color: red !important;
+}
 .sf-header {
   --header-padding:  var(--spacer-sm);
+
   @include for-desktop {
     --header-padding: 0;
   }
+
+  @include for-mobile {
+    --header-flex-wrap: no-wrap;
+
+    &__search {
+      display: flex;
+      justify-content: flex-end;
+
+      &--bar {
+        flex-grow: 1;
+        margin: 0 1rem;
+      }
+    }
+  }
+
   &__logo-image {
     height: 100%;
   }
