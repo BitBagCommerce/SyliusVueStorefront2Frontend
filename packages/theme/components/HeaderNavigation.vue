@@ -144,7 +144,7 @@ export default {
   &__menu-item {
     color: var(--c-link);
     font-weight: var(--font-weight--medium);
-    padding: var(--spacer-sm) 0;
+    padding: var(--spacer-sm);
   }
 }
 
@@ -154,7 +154,7 @@ export default {
   border-bottom: 1px solid var(--c-light);
 
   &__header {
-    width: calc(100% - 2 * var(--spacer-xs));
+    padding: 0 var(--spacer-sm);
     display: flex;
 
     &-title {
