@@ -150,7 +150,7 @@ export default {
 
 .nav-item {
   white-space: nowrap;
-  padding: var(--spacer-sm);
+  padding: var(--spacer-sm) 0;
   border-bottom: 1px solid var(--c-light);
 
   &__header {
