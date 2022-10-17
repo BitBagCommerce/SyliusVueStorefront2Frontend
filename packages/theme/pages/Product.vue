@@ -315,12 +315,14 @@ export default {
 .product {
   @include for-desktop {
     display: flex;
+    padding: 0 var(--spacer-sm);
   }
   &__info {
     margin: var(--spacer-sm) auto;
     @include for-desktop {
       max-width: 32.625rem;
-      margin: 0 0 0 7.5rem;
+      margin: 0 auto;
+      padding-left: var(--spacer-sm);
     }
   }
   &__header {
@@ -453,8 +455,21 @@ export default {
       margin: 0;
     }
   }
-  &__gallery {
+  ::v-deep .sf-gallery {
     flex: 1;
+
+    @include for-mobile {
+      &__stage {
+        max-width: 100%;
+      }
+      &__big-image {
+        width: 100%;
+      }
+      .sf-image {
+        width: 100%;
+        height: auto;
+      }
+    }
   }
 }
 .breadcrumbs {
