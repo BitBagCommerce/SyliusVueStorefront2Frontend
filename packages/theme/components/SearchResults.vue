@@ -186,6 +186,12 @@ export default {
   }
   &__categories {
     flex: 0 0 220px;
+    margin: var(--spacer-sm);
+    @include for-mobile {
+      width: 95%;
+      margin: auto;
+      flex: 0 0 auto;
+    }
   }
   &__results {
     flex: 1
@@ -196,10 +202,15 @@ export default {
   ::v-deep .sf-bar {
     display: none;
   }
-  ::v-deep .sf-mega-menu-column__header {
-    display: none;
-    @include for-desktop {
-      display: flex;
+  ::v-deep .sf-mega-menu {
+    &__menu {
+      align-items: center;
+    }
+    &-column__header {
+      display: none;
+      @include for-desktop {
+        display: flex;
+      }
     }
   }
 }
@@ -220,7 +231,7 @@ export default {
   padding: var(--spacer-xl) 0 0 var(--spacer-sm);
 }
 .action-buttons {
-  padding: var(--spacer-xl) var(--spacer-sm) var(--spacer-3xl);
+  padding: var(--spacer-xl) var(--spacer-sm);
   background: var(--c-white);
   width: 100%;
   &__button {

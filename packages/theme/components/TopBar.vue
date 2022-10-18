@@ -30,14 +30,16 @@ export default {
   data() {
     return {
       githubLink: 'https://github.com/BitBagCommerce/SyliusVueStorefrontFrontend',
-      bitbagLink: 'https://bitbag.io',
+      bitbagLink: 'https://bitbag.io'
     };
   }
 };
 
 </script>
+
 <style lang="scss" scoped>
 .topbar {
+  padding: 0 var(--spacer-sm);
   position: relative;
   z-index: 2;
   &__button {
