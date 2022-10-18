@@ -72,21 +72,67 @@
       </div>
       <SfAccordion class="filters smartphone-only">
         <div v-for="(facet, i) in facets" :key="i">
-          <SfAccordionItem
-            :key="`filter-title-${facet.id}`"
-            :header="facet.label"
-            class="filters__accordion-item"
-          >
-            <SfFilter
-              v-for="option in facet.options"
-              :key="`${facet.id}-${option.stringValue}`"
-              :label="option.stringValue"
-              :selected="isFilterSelected(facet, option)"
-              class="filters__item"
-              @change="() => selectFilter(facet, option)"
-            />
-          </SfAccordionItem>
+          <div v-if="facet.type === 'text'">
+            <SfAccordionItem
+              :key="`filter-title-${facet.id}`"
+              :header="facet.label"
+              class="filters__accordion-item"
+            >
+              <SfFilter
+                v-for="option in facet.options"
+                :key="`${facet.id}-${option.stringValue}`"
+                :label="option.stringValue"
+                :selected="isFilterSelected(facet, option)"
+                class="filters__item"
+                @change="() => selectFilter(facet, option)"
+              />
+            </SfAccordionItem>
+          </div>
+          <div v-else>
+              <div class="filters__wrapper filters__title sf-heading--left">
+                <SfHeading
+                  :level="4"
+                  :title="facet.label"
+                  :key="`filter-title-${facet.id}`"
+                />
+                <SfCircleIcon
+                  v-if="isRangeSelected(facet)"
+                  icon-size="12px"
+                  aria-label="Remove filter"
+                  icon="cross"
+                  class="sf-circle-icon__icon desktop-only"
+                  @click="removeRange(facet)"
+                />
+              </div>
+              <SfRange
+                :config="{
+                  start: getRange(facet),
+                  range: { min: 0, max: 20 },
+                  step: 1,
+                  margin: 1,
+                  tooltips: true,
+                  connect: true
+                }"
+                class="filters__range"
+                @change="setRange(facet, $event)"
+              />
+            </div>
         </div>
+        <SfHeading
+            :level="4"
+            title="Price"
+            class="filters__title sf-heading--left"
+          />
+          <SfRange
+            :config="{
+              start: priceRange,
+              range: getMaxPrice(),
+              tooltips: true,
+              connect: true
+            }"
+            class="filters__range"
+            @change="setPrice"
+          />
       </SfAccordion>
       <template #content-bottom>
         <div class="filters__buttons">
@@ -307,6 +353,10 @@ export default {
   }
   &__range {
     margin: var(--spacer-xl) 0 calc(var(--spacer-xl) + var(--spacer-base)) 0;
+
+    @include for-mobile {
+      padding: 0 var(--spacer-sm);
+    }
   }
   &__accordion-item {
     --accordion-item-content-padding: 0;
