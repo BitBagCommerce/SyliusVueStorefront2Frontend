@@ -68,11 +68,17 @@ export default {
   flex-wrap: nowrap;
   align-items: center;
   position: relative;
-  .sf-bottom-modal {
+  ::v-deep .sf-bottom-modal {
     z-index: 2;
     left: 0;
-    @include for-desktop {
-      --bottom-modal-height: 100vh;
+
+    &__container {
+      height: 100vh;
+    }
+
+    &__cancel {
+      position: absolute;
+      bottom: 0;
     }
   }
   .sf-bottom-modal::v-deep .sf-bottom-modal__close {
@@ -87,9 +93,7 @@ export default {
         margin-right: var(--spacer-sm);
       }
     }
-    @include for-desktop {
-      display: flex;
-    }
+    display: flex;
   }
   &__lang {
     --button-box-shadow: none;
