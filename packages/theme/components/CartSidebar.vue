@@ -6,6 +6,7 @@
       title="My Cart"
       class="sf-sidebar--right"
       @close="toggleCartSidebar"
+      position="right"
     >
       <template #content-top>
         <SfProperty

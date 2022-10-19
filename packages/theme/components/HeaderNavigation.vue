@@ -1,15 +1,16 @@
 <template>
-  <div class="sf-header__navigation desktop" v-if="!isMobile">
-    <SfHeaderNavigationItem
-      v-for="(category, index) in categories"
-      :key="index"
-      class="nav-item"
-      v-e2e="`app-header-url_${category.slug}`"
-      :label="category.name"
-      :link="localePath(`/c/${category.slug}`)"
-    />
-  </div>
-  <SfModal v-else :visible="isMobileMenuOpen">
+  <div class="header-navigation">
+    <div class="sf-header__navigation desktop-only">
+      <SfHeaderNavigationItem
+        v-for="category in categories"
+        :key="category.id"
+        class="nav-item"
+        v-e2e="`app-header-url_${category.slug}`"
+        :label="category.name"
+        :link="localePath(`/c/${category.slug}`)"
+      />
+    </div>
+    <SfModal class="smartphone-only" :visible="isMobileMenuOpen">
     <SfHeaderNavigationItem>
       <template #mobile-navigation-item>
         <SfAccordion
@@ -77,6 +78,7 @@
       </template>
     </SfHeaderNavigationItem>
   </SfModal>
+</div>
 </template>
 
 <script>
