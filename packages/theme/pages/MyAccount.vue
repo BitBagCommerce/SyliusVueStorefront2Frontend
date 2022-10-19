@@ -9,7 +9,7 @@
       title="My Account"
       :active="activePage"
       class="my-account"
-      @click:change="changeActivePage"
+      @click:change="handleActivePage"
     >
       <SfContentCategory title="Personal Details">
         <SfContentPage title="My profile">
@@ -33,12 +33,16 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { ref, computed, onBeforeUnmount, onMounted } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import OrderHistory from './MyAccount/OrderHistory';
+import {
+  mapMobileObserver,
+  unMapMobileObserver
+} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 
 export default {
   name: 'MyAccount',
@@ -57,17 +61,28 @@ export default {
     const { $router, $route } = context.root;
     const { logout } = useUser();
     const { send } = useUiNotification();
-    const activePage = computed(() => {
+    const isMobile = computed(() => mapMobileObserver().isMobile.get());
+    const activePage = ref('');
+
+    const changeActivePage = () => {
       const { pageName } = $route.params;
 
       if (pageName) {
-        return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
-      } else {
-        return '';
-      }
-    });
+        activePage.value = (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
 
-    const changeActivePage = async (title) => {
+        return;
+      }
+
+      if (!isMobile.value) {
+        activePage.value = 'My profile';
+
+        return;
+      }
+
+      activePage.value = '';
+    };
+
+    const handleActivePage = async (title) => {
       if (title === 'Log out') {
         await logout();
         $router.push(context.root.localePath({ name: 'home' }));
@@ -80,9 +95,19 @@ export default {
       const localeTransformedPath = context.root.localePath(transformedPath);
 
       $router.push(localeTransformedPath);
+
+      changeActivePage();
     };
 
-    return { changeActivePage, activePage };
+    onMounted(() => {
+      changeActivePage();
+    });
+
+    onBeforeUnmount(() => {
+      unMapMobileObserver();
+    });
+
+    return { handleActivePage, activePage };
   },
 
   data() {
