@@ -247,9 +247,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.test {
-  background-color: red !important;
-}
 .sf-header {
   --header-padding: var(--spacer-sm);
 
