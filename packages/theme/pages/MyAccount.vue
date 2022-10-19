@@ -137,11 +137,13 @@ export default {
 }
 .my-account {
   @include for-mobile {
-    --content-pages-sidebar-category-title-font-weight: var(
-      --font-weight--normal
-    );
-    --content-pages-sidebar-category-title-margin: var(--spacer-sm)
-      var(--spacer-sm) var(--spacer-sm) var(--spacer-base);
+    --content-pages-sidebar-category-title-font-weight:
+      var(--font-weight--bold);
+    --content-pages-sidebar-category-title-margin:
+      var(--spacer-sm) var(--spacer-sm) var(--spacer-sm) var(--spacer-sm);
+    ::v-deep .sf-list__item {
+      padding: var(--spacer-sm) var(--spacer-lg);
+    }
   }
   @include for-desktop {
     --content-pages-sidebar-category-title-margin: var(--spacer-xl) 0 0 0;
