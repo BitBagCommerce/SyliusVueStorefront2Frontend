@@ -42,7 +42,7 @@
 
     <LazyHydrate when-visible>
       <SfLoader class="loading" :loading="loading">
-        <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
+        <SfCarousel class="carousel" :settings="{ peek: 16, gap: 10, breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } } }">
           <template #prev="{go}">
             <SfArrow
               aria-label="prev"
@@ -70,7 +70,15 @@
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="carousel__item__product"
               @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
-            />
+            >
+              <template #image>
+                <img
+                  class="carousel__item__image"
+                  :src="productGetters.getCoverImage(product)"
+                  :alt="product.name"
+                >
+              </template>
+            </SfProductCard>
           </SfCarouselItem>
         </SfCarousel>
       </SfLoader>
@@ -318,11 +326,13 @@ export default {
     margin: var(--spacer-xl) 0 var(--spacer-2xl) 0;
   }
 }
-
 .carousel {
-    margin: 0 calc(0 - var(--spacer-sm)) 0 0;
+  margin: 0 calc(0 - var(--spacer-sm)) 0 0;
   @include for-desktop {
     margin: 0;
+  }
+  ::v-deep .glide__slide--clone {
+    opacity: .4;
   }
   &__item {
     margin: 1.375rem 0 2.5rem 0;
@@ -331,6 +341,13 @@ export default {
     }
     &__product {
       --product-card-add-button-transform: translate3d(0, -15%, 0);
+      width: 100%;
+      @include for-mobile {
+        --product-card-max-width: 100%;
+      }
+    }
+    &__image {
+      width: 100%;
     }
   }
   ::v-deep .sf-arrow--long .sf-arrow--right {
@@ -343,5 +360,4 @@ export default {
 .loading {
   margin-top: var(--spacer-lg);
 }
-
 </style>
