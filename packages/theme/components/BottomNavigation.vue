@@ -8,7 +8,7 @@
     />
     <SfBottomNavigationItem icon="menu" size="20px" label="Menu" @click="toggleMobileMenu"/>
     <!-- <SfBottomNavigationItem icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/> -->
-    <SfBottomNavigationItem icon="profile" size="20px" label="Account" @click="handleAccountClick"/>
+    <SfBottomNavigationItem :icon="accountIcon" size="20px" label="Account" @click="handleAccountClick"/>
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
     <SfBottomNavigationItem
       label="Basket"
@@ -49,6 +49,7 @@ export default {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, toggleMobileMenu, isMobileMenuOpen } = useUiState();
     const { isAuthenticated } = useUser();
     const { cart } = useCart();
+    const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
 
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
@@ -75,6 +76,7 @@ export default {
       toggleCartSidebar,
       toggleMobileMenu,
       cartTotalItems,
+      accountIcon,
       handleAccountClick,
       handleHomeClick
     };
