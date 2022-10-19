@@ -49,6 +49,7 @@
                   :title="productGetters.getName(product)"
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
                   @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
+                  @click.native="$emit('close')"
                   :is-added-to-cart="isInCart({ product })"
                 />
               </div>
@@ -68,6 +69,7 @@
                 :title="productGetters.getName(product)"
                 :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
                 @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
+                @click.native="$emit('close')"
                 :is-added-to-cart="isInCart({ product })"
               />
             </div>
