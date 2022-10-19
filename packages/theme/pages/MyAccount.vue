@@ -33,16 +33,12 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { computed, onBeforeUnmount } from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 import { useUser } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import OrderHistory from './MyAccount/OrderHistory';
-import {
-  mapMobileObserver,
-  unMapMobileObserver
-} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 
 export default {
   name: 'MyAccount',
@@ -61,14 +57,11 @@ export default {
     const { $router, $route } = context.root;
     const { logout } = useUser();
     const { send } = useUiNotification();
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
     const activePage = computed(() => {
       const { pageName } = $route.params;
 
       if (pageName) {
         return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
-      } else if (!isMobile.value) {
-        return 'My profile';
       } else {
         return '';
       }
@@ -88,10 +81,6 @@ export default {
 
       $router.push(localeTransformedPath);
     };
-
-    onBeforeUnmount(() => {
-      unMapMobileObserver();
-    });
 
     return { changeActivePage, activePage };
   },
