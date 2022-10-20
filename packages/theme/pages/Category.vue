@@ -127,6 +127,8 @@
               :max-rating="5"
               :score-rating="productGetters.getAverageRating(product)"
               :qty="1"
+              wishlistIcon=""
+              isInWishlistIcon=""
               :is-in-wishlist="isInWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               @input="productsQuantity[product._id] = $event"
@@ -139,7 +141,7 @@
                   :key="i"
                   :name="property.name"
                   :value="property.stringValue"
-                  class="product__property"
+                  class="product__property desktop-only"
                 >
                   <template v-if="property.name === 'Category'" #value>
                     <SfButton class="product__property__button sf-button--text">
@@ -414,10 +416,16 @@ export default {
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
+    ::v-deep .sf-image {
+      --image-width: 5.3125rem;
+      --image-height: 7.0625rem;
+    }
     @include for-mobile {
-      ::v-deep .sf-image {
-        --image-width: 5.3125rem;
-        --image-height: 7.0625rem;
+      --product-card-horizontal-review-margin: 0;
+      --product-card-horizontal-actions-wrapper-margin: var(--spacer-xs) 0 0 0;
+
+      ::v-deep .sf-button {
+        display: none;
       }
     }
   }
@@ -480,5 +488,4 @@ export default {
     }
   }
 }
-
 </style>
