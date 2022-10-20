@@ -11,7 +11,7 @@
     <SfBottomNavigationItem :icon="accountIcon" size="20px" label="Account" @click="handleAccountClick"/>
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
     <SfBottomNavigationItem
-      label="Basket"
+      label="Cart"
       icon="add_to_cart"
       @click="toggleCartSidebar"
     >
