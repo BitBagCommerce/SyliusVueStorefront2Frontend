@@ -1,32 +1,65 @@
 <template>
   <div id="home">
-    <LazyHydrate when-idle>
+    <LazyHydrate when-visible>
       <SfHero class="hero">
         <SfHeroItem
           v-for="(hero, i) in heroes"
           :key="i"
           :title="hero.title"
           :subtitle="hero.subtitle"
-          :background="hero.background"
-          :image="hero.image"
           :class="hero.className"
-        />
+        >
+         <template #withImgTag>
+            <SfImage
+              :src="hero.image"
+              :alt="hero.title"
+              class="hero__image"
+            />
+         </template>
+        </SfHeroItem>
       </SfHero>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
       <SfBannerGrid :banner-grid="1" class="banner-grid">
         <template v-for="item in banners" v-slot:[item.slot]>
-          <SfBanner
-            :key="item.slot"
-            :title="item.title"
-            :subtitle="item.subtitle"
-            :description="item.description"
-            :button-text="item.buttonText"
-            :link="localePath(item.link)"
-            :image="item.image"
-            :class="item.class"
-          />
+          <div :class="`banner__wrapper ${item.class}`">
+            <SfBanner
+              :key="item.slot"
+              :title="item.title"
+              :subtitle="item.subtitle"
+              :description="item.description"
+              :button-text="item.buttonText"
+              :link="localePath(item.link)"
+              :class="item.class"
+            >
+            </SfBanner>
+
+            <SfImage
+              v-if="typeof
+              item.image === 'string'"
+              :src="item.image"
+              :alt="item.title"
+              loading="lazy"
+              class="banner__image"
+            />
+
+            <div v-else>
+              <SfImage
+                :src="item.image.mobile"
+                :alt="item.title"
+                loading="lazy"
+                class="banner__image mobile-only"
+              />
+
+              <SfImage
+                :src="item.image.desktop"
+                :alt="item.title"
+                loading="lazy"
+                class="banner__image desktop-only"
+              />
+            </div>
+          </div>
         </template>
       </SfBannerGrid>
     </LazyHydrate>
@@ -76,6 +109,7 @@
                   class="carousel__item__image"
                   :src="productGetters.getCoverImage(product)"
                   :alt="product.name"
+                  loading="lazy"
                 >
               </template>
             </SfProductCard>
@@ -188,7 +222,7 @@ export default {
         description: categories.value[1].description,
         buttonText: 'Shop now',
         image: $config.theme.home.bannerB.image,
-        class: 'sf-banner--slim banner-central desktop-only',
+        class: 'sf-banner--slim banner__central desktop-only',
         link: `/c/${categories.value[1].slug}`
       },
       {
@@ -255,6 +289,19 @@ export default {
 .hero {
   margin: var(--spacer-xl) auto var(--spacer-lg);
   --hero-item-background-position: center;
+  &__image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    ::v-deep img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
   @include for-desktop {
     margin: var(--spacer-xl) auto var(--spacer-2xl);
   }
@@ -297,10 +344,37 @@ export default {
 .banner {
   &__tshirt {
     background-position: left;
+    object-position: left;
+
+    ::v-deep .sf-image {
+      object-position: left;
+    }
   }
-  &-central {
+
+  &__central {
     @include for-desktop {
       --banner-container-flex: 0 0 70%;
+    }
+  }
+
+  &__wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  &__image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+
+    ::v-deep .sf-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 }
