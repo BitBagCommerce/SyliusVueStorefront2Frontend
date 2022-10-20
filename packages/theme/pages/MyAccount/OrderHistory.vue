@@ -65,15 +65,11 @@
             <SfTableHeader
               v-for="tableHeader in tableHeaders"
               :key="tableHeader"
-              >{{ tableHeader }}</SfTableHeader>
+            >
+              {{ tableHeader }}
+            </SfTableHeader>
             <SfTableHeader class="orders__element--right">
-              <span class="smartphone-only">{{ $t('Download') }}</span>
-              <SfButton
-                class="desktop-only sf-button--text orders__download-all"
-                @click="downloadOrders()"
-              >
-                {{ $t('Download all') }}
-              </SfButton>
+              <span class="orders__view-details">{{ $t('View details') }}</span>
             </SfTableHeader>
           </SfTableHeading>
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
@@ -87,8 +83,8 @@
               <span :class="getStatusTextClass(order)">{{ orderGetters.getShippingStatus(order) }}</span>
             </SfTableData>
             <SfTableData class="orders__view orders__element--right">
-              <SfButton class="sf-button--text smartphone-only" @click="downloadOrder(order)">
-                {{ $t('Download') }}
+              <SfButton class="sf-button--text smartphone-only" @click="currentOrder = order">
+                {{ $t('View details') }}
               </SfButton>
               <SfButton class="sf-button--text desktop-only" @click="currentOrder = order">
                 {{ $t('View details') }}
@@ -205,6 +201,9 @@ export default {
         --table-column-flex: 0;
         text-align: right;
       }
+    }
+    &__view-details {
+      white-space: nowrap;
     }
   }
 }
