@@ -392,22 +392,25 @@ export default {
   flex: 1;
   margin: 0;
 
-  &__grid {
-    justify-content: center;
-    @include for-desktop {
-      justify-content: flex-start;
-    }
-  }
   &__grid,
   &__list {
     display: flex;
     flex-wrap: wrap;
   }
+  &__grid {
+    justify-content: flex-start;
+
+    @include for-mobile {
+      display: grid;
+      grid-gap: var(--spacer-sm);
+      grid-template-columns: repeat(auto-fill, 10rem);
+      justify-content: center;
+    }
+  }
   &__product-card {
-    --product-card-title-margin: var(--spacer-base) 0 0 0;
     --product-card-title-font-weight: var(--font-weight--medium);
-    --product-card-title-margin: var(--spacer-xs) 0 0 0;
-    flex: 1 1 50%;
+    --product-card-title-margin: 0 auto;
+    flex: 1 1 auto;
     @include for-desktop {
       --product-card-title-font-weight: var(--font-weight--normal);
       --product-card-add-button-bottom: var(--spacer-base);
