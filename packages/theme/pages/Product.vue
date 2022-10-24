@@ -433,6 +433,10 @@ export default {
     padding-bottom: 24px;
     border-bottom: var(--c-light) solid 1px;
     margin-bottom: var(--spacer-base);
+
+    @include for-mobile {
+      max-width: 100%;
+    }
   }
   &__additional-info {
     color: var(--c-link);
