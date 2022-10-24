@@ -96,8 +96,7 @@
               :max-rating="5"
               :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="true"
-              wishlistIcon=""
-              isInWishlistIcon=""
+              :wishlistIcon="false"
               :is-in-wishlist="isInWishlist({ product })"
               :is-added-to-cart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
@@ -127,8 +126,7 @@
               :max-rating="5"
               :score-rating="productGetters.getAverageRating(product)"
               :qty="1"
-              wishlistIcon=""
-              isInWishlistIcon=""
+              :wishlistIcon="false"
               :is-in-wishlist="isInWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               @input="productsQuantity[product._id] = $event"
@@ -141,7 +139,7 @@
                   :key="i"
                   :name="property.name"
                   :value="property.stringValue"
-                  class="product__property desktop-only"
+                  class="product__property"
                 >
                   <template v-if="property.name === 'Category'" #value>
                     <SfButton class="product__property__button sf-button--text">
@@ -150,6 +148,14 @@
                   </template>
                 </SfProperty>
               </template>
+              <template v-if="isMobile" #add-to-cart>
+                <SfAddToCart
+                  v-model="productsQuantity[product._id]"
+                  @input="productsQuantity[product._id] = $event"
+                  @click="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
+                />
+              </template>
+              <template #wishlist-icon></template>
             </SfProductCardHorizontal>
           </transition-group>
 
@@ -209,15 +215,20 @@ import {
   SfBreadcrumbs,
   SfLoader,
   SfColor,
-  SfProperty
+  SfProperty,
+  SfAddToCart
 } from '@storefront-ui/vue';
-import { computed, ref, watch } from '@nuxtjs/composition-api';
+import { computed, ref, watch, onBeforeUnmount } from '@nuxtjs/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import cacheControl from './../helpers/cacheControl';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
+import {
+  mapMobileObserver,
+  unMapMobileObserver
+} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -226,6 +237,12 @@ export default {
     'max-age': 60,
     'stale-when-revalidate': 5
   }),
+  computed: {
+    ...mapMobileObserver()
+  },
+  beforeDestroy() {
+    unMapMobileObserver();
+  },
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
@@ -285,6 +302,10 @@ export default {
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
     });
 
+    onBeforeUnmount(() => {
+      unMapMobileObserver();
+    });
+
     return {
       ...uiState,
       th,
@@ -321,7 +342,8 @@ export default {
     SfColor,
     SfHeading,
     SfProperty,
-    LazyHydrate
+    LazyHydrate,
+    SfAddToCart
   }
 };
 </script>
@@ -392,22 +414,25 @@ export default {
   flex: 1;
   margin: 0;
 
-  &__grid {
-    justify-content: center;
-    @include for-desktop {
-      justify-content: flex-start;
-    }
-  }
   &__grid,
   &__list {
     display: flex;
     flex-wrap: wrap;
   }
+  &__grid {
+    justify-content: flex-start;
+
+    @include for-mobile {
+      display: grid;
+      grid-gap: var(--spacer-sm);
+      grid-template-columns: repeat(auto-fill, 10rem);
+      justify-content: center;
+    }
+  }
   &__product-card {
-    --product-card-title-margin: var(--spacer-base) 0 0 0;
     --product-card-title-font-weight: var(--font-weight--medium);
-    --product-card-title-margin: var(--spacer-xs) 0 0 0;
-    flex: 1 1 50%;
+    --product-card-title-margin: 0 auto;
+    flex: 1 1 auto;
     @include for-desktop {
       --product-card-title-font-weight: var(--font-weight--normal);
       --product-card-add-button-bottom: var(--spacer-base);
@@ -416,6 +441,7 @@ export default {
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
+
     ::v-deep .sf-image {
       --image-width: 5.3125rem;
       --image-height: 7.0625rem;
@@ -424,8 +450,76 @@ export default {
       --product-card-horizontal-review-margin: 0;
       --product-card-horizontal-actions-wrapper-margin: var(--spacer-xs) 0 0 0;
 
-      ::v-deep .sf-button {
-        display: none;
+      ::v-deep {
+        .sf-product-card-horizontal {
+          &__configuration {
+            display: none;
+          }
+
+          &__actions-wrapper {
+            align-items: flex-start;
+            gap: var(--spacer-xs);
+          }
+        }
+
+        .sf-product-card-horizontal__add-to-cart {
+          width: 100%;
+        }
+
+        .sf-add-to-cart {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: var(--spacer-xs);
+
+          &__select-quantity {
+            width: 100%;
+
+            .sf-quantity-selector__input {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    @include for-tablet {
+      ::v-deep {
+        .sf-product-card-horizontal {
+          &__main {
+            display: flex;
+            flex-direction: row;
+          }
+
+          &__configuration {
+            display: block;
+          }
+
+          &__details {
+            flex: 1 0 auto;
+          }
+
+          &__actions-wrapper {
+            margin: 0;
+            flex: 0 1 auto;
+            justify-content: space-between;
+            align-items: flex-end;
+          }
+        }
+
+        .sf-product-card-horizontal__add-to-cart {
+          width: auto;
+        }
+
+        .sf-add-to-cart {
+          width: auto;
+          flex-direction: row;
+          align-items: flex-end;
+
+          &__select-quantity {
+            width: var(--quantity-selector-width, 6.75rem);
+            flex-grow: 0;
+          }
+        }
       }
     }
   }
