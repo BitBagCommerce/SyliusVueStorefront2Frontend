@@ -233,7 +233,7 @@ export default {
 }
 .back-button {
   --button-width: calc(100% - var(--spacer-lg));
-  margin: 0 auto var(--spacer-sm) auto;
+  margin: var(--spacer-lg) auto;
   @include for-desktop {
     margin: var(--spacer-xl) auto;
   }
