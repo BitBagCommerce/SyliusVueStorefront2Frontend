@@ -1,18 +1,26 @@
 <template>
   <div class="container">
     <SfButton
-        class="container__lang container__lang--selected"
-        @click="isLangModalOpen = !isLangModalOpen"
+      class="container__lang container__lang--selected"
+      @click="openLangModal"
     >
       <SfImage :src="`/icons/langs/${locale}.webp`" width="20" alt="Flag" />
     </SfButton>
-    <SfBottomModal
-      :is-open="isLangModalOpen"
-      title="Choose language"
-      @click:close="isLangModalOpen = !isLangModalOpen"
+    <SfMegaMenu
+      :visible="isLangModalOpen"
+      v-click-outside="closeLangModal"
+      class="mega-menu"
     >
-      <SfList>
-        <SfListItem v-for="lang in availableLocales" :key="lang.code">
+      <h4 class="mega-menu__header">
+        Choose a language
+      </h4>
+      <SfList class="mega-menu__list">
+        <SfListItem
+          v-for="lang in availableLocales"
+          :key="lang.code"
+          @click.native="closeLangModal"
+          class="mega-menu__list--item"
+        >
           <NuxtLink :to="switchLocalePath(lang.code)">
             <SfCharacteristic class="language">
               <template #title>
@@ -25,7 +33,13 @@
           </NuxtLink>
         </SfListItem>
       </SfList>
-    </SfBottomModal>
+      <SfButton
+        class="mega-menu__list--button color-secondary smartphone-only"
+        @click="closeLangModal"
+      >
+        {{ $t('Go back') }}
+      </SfButton>
+    </SfMegaMenu>
   </div>
 </template>
 
@@ -36,9 +50,13 @@ import {
   SfButton,
   SfList,
   SfBottomModal,
-  SfCharacteristic
+  SfCharacteristic,
+  SfMegaMenu,
+  SfOverlay
 } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
+import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
+
 export default {
   components: {
     SfImage,
@@ -46,16 +64,35 @@ export default {
     SfButton,
     SfList,
     SfBottomModal,
-    SfCharacteristic
+    SfCharacteristic,
+    SfMegaMenu,
+    SfOverlay
   },
+  emits: ['click'],
+  directives: { clickOutside },
   setup(props, context) {
     const { locales, locale } = context.root.$i18n;
     const isLangModalOpen = ref(false);
     const availableLocales = computed(() => locales.filter(i => i.code !== locale));
+
+    const openLangModal = () => {
+      isLangModalOpen.value = true;
+      context.emit('click', isLangModalOpen.value);
+      document.body.classList.add('no-scroll');
+    };
+
+    const closeLangModal = () => {
+      isLangModalOpen.value = false;
+      context.emit('click', isLangModalOpen.value);
+      document.body.classList.remove('no-scroll');
+    };
+
     return {
       availableLocales,
       locale,
-      isLangModalOpen
+      isLangModalOpen,
+      openLangModal,
+      closeLangModal
     };
   }
 };
@@ -67,25 +104,51 @@ export default {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  position: relative;
-  ::v-deep .sf-bottom-modal {
-    z-index: 2;
+  position: static;
+
+  .mega-menu {
+    --mega-menu-column-header-margin: var(--spacer-sm) 0 var(--spacer-xl);
+    --mega-menu-content-padding: 0;
+    --mega-menu-height: 50vh;
+    --mega-menu-menu-flex-direction: column;
+    --mega-menu-bar-display: none;
+
+    position: absolute;
+    top: 100%;
     left: 0;
+    z-index: 3;
 
-    &__container {
-      height: 100vh;
+    ::v-deep .sf-mega-menu {
+      height: 100%;
+
+      &__content, &__menu {
+        height: 100%;
+      }
     }
 
-    &__cancel {
-      position: absolute;
-      bottom: 0;
+    &__header {
+      margin: var(--spacer-sm) auto;
+    }
+
+    &__list {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+
+      &--item .language {
+        display: flex;
+        justify-content: center;
+      }
+
+      &--button {
+        width: calc(100% - (2 * var(--spacer-sm)));
+        margin: auto var(--spacer-sm) var(--spacer-sm) var(--spacer-sm);
+      }
     }
   }
-  .sf-bottom-modal::v-deep .sf-bottom-modal__close {
-    position: var(--circle-icon-position, absolute);
-    top: var(--spacer-xs);
-    right: var(--spacer-xs);
-  }
+
   .sf-list {
     .language {
       padding: var(--spacer-sm);
@@ -95,6 +158,7 @@ export default {
     }
     display: flex;
   }
+
   &__lang {
     --button-box-shadow: none;
     background: none;

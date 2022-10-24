@@ -2,7 +2,7 @@
   <div>
     <SfHeader
       class="sf-header--has-mobile-search"
-      :class="{'header-on-top': isSearchOpen}"
+      :class="{'header-on-top': isSearchOpen || isLangModalOpen}"
       :isNavVisible="isMobileMenuOpen"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
@@ -91,7 +91,7 @@
               </SfButton>
             </template>
           </SfSearchBar>
-          <LocaleSelector class="smartphone-only sf-header__search--locale" />
+          <LocaleSelector @click="setIsLangModalOpen" class="smartphone-only sf-header__search--locale" />
         </div>
       </template>
     </SfHeader>
@@ -102,7 +102,7 @@
       @removeSearchResults="removeSearchResults"
       v-click-outside="closeSearch"
     />
-    <SfOverlay :visible="isSearchOpen" />
+    <SfOverlay :visible="isSearchOpen || isLangModalOpen" />
   </div>
 </template>
 
@@ -148,6 +148,7 @@ export default {
     const isSearchFocus = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
+    const isLangModalOpen = ref(false);
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     const cartTotalItems = computed(() => {
@@ -207,6 +208,8 @@ export default {
       }
     };
 
+    const setIsLangModalOpen = (val) => isLangModalOpen.value = val;
+
     watch(() => term.value, (newVal, oldVal) => {
       const shouldSearchBeOpened = (!isMobile.value && term.value.length > 0) && ((!oldVal && newVal) || (newVal.length !== oldVal.length && isSearchOpen.value === false));
       if (shouldSearchBeOpened) {
@@ -240,7 +243,9 @@ export default {
       searchBarRef,
       isMobile,
       isMobileMenuOpen,
-      removeSearchResults
+      removeSearchResults,
+      isLangModalOpen,
+      setIsLangModalOpen
     };
   }
 };
