@@ -8,7 +8,12 @@
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
         <nuxt-link :to="localePath({ name: 'home' })" class="sf-header__logo">
-          <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
+          <SfImage
+            src="/icons/logo.svg"
+            alt="Vue Storefront Next"
+            :placeholder="loader"
+            class="sf-header__logo-image"
+          />
         </nuxt-link>
       </template>
       <template #navigation>
@@ -121,6 +126,7 @@ import {
   unMapMobileObserver
 } from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 import debounce from 'lodash.debounce';
+import loader from '~/static/icons/loader.svg';
 
 export default {
   components: {
@@ -245,7 +251,8 @@ export default {
       isMobileMenuOpen,
       removeSearchResults,
       isLangModalOpen,
-      setIsLangModalOpen
+      setIsLangModalOpen,
+      loader
     };
   }
 };

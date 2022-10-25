@@ -13,6 +13,7 @@
             <SfImage
               :src="hero.image"
               :alt="hero.title"
+              :placeholder="loader"
               class="hero__image"
             />
          </template>
@@ -36,10 +37,10 @@
             </SfBanner>
 
             <SfImage
-              v-if="typeof
-              item.image === 'string'"
+              v-if="typeof item.image === 'string'"
               :src="item.image"
               :alt="item.title"
+              :placeholder="loader"
               loading="lazy"
               class="banner__image"
             />
@@ -48,6 +49,7 @@
               <SfImage
                 :src="item.image.mobile"
                 :alt="item.title"
+                :placeholder="loader"
                 loading="lazy"
                 class="banner__image mobile-only"
               />
@@ -55,6 +57,7 @@
               <SfImage
                 :src="item.image.desktop"
                 :alt="item.title"
+                :placeholder="loader"
                 loading="lazy"
                 class="banner__image desktop-only"
               />
@@ -147,6 +150,7 @@ import LazyHydrate from 'vue-lazy-hydration';
 import cacheControl from './../helpers/cacheControl';
 import { useFacet, facetGetters, productGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables';
+import loader from '~/static/icons/loader.svg';
 
 export default {
   name: 'Home',
@@ -269,7 +273,8 @@ export default {
       products,
       productGetters,
       loading,
-      handleAddToCart
+      handleAddToCart,
+      loader
     };
   }
 };
@@ -433,5 +438,12 @@ export default {
 
 .loading {
   margin-top: var(--spacer-lg);
+}
+
+::v-deep .sf-image--placeholder {
+  height: 100%;
+  width: 100%;
+  object-fit: contain !important;
+  object-view-box: inset(-150%);
 }
 </style>

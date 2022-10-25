@@ -4,7 +4,12 @@
       class="container__lang container__lang--selected"
       @click="openLangModal"
     >
-      <SfImage :src="`/icons/langs/${locale}.webp`" width="20" alt="Flag" />
+      <SfImage
+        :src="`/icons/langs/${locale}.webp`"
+        width="20"
+        alt="Flag"
+        :placeholder="loader"
+        />
     </SfButton>
     <SfMegaMenu
       :visible="isLangModalOpen"
@@ -27,7 +32,13 @@
                 <span>{{ lang.label }}</span>
               </template>
               <template #icon>
-                <SfImage :src="`/icons/langs/${lang.code}.webp`" width="20" alt="Flag" class="language__flag" />
+                <SfImage
+                  :src="`/icons/langs/${lang.code}.webp`"
+                  width="20"
+                  alt="Flag"
+                  :placeholder="loader"
+                  class="language__flag"
+                />
               </template>
             </SfCharacteristic>
           </NuxtLink>
@@ -56,6 +67,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
+import loader from '~/static/icons/loader.svg';
 
 export default {
   components: {
@@ -92,7 +104,8 @@ export default {
       locale,
       isLangModalOpen,
       openLangModal,
-      closeLangModal
+      closeLangModal,
+      loader
     };
   }
 };
