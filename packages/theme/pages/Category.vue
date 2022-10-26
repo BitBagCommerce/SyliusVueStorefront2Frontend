@@ -447,7 +447,7 @@ export default {
       ::v-deep {
         .sf-image {
           --image-width: 8rem;
-          --image-height: auto;
+          --image-height: 100%;
         }
 
         .sf-product-card-horizontal {
@@ -459,11 +459,19 @@ export default {
             align-items: flex-start;
             gap: var(--spacer-xs);
           }
-        }
 
-        .sf-product-card-horizontal__add-to-cart {
-          width: 100%;
-          display: flex !important;
+          &__add-to-cart {
+            width: 100%;
+            display: flex !important;
+          }
+
+          &__link--image {
+            height: 100%;
+          }
+
+          &__image {
+            height: 100%;
+          }
         }
 
         .sf-add-to-cart {
