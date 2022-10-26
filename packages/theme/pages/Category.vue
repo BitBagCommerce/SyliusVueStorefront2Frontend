@@ -443,14 +443,20 @@ export default {
     flex: 0 0 100%;
 
     ::v-deep .sf-image {
-      --image-width: 5.3125rem;
-      --image-height: 7.0625rem;
+      --image-width: 100%;
+      --image-height: auto;
     }
+
     @include for-mobile {
       --product-card-horizontal-review-margin: 0;
       --product-card-horizontal-actions-wrapper-margin: var(--spacer-xs) 0 0 0;
 
       ::v-deep {
+        .sf-image {
+          --image-width: 8rem;
+          --image-height: auto;
+        }
+
         .sf-product-card-horizontal {
           &__configuration {
             display: none;
