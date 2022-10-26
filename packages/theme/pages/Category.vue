@@ -148,14 +148,7 @@
                   </template>
                 </SfProperty>
               </template>
-              <template v-if="isMobile" #add-to-cart>
-                <SfAddToCart
-                  v-model="productsQuantity[product._id]"
-                  @input="productsQuantity[product._id] = $event"
-                  @click="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
-                />
-              </template>
-              <template #wishlist-icon></template>
+              <template #wishlist-icon />
             </SfProductCardHorizontal>
           </transition-group>
 
@@ -470,6 +463,7 @@ export default {
 
         .sf-product-card-horizontal__add-to-cart {
           width: 100%;
+          display: flex !important;
         }
 
         .sf-add-to-cart {
