@@ -60,7 +60,7 @@
 
 <script>
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 import { useMakeOrder } from '@vue-storefront/sylius';
 export default {
   components: {

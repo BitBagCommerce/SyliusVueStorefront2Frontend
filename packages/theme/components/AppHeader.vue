@@ -11,13 +11,15 @@
           <SfImage
             src="/icons/logo.svg"
             alt="Vue Storefront Next"
+            height="34"
+            width="35"
             :placeholder="loader"
             class="sf-header__logo-image"
           />
         </nuxt-link>
       </template>
       <template #navigation>
-        <HeaderNavigation :isMobile="isMobile" />
+        <HeaderNavigation />
       </template>
       <template #aside>
       </template>
@@ -115,16 +117,12 @@
 import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useCart, useUser, cartGetters, useProduct, useCategory } from '@vue-storefront/sylius';
-import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
+import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
 import HeaderNavigation from './HeaderNavigation';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
-import {
-  mapMobileObserver,
-  unMapMobileObserver
-} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 import debounce from 'lodash.debounce';
 import loader from '~/static/icons/loader.svg';
 
@@ -155,7 +153,6 @@ export default {
     const searchBarRef = ref(null);
     const result = ref(null);
     const isLangModalOpen = ref(false);
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
@@ -206,18 +203,14 @@ export default {
     }, 1000);
 
     const closeOrFocusSearchBar = () => {
-      if (isMobile.value) {
-        return closeSearch();
-      } else {
-        term.value = '';
-        return searchBarRef.value.$el.children[0].focus();
-      }
+      term.value = '';
+      return searchBarRef.value.$el.children[0].focus();
     };
 
     const setIsLangModalOpen = (val) => isLangModalOpen.value = val;
 
     watch(() => term.value, (newVal, oldVal) => {
-      const shouldSearchBeOpened = (!isMobile.value && term.value.length > 0) && ((!oldVal && newVal) || (newVal.length !== oldVal.length && isSearchOpen.value === false));
+      const shouldSearchBeOpened = (term.value.length > 0) && ((!oldVal && newVal) || (newVal.length !== oldVal.length && isSearchOpen.value === false));
       if (shouldSearchBeOpened) {
         isSearchOpen.value = true;
       }
@@ -226,10 +219,6 @@ export default {
     const removeSearchResults = () => {
       result.value = null;
     };
-
-    onBeforeUnmount(() => {
-      unMapMobileObserver();
-    });
 
     return {
       accountIcon,
@@ -247,7 +236,6 @@ export default {
       result,
       closeOrFocusSearchBar,
       searchBarRef,
-      isMobile,
       isMobileMenuOpen,
       removeSearchResults,
       isLangModalOpen,

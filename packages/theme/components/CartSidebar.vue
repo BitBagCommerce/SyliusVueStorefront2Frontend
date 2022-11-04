@@ -61,6 +61,8 @@
               alt="Empty bag"
               class="empty-cart__image"
               src="/icons/empty-cart.svg"
+              height="175"
+              width="256"
             />
             <SfHeading
               title="Your cart is empty"
@@ -120,7 +122,7 @@ import {
   SfQuantitySelector
 } from '@storefront-ui/vue';
 import ProductItem from '~/components/CartSidebar/ProductItem';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useCart, useUser, cartGetters, productGetters } from '@vue-storefront/sylius';
 import { useUiState } from '~/composables';
 import debounce from 'lodash.debounce';

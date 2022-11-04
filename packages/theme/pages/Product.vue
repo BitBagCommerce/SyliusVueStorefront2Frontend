@@ -6,7 +6,15 @@
     />
     <div class="product">
       <LazyHydrate when-idle>
-        <SfGallery v-if="productGallery" :images="productGallery" imageWidth="550" imageHeight="412" class="product__gallery" />
+        <SfGallery
+          v-if="productGallery"
+          :images="productGallery"
+          imageWidth="550"
+          imageHeight="412"
+          thumbWidth="260"
+          thumbHeight="260"
+          class="product__gallery"
+        />
       </LazyHydrate>
 
       <div class="product__info" v-if="product">
@@ -161,7 +169,7 @@ import {
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser } from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';

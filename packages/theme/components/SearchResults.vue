@@ -45,6 +45,8 @@
                   wishlistIcon=""
                   isInWishlistIcon=""
                   :image="productGetters.getCoverImage(product)"
+                  imageHeight="260"
+                  imageWidth="260"
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
@@ -65,6 +67,8 @@
                 wishlistIcon=""
                 isInWishlistIcon=""
                 :image="productGetters.getCoverImage(product)"
+                imageHeight="260"
+                imageWidth="260"
                 :alt="productGetters.getName(product)"
                 :title="productGetters.getName(product)"
                 :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
@@ -79,7 +83,7 @@
           </div>
         </div>
         <div v-else key="no-results" class="before-results">
-          <SfImage src="/error/error.svg" class="before-results__picture" alt="error" loading="lazy"/>
+          <SfImage src="/error/error.svg" height="240" width="240" class="before-results__picture" alt="error" loading="lazy"/>
           <p class="before-results__paragraph">{{ $t('You haven’t searched for items yet') }}</p>
           <p class="before-results__paragraph">{{ $t('Let’s start now – we’ll help you') }}</p>
           <SfButton class="before-results__button color-secondary smartphone-only" @click="$emit('close')">{{ $t('Go back') }}</SfButton>
@@ -99,7 +103,7 @@ import {
   SfButton,
   SfImage
 } from '@storefront-ui/vue';
-import { ref, watch, computed } from '@vue/composition-api';
+import { ref, watch, computed } from '@nuxtjs/composition-api';
 import { productGetters, useCart } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 

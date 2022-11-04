@@ -14,6 +14,8 @@
               :src="hero.image"
               :alt="hero.title"
               :placeholder="loader"
+              :height="1240"
+              :width="586"
               class="hero__image"
             />
          </template>
@@ -37,9 +39,11 @@
             </SfBanner>
 
             <SfImage
-              v-if="typeof item.image === 'string'"
-              :src="item.image"
+              v-if="!item.image.mobile"
+              :src="item.image.src"
               :alt="item.title"
+              :height="item.image.height"
+              :width="item.image.width"
               :placeholder="loader"
               loading="lazy"
               class="banner__image"
@@ -47,16 +51,20 @@
 
             <div v-else>
               <SfImage
-                :src="item.image.mobile"
+                :src="item.image.mobile.src"
                 :alt="item.title"
+                :height="item.image.mobile.height"
+                :width="item.image.mobile.width"
                 :placeholder="loader"
                 loading="lazy"
                 class="banner__image mobile-only"
               />
 
               <SfImage
-                :src="item.image.desktop"
+                :src="item.image.desktop.src"
                 :alt="item.title"
+                :height="item.image.desktop.height"
+                :width="item.image.desktop.width"
                 :placeholder="loader"
                 loading="lazy"
                 class="banner__image desktop-only"
@@ -97,6 +105,8 @@
             <SfProductCard
               :title="product.name"
               :image="productGetters.getCoverImage(product)"
+              imageHeight="260"
+              imageWidth="260"
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :max-rating="5"
               :score-rating="product.averageRating"
@@ -147,17 +157,12 @@ import {useCart, useCategory} from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
-import cacheControl from './../helpers/cacheControl';
 import { useFacet, facetGetters, productGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables';
 import loader from '~/static/icons/loader.svg';
 
 export default {
   name: 'Home',
-  middleware: cacheControl({
-    'max-age': 60,
-    'stale-when-revalidate': 5
-  }),
   components: {
     InstagramFeed,
     SfHero,
@@ -213,8 +218,16 @@ export default {
         description: categories.value[0].description,
         buttonText: 'Shop now',
         image: {
-          mobile: $config.theme.home.bannerA.image.mobile,
-          desktop: $config.theme.home.bannerA.image.desktop
+          mobile: {
+            src: $config.theme.home.bannerA.image.mobile,
+            height: 400,
+            width: 1240
+          },
+          desktop: {
+            src: $config.theme.home.bannerA.image.desktop,
+            height: 660,
+            width: 330
+          }
         },
         class: 'sf-banner--slim desktop-only',
         link: `/c/${categories.value[0].slug}`
@@ -225,7 +238,11 @@ export default {
         title: 'Linen Dresses',
         description: categories.value[1].description,
         buttonText: 'Shop now',
-        image: $config.theme.home.bannerB.image,
+        image: {
+          src: $config.theme.home.bannerB.image,
+          height: 660,
+          width: 500
+        },
         class: 'sf-banner--slim banner__central desktop-only',
         link: `/c/${categories.value[1].slug}`
       },
@@ -233,7 +250,11 @@ export default {
         slot: 'banner-C',
         subtitle: categories.value[2].name,
         title: 'The Office Life',
-        image: $config.theme.home.bannerC.image,
+        image: {
+          src: $config.theme.home.bannerC.image,
+          height: 398,
+          width: 1234
+        },
         class: 'sf-banner--slim banner__tshirt',
         link: `/c/${categories.value[2].slug}`
       },
@@ -241,7 +262,11 @@ export default {
         slot: 'banner-D',
         subtitle: categories.value[3].name,
         title: 'Eco Sandals',
-        image: $config.theme.home.bannerD.image,
+        image: {
+          src: $config.theme.home.bannerD.image,
+          height: 310,
+          width: 330
+        },
         class: 'sf-banner--slim',
         link: `/c/${categories.value[3].slug}`
       }

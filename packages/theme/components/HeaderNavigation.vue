@@ -88,7 +88,7 @@ import {
   SfList,
   SfCircleIcon
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { useUiState } from '~/composables';
 import { useCategory } from '@vue-storefront/sylius';
 export default {

@@ -23,7 +23,7 @@
         class="table__row"
       >
         <SfTableData class="table__image">
-          <SfImage :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
+          <SfImage height="82" width="82" :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
         </SfTableData>
         <SfTableData class="table__data table__description table__data">
           <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
@@ -112,7 +112,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 

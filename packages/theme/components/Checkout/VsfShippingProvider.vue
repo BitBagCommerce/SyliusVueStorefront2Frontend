@@ -56,7 +56,7 @@
 
 <script>
 import { SfButton, SfRadio, SfHeading } from '@storefront-ui/vue';
-import { ref, onMounted } from '@vue/composition-api';
+import { ref, onMounted } from '@nuxtjs/composition-api';
 import { useCart, useShippingProvider } from '@vue-storefront/sylius';
 export default {
   name: 'VsfShippingProvider',

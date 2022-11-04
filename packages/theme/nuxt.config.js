@@ -131,7 +131,8 @@ export default {
       ]
     },
     transpile: [
-      'vee-validate/dist/rules'
+      'vee-validate/dist/rules',
+      '@glidejs'
     ],
     plugins: [
       new webpack.DefinePlugin({

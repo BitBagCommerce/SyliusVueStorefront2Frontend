@@ -160,7 +160,7 @@ import {
 } from '@storefront-ui/vue';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { reactive } from '@vue/composition-api';
+import { reactive } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
 
 const COUNTRIES = [
