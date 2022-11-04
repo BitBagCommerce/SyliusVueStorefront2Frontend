@@ -79,6 +79,10 @@ export default {
     & + & {
       margin: 0 0 0 var(--spacer-base);
     }
+    ::v-deep .sf-image--wrapper {
+      width: var(--image-width);
+      height: var(--image-height);
+    }
   }
 }
 
