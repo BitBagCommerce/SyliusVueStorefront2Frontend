@@ -13,8 +13,8 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.16",
-    "@vue-storefront/core": "^2.3.0",
+    "@apollo/client": "^3.7.1",
+    "@vue-storefront/core": "^2.7.1",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",
@@ -23,12 +23,12 @@
     "apollo-link-http": "^1.5.17",
     "apollo-link-retry": "^2.2.16",
     "graphql": "^15.5.0",
-    "graphql-tag": "^2.12.4",
+    "graphql-tag": "^2.12.6",
     "isomorphic-fetch": "^3.0.0",
-    "query-string": "^7.0.1",
+    "query-string": "^7.1.1",
     "rollup-plugin-graphql": "^0.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.31.2"
+    "rollup-plugin-typescript2": "^0.34.1"
   },
   "files": [
     "lib/**/*",

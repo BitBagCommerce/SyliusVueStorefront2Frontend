@@ -13,20 +13,20 @@
     "test:e2e:generate:report": "yarn -s mochawesome-merge \"tests/e2e/report/*.json\" > \"tests/e2e/report.json\" && yarn -s marge tests/e2e/report.json -o \"tests/e2e/report\""
   },
   "dependencies": {
-    "@nuxtjs/style-resources": "^1.0.0",
-    "@storefront-ui/vue": "^0.11.3",
-    "@vue-storefront/middleware": "^2.3.0",
-    "@vue-storefront/nuxt": "^2.3.0",
-    "@vue-storefront/nuxt-theme": "^2.3.0",
-    "@realtainment/sylius": "^1.1.2",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "@storefront-ui/vue": "^0.13.3",
+    "@vue-storefront/middleware": "^2.7.1",
+    "@vue-storefront/nuxt": "^2.7.1",
+    "@vue-storefront/nuxt-theme": "^2.7.1",
+    "@realtainment/sylius": "^1.1.5",
     "atob": "^2.1.2",
-    "cookie-universal-nuxt": "^2.1.3",
-    "core-js": "^2.6.5",
-    "date-fns": "^2.23.0",
-    "nuxt": "^2.13.3",
-    "nuxt-i18n": "^6.5.0",
-    "vee-validate": "^3.2.3",
-    "vue-scrollto": "^2.17.1"
+    "cookie-universal-nuxt": "^2.2.2",
+    "core-js": "^2.6.12",
+    "date-fns": "^2.29.3",
+    "nuxt": "^2.15.8",
+    "nuxt-i18n": "^6.28.1",
+    "vee-validate": "^3.4.5",
+    "vue-scrollto": "^2.20.0"
   },
   "devDependencies": {
     "@nuxt/types": "^0.7.9",
