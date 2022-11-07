@@ -231,7 +231,6 @@ export default {
   .collected-product {
     margin: 0 0 var(--spacer-sm) 0;
     &__properties {
-      margin: var(--spacer-xs) 0 0 0;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
