@@ -33,7 +33,7 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { ref, onMounted } from '@nuxtjs/composition-api';
+import { ref, onMounted, onUnmounted, watch } from '@nuxtjs/composition-api';
 import { useUser } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 import MyProfile from './MyAccount/MyProfile';
@@ -58,6 +58,7 @@ export default {
     const { logout } = useUser();
     const { send } = useUiNotification();
     const activePage = ref('');
+    const isMobile = ref(false);
 
     const changeActivePage = () => {
       const { pageName } = $route.params;
@@ -68,12 +69,11 @@ export default {
         return;
       }
 
-      // code to launch my account with first tab open
-      // if (!isMobile.value) {
-      //   activePage.value = 'My profile';
+      if (!isMobile.value) {
+        activePage.value = 'My profile';
 
-      //   return;
-      // }
+        return;
+      }
 
       activePage.value = '';
     };
@@ -95,9 +95,25 @@ export default {
       changeActivePage();
     };
 
+    const handleIsMobile = () => {
+      if (window.innerWidth < 1024) {
+        isMobile.value = true;
+
+        return;
+      }
+
+      isMobile.value = false;
+    }
+
+    watch(isMobile, () => changeActivePage());
+
     onMounted(() => {
       changeActivePage();
+      handleIsMobile();
+      window.addEventListener('resize', handleIsMobile);
     });
+
+    onUnmounted(() => window.removeEventListener('resize', handleIsMobile));
 
     return { handleActivePage, activePage };
   },
