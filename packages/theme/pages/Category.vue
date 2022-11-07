@@ -416,6 +416,11 @@ export default {
       --product-card-add-button-bottom: var(--spacer-base);
       --product-card-title-margin: var(--spacer-sm) 0 0 0;
     }
+
+    ::v-deep .sf-image--placeholder {
+      width: var(--image-width);
+      height: var(--image-height);
+    }
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
@@ -423,6 +428,11 @@ export default {
     ::v-deep .sf-image {
       --image-width: 100%;
       --image-height: auto;
+
+      &--placeholder {
+        width: var(--image-width);
+        height: var(--image-height);
+      }
     }
 
     @include for-mobile {
@@ -433,6 +443,10 @@ export default {
         .sf-image {
           --image-width: 8rem;
           --image-height: 100%;
+
+          &--placeholder {
+            width: 8rem;
+          }
         }
 
         .sf-product-card-horizontal {
