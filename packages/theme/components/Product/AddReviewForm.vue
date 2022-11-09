@@ -39,7 +39,7 @@
         >
         </SfTextarea>
       </ValidationProvider>
-      <SfButton class="form__button">{{ $t('Save') }}</SfButton>
+      <SfButton type="submit" class="form__button">{{ $t('Save') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
