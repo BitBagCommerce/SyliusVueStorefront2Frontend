@@ -132,6 +132,7 @@ export default {
         return;
       }
 
+      await loadUserShipping();
       onComplete(completeMsg);
     };
 
