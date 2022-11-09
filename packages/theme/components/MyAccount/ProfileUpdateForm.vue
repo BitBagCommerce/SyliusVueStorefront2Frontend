@@ -93,7 +93,7 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfButton class="form__button">{{ $t('Update personal data') }}</SfButton>
+      <SfButton type="submit" class="form__button">{{ $t('Update personal data') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
