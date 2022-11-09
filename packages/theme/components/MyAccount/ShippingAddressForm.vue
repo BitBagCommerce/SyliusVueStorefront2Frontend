@@ -144,7 +144,7 @@
       </ValidationProvider>
       </div>
 
-      <SfButton class="form__button">
+      <SfButton type="submit" class="form__button">
         {{ isNew ? $t('Add the address') : $t('Update the address') }}
       </SfButton>
     </form>
