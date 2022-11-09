@@ -36,7 +36,7 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton class="form__button">{{ $t('Update password') }}</SfButton>
+      <SfButton type="submit" class="form__button">{{ $t('Update password') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
