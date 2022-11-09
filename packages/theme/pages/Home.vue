@@ -118,12 +118,14 @@
               @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
             >
               <template #image>
-                <img
-                  class="carousel__item__image"
-                  :src="productGetters.getCoverImage(product)"
-                  :alt="product.name"
-                  loading="lazy"
-                >
+                <NuxtLink :to="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)">
+                  <img
+                    class="carousel__item__image"
+                    :src="productGetters.getCoverImage(product)"
+                    :alt="product.name"
+                    loading="lazy"
+                  >
+                </NuxtLink>
               </template>
             </SfProductCard>
           </SfCarouselItem>
