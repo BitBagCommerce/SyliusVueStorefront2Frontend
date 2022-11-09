@@ -50,6 +50,7 @@
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+                  :showAddToCartButton="true"
                   @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
                   @click.native="$emit('close')"
                   :is-added-to-cart="isInCart({ product })"
@@ -223,6 +224,7 @@ export default {
 .results {
   &--desktop {
     --scrollable-max-height: 35vh;
+    --product-card-add-button-bottom: var(--spacer-base);
   }
   &--mobile {
     display: flex;
