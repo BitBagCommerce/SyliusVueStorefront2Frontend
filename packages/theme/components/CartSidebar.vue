@@ -266,5 +266,8 @@ export default {
         }
       }
     }
+    ::v-deep .sf-collected-product__quantity-wrapper {
+      top: 4rem;
+    }
   }
 </style>
