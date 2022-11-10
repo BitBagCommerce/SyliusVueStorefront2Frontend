@@ -52,9 +52,21 @@
                   :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
                   :showAddToCartButton="true"
                   @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
-                  @click.native="$emit('close')"
                   :is-added-to-cart="isInCart({ product })"
-                />
+                >
+                  <template #image>
+                    <NuxtLink :to="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)">
+                      <SfImage
+                        class="sf-product-card__image"
+                        :src="productGetters.getCoverImage(product)"
+                        :alt="productGetters.getName(product)"
+                        :width="260"
+                        :height="260"
+                        @click="$emit('close')"
+                      />
+                    </NuxtLink>
+                  </template>
+                </SfProductCard>
               </div>
             </SfScrollable>
             <div class="results--mobile smartphone-only">
