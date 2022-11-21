@@ -93,13 +93,13 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfButton class="form__button">{{ $t('Update personal data') }}</SfButton>
+      <SfButton type="submit" class="form__button">{{ $t('Update personal data') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
 
 <script>
-import { ref, onMounted } from '@vue/composition-api';
+import { ref, onMounted } from '@nuxtjs/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { useUser, userGetters } from '@vue-storefront/sylius';
 import { SfInput, SfButton, SfSelect, SfCheckbox } from '@storefront-ui/vue';

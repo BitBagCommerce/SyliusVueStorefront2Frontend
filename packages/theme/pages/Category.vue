@@ -91,6 +91,8 @@
               :style="{ '--index': i }"
               :title="productGetters.getName(product)"
               :image="productGetters.getCoverImage(product)"
+              imageHeight="260"
+              imageWidth="260"
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
@@ -121,6 +123,8 @@
               :title="productGetters.getName(product)"
               :description="productGetters.getDescription(product)"
               :image="productGetters.getCoverImage(product)"
+              imageHeight="260"
+              imageWidth="260"
               :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
               :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
               :max-rating="5"
@@ -211,31 +215,16 @@ import {
   SfProperty,
   SfAddToCart
 } from '@storefront-ui/vue';
-import { computed, ref, watch, onBeforeUnmount } from '@nuxtjs/composition-api';
+import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
-import cacheControl from './../helpers/cacheControl';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
-import {
-  mapMobileObserver,
-  unMapMobileObserver
-} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
-  middleware: cacheControl({
-    'max-age': 60,
-    'stale-when-revalidate': 5
-  }),
-  computed: {
-    ...mapMobileObserver()
-  },
-  beforeDestroy() {
-    unMapMobileObserver();
-  },
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
@@ -293,10 +282,6 @@ export default {
     onSSR(async () => {
       await search(th.getFacetsFromURL());
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
-    });
-
-    onBeforeUnmount(() => {
-      unMapMobileObserver();
     });
 
     return {
@@ -431,6 +416,11 @@ export default {
       --product-card-add-button-bottom: var(--spacer-base);
       --product-card-title-margin: var(--spacer-sm) 0 0 0;
     }
+
+    ::v-deep .sf-image--placeholder {
+      width: var(--image-width);
+      height: var(--image-height);
+    }
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
@@ -438,6 +428,11 @@ export default {
     ::v-deep .sf-image {
       --image-width: 100%;
       --image-height: auto;
+
+      &--placeholder {
+        width: var(--image-width);
+        height: var(--image-height);
+      }
     }
 
     @include for-mobile {
@@ -448,6 +443,10 @@ export default {
         .sf-image {
           --image-width: 8rem;
           --image-height: 100%;
+
+          &--placeholder {
+            width: 8rem;
+          }
         }
 
         .sf-product-card-horizontal {

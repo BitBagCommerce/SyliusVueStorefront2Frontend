@@ -85,21 +85,23 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
     const apiState = context.$sylius.config.state;
     const orderTokenValue = apiState.getCartId().replace('/api/v2/shop/orders/', '');
-    try {
-      const applyCouponResponse = await context.$sylius.api.addCouponToCart({
-        coupon: {
-          orderTokenValue,
-          couponCode
-        }
-      }, customQuery);
-      return {
-        updatedCart: applyCouponResponse,
-        updatedCoupon: couponCode
+    const applyCouponResponse = await context.$sylius.api.addCouponToCart({
+      coupon: {
+        orderTokenValue,
+        couponCode
+      }
+    }, customQuery);
+
+    if (applyCouponResponse.graphQLErrors?.length) {
+      throw {
+        message: applyCouponResponse.graphQLErrors?.[0]?.debugMessage
       };
-    } catch (err) {
-      err.message = err?.response?.data?.graphQLErrors?.[0]?.extensions?.message || err.message;
-      throw err?.response?.data?.graphQLErrors?.[0]?.extensions || err;
     }
+
+    return {
+      updatedCart: applyCouponResponse,
+      updatedCoupon: couponCode
+    };
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

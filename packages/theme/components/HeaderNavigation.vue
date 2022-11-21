@@ -1,82 +1,84 @@
 <template>
-  <div class="sf-header__navigation desktop" v-if="!isMobile">
-    <SfHeaderNavigationItem
-      v-for="(category, index) in categories"
-      :key="index"
-      class="nav-item"
-      v-e2e="`app-header-url_${category.slug}`"
-      :label="category.name"
-      :link="localePath(`/c/${category.slug}`)"
-    />
-  </div>
-  <SfModal v-else :visible="isMobileMenuOpen">
-    <SfHeaderNavigationItem>
-      <template #mobile-navigation-item>
-        <SfAccordion
-          class="smartphone-only"
-          :open="activeAccordionItem"
-          :multiple="false"
-        >
-          <div
-            v-for="(category, index) in categories"
-            :key="index"
-            class="nav-item"
+  <div>
+    <div class="sf-header__navigation desktop">
+      <SfHeaderNavigationItem
+        v-for="(category, index) in categories"
+        :key="index"
+        class="nav-item"
+        v-e2e="`app-header-url_${category.slug}`"
+        :label="category.name"
+        :link="localePath(`/c/${category.slug}`)"
+      />
+    </div>
+    <SfModal class="smartphone-only" :visible="isMobileMenuOpen">
+      <SfHeaderNavigationItem>
+        <template #mobile-navigation-item>
+          <SfAccordion
+            class="smartphone-only"
+            :open="activeAccordionItem"
+            :multiple="false"
           >
-            <SfAccordionItem
-              v-if="category.children.length"
-              :header="category.name"
+            <div
+              v-for="(category, index) in categories"
+              :key="index"
+              class="nav-item"
             >
-              <template #header>
-                <div class="nav-item__header">
-                  <SfMenuItem
-                    :label="category.name"
-                    class="sf-header-navigation-item__menu-item nav-item__header-title"
-                    icon=""
-                    :link="localePath(`/c/${category.slug}`)"
-                    @click.native="toggleMobileMenu"
-                  />
-
-                  <SfCircleIcon
-                      icon-size="12px"
-                      aria-label="Show list"
-                      icon="chevron_right"
-                      :class="`
-                        sf-circle-icon__icon
-                        nav-item__header-button
-                        ${activeAccordionItem === category.name ? 'active' : ''}
-                      `"
-                      @click="toggleAccordionItem(category.name)"
+              <SfAccordionItem
+                v-if="category.children.length"
+                :header="category.name"
+              >
+                <template #header>
+                  <div class="nav-item__header">
+                    <SfMenuItem
+                      :label="category.name"
+                      class="sf-header-navigation-item__menu-item nav-item__header-title"
+                      icon=""
+                      :link="localePath(`/c/${category.slug}`)"
+                      @click.native="toggleMobileMenu"
                     />
-                </div>
-              </template>
-              <template>
-                <SfList class="nav-item__list">
-                  <SfListItem
-                    v-for="child in category.children"
-                    :key="child.name"
-                    class="nav-item__list-item"
-                  >
-                    <NuxtLink :to="`/c/${child.slug}`" @click.native="toggleMobileMenu">
-                      {{ child.name }}
-                    </NuxtLink>
-                  </SfListItem>
-                </SfList>
-              </template>
-            </SfAccordionItem>
 
-            <SfMenuItem
-              v-else
-              :label="category.name"
-              class="sf-header-navigation-item__menu-item"
-              icon=""
-              :link="localePath(`/c/${category.slug}`)"
-              @click.native="toggleMobileMenu"
-            />
-          </div>
-        </SfAccordion>
-      </template>
-    </SfHeaderNavigationItem>
-  </SfModal>
+                    <SfCircleIcon
+                        icon-size="12px"
+                        aria-label="Show list"
+                        icon="chevron_right"
+                        :class="`
+                          sf-circle-icon__icon
+                          nav-item__header-button
+                          ${activeAccordionItem === category.name ? 'active' : ''}
+                        `"
+                        @click="toggleAccordionItem(category.name)"
+                      />
+                  </div>
+                </template>
+                <template>
+                  <SfList class="nav-item__list">
+                    <SfListItem
+                      v-for="child in category.children"
+                      :key="child.name"
+                      class="nav-item__list-item"
+                    >
+                      <NuxtLink :to="`/c/${child.slug}`" @click.native="toggleMobileMenu">
+                        {{ child.name }}
+                      </NuxtLink>
+                    </SfListItem>
+                  </SfList>
+                </template>
+              </SfAccordionItem>
+
+              <SfMenuItem
+                v-else
+                :label="category.name"
+                class="sf-header-navigation-item__menu-item"
+                icon=""
+                :link="localePath(`/c/${category.slug}`)"
+                @click.native="toggleMobileMenu"
+              />
+            </div>
+          </SfAccordion>
+        </template>
+      </SfHeaderNavigationItem>
+    </SfModal>
+  </div>
 </template>
 
 <script>
@@ -88,7 +90,7 @@ import {
   SfList,
   SfCircleIcon
 } from '@storefront-ui/vue';
-import { ref } from '@vue/composition-api';
+import { onMounted, onUnmounted, ref } from '@nuxtjs/composition-api';
 import { useUiState } from '~/composables';
 import { useCategory } from '@vue-storefront/sylius';
 export default {
@@ -123,6 +125,18 @@ export default {
         level: 1
       });
     });
+
+    onMounted(() => {
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
+      })
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', () => {
+        if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
+      })
+    })
 
     return {
       categories,

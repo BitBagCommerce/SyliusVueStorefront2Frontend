@@ -6,6 +6,7 @@
     >
       <SfImage
         :src="`/icons/langs/${locale}.webp`"
+        height="20"
         width="20"
         alt="Flag"
         :placeholder="loader"
@@ -34,6 +35,7 @@
               <template #icon>
                 <SfImage
                   :src="`/icons/langs/${lang.code}.webp`"
+                  height="20"
                   width="20"
                   alt="Flag"
                   :placeholder="loader"

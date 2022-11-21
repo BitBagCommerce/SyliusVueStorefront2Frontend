@@ -39,13 +39,13 @@
         >
         </SfTextarea>
       </ValidationProvider>
-      <SfButton class="form__button">{{ $t('Save') }}</SfButton>
+      <SfButton type="submit" class="form__button">{{ $t('Save') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
 
 <script>
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { SfTextarea, SfInput, SfButton } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 export default {

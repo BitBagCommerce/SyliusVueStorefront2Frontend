@@ -36,13 +36,13 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton class="form__button">{{ $t('Update password') }}</SfButton>
+      <SfButton type="submit" class="form__button">{{ $t('Update password') }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
 
 <script>
-import { ref } from '@vue/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { SfInput, SfButton } from '@storefront-ui/vue';
 import { useUiNotification } from '~/composables/';

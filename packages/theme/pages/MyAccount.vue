@@ -33,16 +33,12 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { ref, computed, onBeforeUnmount, onMounted } from '@vue/composition-api';
+import { ref, onMounted, onUnmounted, watch } from '@nuxtjs/composition-api';
 import { useUser } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import OrderHistory from './MyAccount/OrderHistory';
-import {
-  mapMobileObserver,
-  unMapMobileObserver
-} from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 
 export default {
   name: 'MyAccount',
@@ -61,8 +57,8 @@ export default {
     const { $router, $route } = context.root;
     const { logout } = useUser();
     const { send } = useUiNotification();
-    const isMobile = computed(() => mapMobileObserver().isMobile.get());
     const activePage = ref('');
+    const isMobile = ref(false);
 
     const changeActivePage = () => {
       const { pageName } = $route.params;
@@ -99,13 +95,25 @@ export default {
       changeActivePage();
     };
 
+    const handleIsMobile = () => {
+      if (window.innerWidth < 1024) {
+        isMobile.value = true;
+
+        return;
+      }
+
+      isMobile.value = false;
+    }
+
+    watch(isMobile, () => changeActivePage());
+
     onMounted(() => {
       changeActivePage();
+      handleIsMobile();
+      window.addEventListener('resize', handleIsMobile);
     });
 
-    onBeforeUnmount(() => {
-      unMapMobileObserver();
-    });
+    onUnmounted(() => window.removeEventListener('resize', handleIsMobile));
 
     return { handleActivePage, activePage };
   },
@@ -115,11 +123,11 @@ export default {
       breadcrumbs: [
         {
           text: 'Home',
-          route: { link: '#' }
+          link: '#'
         },
         {
           text: 'My Account',
-          route: { link: '#' }
+          link: '#'
         }
       ]
     };
