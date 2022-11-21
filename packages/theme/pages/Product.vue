@@ -179,6 +179,9 @@ import { useUiNotification } from '~/composables';
 export default {
   name: 'Product',
   transition: 'fade',
+  middleware: [
+    'is-connected'
+  ],
   setup(props, context) {
     const qty = ref(1);
     const { id, slug } = context.root.$route.params;

@@ -178,6 +178,16 @@ export default {
       } else {
         return { x: 0, y: 0 };
       }
+    },
+    extendRoutes(routes, resolve) {
+      return [
+        {
+          name: 'connection-error',
+          path: '/connection-error',
+          component: resolve(__dirname, 'pages/ConnectionError.vue'),
+          chunkName: 'pages/connection-error'
+        }
+      ];
     }
   },
   publicRuntimeConfig: {

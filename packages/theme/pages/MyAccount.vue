@@ -51,6 +51,7 @@ export default {
     // MyReviews
   },
   middleware: [
+    'is-connected',
     'is-authenticated'
   ],
   setup(props, context) {

@@ -225,6 +225,9 @@ import CategoryPageHeader from '~/components/CategoryPageHeader';
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
+  middleware: [
+    'is-connected'
+  ],
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();

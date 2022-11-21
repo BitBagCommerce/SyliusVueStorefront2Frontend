@@ -71,6 +71,10 @@ export default {
     PasswordResetForm
   },
 
+  middleware: [
+    'is-connected'
+  ],
+
   setup() {
     const { updateUser, changePassword, user, error } = useUser();
     const currentEmail = userGetters.getEmailAddress(user.value);

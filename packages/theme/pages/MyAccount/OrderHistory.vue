@@ -118,6 +118,9 @@ export default {
     SfButton,
     SfProperty
   },
+  middleware: [
+    'is-connected'
+  ],
   setup() {
     const { orders, search } = useUserOrder();
     const currentOrder = ref(null);
