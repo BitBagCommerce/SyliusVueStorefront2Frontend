@@ -9,11 +9,7 @@
         <div v-if="products && products.length > 0" class="search__wrapper-results" key="results">
           <SfMegaMenuColumn :title="$t('Categories')" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
             <template #title="{title}">
-              <SfMenuItem :label="title" @click="megaMenu.changeActive(title)">
-                <template #mobile-nav-icon>
-                  &#8203;
-                </template>
-              </SfMenuItem>
+              <SfHeading :title="title" :level="4" class="search__header" />
             </template>
             <SfList>
               <SfListItem v-for="(category, key) in categories" :key="key">
@@ -114,7 +110,8 @@ import {
   SfScrollable,
   SfMenuItem,
   SfButton,
-  SfImage
+  SfImage,
+  SfHeading
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@nuxtjs/composition-api';
 import { productGetters, useCart } from '@vue-storefront/sylius';
@@ -130,7 +127,8 @@ export default {
     SfScrollable,
     SfMenuItem,
     SfButton,
-    SfImage
+    SfImage,
+    SfHeading
   },
   props: {
     visible: {
@@ -216,7 +214,7 @@ export default {
     flex: 1;
   }
   &__header {
-    margin-left: var(--spacer-sm);
+    text-align: left;
   }
   ::v-deep .sf-bar {
     display: none;
