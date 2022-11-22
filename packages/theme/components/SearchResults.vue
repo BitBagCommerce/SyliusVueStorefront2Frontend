@@ -9,11 +9,7 @@
         <div v-if="products && products.length > 0" class="search__wrapper-results" key="results">
           <SfMegaMenuColumn :title="$t('Categories')" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
             <template #title="{title}">
-              <SfMenuItem :label="title" @click="megaMenu.changeActive(title)">
-                <template #mobile-nav-icon>
-                  &#8203;
-                </template>
-              </SfMenuItem>
+              <SfHeading :title="title" :level="4" class="search__header" />
             </template>
             <SfList>
               <SfListItem v-for="(category, key) in categories" :key="key">
@@ -114,7 +110,8 @@ import {
   SfScrollable,
   SfMenuItem,
   SfButton,
-  SfImage
+  SfImage,
+  SfHeading
 } from '@storefront-ui/vue';
 import { ref, watch, computed } from '@nuxtjs/composition-api';
 import { productGetters, useCart } from '@vue-storefront/sylius';
@@ -130,7 +127,8 @@ export default {
     SfScrollable,
     SfMenuItem,
     SfButton,
-    SfImage
+    SfImage,
+    SfHeading
   },
   props: {
     visible: {
@@ -190,7 +188,7 @@ export default {
   left: 0;
   z-index: 3;
   --mega-menu-column-header-margin: var(--spacer-sm) 0 var(--spacer-xl);
-  --mega-menu-content-padding: 0;
+  --mega-menu-content-padding: 0 0 var(--spacer-2xl) 0;
   --mega-menu-height: auto;
   @include for-desktop {
     --mega-menu-content-padding: var(--spacer-xl) 0;
@@ -213,10 +211,10 @@ export default {
     }
   }
   &__results {
-    flex: 1
+    flex: 1;
   }
   &__header {
-    margin-left: var(--spacer-sm);
+    text-align: left;
   }
   ::v-deep .sf-bar {
     display: none;
@@ -239,12 +237,12 @@ export default {
     --product-card-add-button-bottom: var(--spacer-base);
   }
   &--mobile {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    background: var(--c-white);
     padding: var(--spacer-base) var(--spacer-sm);
-    --product-card-max-width: 9rem ;
+    display: grid;
+    grid-gap: var(--spacer-sm);
+    grid-template-columns: repeat(auto-fit, 10rem);
+    justify-content: center;
+    background: var(--c-white);
   }
 }
 .see-all {
