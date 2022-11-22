@@ -213,7 +213,7 @@ export default {
     }
   }
   &__results {
-    flex: 1
+    flex: 1;
   }
   &__header {
     margin-left: var(--spacer-sm);
@@ -239,12 +239,12 @@ export default {
     --product-card-add-button-bottom: var(--spacer-base);
   }
   &--mobile {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    background: var(--c-white);
     padding: var(--spacer-base) var(--spacer-sm);
-    --product-card-max-width: 9rem ;
+    display: grid;
+    grid-gap: var(--spacer-sm);
+    grid-template-columns: repeat(auto-fit, 10rem);
+    justify-content: center;
+    background: var(--c-white);
   }
 }
 .see-all {
