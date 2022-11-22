@@ -50,6 +50,10 @@ export default {
     Notification
   },
 
+  middleware: [
+    'is-connected'
+  ],
+
   setup() {
     const route = useRoute();
     const { load: loadStores } = useStore();

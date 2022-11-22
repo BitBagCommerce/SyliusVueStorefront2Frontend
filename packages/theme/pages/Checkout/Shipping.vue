@@ -236,9 +236,6 @@ export default {
     UserAddresses: () => import('@/components/Checkout/UserAddresses'),
     VsfShippingProvider: () => import('~/components/Checkout/VsfShippingProvider')
   },
-  middleware: [
-    'is-connected'
-  ],
   setup () {
     const isFormSubmitted = ref(false);
     const sameAsBilling = ref(false);

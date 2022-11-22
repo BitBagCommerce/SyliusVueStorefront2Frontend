@@ -30,7 +30,6 @@ import { SfButton, SfImage, SfHeading } from '@storefront-ui/vue';
 export default {
   name: 'ConnectionError',
   components: { SfButton, SfImage, SfHeading },
-  middleware: ['is-connected']
 };
 </script>
 

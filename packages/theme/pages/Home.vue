@@ -181,9 +181,6 @@ export default {
     LazyHydrate,
     SfLoader
   },
-  middleware: [
-    'is-connected'
-  ],
   setup() {
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
@@ -215,9 +212,12 @@ export default {
       }
     ];
 
-    let banners = [];
-    if (categories.value.length !== 0) {
-      banners = [
+    const banners = computed(() => {
+      if (categories.value.length === 0) {
+        return [];
+      }
+
+      return [
         {
           slot: 'banner-A',
           subtitle: categories.value[0].name,
@@ -278,7 +278,7 @@ export default {
           link: `/c/${categories.value[3].slug}`
         }
       ];
-    }
+    });
 
     const handleAddToCart = async (params) => {
       await addItemToCart(params);

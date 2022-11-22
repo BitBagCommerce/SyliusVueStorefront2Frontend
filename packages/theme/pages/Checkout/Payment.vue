@@ -132,9 +132,6 @@ export default {
     SfLink,
     VsfPaymentProvider: () => import('~/components/Checkout/VsfPaymentProvider')
   },
-  middleware: [
-    'is-connected'
-  ],
   setup(props, context) {
     const { cart, load, setCart } = useCart();
     const { order, make, loading, error } = useMakeOrder();

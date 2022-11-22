@@ -68,9 +68,6 @@ export default {
     SfButton,
     SfCallToAction
   },
-  middleware: [
-    'is-connected'
-  ],
   setup(props, context) {
     context.emit('changeStep', 4);
     const { order } = useMakeOrder();

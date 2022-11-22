@@ -91,9 +91,6 @@ export default {
     UserAddress,
     ShippingAddressForm
   },
-  middleware: [
-    'is-connected'
-  ],
   setup() {
     const { shipping, load: loadUserShipping, addAddress, deleteAddress, updateAddress, error } = useUserShipping();
     const { send } = useUiNotification();

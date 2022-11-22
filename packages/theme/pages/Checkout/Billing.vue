@@ -233,9 +233,6 @@ export default {
     ValidationObserver,
     UserAddresses: () => import('@/components/Checkout/UserAddresses')
   },
-  middleware: [
-    'is-connected'
-  ],
   setup(props, context) {
     const { load, save, billing, error } = useBilling();
     const { toggleLoginModal } = useUiState();

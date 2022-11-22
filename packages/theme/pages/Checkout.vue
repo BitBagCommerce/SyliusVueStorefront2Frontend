@@ -43,9 +43,6 @@ const STEPS = {
 
 export default {
   name: 'Checkout',
-  middleware: [
-    'is-connected'
-  ],
   components: {
     SfButton,
     SfSteps,
