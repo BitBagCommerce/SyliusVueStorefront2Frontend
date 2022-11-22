@@ -80,7 +80,9 @@ export default {
       const userError = Object.values(error.value).find(err => err !== null);
 
       if (userError) {
-        onError(userError.message);
+        const formattedStrings = userError.message.replace(/currentPassword: |newPassword: /g, '').split('\n');
+
+        formattedStrings.forEach((str, i) => setTimeout(() => onError(str), 200 * i));
 
         return;
       }

@@ -54,6 +54,7 @@ export default {
   }
 }
 .sf-notification {
+  --notification-padding: var(--spacer-sm) var(--spacer-sm);
   max-width: 100%;
   margin: var(--spacer-xs) auto 0 auto;
   &:first-child {
