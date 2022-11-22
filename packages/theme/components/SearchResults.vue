@@ -190,7 +190,7 @@ export default {
   left: 0;
   z-index: 3;
   --mega-menu-column-header-margin: var(--spacer-sm) 0 var(--spacer-xl);
-  --mega-menu-content-padding: 0;
+  --mega-menu-content-padding: 0 0 var(--spacer-2xl) 0;
   --mega-menu-height: auto;
   @include for-desktop {
     --mega-menu-content-padding: var(--spacer-xl) 0;

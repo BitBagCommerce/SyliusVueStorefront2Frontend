@@ -85,7 +85,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .navigation-bottom {
-  --bottom-navigation-z-index: 3;
+  z-index: 3;
 }
 .cart-button {
   position: relative;
