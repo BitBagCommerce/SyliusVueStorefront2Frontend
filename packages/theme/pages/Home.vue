@@ -212,67 +212,73 @@ export default {
       }
     ];
 
-    const banners = [
-      {
-        slot: 'banner-A',
-        subtitle: categories.value[0].name,
-        title: 'Cocktail & Party',
-        description: categories.value[0].description,
-        buttonText: 'Shop now',
-        image: {
-          mobile: {
-            src: $config.theme.home.bannerA.image.mobile,
-            height: 400,
-            width: 1240
-          },
-          desktop: {
-            src: $config.theme.home.bannerA.image.desktop,
-            height: 660,
-            width: 330
-          }
-        },
-        class: 'sf-banner--slim desktop-only',
-        link: `/c/${categories.value[0].slug}`
-      },
-      {
-        slot: 'banner-B',
-        subtitle: categories.value[1].name,
-        title: 'Linen Dresses',
-        description: categories.value[1].description,
-        buttonText: 'Shop now',
-        image: {
-          src: $config.theme.home.bannerB.image,
-          height: 660,
-          width: 500
-        },
-        class: 'sf-banner--slim banner__central desktop-only',
-        link: `/c/${categories.value[1].slug}`
-      },
-      {
-        slot: 'banner-C',
-        subtitle: categories.value[2].name,
-        title: 'The Office Life',
-        image: {
-          src: $config.theme.home.bannerC.image,
-          height: 398,
-          width: 1234
-        },
-        class: 'sf-banner--slim banner__tshirt',
-        link: `/c/${categories.value[2].slug}`
-      },
-      {
-        slot: 'banner-D',
-        subtitle: categories.value[3].name,
-        title: 'Eco Sandals',
-        image: {
-          src: $config.theme.home.bannerD.image,
-          height: 310,
-          width: 330
-        },
-        class: 'sf-banner--slim',
-        link: `/c/${categories.value[3].slug}`
+    const banners = computed(() => {
+      if (categories.value.length === 0) {
+        return [];
       }
-    ];
+
+      return [
+        {
+          slot: 'banner-A',
+          subtitle: categories.value[0].name,
+          title: 'Cocktail & Party',
+          description: categories.value[0].description,
+          buttonText: 'Shop now',
+          image: {
+            mobile: {
+              src: $config.theme.home.bannerA.image.mobile,
+              height: 400,
+              width: 1240
+            },
+            desktop: {
+              src: $config.theme.home.bannerA.image.desktop,
+              height: 660,
+              width: 330
+            }
+          },
+          class: 'sf-banner--slim desktop-only',
+          link: `/c/${categories.value[0].slug}`
+        },
+        {
+          slot: 'banner-B',
+          subtitle: categories.value[1].name,
+          title: 'Linen Dresses',
+          description: categories.value[1].description,
+          buttonText: 'Shop now',
+          image: {
+            src: $config.theme.home.bannerB.image,
+            height: 660,
+            width: 500
+          },
+          class: 'sf-banner--slim banner__central desktop-only',
+          link: `/c/${categories.value[1].slug}`
+        },
+        {
+          slot: 'banner-C',
+          subtitle: categories.value[2].name,
+          title: 'The Office Life',
+          image: {
+            src: $config.theme.home.bannerC.image,
+            height: 398,
+            width: 1234
+          },
+          class: 'sf-banner--slim banner__tshirt',
+          link: `/c/${categories.value[2].slug}`
+        },
+        {
+          slot: 'banner-D',
+          subtitle: categories.value[3].name,
+          title: 'Eco Sandals',
+          image: {
+            src: $config.theme.home.bannerD.image,
+            height: 310,
+            width: 330
+          },
+          class: 'sf-banner--slim',
+          link: `/c/${categories.value[3].slug}`
+        }
+      ];
+    });
 
     const handleAddToCart = async (params) => {
       await addItemToCart(params);

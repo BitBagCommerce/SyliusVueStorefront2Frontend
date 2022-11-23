@@ -27,7 +27,11 @@ export default {
     BottomNavigation,
     CartSidebar,
     LoginModal
-  }
+  },
+
+  middleware: [
+    'is-connected'
+  ]
 };
 </script>
 
