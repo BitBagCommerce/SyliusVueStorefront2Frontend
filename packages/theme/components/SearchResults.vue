@@ -194,6 +194,7 @@ export default {
     --mega-menu-content-padding: var(--spacer-xl) 0;
   }
   &__wrapper-results {
+    width: 100%;
     display: flex;
     flex-direction: column;
     @include for-desktop {
