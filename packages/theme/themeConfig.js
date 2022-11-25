@@ -1,4 +1,7 @@
 export default {
+  payment: {
+    redirectHost: 'http://localhost:8000'
+  },
   home: {
     bannerA: {
       link: '/',
