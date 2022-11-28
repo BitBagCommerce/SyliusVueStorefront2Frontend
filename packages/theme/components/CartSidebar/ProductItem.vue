@@ -156,11 +156,11 @@ export default {
     },
     minQty: {
       type: Number,
-      default: null
+      default: 0
     },
     maxQty: {
       type: Number,
-      default: null
+      default: 99
     },
     link: {
       type: [String, Object],
