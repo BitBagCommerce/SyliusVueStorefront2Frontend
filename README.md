@@ -41,10 +41,11 @@ The project requires node in version of `14.x.x` and yarn in version of `1.x.x |
 You can run the Vue Storefront 2 integration by running a few steps inside root project directory:
 
 1. Install your dependencies using `yarn install` command.
-2. Change GraphQL endpoints in `packages/theme/middleware.config.js` file.
-3. Build project running `yarn build` command.
-4. To run application in development mode, please run `yarn dev` command.
-5. To run application in production mode, please run `yarn start` command.
+2. Change payments redirect host in `packages/theme/themeConfig.config.js` file.
+3. Change GraphQL endpoints in `packages/theme/middleware.config.js` file.
+4. Build project running `yarn build` command.
+5. To run application in development mode, please run `yarn dev` command.
+6. To run application in production mode, please run `yarn start` command.
 
 ## We are here to help
 This **open-source plugin was developed to help the Sylius community**. If you have any additional questions, would like help with installing or configuring the plugin or need any assistance with your Sylius project - let us know!

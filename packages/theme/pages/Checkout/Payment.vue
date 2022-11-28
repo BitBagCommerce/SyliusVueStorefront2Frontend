@@ -154,11 +154,25 @@ export default {
         return;
       }
 
-      const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
+      const tokenValue = orderGetters.getTokenValue(order.value);
 
       send({ type: 'info', message: 'Your order has been placed' });
-      context.root.$router.push(context.root.localePath(thankYouPath));
-      setCart(null);
+      const { locales, locale } = context.root.$i18n;
+
+      let redirected = false;
+      for (const localeIndex in locales) {
+        if (locales[localeIndex].code === locale) {
+          redirected = true;
+          const redirectHost = context.root.context.$config.theme.payment.redirectHost;
+          window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
+          setCart(null);
+        }
+      }
+
+      if (!redirected) {
+        const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
+        context.root.$router.push(context.root.localePath(thankYouPath));
+      }
     };
 
     return {

@@ -15,6 +15,8 @@ export const getDate = (order: any): string => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getId = (order: any): string => order?.number;
 
+export const getTokenValue = (order: any): string => order?.tokenValue;
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getStatus = (order: any): string => order?.status || 'Failed';
 export const getPaymentStatus = (order: any): string => {
@@ -67,5 +69,6 @@ export const orderGetters: UserOrderGetters<Order, OrderItem> = {
   getItemQty,
   getItemPrice,
   getFormattedPrice,
-  getOrdersTotal
+  getOrdersTotal,
+  getTokenValue
 };

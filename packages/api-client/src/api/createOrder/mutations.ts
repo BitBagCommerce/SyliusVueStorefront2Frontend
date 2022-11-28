@@ -9,6 +9,7 @@ export default gql`
     ) {
       order {
         number
+        tokenValue
       }
     }
   }

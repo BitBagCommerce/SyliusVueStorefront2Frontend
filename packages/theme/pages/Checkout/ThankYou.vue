@@ -77,7 +77,7 @@ export default {
       city: 'Wroclaw, Poland',
       email: 'demo@vuestorefront.io'
     });
-    const orderNumber = computed(() => order.value?.number);
+    const orderNumber = computed(() => context.root.$route.query.order);
 
     return {
       companyDetails,
