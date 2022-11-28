@@ -30,6 +30,9 @@
                 :stock="99999"
                 @click:remove="removeItem({ product })"
                 class="collected-product"
+                :qty="cartGetters.getItemQty(product)"
+                @input="updateQuantity({ product, quantity: parseInt($event) })"
+                :loading="loading"
               >
                 <template #configuration>
                   <div class="collected-product__properties">
@@ -38,16 +41,6 @@
                       :key="key"
                       :name="key"
                       :value="attribute"
-                    />
-                  </div>
-                </template>
-                <template #input>
-                  <div class="sf-collected-product__quantity-wrapper">
-                    <SfQuantitySelector
-                      :disabled="loading"
-                      :qty="cartGetters.getItemQty(product)"
-                      class="sf-collected-product__quantity-selector"
-                      @input="updateQuantity({ product, quantity: parseInt($event) })"
                     />
                   </div>
                 </template>

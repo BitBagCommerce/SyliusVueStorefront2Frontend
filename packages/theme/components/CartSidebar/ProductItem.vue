@@ -44,13 +44,14 @@
       </slot>
       <slot name="input">
         <div class="sf-collected-product__quantity-wrapper">
-          <SfQuantitySelector
-            :qty="quantity"
-            :min="minQty"
-            :max="maxQty"
-            class="sf-collected-product__quantity-selector"
-            @input="$emit('input', $event)"
-          />
+          <QuantitySelector
+              :qty="qty"
+              :min="minQty"
+              :max="maxQty"
+              class="sf-collected-product__quantity-selector"
+              @input="$emit('input', $event)"
+              :disabled="loading"
+            />
         </div>
       </slot>
     </div>
@@ -73,8 +74,7 @@
           "
           data-testid="collected-product-desktop-remove"
           @click="removeHandler"
-        >Remove</SfButton
-        >
+        >Remove</SfButton>
       </template>
     </slot>
     <slot name="more-actions" v-bind="{ actionsHandler }">
@@ -105,8 +105,10 @@ import {
   SfLink,
   SfProperty
 } from '@storefront-ui/vue';
-import { computed } from '@nuxtjs/composition-api';
+import { computed, ref } from '@nuxtjs/composition-api';
 import productPlaceholder from '@storefront-ui/shared/images/product_placeholder.svg';
+import QuantitySelector from './QuantitySelector.vue';
+
 export default {
   name: 'ProductItem',
   components: {
@@ -117,7 +119,8 @@ export default {
     SfPrice,
     SfQuantitySelector,
     SfLink,
-    SfProperty
+    SfProperty,
+    QuantitySelector
   },
   model: {
     prop: 'qty'
@@ -170,16 +173,34 @@ export default {
     hasMoreActions: {
       type: Boolean,
       default: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
     const componentIs = computed(() => props.link ? 'SfLink' : 'div');
-    const quantity = computed(() => typeof props.qty === 'string' ? Number(props.qty) : props.qty);
+    const isConfirmOpen = ref(false);
+    const inputQty = ref(props.qty);
+
+    const handleInput = (input) => {
+      inputQty.value = input;
+      isConfirmOpen.value = true;
+    };
+
+    const handleCancel = () => {
+      inputQty.value = props.qty;
+      isConfirmOpen.value = false;
+    };
 
     return {
       productPlaceholder,
       componentIs,
-      quantity
+      isConfirmOpen,
+      inputQty,
+      handleInput,
+      handleCancel
     };
   },
   methods: {
@@ -194,4 +215,26 @@ export default {
 </script>
 <style lang="scss">
 @import "@storefront-ui/shared/styles/components/organisms/SfCollectedProduct";
+
+.input {
+  position: relative;
+
+  &__confirm {
+    right: 0;
+  }
+
+  &__cancel {
+    left: 0;
+  }
+
+  &__confirm, &__cancel {
+    --button-padding: 0;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 10;
+    width: 1.5rem;
+  }
+}
 </style>
