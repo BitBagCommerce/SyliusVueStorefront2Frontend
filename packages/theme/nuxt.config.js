@@ -7,6 +7,12 @@ export default {
     port: process.env.PORT || 3000,
     host: '0.0.0.0'
   },
+  publicRuntimeConfig: {
+    theme,
+    middlewareUrl: process.env.NODE_ENV === 'production'
+      ? 'https://localhost:3000/api/' // Your production URL
+      : 'http://localhost:3000/api/'
+  },
   head: {
     title: 'Vue Storefront',
     meta: [
@@ -189,8 +195,6 @@ export default {
         }
       ];
     }
-  },
-  publicRuntimeConfig: {
-    theme
   }
+
 };
