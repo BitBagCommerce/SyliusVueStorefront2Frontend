@@ -23,7 +23,7 @@ export const mutate = async(context, mutation) => {
   return data;
 };
 
-export const transformCartItems = (context, items) => {
+export const transformItems = (context, items) => {
   const { imagePaths: { thumbnail } } = context.config;
   return items.edges.map(edge => {
     const orderItem = edge.node;
@@ -37,7 +37,7 @@ export const transformCartItems = (context, items) => {
 };
 
 export const transformCart = (context, cart) => {
-  cart.items = transformCartItems(context, cart.items);
+  cart.items = transformItems(context, cart.items);
   cart.shipments = cart.shipments.edges.length
     ? cart.shipments.edges[0].node
     : [];
@@ -45,4 +45,13 @@ export const transformCart = (context, cart) => {
     ? cart.payments.edges[0].node
     : [];
   return cart;
+};
+
+export const transformWishlists = (context, wishlists) => {
+  wishlists = wishlists.map(wishlist => ({
+    ...wishlist,
+    items: transformItems(context, wishlist.items)
+  }));
+
+  return wishlists;
 };

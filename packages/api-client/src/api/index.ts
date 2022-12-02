@@ -43,3 +43,12 @@ export {
 export {
   getFilters
 } from './filters';
+export {
+  getWishlists,
+  addItem,
+  removeItem,
+  clearWishlist,
+  createWishlist,
+  editWishlist,
+  removeWishlist
+} from './wishlist';

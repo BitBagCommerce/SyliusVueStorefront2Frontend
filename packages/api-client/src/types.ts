@@ -41,7 +41,6 @@ export type ProductVariant = {
   channelPricings: any[];
   optionValues: ProductOptionValue[]
 }
-export type Wishlist = Record<string, unknown>;
 export type Product = {
   _id?: number;
   description: string;
@@ -206,4 +205,35 @@ export type ShippingAddress = TODO;
 
 export type ShippingProvider = TODO;
 
-export type WishlistItem = TODO;
+export type WishlistItem = {
+  _id: string;
+  code: string;
+  sku?: string;
+  name?: string;
+  productName: string;
+  unitPrice: number;
+  images: string[];
+  variant: {
+    code: string;
+    product: {
+      images: string[];
+    }
+  }
+  price?: {
+    regular: number;
+    special: number;
+  }
+  selectedVariant: {
+    code: string;
+    optionValues: ProductOptionValue[];
+    product: {
+      options: ProductOption[];
+    }
+  }
+};
+
+export type Wishlist = {
+  id: string;
+  name: string;
+  items: WishlistItem[]
+};
