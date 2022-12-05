@@ -22,7 +22,7 @@
               key="wishlist_badge"
               class="sf-badge--number counter__badge"
             >
-              {{ getItemAmount(wishlist) }}
+              {{ wishlistGetters.getTotalItems(wishlist) }}
             </SfBadge>
           </div>
 
@@ -90,7 +90,7 @@ import {
   SfBadge
 } from '@storefront-ui/vue';
 import { ref } from '@nuxtjs/composition-api';
-import { useWishlists } from '@vue-storefront/sylius';
+import { useWishlists, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables';
 
 export default {
@@ -109,8 +109,6 @@ export default {
     const { removeWishlist, error } = useWishlists();
     const toggledConfirm = ref('');
 
-    const getItemAmount = (wishlist) => wishlist.items.length;
-
     const handleRemoveWishlist = async (wishlistId) => {
       await removeWishlist(wishlistId);
       toggledConfirm.value = '';
@@ -125,8 +123,8 @@ export default {
     };
 
     return {
+      wishlistGetters,
       toggledConfirm,
-      getItemAmount,
       handleRemoveWishlist
     };
   }

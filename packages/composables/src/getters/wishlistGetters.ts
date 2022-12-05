@@ -70,7 +70,7 @@ const getItemAttributes = (item: WishlistItem, filters?: string[]): Record<strin
 const getItemSku = (item: WishlistItem): string => item.sku;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getTotalItems = (wishlist: Wishlist): number => getItems(wishlist).length;
+const getTotalItems = (wishlist: Wishlist): number => wishlist.items.length;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getFormattedPrice(price: number): string {
