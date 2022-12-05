@@ -10,7 +10,7 @@ export const addItemToWishlistMutation = gql`
       id: $id,
       productVariant: $variantId
     }) {
-      collection {
+      wishlists {
         ${wishlistFragment}
       }
     }
@@ -26,7 +26,7 @@ export const removeItemFromWishlistMutation = gql`
       id: $id,
       productVariant: $variantId
     }) {
-      collection {
+      wishlists {
         ${wishlistFragment}
       }
     }
@@ -40,7 +40,7 @@ export const clearWishlistMutation = gql`
     shop_clear_wishlist(input: {
       id: $id,
     }) {
-      collection {
+      wishlists {
         ${wishlistFragment}
       }
     }
@@ -54,7 +54,7 @@ export const createWishlistMutation = gql`
     shop_create_wishlist(input: {
       name: $name
     }) {
-      collection {
+      wishlists {
         ${wishlistFragment}
       }
     }
@@ -70,7 +70,7 @@ export const editWishlistMutation = gql`
       id: $id,
       name: $name
     }) {
-      collection {
+      wishlists {
         ${wishlistFragment}
       }
     }
@@ -84,7 +84,7 @@ export const removeWishlistMutation = gql`
     shop_remove_wishlist(input: {
       id: $id
     }) {
-      collection {
+      wishlists {
         ${wishlistFragment}
       }
     }

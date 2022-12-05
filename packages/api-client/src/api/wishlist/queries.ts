@@ -4,9 +4,7 @@ import { wishlistFragment } from '../fragments/wishlist';
 export const getWishlistsQuery = gql`
   query getWishlist($wishlistId: ID!) {
     wishlists(id: $wishlistId) {
-      collection {
-        ${wishlistFragment}
-      }
+      ${wishlistFragment}
     }
   }
 `;
