@@ -210,6 +210,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 import { useUser, useForgotPassword } from '@vue-storefront/sylius';
 import { useUiState, useUiNotification } from '~/composables';
+import { useVSFContext } from '@vue-storefront/core';
 
 extend('email', {
   ...email,
@@ -248,6 +249,7 @@ export default {
     const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
     const { $router } = context.root;
     const { send } = useUiNotification();
+    const { $sylius } = useVSFContext();
 
     const error = reactive({
       login: null,
@@ -303,19 +305,25 @@ export default {
         error.login = userError.value.login?.message;
         error.register = userError.value.register?.message;
 
-        if (error.login === 'Can\'t authenticate, user not verified') setIsVerifyUser(true);
+        if (error.login === 'Can\'t authenticate, user not verified') {
+          setIsVerifyUser(true);
+        }
 
         return;
       }
 
       if (fn === register) {
-        setIsVerifyUser(true);
-        await logout();
-        $router.push(context.root.localePath({ name: 'home' }));
-
         send({ type: 'info', message: 'Your account has been registered' });
 
-        return;
+        await login({user: {username: form.value.email, password: form.value.password }});
+        if ($sylius?.config?.state?.getCustomerToken() === undefined) {
+          setIsVerifyUser(true);
+          await logout();
+
+          return;
+        }
+
+        setIsLoginValue(false);
       }
 
       send({ type: 'info', message: 'Login successful' });
