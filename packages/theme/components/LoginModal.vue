@@ -303,19 +303,30 @@ export default {
         error.login = userError.value.login?.message;
         error.register = userError.value.register?.message;
 
-        if (error.login === 'Can\'t authenticate, user not verified') setIsVerifyUser(true);
+        if (error.login === 'Can\'t authenticate, user not verified') {
+          setIsVerifyUser(true);
+        }
 
         return;
       }
 
       if (fn === register) {
-        setIsVerifyUser(true);
-        await logout();
-        $router.push(context.root.localePath({ name: 'home' }));
-
         send({ type: 'info', message: 'Your account has been registered' });
 
-        return;
+        try {
+          await login({user: {username: form.value.email, password: form.value.password }});
+          if (context?.root?.context?.$vsf?.$sylius?.config?.state?.getCustomerToken() === undefined) {
+            setIsVerifyUser(true);
+            await logout();
+            return;
+          }
+
+          setIsLoginValue(false);
+        } catch (e) {
+          setIsVerifyUser(true);
+          await logout();
+          return;
+        }
       }
 
       send({ type: 'info', message: 'Login successful' });
