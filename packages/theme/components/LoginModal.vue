@@ -210,6 +210,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 import { useUser, useForgotPassword } from '@vue-storefront/sylius';
 import { useUiState, useUiNotification } from '~/composables';
+import { useVSFContext } from '@vue-storefront/core';
 
 extend('email', {
   ...email,
@@ -248,6 +249,7 @@ export default {
     const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
     const { $router } = context.root;
     const { send } = useUiNotification();
+    const { $sylius } = useVSFContext();
 
     const error = reactive({
       login: null,
@@ -313,20 +315,15 @@ export default {
       if (fn === register) {
         send({ type: 'info', message: 'Your account has been registered' });
 
-        try {
-          await login({user: {username: form.value.email, password: form.value.password }});
-          if (context?.root?.context?.$vsf?.$sylius?.config?.state?.getCustomerToken() === undefined) {
-            setIsVerifyUser(true);
-            await logout();
-            return;
-          }
-
-          setIsLoginValue(false);
-        } catch (e) {
+        await login({user: {username: form.value.email, password: form.value.password }});
+        if ($sylius?.config?.state?.getCustomerToken() === undefined) {
           setIsVerifyUser(true);
           await logout();
+
           return;
         }
+
+        setIsLoginValue(false);
       }
 
       send({ type: 'info', message: 'Login successful' });
