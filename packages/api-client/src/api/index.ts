@@ -34,7 +34,8 @@ export {
   updateUserPassword,
   resetUserPassword,
   triggerResetUserPassword,
-  deleteUserAddress
+  deleteUserAddress,
+  validateResetUserPassword
 } from './user';
 export {
   getReviews,
