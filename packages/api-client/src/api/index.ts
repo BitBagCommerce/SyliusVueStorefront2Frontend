@@ -38,6 +38,7 @@ export {
   resetUserPassword,
   triggerResetUserPassword,
   deleteUserAddress,
+  validateResetUserPassword,
 } from './user';
 export { getReviews, addReview } from './review';
 export {

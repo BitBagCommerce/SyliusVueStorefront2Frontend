@@ -3,7 +3,7 @@
     <template #modal-bar>
       <SfBar class="sf-modal__bar" :title="$t('Reset Password')" />
     </template>
-    <div v-if="!isPasswordChanged">
+    <div>
       <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
         <form class="form" @submit.prevent="handleSubmit(setNewPassword)">
           <ValidationProvider rules="required" v-slot="{ errors }">
@@ -37,23 +37,17 @@
             data-e2e="reset-password-modal-submit"
             type="submit"
             class="sf-button--full-width form__button"
-            :disabled="forgotPasswordLoading"
+            :disabled="forgotPasswordLoading || loading"
           >
             <SfLoader
               :class="{ loader: forgotPasswordLoading }"
-              :loading="forgotPasswordLoading"
+              :loading="forgotPasswordLoading || loading"
             >
               <div>{{ $t('Save Password') }}</div>
             </SfLoader>
           </SfButton>
         </form>
       </ValidationObserver>
-    </div>
-    <div v-else>
-      <p>{{ $t('Password Changed') }}</p>
-      <SfButton class="sf-button--text" link="/">
-        {{ $t('Back to home') }}
-      </SfButton>
     </div>
   </SfModal>
 </template>
@@ -65,10 +59,9 @@ import {
   SfBar,
   SfInput,
 } from '@storefront-ui/vue';
-import { ref, computed } from '@nuxtjs/composition-api';
+import { ref, watch } from '@nuxtjs/composition-api';
 import {
   useForgotPassword,
-  forgotPasswordGetters,
 } from '@vue-storefront/sylius';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
@@ -81,11 +74,7 @@ extend('required', {
 export default {
   name: 'ResetPassword',
   layout: 'blank',
-  middleware({ redirect, route }) {
-    if (!route.query.token) {
-      return redirect('/');
-    }
-  },
+  middleware: ['is-token-valid'],
   components: {
     SfButton,
     SfModal,
@@ -97,7 +86,6 @@ export default {
   },
   setup(props, { root }) {
     const {
-      result,
       setNew,
       error: forgotPasswordError,
       loading: forgotPasswordLoading,
@@ -107,16 +95,18 @@ export default {
       password: null,
       repeatPassword: null,
     });
-    const isPasswordChanged = computed(() =>
-      forgotPasswordGetters.isPasswordChanged(result.value)
-    );
+    const loading = ref(false);
 
     const token = root.$route.query.token;
 
     const setNewPassword = async () => {
       passwordMatchError.value = false;
+      loading.value = true;
+
       if (form.value.password !== form.value.repeatPassword) {
         passwordMatchError.value = root.$t('Passwords do not match');
+        loading.value = false;
+
         return;
       }
 
@@ -124,11 +114,15 @@ export default {
       root.$router.push('/');
     };
 
+    watch(() => root.$route.path, () => {
+      if (root.$route.path !== 'reset-password') loading.value = false;
+    });
+
     return {
-      isPasswordChanged,
       form,
       setNewPassword,
       forgotPasswordLoading,
+      loading,
       forgotPasswordError,
       passwordMatchError,
     };
