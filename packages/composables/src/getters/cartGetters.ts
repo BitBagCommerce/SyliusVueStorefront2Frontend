@@ -80,6 +80,8 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartShippingPrice = (cart: Cart): number => cart?.shippingTotal ? cart.shippingTotal / 100 : 0;
 
+export const getCartTokenValue = (cart: any): number => cart?.tokenValue;
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartTotalItems = (cart: Cart): number => {
   if (cart?.items) {
@@ -121,5 +123,6 @@ export const cartGetters: CartGetters<Cart, CartLineItem> = {
   getFormattedPrice: getFormattedPrice,
   getTotalItems: getCartTotalItems,
   getCoupons,
-  getDiscounts
+  getDiscounts,
+  getCartTokenValue
 };

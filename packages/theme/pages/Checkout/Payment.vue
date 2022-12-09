@@ -115,6 +115,7 @@ import { onSSR } from '@vue-storefront/core';
 import { ref, computed } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
+import {getCartTokenValue} from "@vue-storefront/sylius/src/getters/cartGetters";
 
 export default {
   name: 'ReviewOrder',
@@ -134,6 +135,7 @@ export default {
   },
   setup(props, context) {
     const { cart, load, setCart } = useCart();
+    const tokenValue = cartGetters.getCartTokenValue(cart.value);
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
 
@@ -153,8 +155,6 @@ export default {
 
         return;
       }
-
-      const tokenValue = orderGetters.getTokenValue(order.value);
 
       send({ type: 'info', message: 'Your order has been placed' });
       const { locales, locale } = context.root.$i18n;
