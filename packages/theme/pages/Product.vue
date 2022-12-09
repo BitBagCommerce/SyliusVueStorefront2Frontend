@@ -92,7 +92,7 @@
 
         <LazyHydrate when-idle>
           <SfTabs :open-tab="1" class="product__tabs">
-            <SfTab title="Description" key="description">
+            <SfTab :title="$t('Description')" key="description">
               <div class="product__description">
                   {{ product.description }}
               </div>
@@ -110,7 +110,11 @@
                 </template>
               </SfProperty>
             </SfTab>
-            <SfTab v-if="Array.isArray(reviews) && reviews.length" title="Read reviews" key="read_reviews">
+            <SfTab
+              v-if="Array.isArray(reviews) && reviews.length"
+              :title="$t('Read reviews')"
+              key="read_reviews"
+            >
               <SfReview
                 v-for="review in reviews"
                 :key="reviewGetters.getReviewId(review)"
@@ -125,7 +129,11 @@
                 class="product__review"
               />
             </SfTab>
-            <SfTab v-if="isAuthenticated" title="Add review" key="add_review">
+            <SfTab
+              v-if="isAuthenticated"
+              :title="$t('Add review')"
+              key="add_review"
+            >
               <add-review-form
                 :product-id="product.id"
                 @submit="handleReviewSubmit"
@@ -425,6 +433,7 @@ export default {
   }
   &__tabs {
     --tabs-title-z-index: 0;
+    --tabs-title-margin: 0 var(--spacer-sm) 0 0;
     margin: var(--spacer-lg) auto var(--spacer-2xl);
     --tabs-title-font-size: var(--font-size--lg);
     @include for-desktop {

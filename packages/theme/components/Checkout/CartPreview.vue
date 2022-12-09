@@ -101,9 +101,10 @@ export default {
     SfInput,
     SfCircleIcon
   },
-  setup () {
+  setup (_, context) {
     const { cart, removeItem, updateItemQty, applyCoupon, load, removeCoupon, error } = useCart();
     const { send } = useUiNotification();
+    const t = (key) => context.root.$i18n.t(key);
 
     const listIsHidden = ref(false);
     const promoCode = ref('');
@@ -150,19 +151,19 @@ export default {
       submitCouponForm,
       characteristics: [
         {
-          title: 'Safety',
-          description: 'It carefully packaged with a personal touch',
+          title: t('Safety'),
+          description: t('It carefully packaged with a personal touch'),
           icon: 'safety'
         },
         {
-          title: 'Easy shipping',
+          title: t('Easy shipping'),
           description:
-            'You’ll receive dispatch confirmation and an arrival date',
+            t('You’ll receive dispatch confirmation and an arrival date'),
           icon: 'shipping'
         },
         {
-          title: 'Changed your mind?',
-          description: 'Rest assured, we offer free returns within 30 days',
+          title: t('Changed your mind?'),
+          description: t('Rest assured, we offer free returns within 30 days'),
           icon: 'return'
         }
       ],

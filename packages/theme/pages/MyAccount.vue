@@ -6,28 +6,28 @@
     />
     <SfContentPages
       v-e2e="'my-account-content-pages'"
-      title="My Account"
+      :title="$t('My Account')"
       :active="activePage"
       class="my-account"
       @click:change="handleActivePage"
     >
-      <SfContentCategory title="Personal Details">
-        <SfContentPage title="My profile">
+      <SfContentCategory :title="$t('Personal details')">
+        <SfContentPage :title="$t('My profile')">
           <MyProfile />
         </SfContentPage>
 
-        <SfContentPage title="My addresses">
+        <SfContentPage :title="$t('My addresses')">
           <ShippingDetails />
         </SfContentPage>
       </SfContentCategory>
 
-      <SfContentCategory title="Order details">
-        <SfContentPage title="Order history">
+      <SfContentCategory :title="$t('Order details')">
+        <SfContentPage :title="$t('Order history')">
           <OrderHistory />
         </SfContentPage>
       </SfContentCategory>
 
-      <SfContentPage title="Log out" />
+      <SfContentPage :title="$t('Log out')" />
     </SfContentPages>
   </div>
 </template>
@@ -103,7 +103,7 @@ export default {
       }
 
       isMobile.value = false;
-    }
+    };
 
     watch(isMobile, () => changeActivePage());
 
