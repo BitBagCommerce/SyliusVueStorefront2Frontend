@@ -134,6 +134,7 @@ export default {
   },
   setup(props, context) {
     const { cart, load, setCart } = useCart();
+    const tokenValue = cartGetters.getCartTokenValue(cart.value);
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
 
@@ -153,8 +154,6 @@ export default {
 
         return;
       }
-
-      const tokenValue = orderGetters.getTokenValue(order.value);
 
       send({ type: 'info', message: 'Your order has been placed' });
       const { locales, locale } = context.root.$i18n;
