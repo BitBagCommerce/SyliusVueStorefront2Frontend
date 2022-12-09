@@ -115,7 +115,6 @@ import { onSSR } from '@vue-storefront/core';
 import { ref, computed } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
-import {getCartTokenValue} from "@vue-storefront/sylius/src/getters/cartGetters";
 
 export default {
   name: 'ReviewOrder',
