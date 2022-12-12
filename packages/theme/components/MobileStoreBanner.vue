@@ -10,7 +10,7 @@
         <SfButton
           class="banner-app__button sf-button--pure"
           aria-label="Go to Apple Product"
-          @click="() => {}"
+          link="/"
         >
           <SfImage
             src="/homepage/apple.png"
@@ -22,7 +22,7 @@
         <SfButton
           class="banner-app__button sf-button--pure"
           aria-label="Go to Google Product"
-          @click="() => {}"
+          link="/"
         >
           <SfImage
             src="/homepage/google.png"
