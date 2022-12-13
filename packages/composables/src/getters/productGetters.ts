@@ -41,7 +41,7 @@ export const getProductCoverImage = (product: Product): string => {
     imagePath = imagePath.replace(/\/media\/image/, '');
     return imagePath;
   }
-  return '';
+  return '/error/no-image.svg';
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
