@@ -1,5 +1,5 @@
 <template>
-  <SfSection title-heading="Share Your Look" subtitle-heading="#YOURLOOK" class="title">
+  <SfSection :title-heading="$t('Share your look')" subtitle-heading="#YOURLOOK" class="title">
     <div class="grid grid-images">
       <div class="grid__row">
         <div class="grid__col">

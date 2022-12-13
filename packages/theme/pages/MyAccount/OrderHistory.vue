@@ -5,32 +5,32 @@
         <SfButton class="sf-button--text all-orders" @click="currentOrder = null">All Orders</SfButton>
         <div class="highlighted highlighted--total">
           <SfProperty
-            name="Order ID"
+            :name="$t('Order ID')"
             :value="orderGetters.getId(currentOrder)"
             class="sf-property--full-width property"
           />
           <SfProperty
-            name="Order Date"
+            :name="$t('Order Date')"
             :value="orderGetters.getDate(currentOrder)"
             class="sf-property--full-width property"
           />
           <SfProperty
-            name="Payment Status"
+            :name="$t('Payment Status')"
             :value="orderGetters.getPaymentStatus(currentOrder)"
             class="sf-property--full-width property"
           />
           <SfProperty
-            name="Shipping Status"
+            :name="$t('Shipping Status')"
             :value="orderGetters.getShippingStatus(currentOrder)"
             class="sf-property--full-width property"
           />
           <SfProperty
-            name="Shipping Total"
+            :name="$t('Shipping Total')"
             :value="$n(orderGetters.getShippingTotal(currentOrder), 'currency')"
             class="sf-property--full-width property"
           />
           <SfProperty
-            name="Total"
+            :name="$t('Total')"
             :value="$n(orderGetters.getPrice(currentOrder), 'currency')"
             class="sf-property--full-width property"
           />
@@ -92,7 +92,7 @@
             </SfTableData>
           </SfTableRow>
         </SfTable>
-        <p v-show="totalOrders > 0">Total orders - {{ totalOrders }}</p>
+        <p v-show="totalOrders > 0">{{ $t('Total orders') }} - {{ totalOrders }}</p>
       </div>
     </SfTab>
   </SfTabs>

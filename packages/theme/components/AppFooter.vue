@@ -48,7 +48,7 @@
         </SfListItem>
       </SfList>
     </SfFooterColumn>
-    <SfFooterColumn title="Social">
+    <SfFooterColumn :title="$t('Socials')">
       <div class="footer__socials">
         <SfImage
           class="footer__social-image"

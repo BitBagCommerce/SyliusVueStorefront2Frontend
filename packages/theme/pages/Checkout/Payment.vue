@@ -2,7 +2,7 @@
   <div>
     <SfHeading
       :level="3"
-      title="Payment"
+      :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfTable class="sf-table--bordered table desktop-only">
@@ -51,7 +51,7 @@
       <div class="summary__group" v-if="totals">
         <div class="summary__total">
           <SfProperty
-            name="Subtotal"
+            :name="$t('Subtotal')"
             :value="$n(totals.special > 0 ? totals.special : totals.subtotal, 'currency')"
             class="sf-property--full-width property"
           />
@@ -59,7 +59,7 @@
 
         <div class="summary__total" v-if="totals.shipping">
           <SfProperty
-            name="Shipping"
+            :name="$t('Shipping')"
             :value="$n(totals.shipping, 'currency')"
             class="sf-property--full-width property"
           />
@@ -68,7 +68,7 @@
         <SfDivider />
 
         <SfProperty
-          name="Total price"
+          :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
           class="sf-property--full-width sf-property--large summary__property-total"
         />
@@ -137,6 +137,7 @@ export default {
     const tokenValue = cartGetters.getCartTokenValue(cart.value);
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
+    const t = (key) => context.root.$i18n.t(key);
 
     const isPaymentReady = ref(false);
 
@@ -179,7 +180,11 @@ export default {
       loading,
       products: computed(() => cartGetters.getItems(cart.value)),
       totals: computed(() => cartGetters.getTotals(cart.value)),
-      tableHeaders: ['Description', 'Quantity', 'Amount'],
+      tableHeaders: [
+        t('Description'),
+        t('Quantity'),
+        t('Amount')
+      ],
       cartGetters,
       processOrder
     };

@@ -11,7 +11,7 @@
           <SfStep
             v-for="(step, key) in STEPS"
             :key="key"
-            :name="step"
+            :name="$t(step)"
           >
             <nuxt-child />
           </SfStep>
