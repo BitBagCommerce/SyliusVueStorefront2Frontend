@@ -110,9 +110,9 @@ import {
   SfScrollable,
   SfMenuItem,
   SfButton,
-  SfImage,
   SfHeading
 } from '@storefront-ui/vue';
+import SfImage from '~/components/SearchResults/SfImage.vue';
 import { ref, watch, computed } from '@nuxtjs/composition-api';
 import { productGetters, useCart } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
