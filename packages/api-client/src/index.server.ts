@@ -5,6 +5,7 @@ import { defaultSettings } from './settings';
 import { Config, ClientInstance } from './types';
 import * as api from './api';
 import ApolloClient from 'apollo-client';
+import i18n from '../../theme/i18nConfig';
 
 const onCreate = (settings: Config): { config: Config, client: ClientInstance} => {
   const config = {
@@ -48,11 +49,22 @@ const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
   hooks: (req, res) => ({
     beforeCreate: ({ configuration }) => {
+      const localeCookieName = configuration.cookies?.localeCookieName || defaultSettings.cookies.localeCookieName;
       const cartCookieName = configuration.cookies?.cartCookieName || defaultSettings.cookies.cartCookieName;
       const customerCookieName = configuration.cookies?.customerCookieName || defaultSettings.cookies.customerCookieName;
       const customerRefreshCookieName = configuration.cookies?.customerRefreshCookieName || defaultSettings.cookies.customerRefreshCookieName;
       const customerIdCookieName = configuration.cookies?.customerIdCookieName || defaultSettings.cookies.customerIdCookieName;
       const storeCookieName = configuration.cookies?.storeCookieName || defaultSettings.cookies.storeCookieName;
+
+      const locale = req.cookies[localeCookieName];
+
+      for (const localeIndex in i18n.locales) {
+        if (i18n.locales[localeIndex].code === locale) {
+          configuration.api += '/' + i18n.locales[localeIndex].sylius;
+
+          break;
+        }
+      }
 
       return {
         ...configuration,
