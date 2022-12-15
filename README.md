@@ -48,6 +48,11 @@ You can run the Vue Storefront 2 integration by running a few steps inside root 
 6. To run application in development mode, please run `yarn dev` command.
 7. To run application in production mode, please run `yarn start` command.
 
+#### Internationalization
+
+By default, the integration supports `en_US` and `de_DE` locales. To have more locales, you have to enable them in Sylius Channel configuration (in admin panel).
+After this, please edit the `packages/theme/i18nConfig.js` file (the `locales` section).
+
 ## We are here to help
 This **open-source plugin was developed to help the Sylius community**. If you have any additional questions, would like help with installing or configuring the plugin or need any assistance with your Sylius project - let us know!
 
