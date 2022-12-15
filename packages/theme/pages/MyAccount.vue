@@ -54,6 +54,7 @@ export default {
     'is-authenticated'
   ],
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const { $router, $route } = context.root;
     const { logout } = useUser();
     const { send } = useUiNotification();
@@ -79,10 +80,10 @@ export default {
     };
 
     const handleActivePage = async (title) => {
-      if (title === 'Log out') {
+      if (title === t('Log out')) {
         await logout();
         $router.push(context.root.localePath({ name: 'home' }));
-        send({ type: 'info', message: 'Logout successful' });
+        send({ type: 'info', message: t('Logout successful') });
         return;
       }
 

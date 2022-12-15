@@ -113,7 +113,7 @@
         <p class="thank-you__paragraph">{{ $t('Thank You Inbox') }}</p>
       </div>
       <div v-else-if="isVerifyUser" class="form">
-          <p class="verify__paragraph">Please check your email to verify your account.</p>
+          <p class="verify__paragraph">{{ $t('Please check your email to verify your account') }}</p>
 
           <SfButton type="submit" class="verify__button" @click="closeModal()">
             {{ $t('Go back') }}
@@ -236,6 +236,7 @@ export default {
     SfBar
   },
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(true);
@@ -305,7 +306,9 @@ export default {
         error.login = userError.value.login?.message;
         error.register = userError.value.register?.message;
 
-        if (error.login === 'Can\'t authenticate, user not verified') {
+        if (error.login === t('Can\'t authenticate, user not verified')) {
+          setIsVerifyUser(true);
+        } else if (error.login === 'Can\'t authenticate, user not verified') {
           setIsVerifyUser(true);
         }
 
@@ -313,7 +316,7 @@ export default {
       }
 
       if (fn === register) {
-        send({ type: 'info', message: 'Your account has been registered' });
+        send({ type: 'info', message: t('Your account has been registered') });
 
         await login({user: {username: form.value.email, password: form.value.password }});
         if ($sylius?.config?.state?.getCustomerToken() === undefined) {
@@ -326,7 +329,7 @@ export default {
         setIsLoginValue(false);
       }
 
-      send({ type: 'info', message: 'Login successful' });
+      send({ type: 'info', message: t('Login successful') });
       $router.push('/my-account');
 
       toggleLoginModal();

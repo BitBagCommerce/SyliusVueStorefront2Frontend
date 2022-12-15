@@ -91,7 +91,8 @@ export default {
     UserAddress,
     ShippingAddressForm
   },
-  setup() {
+  setup(_, { root }) {
+    const t = (key) => root.$i18n.t(key);
     const { shipping, load: loadUserShipping, addAddress, deleteAddress, updateAddress, error } = useUserShipping();
     const { send } = useUiNotification();
     const addresses = computed(() => userShippingGetters.getAddresses(shipping.value));
@@ -115,11 +116,11 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Address has been removed' });
+      send({ type: 'info', message: t('Address has been removed') });
     };
 
     const saveAddress = async ({ form, onComplete, onError }) => {
-      const completeMsg = isNewAddress.value ? 'Address added' : 'Address updated';
+      const completeMsg = isNewAddress.value ? t('Address added') : t('Address updated');
       const actionMethod = isNewAddress.value ? addAddress : updateAddress;
 
       await actionMethod({ address: form });

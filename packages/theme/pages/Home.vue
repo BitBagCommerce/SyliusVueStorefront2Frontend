@@ -181,7 +181,8 @@ export default {
     LazyHydrate,
     SfLoader
   },
-  setup() {
+  setup(_, { root }) {
+    const t = (key) => root.$i18n.t(key);
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
     const { result, search, loading } = useFacet('category/t-shirts');
@@ -289,7 +290,7 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: 'Product has been added to the cart' });
+      send({ type: 'success', message: t('Product has been added to the cart') });
     };
 
     onSSR(() => search({

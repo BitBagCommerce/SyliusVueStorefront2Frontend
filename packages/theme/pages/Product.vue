@@ -188,6 +188,7 @@ export default {
   name: 'Product',
   transition: 'fade',
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const qty = ref(1);
     const { id, slug } = context.root.$route.params;
     const { isAuthenticated } = useUser();
@@ -236,7 +237,7 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: 'Product has been added to the cart' });
+      send({ type: 'success', message: t('Product has been added to the cart') });
     };
 
     const updateFilter = (item) => {

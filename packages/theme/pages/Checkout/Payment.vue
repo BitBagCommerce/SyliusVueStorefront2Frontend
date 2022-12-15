@@ -156,7 +156,7 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Your order has been placed' });
+      send({ type: 'info', message: t('Your order has been placed') });
       const { locales, locale } = context.root.$i18n;
 
       let redirected = false;

@@ -152,7 +152,7 @@ export default {
     const submitForm = (resetValidationFn) => {
       return () => {
         const onComplete = () => {
-          send({ type: 'info', message: 'Profile has been updated' });
+          send({ type: 'info', message: t('Profile has been updated') });
           form.value = resetForm();
           resetValidationFn();
         };
