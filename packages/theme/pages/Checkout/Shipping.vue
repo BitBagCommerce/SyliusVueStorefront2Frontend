@@ -236,7 +236,8 @@ export default {
     UserAddresses: () => import('@/components/Checkout/UserAddresses'),
     VsfShippingProvider: () => import('~/components/Checkout/VsfShippingProvider')
   },
-  setup () {
+  setup (_, { root }) {
+    const t = (key) => root.$i18n.t(key);
     const isFormSubmitted = ref(false);
     const sameAsBilling = ref(false);
     const countries = ref([]);
@@ -273,7 +274,7 @@ export default {
         return;
       }
 
-      send({ type: 'danger', message: 'No shipping methods are available for selected country. Please choose a different country.'});
+      send({ type: 'danger', message: t('No shipping methods are available for selected country. Please choose a different country.')});
     };
 
     const handleCheckSameAddress = async () => {

@@ -226,8 +226,12 @@ export default {
 <style lang="scss">
 @import "~@storefront-ui/shared/styles/components/atoms/SfImage.scss";
 
-.sf-image--placeholder {
+.search .sf-image--placeholder {
   width: 220px;
   height: 220px;
+}
+
+.my-cart .sf-image--placeholder {
+  height: 140px;
 }
 </style>

@@ -226,6 +226,7 @@ import CategoryPageHeader from '~/components/CategoryPageHeader';
 export default {
   transition: 'fade',
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart, error: useCartError } = useCart();
@@ -270,7 +271,7 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: 'Product has been added to the cart' });
+      send({ type: 'success', message: t('Product has been added to the cart') });
     };
 
     const removeProductFromWishlist = (productItem) => {
