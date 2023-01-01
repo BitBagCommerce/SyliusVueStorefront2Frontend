@@ -41,12 +41,10 @@ The project requires node in version of `14.x.x` and yarn in version of `1.x.x |
 You can run the Vue Storefront 2 integration by running a few steps inside root project directory:
 
 1. Install your dependencies using `yarn install` command.
-2. Change payments redirect host in `packages/theme/themeConfig.config.js` file.
-3. Change GraphQL endpoints in `packages/theme/middleware.config.js` file.
-4. Change your API url (the `middlewareUrl` property value) in `packages/theme/nuxt.config.js` file (especially, when running application over HTTPS).
-5. Build project running `yarn build` command.
-6. To run application in development mode, please run `yarn dev` command.
-7. To run application in production mode, please run `yarn start` command.
+2. Copy the `packages/theme/.env.dist` file to `packages/theme/.env` and configure your environment in the file.
+3. Build project running `yarn build` command.
+4. To run application in development mode, please run `yarn dev` command.
+5. To run application in production mode, please run `yarn start` command.
 
 #### Internationalization
 

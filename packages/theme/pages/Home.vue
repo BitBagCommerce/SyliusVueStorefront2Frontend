@@ -295,7 +295,7 @@ export default {
 
     onSSR(() => search({
       categorySlug: 'category/t-shirts',
-      channelsCode: 'FASHION_WEB',
+      channelsCode: process.env.SYLIUS_CHANNEL_CODE,
       attributes: {}
     }));
 

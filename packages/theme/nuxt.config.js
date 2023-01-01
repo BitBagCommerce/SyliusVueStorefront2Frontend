@@ -4,14 +4,12 @@ import i18n from './i18nConfig';
 
 export default {
   server: {
-    port: process.env.PORT || 3000,
+    port: process.env.PORT,
     host: '0.0.0.0'
   },
   publicRuntimeConfig: {
     theme,
-    middlewareUrl: process.env.NODE_ENV === 'production'
-      ? 'https://localhost:3000/api/' // Your production URL
-      : 'http://localhost:3000/api/'
+    middlewareUrl: process.env.MIDDLEWARE_URL
   },
   head: {
     title: 'Vue Storefront',
