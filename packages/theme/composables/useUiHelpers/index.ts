@@ -83,7 +83,7 @@ const useUiHelpers = () => {
       price: getPriceRange(query.priceRange),
       attributes: getAttributes(query.filters),
       itemsPerPage: parseInt(getQueryParameter(query.itemsPerPage)) || 10,
-      channelsCode: 'FASHION_WEB'
+      channelsCode: process.env.SYLIUS_CHANNEL_CODE
     } as any;
   };
 
