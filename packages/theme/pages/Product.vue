@@ -84,7 +84,7 @@
             v-e2e="'product_add-to-cart'"
             :stock="product.selectedVariant.onHand"
             v-model="qty"
-            :disabled="loading || product.selectedVariant.onHand === 0"
+            :disabled="loading || !product.selectedVariant.inStock"
             class="product__add-to-cart"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
