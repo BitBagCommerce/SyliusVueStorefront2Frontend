@@ -4,6 +4,7 @@
     :subtitle="$t('Fashion to take away')"
     :title="$t('Download our application to your mobile')"
     class="sf-banner--left desktop-only banner-app"
+    link="/"
   >
     <template #call-to-action>
       <div class="banner-app__call-to-action">
@@ -35,6 +36,7 @@
     </template>
   </SfBanner>
 </template>
+
 <script>
 import {
   SfBanner,
@@ -50,8 +52,8 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
 
+<style lang="scss" scoped>
 .banner-app {
   --banner-title-margin: var(--spacer-base) 0 var(--spacer-xl) 0;
   --banner-padding: 0 0 var(--spacer-2xl);
@@ -85,5 +87,4 @@ export default {
     }
   }
 }
-
 </style>
