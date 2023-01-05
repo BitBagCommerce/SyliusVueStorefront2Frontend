@@ -192,8 +192,8 @@ export default {
       }
 
       await Promise.all([
-        searchProducts({ search: term.value }),
-        searchCategories({ categoryName: term.value })
+        searchProducts({ search: term.value.trim() }),
+        searchCategories({ categoryName: term.value.trim() })
       ]);
 
       result.value = {
