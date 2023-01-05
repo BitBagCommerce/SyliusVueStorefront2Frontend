@@ -116,7 +116,7 @@ import {
 import ProductItem from '~/components/CartSidebar/ProductItem';
 import { computed } from '@nuxtjs/composition-api';
 import { useCart, useUser, cartGetters, productGetters } from '@vue-storefront/sylius';
-import { useUiState } from '~/composables';
+import { useUiNotification, useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
 
 export default {
@@ -132,17 +132,28 @@ export default {
     SfQuantitySelector,
     ProductItem
   },
-  setup() {
+  setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeItem, updateItemQty, load: loadCart, loading } = useCart();
+    const { cart, removeItem, updateItemQty, load: loadCart, loading, error } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
+    const { send } = useUiNotification();
     loadCart();
 
     const updateQuantity = debounce(async ({ product, quantity }) => {
       await updateItemQty({ product, quantity });
+
+      const cartError = Object.values(error.value).find(err => err !== null);
+
+      if (cartError) {
+        send({ type: 'danger', message: t(cartError.message) });
+      } else {
+        send({ type: 'info', message: t('Your cart has been updated') });
+      }
+
     }, 500);
 
     return {

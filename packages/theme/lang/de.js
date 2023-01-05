@@ -224,4 +224,5 @@ export default {
   'Can\'t authenticate, user not verified': 'Authentifizierung nicht möglich, Benutzer nicht verifiziert',
   'Please check your email to verify your account': 'Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen',
   'Thank you for your order!': 'Vielen Dank für Ihren Auftrag!',
+  'Cart has been updated': 'Warenkorb wurde aktualisiert'
 };
