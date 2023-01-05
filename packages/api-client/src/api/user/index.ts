@@ -2,7 +2,7 @@ import {loginMutation, refreshLoginTokenMutation, addAddressMutation, updateAddr
   updatePasswordMutation, updateProfileMutation, deleteAddressMutation,
   resetPasswordMutation, triggerResetPasswordMutation, registerMutation
 } from './mutations';
-import { getUserQuery, getUserAddressesQuery, getUserOrdersQuery } from './queries';
+import { getUserQuery, getUserAddressesQuery, getUserOrdersQuery, validateResetUserPasswordQuery } from './queries';
 import { CustomQuery } from '@vue-storefront/core';
 import { mutate, query, extendQuery } from '../helpers';
 
@@ -91,4 +91,9 @@ export const resetUserPassword = async (context, defaultVariables, customQuery?:
   const queryGql = extendQuery(context, resetPasswordMutation, defaultVariables, customQuery);
   await mutate(context, queryGql);
   return {};
+};
+
+export const validateResetUserPassword = async (context, defaultVariables) => {
+  const token = await query(context, validateResetUserPasswordQuery, defaultVariables);
+  return token?.resetPasswordToken || {};
 };
