@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: "12.x"
       - name: Build and publish docker image
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: demo-lighthouse-storefrontcloud-io/vue-storefront:${{ github.sha }}
           registry: registry.storefrontcloud.io
