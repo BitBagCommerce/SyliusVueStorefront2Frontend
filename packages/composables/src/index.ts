@@ -16,6 +16,7 @@ export { useUserBilling } from './composables/useUserBilling';
 export { useUserOrder } from './composables/useUserOrder';
 export { useUserShipping } from './composables/useUserShipping';
 export { useWishlist } from './composables/useWishlist';
+export { useWishlists } from './composables/useWishlists';
 
 // Getters
 export * from './getters';

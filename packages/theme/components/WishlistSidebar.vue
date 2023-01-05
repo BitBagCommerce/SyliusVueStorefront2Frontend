@@ -3,76 +3,116 @@
     <SfSidebar
       :visible="isWishlistSidebarOpen"
       :button="false"
-      title="My Wishlist"
+      :title="sidebarTitle"
       @close="toggleWishlistSidebar"
       class="sidebar sf-sidebar--right"
     >
+      <template #bar>
+        <div class="desktop-only">
+          &nbsp;
+        </div>
+      </template>
+
       <template #title>
-        <div class="heading__wrapper">
-          <SfHeading :level="3" title="My wishlist" class="sf-heading--left"/>
-          <SfButton class="heading__close-button sf-button--pure" aria-label="Wishlist sidebar close button" @click="toggleWishlistSidebar">
+        <div v-if="currentView === views.items" class="heading__wrapper">
+          <SfButton
+            aria-label="back"
+            class="sf-button--pure"
+            type="button"
+            @click="toggleListView"
+          >
+            <SfIcon icon="chevron_left" size="0.875rem" class="heading__wrapper--icon"/>
+          </SfButton>
+
+          <SfHeading :level="3" :title="sidebarTitle"/>
+
+          <SfButton
+            class="heading__close-button sf-button--pure"
+            aria-label="Wishlist sidebar close button"
+            @click="toggleWishlistSidebar"
+          >
+            <SfIcon
+              icon="cross"
+              size="14px"
+              color="gray-primary"
+              heading__wrapper--icon
+            />
+          </SfButton>
+        </div>
+
+        <div v-else class="heading__wrapper">
+          <div class="heading__wrapper--content">
+            <SfHeading :level="3" :title="sidebarTitle" />
+          </div>
+
+          <SfButton
+            class="heading__close-button sf-button--pure"
+            aria-label="Wishlist sidebar close button"
+            @click="toggleWishlistSidebar"
+          >
             <SfIcon icon="cross" size="14px" color="gray-primary"/>
           </SfButton>
         </div>
       </template>
-      <transition name="fade" mode="out-in">
-        <div v-if="totalItems" class="my-wishlist" key="my-wishlist">
-          <div class="my-wishlist__total-items">Total items: <strong>{{ totalItems }}</strong></div>
-          <div class="collected-product-list">
-            <transition-group name="fade" tag="div">
-              <SfCollectedProduct
-                v-for="product in products"
-                :key="wishlistGetters.getItemSku(product)"
-                image="wishlistGetters.getItemImage(product)"
-                :title="wishlistGetters.getItemName(product)"
-                :regular-price="$n(wishlistGetters.getItemPrice(product).regular, 'currency')"
-                :special-price="wishlistGetters.getItemPrice(product).special && $n(wishlistGetters.getItemPrice(product).special, 'currency')"
-                :stock="99999"
-                image-width="180"
-                image-height="200"
-                @click:remove="removeItem({ product })"
-                class="collected-product"
-              >
-               <template #configuration>
-                  <div class="collected-product__properties">
-                    <SfProperty v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
-                  </div>
-                </template>
-                <template #input="{}">&nbsp;</template>
-              </SfCollectedProduct>
-            </transition-group>
-          </div>
-          <div class="sidebar-bottom">
-          <SfProperty class="sf-property--full-width my-wishlist__total-price">
-            <template #name>
-              <span class="my-wishlist__total-price-label">Total price:</span>
-            </template>
-            <template #value>
-              <SfPrice :regular="$n(totals.subtotal, 'currency')" />
-            </template>
-          </SfProperty>
-          </div>
-        </div>
-        <div v-else class="empty-wishlist" key="empty-wishlist">
-          <div class="empty-wishlist__banner">
-            <SfImage src="/icons/empty-cart.svg" alt="Empty bag" class="empty-wishlist__icon" />
-            <SfHeading
-              title="Your bag is empty"
-              description="Looks like you haven’t added any items to the bag yet. Start
-              shopping to fill it in."
-              class="empty-wishlist__label"
-            />
-          </div>
-        </div>
+
+      <transition name="sf-fade" mode="out-in">
+        <WishlistsList
+          v-if="currentView === views.list"
+          :wishlists="wishlists"
+          @click="toggleItemsView"
+          @click:create="toggleCreateView"
+        />
+
+        <WishlistItems v-else-if="currentView === views.items" :wishlistId="currentWishlistId" />
+
+        <WishlistForm
+          v-else-if="(currentView === views.create || currentView === views.edit)"
+          :isEdit="currentView === views.edit"
+          :wishlistId="currentWishlistId"
+          @click:create="handleCreateWishlist"
+          @click:edit="handleEditWishlist"
+          @click:cancel="toggleListView"
+        />
       </transition>
+
       <template #content-bottom>
-        <SfButton @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">
-          {{ $t('Start shopping') }}
+        <SfButton
+          v-if="(currentView === views.list)"
+          aria-label="back"
+          class="add-wishlist"
+          type="button"
+          @click="toggleCreateView"
+        >
+          <SfIcon icon="plus" color="white" class="add-wishlist__icon" />
+
+          <span>Add new wishlist</span>
         </SfButton>
+
+        <div v-else-if="(currentView === views.items)" class="bottom">
+          <SfButton
+            aria-label="back"
+            class="bottom__button"
+            type="button"
+            @click="toggleEditView"
+          >
+            Change name
+          </SfButton>
+
+          <SfButton
+            aria-label="back"
+            class="color-danger bottom__button"
+            type="button"
+            @click="handleClearWishlist(currentWishlistId)"
+            :disabled="wishlistGetters.getTotalItems(currentWishlist) === 0"
+          >
+            Clear
+          </SfButton>
+        </div>
       </template>
     </SfSidebar>
   </div>
 </template>
+
 <script>
 import {
   SfSidebar,
@@ -82,11 +122,18 @@ import {
   SfProperty,
   SfPrice,
   SfCollectedProduct,
-  SfImage
+  SfImage,
+  SfList,
+  SfCircleIcon,
+  SfInput
 } from '@storefront-ui/vue';
-import { computed } from '@nuxtjs/composition-api';
-import { useWishlist, useUser, wishlistGetters } from '@vue-storefront/sylius';
+import { computed, ref, watch } from '@nuxtjs/composition-api';
+import { useWishlists, useUser, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiState } from '~/composables';
+import WishlistsList from '~/components/Wishlist/WishlistsList.vue';
+import WishlistItems from './Wishlist/WishlistItems.vue';
+import WishlistForm from './Wishlist/WishlistForm.vue';
+import { useUiNotification } from '~/composables';
 
 export default {
   name: 'Wishlist',
@@ -98,25 +145,122 @@ export default {
     SfProperty,
     SfPrice,
     SfCollectedProduct,
-    SfImage
+    SfImage,
+    SfList,
+    SfCircleIcon,
+    WishlistsList,
+    WishlistItems,
+    WishlistForm,
+    SfInput
   },
   setup() {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
-    const { wishlist, removeItem } = useWishlist();
+    const { wishlists, createWishlist, clearWishlist, editWishlist, error } = useWishlists();
     const { isAuthenticated } = useUser();
-    const products = computed(() => wishlistGetters.getItems(wishlist.value));
-    const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
-    const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
+    const { send } = useUiNotification();
+
+    const views = {
+      list: 'list',
+      items: 'items',
+      create: 'create',
+      edit: 'edit'
+    };
+    const isEditOpen = ref(false);
+    const currentView = ref(views.list);
+    const currentWishlistId = ref('');
+
+    const currentWishlist = computed(() => wishlistGetters.getWishlist(currentWishlistId.value, wishlists.value) || {});
+    const sidebarTitle = computed(() => {
+      switch (currentView.value) {
+        case views.list:
+          return 'Select wishlist';
+        case views.items:
+          return currentWishlist.value.name || 'unknown';
+        case views.create:
+          return 'Add new wishlist';
+        case views.edit:
+          return 'Change wishlist name';
+      }
+    });
+
+    const toggleListView = () => {
+      currentWishlistId.value = '';
+      currentView.value = views.list;
+    };
+
+    const toggleItemsView = (wishlistId) => {
+      currentWishlistId.value = wishlistId;
+      currentView.value = views.items;
+    };
+
+    const toggleCreateView = () => {
+      currentWishlistId.value = '';
+      currentView.value = views.create;
+    };
+
+    const toggleEditView = () => {
+      currentView.value = views.edit;
+    };
+
+    const handleCreateWishlist = async (wishlistName) => {
+      await createWishlist(wishlistName);
+
+      if (error.value.createWishlist) {
+        send({ type: 'danger', message: error.value.createWishlist.message });
+
+        return;
+      }
+
+      send({ type: 'info', message: 'Wishlist was created successfully' });
+      toggleListView();
+    };
+
+    const handleEditWishlist = async (wishlistId, wishlistName) => {
+      await editWishlist(wishlistId, wishlistName);
+
+      if (error.value.editWishlist) {
+        send({ type: 'danger', message: error.value.editWishlist.message });
+
+        return;
+      }
+
+      send({ type: 'info', message: 'Wishlist was edited successfully' });
+      toggleItemsView(wishlistId);
+    };
+
+    const handleClearWishlist = async (wishlistId) => {
+      await clearWishlist(wishlistId);
+
+      if (error.value.clearWishlist) {
+        send({ type: 'danger', message: error.value.clearWishlist.message });
+
+        return;
+      }
+
+      send({ type: 'info', message: 'Wishlist cleared successfully' });
+    };
+
+    watch(() => isWishlistSidebarOpen.value, () => toggleListView());
 
     return {
       isAuthenticated,
-      products,
-      removeItem,
+      wishlists,
       isWishlistSidebarOpen,
       toggleWishlistSidebar,
-      totals,
-      totalItems,
-      wishlistGetters
+      wishlistGetters,
+      views,
+      currentView,
+      currentWishlistId,
+      currentWishlist,
+      sidebarTitle,
+      toggleListView,
+      toggleItemsView,
+      toggleCreateView,
+      toggleEditView,
+      handleCreateWishlist,
+      handleEditWishlist,
+      handleClearWishlist,
+      isEditOpen
     };
   }
 };
@@ -126,65 +270,22 @@ export default {
 .sidebar {
   --sidebar-z-index: 3;
   --overlay-z-index: 3;
-  --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0 var(--spacer-base);
+  --sidebar-top-padding: var(--spacer-sm) var(--spacer-base) 0 var(--spacer-base);
+  --sidebar-bottom-padding: var(--spacer-base);
   --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);
 }
 
-.my-wishlist {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  &__total-items {
-    font: var(--font-weight--normal) var(--font-size--lg) / 1.6 var(--font-family--secondary);
-    color: var(--c-link);
-    margin: 0;
-  }
-  &__total-price {
-    --property-name-font-size: var(--font-size--xl);
-    --price-font-size: var(--font-size--xl);
-    margin: 0 0 var(--spacer-xl) 0;
-    &-label {
-      font: var(--font-weight--normal) var(--font-size--2xl) / 1.6 var(--font-family--secondary);
-      color: var(--c-link);
-    }
-  }
-}
-.empty-wishlist {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  &__banner {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  &__label,
-  &__description {
-    text-align: center;
-  }
-  &__label {
-    --heading-description-margin: 0 0 var(--spacer-xl) 0;
-    --heading-title-margin: 0 0 var(--spacer-xl) 0;
-    --heading-title-color: var(--c-primary);
-    --heading-title-font-weight: var(--font-weight--semibold);
-      @include for-desktop {
-      --heading-title-font-size: var(--font-size--xl);
-      --heading-title-margin: 0 0 var(--spacer-sm) 0;
-  }
-  }
-  &__icon {
-    --image-width: 16rem;
-    margin: 0 0 var(--spacer-2xl) 7.5rem;
-  }
-}
 .heading {
   &__wrapper {
     --heading-title-color: var(--c-link);
     --heading-title-font-weight: var(--font-weight--semibold);
     display: flex;
     justify-content: space-between;
+
+    &--content {
+      display: flex;
+      gap: var(--spacer-xs);
+    }
   }
 }
 
@@ -199,4 +300,21 @@ export default {
   }
 }
 
+.add-wishlist {
+  --button-padding: var(--spacer-sm) 0;
+
+  width: 100%;
+  gap: var(--spacer-sm);
+}
+
+.bottom {
+  display: flex;
+  gap: var(--spacer-sm);
+
+  &__button {
+    --button-padding: var(--spacer-sm) 0;
+
+    width: 100%;
+  }
+}
 </style>

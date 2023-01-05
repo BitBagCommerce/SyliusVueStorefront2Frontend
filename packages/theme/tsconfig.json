@@ -34,5 +34,8 @@
     "_theme",
     ".nuxt",
     "dist"
-  ]
+  ],
+  "vueCompilerOptions": {
+    "target": 2
+  }
 }
