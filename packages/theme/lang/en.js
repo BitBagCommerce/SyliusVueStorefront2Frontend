@@ -224,5 +224,7 @@ export default {
   'Can\'t authenticate, user not verified': 'Can\'t authenticate, user not verified',
   'Please check your email to verify your account': 'Please check your email to verify your account',
   'Thank you for your order!': 'Thank you for your order!',
-  'Cart has been updated': 'Cart has been updated'
+  'Cart has been updated': 'Cart has been updated',
+  'Select size': 'Select size',
+  'Add to cart': 'Add to cart'
 };

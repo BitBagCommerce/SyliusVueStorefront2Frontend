@@ -14,6 +14,7 @@
       <WishlistSidebar />
       <LoginModal />
       <Notification />
+      <VariantSelector />
     </div>
     <LazyHydrate when-visible>
       <AppFooter />
@@ -34,6 +35,7 @@ import Notification from '~/components/Notification';
 import { onSSR } from '@vue-storefront/core';
 import { useRoute } from '@nuxtjs/composition-api';
 import { useCart, useStore, useUser, useWishlist } from '@vue-storefront/sylius';
+import VariantSelector from '~/components/VariantSelector.vue';
 
 export default {
   name: 'DefaultLayout',
@@ -47,7 +49,8 @@ export default {
     CartSidebar,
     WishlistSidebar,
     LoginModal,
-    Notification
+    Notification,
+    VariantSelector
   },
 
   middleware: [
