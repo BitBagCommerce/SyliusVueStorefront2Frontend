@@ -84,7 +84,7 @@
             tag="div"
             class="products__grid"
           >
-            <SfProductCard
+          <SfProductCard
               v-e2e="'category-product-card'"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
@@ -104,7 +104,7 @@
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="products__product-card"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
+              @click:add-to-cart="open(product)"
             />
           </transition-group>
           <transition-group
@@ -135,7 +135,6 @@
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               @input="productsQuantity[product._id] = $event"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
             >
               <template #configuration>
                 <SfProperty
@@ -153,6 +152,14 @@
                 </SfProperty>
               </template>
               <template #wishlist-icon />
+              <template #add-to-cart>
+                <SfButton
+                  @click="open(product)"
+                  class="products__product-card-horizontal--button"
+                >
+                  {{ $t('Add to cart') }}
+                </SfButton>
+              </template>
             </SfProductCardHorizontal>
           </transition-group>
 
@@ -221,6 +228,7 @@ import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
+import useVariantSelector from '~/composables/useVariantSelector';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -233,6 +241,7 @@ export default {
     const { result, search, loading, error } = useFacet();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist, wishlist } = useWishlist();
     const { send } = useUiNotification();
+    const { open } = useVariantSelector();
 
     const products = computed(() => facetGetters.getProducts(result.value));
     const productsQuantity = ref({});
@@ -300,7 +309,8 @@ export default {
       removeProductFromWishlist,
       isInWishlist,
       isInCart,
-      productsQuantity
+      productsQuantity,
+      open
     };
   },
   components: {
@@ -439,6 +449,10 @@ export default {
     @include for-mobile {
       --product-card-horizontal-review-margin: 0;
       --product-card-horizontal-actions-wrapper-margin: var(--spacer-xs) 0 0 0;
+
+      .products__product-card-horizontal--button {
+        --button-width: 100%;
+      }
 
       ::v-deep {
         .sf-image {
