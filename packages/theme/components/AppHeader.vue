@@ -38,6 +38,7 @@
           <SfButton
             class="sf-button--pure sf-header__action"
             @click="toggleWishlistSidebar"
+            v-if="isAuthenticated"
           >
             <SfIcon
               class="sf-header__icon"
@@ -240,7 +241,8 @@ export default {
       removeSearchResults,
       isLangModalOpen,
       setIsLangModalOpen,
-      loader
+      loader,
+      isAuthenticated
     };
   }
 };

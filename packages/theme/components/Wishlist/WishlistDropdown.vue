@@ -1,5 +1,6 @@
 <template>
   <SfDropdown
+    v-if="isAuthenticated"
     :isOpen="isOpen"
     :class="`dropdown ${circleIcon ? '' : 'no-icon'}`"
   >
@@ -69,7 +70,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, watch } from '@nuxtjs/composition-api';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
-import { useWishlists } from '@vue-storefront/sylius';
+import { useWishlists, useUser } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables';
 
 export default {
@@ -97,6 +98,7 @@ export default {
   },
   setup(props) {
     const { isInWishlist, addItem, removeItem, error } = useWishlists();
+    const { isAuthenticated } = useUser();
     const { send } = useUiNotification();
     const isOpen = ref(false);
 
@@ -135,7 +137,8 @@ export default {
       isOpen,
       isInWishlist,
       handleAddToWishlist,
-      handleRemoveFromWishlist
+      handleRemoveFromWishlist,
+      isAuthenticated
     };
   }
 };
