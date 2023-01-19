@@ -109,6 +109,7 @@
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
+            :placeholder="$t('Select country')"
           >
             <SfSelectOption
               v-for="countryOption in countries"
@@ -248,7 +249,7 @@ export default {
       street: '',
       city: '',
       state: '',
-      countryCode: '',
+      countryCode: null,
       postcode: '',
       email: null,
       phoneNumber: null
