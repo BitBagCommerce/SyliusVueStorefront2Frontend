@@ -17,45 +17,66 @@ export const useWishlists = () => {
     removeWishlist: null
   }, 'useWishlists-error');
 
-  const update = async (response: Promise<any>, name: string) => {
+  const handleError = (args: any, name: string) => {
+    error.value[name] = args;
+    Logger.error(`useWishlists/${name}`, args);
+    wishlists.value = [];
+  };
+
+  const update = async (fn: () => Promise<any>, name: string) => {
     try {
       loading.value = true;
-      wishlists.value = await response;
+
+      const response = await context.$sylius.api.getWishlists();
+
+      if (response?.graphQLErrors) {
+        handleError(response, name);
+
+        return;
+      }
+
+      wishlists.value = response;
       error.value[name] = null;
-    } catch (err) {
-      error.value[name] = err;
-      Logger.error(`useWishlists/${name}`, err);
+    } catch (e) {
+      handleError(e, name);
     } finally {
       loading.value = false;
     }
   };
 
   const load = async () => {
-    await update(context.$sylius.api.getWishlists(), 'load');
+    await update(async () => {
+      const result = await context.$sylius.api.getWishlists();
+
+      if (Array.isArray(result) && !result.length)
+        return await context.$sylius.api.createWishlist('Wishlist');
+
+      return result;
+    }, 'load');
   };
 
   const addItem = async (itemId: string, wishlistId: string) => {
-    await update(context.$sylius.api.addItem(itemId, wishlistId), 'addItem');
+    await update(async () => await context.$sylius.api.addItem(itemId, wishlistId), 'addItem');
   };
 
   const removeItem = async (itemId: string, wishlistId: string) => {
-    await update(context.$sylius.api.removeItem(itemId, wishlistId), 'removeItem');
+    await update(async () => await context.$sylius.api.removeItem(itemId, wishlistId), 'removeItem');
   };
 
   const clearWishlist = async (wishlistId: string) => {
-    await update(context.$sylius.api.clearWishlist(wishlistId), 'clearWishlist');
+    await update(async () => await context.$sylius.api.clearWishlist(wishlistId), 'clearWishlist');
   };
 
   const createWishlist = async (wishlistName: string) => {
-    await update(context.$sylius.api.createWishlist(wishlistName), 'createWishlist');
+    await update(async () => await context.$sylius.api.createWishlist(wishlistName), 'createWishlist');
   };
 
   const editWishlist = async (wishlistId: string, wishlistName: string) => {
-    await update(context.$sylius.api.editWishlist(wishlistId, wishlistName), 'editWishlist');
+    await update(async () => await context.$sylius.api.editWishlist(wishlistId, wishlistName), 'editWishlist');
   };
 
   const removeWishlist = async (wishlistId: string) => {
-    await update(context.$sylius.api.removeWishlist(wishlistId), 'removeWishlist');
+    await update(async () => await context.$sylius.api.removeWishlist(wishlistId), 'removeWishlist');
   };
 
   const isInWishlist = (product: Product, wishlist: Wishlist) => {
