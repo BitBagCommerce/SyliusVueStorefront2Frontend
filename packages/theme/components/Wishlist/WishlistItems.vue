@@ -1,10 +1,17 @@
 <template>
   <div v-if="totalItems" class="my-wishlist" key="my-wishlist">
-    <div class="my-wishlist__total-items">Total items: <strong>{{ totalItems }}</strong></div>
+    <div class="my-wishlist__total-items">
+      <SfCheckbox
+        @change="toggleAll"
+        :selected="isEverythingSelected()"
+      />
+
+      <span>Total items: <strong>{{ totalItems }}</strong></span>
+    </div>
     <div class="collected-product-list">
       <transition-group name="fade" tag="div">
         <SfCollectedProduct
-          v-for="(product, i) in products"
+          v-for="(product, i) in renderedProducts"
           :key="wishlistGetters.getItemSku(product) + i"
           :image="wishlistGetters.getItemImage(product)"
           :title="wishlistGetters.getItemName(product)"
@@ -18,11 +25,28 @@
         >
           <template #configuration>
             <div class="collected-product__properties">
-              <SfProperty v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
+              <SfProperty
+                v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])"
+                :key="key" :name="key"
+                :value="attribute"
+              />
             </div>
           </template>
 
-          <template #input="{}">&nbsp;</template>
+          <template #input>
+            <div class="collected-product__input">
+              <SfCheckbox
+                @change="toggleSelection(product)"
+                :selected="product.selected"
+                class="collected-product__input--checkbox"
+              />
+
+              <SfQuantitySelector
+                v-model="product.selectedVariant.quantity"
+                class="collected-product__input--quantity"
+              />
+            </div>
+          </template>
 
           <template #actions>&nbsp;</template>
         </SfCollectedProduct>
@@ -46,6 +70,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import {
   SfButton,
   SfIcon,
@@ -54,9 +79,11 @@ import {
   SfCollectedProduct,
   SfImage,
   SfList,
-  SfHeading
+  SfHeading,
+  SfCheckbox,
+  SfQuantitySelector
 } from '@storefront-ui/vue';
-import { computed } from '@nuxtjs/composition-api';
+import { computed, ref } from '@nuxtjs/composition-api';
 import { useWishlists, wishlistGetters } from '@vue-storefront/sylius';
 
 export default {
@@ -69,22 +96,61 @@ export default {
     SfCollectedProduct,
     SfImage,
     SfList,
-    SfHeading
+    SfHeading,
+    SfCheckbox,
+    SfQuantitySelector
   },
   props: ['wishlistId'],
-  setup(props) {
+  setup(props, { emit }) {
     const { wishlists, removeItem } = useWishlists();
     const wishlist = computed(() => wishlists.value.length ? wishlistGetters.getWishlist(props.wishlistId, wishlists.value) : {});
     const products = computed(() => wishlistGetters.getItems(wishlist.value) || []);
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value) || 0);
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value) || 0);
+    const renderedProducts = ref(products.value?.map(prod => ({ ...prod, selected: false })));
+
+    const getSelected = () => renderedProducts.value
+      .filter(prod => prod.selected === true)
+      .map(prod => {
+        prod.selectedVariant.quantity = prod.selectedVariant.quantity || 1;
+
+        return prod;
+      });
+
+    const toggleSelection = (product) => {
+      const index = renderedProducts.value.findIndex(prod => prod._id === product._id);
+
+      renderedProducts.value[index].selected = !renderedProducts.value[index].selected;
+      emit('change', getSelected());
+    };
+
+    const isEverythingSelected = () => getSelected().length === renderedProducts.value.length;
+
+    const toggleAll = () => {
+      if (isEverythingSelected()) {
+        renderedProducts.value.map(prod => prod.selected = false);
+        emit('change', getSelected());
+
+        return;
+      }
+
+      renderedProducts.value.map(prod => prod.selected = true);
+      emit('change', getSelected());
+    };
+
+    const initQuantities = () => renderedProducts.value.forEach((_, i) => Vue.set(renderedProducts.value[i].selectedVariant, 'quantity', 1));
+    initQuantities();
 
     return {
       removeItem,
       products,
       totals,
       totalItems,
-      wishlistGetters
+      wishlistGetters,
+      renderedProducts,
+      toggleSelection,
+      toggleAll,
+      isEverythingSelected
     };
   }
 };
@@ -97,6 +163,9 @@ export default {
   flex-direction: column;
 
   &__total-items {
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-xs);
     font: var(--font-weight--normal) var(--font-size--lg) / 1.6 var(--font-family--secondary);
     color: var(--c-link);
     margin: 0;
@@ -124,6 +193,36 @@ export default {
 
       img {
         width: 100%;
+      }
+    }
+  }
+
+  .collected-product {
+    --borer-spacer: var(--spacer-xs);
+
+    &__input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+
+      &--checkbox {
+        position: absolute;
+        top: var(--borer-spacer);
+        left: var(--borer-spacer);
+        background-color: var(--c-light);
+
+        ::v-deep .sf-checkbox__message {
+          display: none;
+        }
+      }
+
+      &--quantity {
+        position: absolute;
+        bottom: var(--borer-spacer);
+        left: 50%;
+        transform: translateX(-50%);
       }
     }
   }

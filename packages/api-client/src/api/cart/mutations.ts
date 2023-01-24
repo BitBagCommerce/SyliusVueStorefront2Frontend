@@ -34,6 +34,22 @@ export const addToCartMutation = gql`
   }
 `;
 
+export const addManyToCartMutation = gql`
+  mutation addManyToCart(
+    $token: String!,
+    $variants: cartInput!,
+  ) {
+    shop_add_itemsOrder(input: {
+      orderTokenValue: $token
+      productVariants: $variants
+    }) {
+      order {
+        ${cartFragment}
+      }
+    }
+  }
+`;
+
 export const removeFromCartMutation = gql`
   mutation removeFromCart(
     $cartId: String!,

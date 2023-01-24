@@ -21,10 +21,20 @@
             type="button"
             @click="toggleListView"
           >
-            <SfIcon icon="chevron_left" size="0.875rem" class="heading__wrapper--icon"/>
+            <SfIcon
+              icon="chevron_left"
+              size="0.875rem"
+              class="heading__wrapper--icon"
+            />
           </SfButton>
 
-          <SfHeading :level="3" :title="sidebarTitle"/>
+          <div class="heading__wrapper--center">
+            <SfHeading :level="3" :title="sidebarTitle"/>
+
+            <SfButton @click="toggleEditView" class="sf-button--pure">
+              <SfIcon icon="more" size="0.875rem" />
+            </SfButton>
+          </div>
 
           <SfButton
             class="heading__close-button sf-button--pure"
@@ -35,7 +45,7 @@
               icon="cross"
               size="14px"
               color="gray-primary"
-              heading__wrapper--icon
+              class="heading__wrapper--icon"
             />
           </SfButton>
         </div>
@@ -63,7 +73,11 @@
           @click:create="toggleCreateView"
         />
 
-        <WishlistItems v-else-if="currentView === views.items" :wishlistId="currentWishlistId" />
+        <WishlistItems
+          v-else-if="currentView === views.items"
+          :wishlistId="currentWishlistId"
+          @change="selectedProducts = $event"
+        />
 
         <WishlistForm
           v-else-if="(currentView === views.create || currentView === views.edit)"
@@ -93,9 +107,10 @@
             aria-label="back"
             class="bottom__button"
             type="button"
-            @click="toggleEditView"
+            @click="handleAddToCart"
+            :disabled="!selectedProducts.length"
           >
-            Change name
+            Add to cart
           </SfButton>
 
           <SfButton
@@ -127,8 +142,8 @@ import {
   SfCircleIcon,
   SfInput
 } from '@storefront-ui/vue';
-import { computed, ref, watch } from '@nuxtjs/composition-api';
-import { useWishlists, useUser, wishlistGetters } from '@vue-storefront/sylius';
+import { computed, onUpdated, ref, watch } from '@nuxtjs/composition-api';
+import { useWishlists, useUser, useCart, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiState } from '~/composables';
 import WishlistsList from '~/components/Wishlist/WishlistsList.vue';
 import WishlistItems from './Wishlist/WishlistItems.vue';
@@ -157,6 +172,7 @@ export default {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
     const { wishlists, createWishlist, clearWishlist, editWishlist, error } = useWishlists();
     const { isAuthenticated } = useUser();
+    const { addItem, error: useCartError } = useCart();
     const { send } = useUiNotification();
 
     const views = {
@@ -165,9 +181,11 @@ export default {
       create: 'create',
       edit: 'edit'
     };
+
     const isEditOpen = ref(false);
     const currentView = ref(views.list);
     const currentWishlistId = ref('');
+    const selectedProducts = ref([]);
 
     const currentWishlist = computed(() => wishlistGetters.getWishlist(currentWishlistId.value, wishlists.value) || {});
     const sidebarTitle = computed(() => {
@@ -240,7 +258,23 @@ export default {
       send({ type: 'info', message: 'Wishlist cleared successfully' });
     };
 
+    const handleAddToCart = async () => {
+      await addItem({ product: selectedProducts.value, quantity: 1 });
+
+      const cartError = Object.values(useCartError.value).find(err => err !== null);
+
+      if (cartError) {
+        send({ type: 'danger', message: cartError.message });
+
+        return;
+      }
+
+      send({ type: 'success', message: 'Product has been added to the cart' });
+    };
+
     watch(() => isWishlistSidebarOpen.value, () => toggleListView());
+
+    watch(() => currentWishlistId.value, () => selectedProducts.value = []);
 
     return {
       isAuthenticated,
@@ -251,6 +285,7 @@ export default {
       views,
       currentView,
       currentWishlistId,
+      selectedProducts,
       currentWishlist,
       sidebarTitle,
       toggleListView,
@@ -260,7 +295,8 @@ export default {
       handleCreateWishlist,
       handleEditWishlist,
       handleClearWishlist,
-      isEditOpen
+      isEditOpen,
+      handleAddToCart
     };
   }
 };
@@ -281,6 +317,12 @@ export default {
     --heading-title-font-weight: var(--font-weight--semibold);
     display: flex;
     justify-content: space-between;
+
+    &--center {
+      display: flex;
+      align-items: center;
+      gap: var(--spacer-xs);
+    }
 
     &--content {
       display: flex;

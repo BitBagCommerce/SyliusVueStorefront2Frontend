@@ -8,6 +8,7 @@ export {
 export {
   createCart,
   addToCart,
+  addManyToCart,
   addCouponToCart,
   removeFromCart,
   removeCouponFromCart,
