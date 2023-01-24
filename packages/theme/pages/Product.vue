@@ -177,7 +177,7 @@ import {
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
-import { ref, computed } from '@nuxtjs/composition-api';
+import { ref, computed, onUpdated } from '@nuxtjs/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser } from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
@@ -206,7 +206,7 @@ export default {
 
     const options = computed(() => productGetters.getAttributes(products.value?.products, ['color', 'size'])) || [];
 
-    const configuration = computed(() => productGetters.getAttributes(product?.value, ['color', 'size'])) || [];
+    const configuration = computed(() => product?.value ? productGetters.getAttributes(product?.value, ['color', 'size']) : []);
     const categories = computed(() => productGetters.getCategoryIds(product?.value)) || [];
 
     const reviews = computed(() => {
@@ -241,9 +241,32 @@ export default {
     };
 
     const updateFilter = (item) => {
+      if (Array.isArray(item)) {
+        const filterObj = item.reduce((prev, curr) => {
+          const record = {};
+          record[curr.filter] = curr.value;
+
+          return {
+            ...prev,
+            ...record
+          };
+        }, {});
+
+        context.root.$router.replace({
+          path: context.root.$route.path,
+          query: {
+            ...configuration.value,
+            ...filterObj
+          }
+        });
+
+        return;
+      }
+
       const filterObj = {};
       filterObj[item.filter] = item.value;
-      context.root.$router.push({
+
+      context.root.$router.replace({
         path: context.root.$route.path,
         query: {
           ...configuration.value,
@@ -266,6 +289,19 @@ export default {
         value: item.stringValue,
         name: item.name
       })) || [];
+    });
+
+    onUpdated(() => {
+      if (
+        !Object.keys(context.root.$route.query).length &&
+        Object.keys(options.value).length
+      ) {
+        const filter = Object
+          .keys(options.value)
+          .map(key => ({ value: options.value[key].value[0].value, filter: key }));
+
+        updateFilter(filter);
+      }
     });
 
     return {
