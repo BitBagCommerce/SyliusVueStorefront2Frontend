@@ -112,7 +112,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { ref, computed } from '@nuxtjs/composition-api';
+import { ref, computed, watch, useRouter, onMounted } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 
@@ -138,7 +138,11 @@ export default {
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
     const t = (key) => context.root.$i18n.t(key);
+    const router = useRouter();
 
+    const products = computed(() => cartGetters.getItems(cart.value));
+
+    const isRedirecting = ref(false);
     const isPaymentReady = ref(false);
 
     onSSR(async () => {
@@ -160,6 +164,8 @@ export default {
       const { locales, locale } = context.root.$i18n;
 
       let redirected = false;
+      isRedirecting.value = true;
+
       for (const localeIndex in locales) {
         if (locales[localeIndex].code === locale) {
           redirected = true;
@@ -175,10 +181,20 @@ export default {
       }
     };
 
+    const redirectToHome = () => {
+      if (!products.value.length && !isRedirecting.value) {
+        router.push({ path: router.app.localePath('/') });
+      }
+    };
+
+    watch(() => products.value, redirectToHome);
+
+    onMounted(redirectToHome);
+
     return {
       isPaymentReady,
       loading,
-      products: computed(() => cartGetters.getItems(cart.value)),
+      products,
       totals: computed(() => cartGetters.getTotals(cart.value)),
       tableHeaders: [
         t('Description'),
