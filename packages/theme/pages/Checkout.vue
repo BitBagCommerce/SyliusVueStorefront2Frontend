@@ -60,7 +60,7 @@ export default {
 
     const handleStepClick = (stepIndex) => {
       const key = Object.keys(STEPS)[stepIndex];
-      context.root.$router.push(`/checkout/${key}`);
+      router.push(router.app.localePath(`/checkout/${key}`));
     };
 
     const redirectToHome = () => {
