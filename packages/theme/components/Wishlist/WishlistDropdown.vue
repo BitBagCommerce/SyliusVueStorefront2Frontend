@@ -30,7 +30,7 @@
         <SfButton
           v-if="isInWishlist(product, wishlist)"
           class="sf-button--pure dropdown__list--item danger"
-          @click="handleRemoveFromWishlist(product.id, wishlist.id)"
+          @click="handleRemoveFromWishlist(product.selectedVariant.id, wishlist.id)"
         >
           <span>
             {{wishlist.name}}
@@ -42,7 +42,7 @@
         <SfButton
           v-else
           class="sf-button--pure dropdown__list--item"
-          @click="handleAddToWishlist(product.id, wishlist.id)"
+          @click="handleAddToWishlist(product.selectedVariant.id, wishlist.id)"
         >
           <span>
             {{wishlist.name}}

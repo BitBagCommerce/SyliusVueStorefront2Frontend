@@ -11,8 +11,8 @@
     <div class="collected-product-list">
       <transition-group name="fade" tag="div">
         <SfCollectedProduct
-          v-for="(product, i) in renderedProducts"
-          :key="wishlistGetters.getItemSku(product) + i"
+          v-for="product in renderedProducts"
+          :key="wishlistGetters.getItemSku(product)"
           :image="wishlistGetters.getItemImage(product)"
           :title="wishlistGetters.getItemName(product)"
           :regular-price="$n(wishlistGetters.getItemPrice(product).regular, 'currency')"
@@ -20,7 +20,7 @@
           :stock="99999"
           image-width="180"
           image-height="200"
-          @click:remove="removeItem({ product })"
+          @click:remove="removeItem(product.id, wishlistId)"
           class="collected-product"
         >
           <template #configuration>
@@ -83,7 +83,7 @@ import {
   SfCheckbox,
   SfQuantitySelector
 } from '@storefront-ui/vue';
-import { computed, ref } from '@nuxtjs/composition-api';
+import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useWishlists, wishlistGetters } from '@vue-storefront/sylius';
 
 export default {
@@ -103,7 +103,7 @@ export default {
   props: ['wishlistId'],
   setup(props, { emit }) {
     const { wishlists, removeItem } = useWishlists();
-    const wishlist = computed(() => wishlists.value.length ? wishlistGetters.getWishlist(props.wishlistId, wishlists.value) : {});
+    const wishlist = computed(() => wishlistGetters.getWishlist(props.wishlistId, wishlists.value));
     const products = computed(() => wishlistGetters.getItems(wishlist.value) || []);
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value) || 0);
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value) || 0);
@@ -118,7 +118,7 @@ export default {
       });
 
     const toggleSelection = (product) => {
-      const index = renderedProducts.value.findIndex(prod => prod._id === product._id);
+      const index = renderedProducts.value.findIndex(prod => prod.id === product.id);
 
       renderedProducts.value[index].selected = !renderedProducts.value[index].selected;
       emit('change', getSelected());
@@ -140,6 +140,11 @@ export default {
 
     const initQuantities = () => renderedProducts.value.forEach((_, i) => Vue.set(renderedProducts.value[i].selectedVariant, 'quantity', 1));
     initQuantities();
+
+    watch(() => products.value, () => {
+      renderedProducts.value = products.value?.map(prod => ({ ...prod, selected: false }));
+      initQuantities();
+    });
 
     return {
       removeItem,

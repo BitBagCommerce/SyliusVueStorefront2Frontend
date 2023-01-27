@@ -4,13 +4,13 @@ import { wishlistFragment } from '../fragments/wishlist';
 export const addItemToWishlistMutation = gql`
   mutation addItemToWishlist(
     $id: String!,
-    $variantId: String!
+    $productVariant: String!
   ) {
-    shop_add_itemToWishlist(input: {
+    add_itemWishlist(input: {
       id: $id,
-      productVariant: $variantId
+      productVariant: $productVariant
     }) {
-      wishlists {
+      wishlist {
         ${wishlistFragment}
       }
     }
@@ -20,13 +20,13 @@ export const addItemToWishlistMutation = gql`
 export const removeItemFromWishlistMutation = gql`
   mutation removeItemFromWishlist(
     $id: String!,
-    $variantId: String!
+    $productVariant: String!
   ) {
-    shop_remove_itemFromWishlist(input: {
+    remove_itemWishlist(input: {
       id: $id,
-      productVariant: $variantId
+      productVariant: $productVariant
     }) {
-      wishlists {
+      wishlist {
         ${wishlistFragment}
       }
     }
@@ -35,12 +35,12 @@ export const removeItemFromWishlistMutation = gql`
 
 export const clearWishlistMutation = gql`
   mutation clearWishlist(
-    $id: String!
+    $id: ID!
   ) {
-    shop_clear_wishlist(input: {
-      id: $id,
+    clearWishlist(input: {
+      id: $id
     }) {
-      wishlists {
+      wishlist {
         ${wishlistFragment}
       }
     }
@@ -50,11 +50,13 @@ export const clearWishlistMutation = gql`
 export const createWishlistMutation = gql`
   mutation createWishlist(
     $name: String!
+    $channelCode: String!
   ) {
-    shop_create_wishlist(input: {
-      name: $name
+    createWishlist(input: {
+      name: $name,
+      channelCode: $channelCode
     }) {
-      wishlists {
+      wishlist {
         ${wishlistFragment}
       }
     }
@@ -63,14 +65,14 @@ export const createWishlistMutation = gql`
 
 export const editWishlistMutation = gql`
   mutation editWishlist(
-    $id: id!,
+    $id: ID!,
     $name: String!
   ) {
-    shop_edit_wishlist(input: {
+    updateWishlist(input: {
       id: $id,
       name: $name
     }) {
-      wishlists {
+      wishlist {
         ${wishlistFragment}
       }
     }
@@ -79,13 +81,13 @@ export const editWishlistMutation = gql`
 
 export const removeWishlistMutation = gql`
   mutation removeWishlist(
-    $id: id!
+    $id: ID!
   ) {
-    shop_remove_wishlist(input: {
+    deleteWishlist(input: {
       id: $id
     }) {
-      wishlists {
-        ${wishlistFragment}
+      wishlist {
+        id
       }
     }
   }

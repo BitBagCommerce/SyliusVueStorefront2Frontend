@@ -142,7 +142,7 @@ import {
   SfCircleIcon,
   SfInput
 } from '@storefront-ui/vue';
-import { computed, onUpdated, ref, watch } from '@nuxtjs/composition-api';
+import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useWishlists, useUser, useCart, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiState } from '~/composables';
 import WishlistsList from '~/components/Wishlist/WishlistsList.vue';

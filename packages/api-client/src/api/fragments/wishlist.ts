@@ -1,48 +1,49 @@
 export const wishlistFragment = `
-  collection {
-    id
-    name
-    itemCount
-    items {
-      totalCount
-      edges {
-        node {
-          _id
-          variant {
-            code
-            optionValues {
-              edges {
-                node {
-                  option {
-                    id
-                  }
-                  code
-                  value
+  id
+  name
+  wishlistProducts {
+    totalCount
+    edges {
+      node {
+        id
+        variant {
+          id
+          code
+          channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+            collection {
+              id
+              price
+              originalPrice
+            }
+          }
+          optionValues {
+            edges {
+              node {
+                option {
+                  id
                 }
+                code
+                value
               }
             }
-            product {
-              images {
-                collection {
-                  path
-                }
+          }
+          product {
+            name
+            images {
+              collection {
+                path
               }
-              options {
-                edges {
-                  node {
-                    id
-                    name
-                    code
-                  }
+            }
+            options {
+              edges {
+                node {
+                  id
+                  name
+                  code
                 }
               }
             }
           }
-          unitPrice
-          total
-          productName
-          variantName
-          quantity
         }
       }
     }

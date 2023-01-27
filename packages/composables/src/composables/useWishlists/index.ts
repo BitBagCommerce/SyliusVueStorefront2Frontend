@@ -26,6 +26,7 @@ export const useWishlists = () => {
   const update = async (fn: () => Promise<any>, name: string) => {
     try {
       loading.value = true;
+      await fn();
 
       const response = await context.$sylius.api.getWishlists();
 
@@ -49,9 +50,7 @@ export const useWishlists = () => {
       const result = await context.$sylius.api.getWishlists();
 
       if (Array.isArray(result) && !result.length)
-        return await context.$sylius.api.createWishlist('Wishlist');
-
-      return result;
+        await context.$sylius.api.createWishlist('Wishlist');
     }, 'load');
   };
 

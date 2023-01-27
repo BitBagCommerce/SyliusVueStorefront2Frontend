@@ -76,7 +76,7 @@ export default {
         return;
       }
 
-      emit('click:create', wishlistName);
+      emit('click:create', wishlistName.value);
       resetFn();
     };
 

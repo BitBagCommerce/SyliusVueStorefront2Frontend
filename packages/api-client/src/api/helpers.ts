@@ -27,11 +27,16 @@ export const transformItems = (context, items) => {
   const { imagePaths: { thumbnail } } = context.config;
   return items.edges.map(edge => {
     const orderItem = edge.node;
+
     orderItem.variant.optionValues = orderItem.variant.optionValues.edges.map(edge => edge.node);
     orderItem.variant.product.options = orderItem.variant.product.options.edges.map(edge => edge.node);
     orderItem.variant.product.images = orderItem.variant.product.images.collection.map(
       image => `${thumbnail}/${image.path}`
     );
+
+    if (orderItem.variant?.channelPricings)
+      orderItem.variant.channelPricings = orderItem.variant.channelPricings.collection;
+
     return orderItem;
   });
 };
@@ -47,11 +52,20 @@ export const transformCart = (context, cart) => {
   return cart;
 };
 
-export const transformWishlists = (context, wishlists) => {
-  wishlists = wishlists.map(wishlist => ({
-    ...wishlist,
-    items: transformItems(context, wishlist.items)
-  }));
+export const transformWishlists = (context, wishlist) => {
+  if (Array.isArray(wishlist)) {
+    return wishlist.map(wishlist => ({
+      id: wishlist.id,
+      name: wishlist.name,
+      itemCount: wishlist.wishlistProducts.totalCount,
+      items: transformItems(context, wishlist.wishlistProducts)
+    }));
+  }
 
-  return wishlists;
+  return {
+    id: wishlist.id,
+    name: wishlist.name,
+    itemCount: wishlist.wishlistProducts.totalCount,
+    items: transformItems(context, wishlist.wishlistProducts)
+  };
 };

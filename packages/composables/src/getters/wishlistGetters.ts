@@ -20,12 +20,13 @@ const getItems = (wishlist: Wishlist): WishlistItem[] => {
     wishlist.items.forEach((item) => {
       items.push({
         _id: item._id,
+        id: item.variant.id,
         _categoriesRef: [],
-        name: item.productName,
+        name: item.variant.product.name,
         sku: item.variant.code,
         images: item.variant.product.images,
         price: {
-          regular: item.unitPrice / 100,
+          regular: item.variant.channelPricings[0].price / 100,
           special: 0
         },
         selectedVariant: item.variant
@@ -48,7 +49,7 @@ function getTotals(wishlist: Wishlist): AgnosticTotals {
 const getItemName = (item: any): string => item.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getItemImage = (item: WishlistItem): string => item.images[0];
+const getItemImage = (item: WishlistItem): string => item.images[0].replace(/\/media\/image/, '');
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getItemPrice = (item: WishlistItem): AgnosticPrice => item.price;

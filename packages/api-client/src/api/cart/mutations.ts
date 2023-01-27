@@ -37,11 +37,11 @@ export const addToCartMutation = gql`
 export const addManyToCartMutation = gql`
   mutation addManyToCart(
     $token: String!,
-    $variants: cartInput!,
+    $variants: Iterable!
   ) {
     shop_add_itemsOrder(input: {
       orderTokenValue: $token
-      productVariants: $variants
+      cartItems: $variants
     }) {
       order {
         ${cartFragment}

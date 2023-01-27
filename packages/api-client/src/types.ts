@@ -205,8 +205,15 @@ export type ShippingAddress = TODO;
 
 export type ShippingProvider = TODO;
 
+export type ChannelPricing = {
+  id: string;
+  price: number;
+  originalPrice?: number;
+}
+
 export type WishlistItem = {
   _id: string;
+  id: string;
   code: string;
   sku?: string;
   name?: string;
@@ -214,10 +221,13 @@ export type WishlistItem = {
   unitPrice: number;
   images: string[];
   variant: {
+    id
     code: string;
     product: {
+      name: string;
       images: string[];
     }
+    channelPricings: ChannelPricing[];
   }
   price?: {
     regular: number;

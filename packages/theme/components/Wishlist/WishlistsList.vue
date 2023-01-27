@@ -31,7 +31,7 @@
           </span>
         </SfButton>
 
-        <div class="list__item--buttons">
+        <div v-if="wishlists.length > 1" class="list__item--buttons">
           <Transition>
             <div v-if="(toggledConfirm === wishlist.id)" class="buttons__confirm">
                 <span class="buttons__confirm--title">Are sure?</span>
