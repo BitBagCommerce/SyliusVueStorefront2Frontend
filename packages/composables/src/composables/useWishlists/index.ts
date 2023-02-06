@@ -36,7 +36,27 @@ export const useWishlists = () => {
         return;
       }
 
-      wishlists.value = response;
+      const data = response.wishlists.map(wishlist => ({
+        id: wishlist.id,
+        name: wishlist.name,
+        itemCount: wishlist.wishlistProducts.totalCount,
+        items: wishlist.wishlistProducts.edges.map(edge => {
+          const orderItem = edge.node;
+
+          orderItem.variant.optionValues = orderItem.variant.optionValues.edges.map(edge => edge.node);
+          orderItem.variant.product.options = orderItem.variant.product.options.edges.map(edge => edge.node);
+          orderItem.variant.product.images = orderItem.variant.product.images.collection.map(
+            image => `${response.imagePath}/${image.path}`
+          );
+
+          if (orderItem.variant?.channelPricings)
+            orderItem.variant.channelPricings = orderItem.variant.channelPricings.collection;
+
+          return orderItem;
+        })
+      }));
+
+      wishlists.value = data;
       error.value[name] = null;
     } catch (e) {
       handleError(e, name);

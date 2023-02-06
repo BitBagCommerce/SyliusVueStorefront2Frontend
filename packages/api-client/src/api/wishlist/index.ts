@@ -13,8 +13,9 @@ import {
 export const getWishlists = async (context, customQuery?: CustomQuery) => {
   const queryGql = extendQuery(context, getWishlistsQuery, {}, customQuery);
   const data = await query(context, queryGql.query, {});
+  const { imagePaths: { thumbnail } } = context.config;
 
-  return transformWishlists(context, data.wishlists.collection);
+  return { wishlists: data.wishlists.collection, imagePath: thumbnail };
 };
 
 export const addItem = async (context, itemId: string, wishlistId: string, customQuery?: CustomQuery) => {
