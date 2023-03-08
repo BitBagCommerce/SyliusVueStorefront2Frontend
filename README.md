@@ -17,6 +17,7 @@ Like what we do? Want to join us? Check out our job listings on our [career page
 * [Overview](#overview)
   * [Supported versions](#supported-versions)
   * [Installation](#installation)
+  * [Demo](https://vsf2-demo.bitbag.io/)
 * [Support](#we-are-here-to-help)
 * [About us](#about-us)
 * [License](#license)
