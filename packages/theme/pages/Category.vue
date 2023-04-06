@@ -121,7 +121,7 @@
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
               :title="productGetters.getName(product)"
-              :description="productGetters.getDescription(product)"
+              :description="product.shortDescription"
               :image="productGetters.getCoverImage(product)"
               imageHeight="260"
               imageWidth="260"
