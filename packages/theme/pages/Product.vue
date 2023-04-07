@@ -88,6 +88,13 @@
             class="product__add-to-cart"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
+          <WishlistDropdown
+              class="product__add-to-wishlist"
+              :wishlists="wishlists"
+              :product="product"
+              :visible="true"
+              :circleIcon="false"
+          />
         </div>
 
         <LazyHydrate when-idle>
@@ -178,11 +185,12 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
 import { ref, computed, onUpdated } from '@nuxtjs/composition-api';
-import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser } from '@vue-storefront/sylius';
+import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser, useWishlists, wishlistGetters } from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
+import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
 
 export default {
   name: 'Product',
@@ -197,6 +205,7 @@ export default {
 
     const { addItem, loading, error } = useCart();
     const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
+    const { addItemToWishlist, isInWishlist, removeItemFromWishlist, wishlists } = useWishlists();
 
     onSSR(async () => {
       await search({ slug, query: context.root.$route.query});
@@ -238,6 +247,12 @@ export default {
       }
 
       send({ type: 'success', message: t('Product has been added to the cart') });
+    };
+
+    const removeProductFromWishlist = (productItem) => {
+      const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlists.value));
+      const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
+      removeItemFromWishlist({ product });
     };
 
     const updateFilter = (item) => {
@@ -322,7 +337,11 @@ export default {
       productGetters,
       productGallery,
       isAuthenticated,
-      handleReviewSubmit
+      handleReviewSubmit,
+      wishlists,
+      addItemToWishlist,
+      removeProductFromWishlist,
+      isInWishlist
     };
   },
   components: {
@@ -346,7 +365,8 @@ export default {
     InstagramFeed,
     MobileStoreBanner,
     LazyHydrate,
-    AddReviewForm
+    AddReviewForm,
+    WishlistDropdown
   },
   data() {
     return {
@@ -459,6 +479,9 @@ export default {
     @include for-desktop {
       margin-top: var(--spacer-2xl);
     }
+  }
+  &__add-to-wishlist{
+    margin: var(--spacer-base) var(--spacer-sm) 0;
   }
   &__guide,
   &__compare,
