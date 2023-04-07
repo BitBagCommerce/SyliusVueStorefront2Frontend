@@ -41,7 +41,7 @@ export const getProductCoverImage = (product: Product): string => {
     imagePath = imagePath.replace(/\/media\/image/, '');
     return imagePath;
   }
-  return '';
+  return '/error/no-image.svg';
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -77,10 +77,17 @@ export const getProductAttributes = (products: Product[] | Product, filterByAttr
   const options = product.options.map(option => ({
     name: option.code,
     label: option.name,
-    value: option.values.map(optionValue => ({
-      label: optionValue.value,
-      value: optionValue.code
-    }))
+    value: option.values
+      .filter(optionValue => product.variants.some(variant =>
+        variant.optionValues
+          .map(val => val.id)
+          .includes(optionValue.id) &&
+          variant.enabled
+      ))
+      .map(optionValue => ({
+        label: optionValue.value,
+        value: optionValue.code
+      }))
   }));
 
   for (const index in options) {
@@ -89,9 +96,14 @@ export const getProductAttributes = (products: Product[] | Product, filterByAttr
 
   if (!Array.isArray(products) && product.selectedVariant) {
     for (const optionCode in attributes) {
-      const filteredVariant = product.selectedVariant.optionValues.filter(variant => variant.option.id === `/api/v2/shop/product-options/${optionCode}`);
+      const filteredVariant = product
+        .selectedVariant
+        .optionValues
+        .filter(variant => variant.option.id === `/api/v2/shop/product-options/${optionCode}`);
+
       if (filteredVariant.length) configuration[optionCode] = filteredVariant[0].code;
     }
+
     return configuration;
   }
 

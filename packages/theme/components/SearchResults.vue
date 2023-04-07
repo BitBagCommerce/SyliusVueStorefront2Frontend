@@ -110,9 +110,9 @@ import {
   SfScrollable,
   SfMenuItem,
   SfButton,
-  SfImage,
   SfHeading
 } from '@storefront-ui/vue';
+import SfImage from '~/components/SearchResults/SfImage.vue';
 import { ref, watch, computed } from '@nuxtjs/composition-api';
 import { productGetters, useCart } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
@@ -139,7 +139,8 @@ export default {
       type: Object
     }
   },
-  setup(props, { emit }) {
+  setup(props, { emit, root }) {
+    const t = (key) => root.$i18n.t(key);
     const { addItem: addItemToCart, isInCart, error } = useCart();
     const { send } = useUiNotification();
     const isSearchOpen = ref(props.visible);
@@ -157,7 +158,7 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: 'Product has been added to the cart' });
+      send({ type: 'success', message: t('Product has been added to the cart') });
     };
 
     watch(() => props.visible, (newVal) => {

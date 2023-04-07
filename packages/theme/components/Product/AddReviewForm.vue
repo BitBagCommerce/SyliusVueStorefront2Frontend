@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }">
     <div v-show="thankyou.show === true">
-      Thank you for your review.
+      {{  $t('Thank you for your review.') }}
     </div>
     <form class="form" @submit.prevent="handleSubmit(submitForm(reset))" v-show="thankyou.show === false">
       <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
@@ -9,7 +9,7 @@
           v-model="form.title"
           type="text"
           name="title"
-          label="Title"
+          :label="$t('Title')"
           required
           :valid="!errors[0]"
           :errorMessage="errors[0]"
@@ -20,7 +20,7 @@
         <SfInput
           v-model.number="form.rating"
           type="number"
-          label="Rating (1-5)"
+          :label="$t('Rating (1-5)')"
           min="1"
           max="5"
           required
@@ -32,7 +32,7 @@
       <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
         <SfTextarea
           v-model="form.comment"
-          label="Comment"
+          :label="$t('Comment')"
           cols="30"
           rows="5"
           required

@@ -6,28 +6,28 @@
     />
     <SfContentPages
       v-e2e="'my-account-content-pages'"
-      title="My Account"
+      :title="$t('My Account')"
       :active="activePage"
       class="my-account"
       @click:change="handleActivePage"
     >
-      <SfContentCategory title="Personal Details">
-        <SfContentPage title="My profile">
+      <SfContentCategory :title="$t('Personal details')">
+        <SfContentPage :title="$t('My profile')">
           <MyProfile />
         </SfContentPage>
 
-        <SfContentPage title="My addresses">
+        <SfContentPage :title="$t('My addresses')">
           <ShippingDetails />
         </SfContentPage>
       </SfContentCategory>
 
-      <SfContentCategory title="Order details">
-        <SfContentPage title="Order history">
+      <SfContentCategory :title="$t('Order details')">
+        <SfContentPage :title="$t('Order history')">
           <OrderHistory />
         </SfContentPage>
       </SfContentCategory>
 
-      <SfContentPage title="Log out" />
+      <SfContentPage :title="$t('Log out')" />
     </SfContentPages>
   </div>
 </template>
@@ -54,6 +54,7 @@ export default {
     'is-authenticated'
   ],
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const { $router, $route } = context.root;
     const { logout } = useUser();
     const { send } = useUiNotification();
@@ -79,10 +80,10 @@ export default {
     };
 
     const handleActivePage = async (title) => {
-      if (title === 'Log out') {
+      if (title === t('Log out')) {
         await logout();
         $router.push(context.root.localePath({ name: 'home' }));
-        send({ type: 'info', message: 'Logout successful' });
+        send({ type: 'info', message: t('Logout successful') });
         return;
       }
 
@@ -103,7 +104,7 @@ export default {
       }
 
       isMobile.value = false;
-    }
+    };
 
     watch(isMobile, () => changeActivePage());
 

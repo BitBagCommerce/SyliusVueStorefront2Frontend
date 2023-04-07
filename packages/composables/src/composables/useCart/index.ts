@@ -4,6 +4,7 @@ import {
   useCartFactory,
   UseCartFactoryParams
 } from '@vue-storefront/core';
+
 import type {
   Cart,
   CartItem,
@@ -67,6 +68,12 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
       token
     }, customQuery);
 
+    if (cart.graphQLErrors?.length) {
+      throw {
+        message: cart.graphQLErrors?.[0]?.debugMessage
+      };
+    }
+
     return cart;
   },
   removeItem: async (context: Context, { product, customQuery}) => {
@@ -86,6 +93,13 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
       itemId: String((product as Product)._id),
       quantity
     }, customQuery);
+
+    if (cart.graphQLErrors?.length) {
+      throw {
+        message: cart.graphQLErrors?.[0]?.debugMessage
+      };
+    }
+
     return cart;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

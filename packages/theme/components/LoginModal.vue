@@ -28,7 +28,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="email"
-                label="Your email"
+                :label="$t('Your e-mail')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -39,7 +39,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="password"
-                label="Password"
+                :label="$t('Password')"
                 type="password"
                 class="form__element"
               />
@@ -48,7 +48,7 @@
               v-e2e="'login-modal-remember-me'"
               v-model="rememberMe"
               name="remember-me"
-              label="Remember me"
+              :label="$t('Remember me')"
               class="form__element checkbox remember-me-checkbox"
             />
             <SfButton v-e2e="'login-modal-submit'"
@@ -113,7 +113,7 @@
         <p class="thank-you__paragraph">{{ $t('Thank You Inbox') }}</p>
       </div>
       <div v-else-if="isVerifyUser" class="form">
-          <p class="verify__paragraph">Please check your email to verify your account.</p>
+          <p class="verify__paragraph">{{ $t('Please check your email to verify your account') }}</p>
 
           <SfButton type="submit" class="verify__button" @click="closeModal()">
             {{ $t('Go back') }}
@@ -129,7 +129,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="email"
-                label="Your email"
+                :label="$t('Your e-mail')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -140,7 +140,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="first-name"
-                label="First Name"
+                :label="$t('First name')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -151,7 +151,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="last-name"
-                label="Last Name"
+                :label="$t('Last name')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -162,7 +162,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="password"
-                label="Password"
+                :label="$t('Password')"
                 type="password"
                 class="form__element"
               />
@@ -174,7 +174,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 name="create-account"
-                label="I accept the terms & conditions"
+                :label="$t('I accept the terms & conditions')"
                 class="form__element"
               />
             </ValidationProvider>
@@ -210,6 +210,7 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
 import { useUser, useForgotPassword } from '@vue-storefront/sylius';
 import { useUiState, useUiNotification } from '~/composables';
+import { useVSFContext } from '@vue-storefront/core';
 
 extend('email', {
   ...email,
@@ -235,6 +236,7 @@ export default {
     SfBar
   },
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(true);
@@ -248,6 +250,7 @@ export default {
     const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
     const { $router } = context.root;
     const { send } = useUiNotification();
+    const { $sylius } = useVSFContext();
 
     const error = reactive({
       login: null,
@@ -303,22 +306,30 @@ export default {
         error.login = userError.value.login?.message;
         error.register = userError.value.register?.message;
 
-        if (error.login === 'Can\'t authenticate, user not verified') setIsVerifyUser(true);
+        if (error.login === t('Can\'t authenticate, user not verified')) {
+          setIsVerifyUser(true);
+        } else if (error.login === 'Can\'t authenticate, user not verified') {
+          setIsVerifyUser(true);
+        }
 
         return;
       }
 
       if (fn === register) {
-        setIsVerifyUser(true);
-        await logout();
-        $router.push(context.root.localePath({ name: 'home' }));
+        send({ type: 'info', message: t('Your account has been registered') });
 
-        send({ type: 'info', message: 'Your account has been registered' });
+        await login({user: {username: form.value.email, password: form.value.password }});
+        if ($sylius?.config?.state?.getCustomerToken() === undefined) {
+          setIsVerifyUser(true);
+          await logout();
 
-        return;
+          return;
+        }
+
+        setIsLoginValue(false);
       }
 
-      send({ type: 'info', message: 'Login successful' });
+      send({ type: 'info', message: t('Login successful') });
       $router.push('/my-account');
 
       toggleLoginModal();

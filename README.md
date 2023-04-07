@@ -17,6 +17,7 @@ Like what we do? Want to join us? Check out our job listings on our [career page
 * [Overview](#overview)
   * [Supported versions](#supported-versions)
   * [Installation](#installation)
+  * [Demo](https://vsf2-demo.bitbag.io/)
 * [Support](#we-are-here-to-help)
 * [About us](#about-us)
 * [License](#license)
@@ -41,12 +42,15 @@ The project requires node in version of `14.x.x` and yarn in version of `1.x.x |
 You can run the Vue Storefront 2 integration by running a few steps inside root project directory:
 
 1. Install your dependencies using `yarn install` command.
-2. Change payments redirect host in `packages/theme/themeConfig.config.js` file.
-3. Change GraphQL endpoints in `packages/theme/middleware.config.js` file.
-4. Change your API url (the `middlewareUrl` property value) in `packages/theme/nuxt.config.js` file (especially, when running application over HTTPS).
-5. Build project running `yarn build` command.
-6. To run application in development mode, please run `yarn dev` command.
-7. To run application in production mode, please run `yarn start` command.
+2. Copy the `packages/theme/.env.dist` file to `packages/theme/.env` and configure your environment in the file.
+3. Build project running `yarn build` command.
+4. To run application in development mode, please run `yarn dev` command.
+5. To run application in production mode, please run `yarn start` command.
+
+#### Internationalization
+
+By default, the integration supports `en_US` and `de_DE` locales. To have more locales, you have to enable them in Sylius Channel configuration (in admin panel).
+After this, please edit the `packages/theme/i18nConfig.js` file (the `locales` section).
 
 ## We are here to help
 This **open-source plugin was developed to help the Sylius community**. If you have any additional questions, would like help with installing or configuring the plugin or need any assistance with your Sylius project - let us know!

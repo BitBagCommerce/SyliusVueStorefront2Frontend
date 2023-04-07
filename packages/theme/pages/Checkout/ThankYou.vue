@@ -3,7 +3,7 @@
     <SfCallToAction
       v-e2e="'thank-you-banner'"
       class="banner"
-      title="Thank you for your order!"
+      :title="$t('Thank you for your order!')"
       :image="{
         mobile: '/thankyou/bannerM.png',
         desktop: '/thankyou/bannerD.png',

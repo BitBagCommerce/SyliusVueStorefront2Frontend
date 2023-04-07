@@ -32,7 +32,7 @@
               :title="item.title"
               :subtitle="item.subtitle"
               :description="item.description"
-              :button-text="item.buttonText"
+              :button-text="$t('Start shopping')"
               :link="localePath(item.link)"
               :class="item.class"
             >
@@ -77,7 +77,7 @@
 
     <LazyHydrate when-visible>
       <div class="similar-products">
-        <SfHeading title="Our products" :level="2"/>
+        <SfHeading :title="$t('Our products')" :level="2"/>
         <nuxt-link :to="localePath('/c/category/t-shirts')" class="smartphone-only">
           {{ $t('See all') }}
         </nuxt-link>
@@ -181,7 +181,8 @@ export default {
     LazyHydrate,
     SfLoader
   },
-  setup() {
+  setup(_, { root }) {
+    const t = (key) => root.$i18n.t(key);
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
     const { result, search, loading } = useFacet('category/t-shirts');
@@ -223,7 +224,6 @@ export default {
           subtitle: categories.value[0].name,
           title: 'Cocktail & Party',
           description: categories.value[0].description,
-          buttonText: 'Shop now',
           image: {
             mobile: {
               src: $config.theme.home.bannerA.image.mobile,
@@ -244,7 +244,6 @@ export default {
           subtitle: categories.value[1].name,
           title: 'Linen Dresses',
           description: categories.value[1].description,
-          buttonText: 'Shop now',
           image: {
             src: $config.theme.home.bannerB.image,
             height: 660,
@@ -291,12 +290,12 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: 'Product has been added to the cart' });
+      send({ type: 'success', message: t('Product has been added to the cart') });
     };
 
     onSSR(() => search({
       categorySlug: 'category/t-shirts',
-      channelsCode: 'FASHION_WEB',
+      channelsCode: process.env.SYLIUS_CHANNEL_CODE,
       attributes: {}
     }));
 

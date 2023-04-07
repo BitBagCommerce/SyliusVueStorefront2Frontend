@@ -6,7 +6,7 @@
           <SfInput
             v-model="form.firstName"
             name="firstName"
-            label="First Name"
+            :label="$t('First name')"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -16,7 +16,7 @@
           <SfInput
             v-model="form.lastName"
             name="lastName"
-            label="Last Name"
+            :label="$t('Last name')"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -32,7 +32,7 @@
           <SfSelect
             v-e2e="'gender'"
             v-model="form.gender"
-            label="Gender"
+            :label="$t('Gender')"
             name="gender"
             class="form__element form__element--half form__select sf-select--underlined"
             required
@@ -54,7 +54,7 @@
           <SfInput
             v-model="form.phoneNumber"
             name="phoneNumber"
-            label="Phone number"
+            :label="$t('Phone number')"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -66,7 +66,7 @@
         <SfInput
           type="date"
           name="birthday"
-          label="Birthday"
+          :label="$t('Birthday')"
           class="form__element"
           :value="selectedBirthday"
           @input="handleBirthday"
@@ -86,7 +86,7 @@
           v-model="form.email"
           type="email"
           name="email"
-          label="Your e-mail"
+          :label="$t('Your e-mail')"
           required
           disabled
           :valid="!errors[0]"
@@ -117,7 +117,7 @@ export default {
     ValidationObserver
   },
 
-  setup(_, { emit }) {
+  setup(_, { emit, root }) {
     const { user } = useUser();
     const { send } = useUiNotification();
     const resetForm = () => ({
@@ -131,11 +131,12 @@ export default {
     });
     const form = ref(resetForm());
     const selectedBirthday = ref('');
+    const t = (key) => root.$i18n.t(key);
 
     const genderOptions = [
-      { key: 'u', label: 'Unknown'},
-      { key: 'm', label: 'Male'},
-      { key: 'f', label: 'Female'}
+      { key: 'u', label: t('Unknown')},
+      { key: 'm', label: t('Male')},
+      { key: 'f', label: t('Female')}
     ];
 
     const handleBirthday = (val) => {
@@ -151,7 +152,7 @@ export default {
     const submitForm = (resetValidationFn) => {
       return () => {
         const onComplete = () => {
-          send({ type: 'info', message: 'Profile has been updated' });
+          send({ type: 'info', message: t('Profile has been updated') });
           form.value = resetForm();
           resetValidationFn();
         };

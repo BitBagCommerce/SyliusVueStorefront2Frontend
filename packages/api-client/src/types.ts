@@ -1,46 +1,49 @@
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
-import {FilterEqualTypeInput, FilterMatchTypeInput} from './api/getCategory/types';
+import { FilterEqualTypeInput, FilterMatchTypeInput } from './api/getCategory/types';
 
 export type ProductAttributeFilterInput = {
-  name: FilterMatchTypeInput
-  sku: FilterEqualTypeInput
-  url_key: FilterEqualTypeInput
-}
+  name: FilterMatchTypeInput;
+  sku: FilterEqualTypeInput;
+  url_key: FilterEqualTypeInput;
+};
 
 export type ProductInput = {
   itemsPerPage: number;
   page: number;
   slug: string;
   categorySlug: string;
-  id?: string,
+  id?: string;
   search?: string;
   filter?: ProductAttributeFilterInput;
-  orderBy?: any
+  orderBy?: any;
 };
 
 export type ProductOptionValue = {
-  code: string,
-  value: string
+  id: string;
+  code: string;
+  value: string;
   option: {
     id: string;
-  }
-}
+  };
+};
 export type ProductOption = {
   id: string;
   code: string;
   name: string;
   label: string;
   values: ProductOptionValue[];
-}
+};
 
 export type ProductVariant = {
   id: string;
+  enabled: boolean;
   price: number;
   code: string;
   quantity?: number;
   channelPricings: any[];
-  optionValues: ProductOptionValue[]
-}
+  optionValues: ProductOptionValue[];
+};
+
 export type Product = {
   _id?: number;
   description: string;
@@ -58,8 +61,8 @@ export type Product = {
   reviews: {
     paginationInfo: {
       totalCount: number;
-    }
-  },
+    };
+  };
   averageRating: number;
   selectedVariant: ProductVariant | null;
   variants: ProductVariant[];
@@ -87,19 +90,19 @@ export type CartLineItem = {
     code: string;
     product: {
       images: string[];
-    }
-  }
+    };
+  };
   price?: {
     regular: number;
     special: number;
-  }
+  };
   selectedVariant: {
     optionValues: ProductOptionValue[];
     product: {
       options: ProductOption[];
-    }
-  }
-}
+    };
+  };
+};
 export type Cart = {
   items: CartLineItem[];
   total: number;
@@ -107,13 +110,10 @@ export type Cart = {
   orderPromotionTotal: number;
   promotionCoupon: any;
   tokenValue: string;
-}
+};
 
 export interface Storage {
-  set: (
-      name: string,
-      value: any
-  ) => void;
+  set: (name: string, value: any) => void;
   get: (name: string) => any;
   remove: (name: string) => any;
   removeAll: () => void;
@@ -146,7 +146,7 @@ export interface Config<T = any> extends ClientConfig {
   storage: Storage;
 }
 
-export type ClientInstance = ApolloClient<any>
+export type ClientInstance = ApolloClient<any>;
 
 export type TODO = unknown;
 

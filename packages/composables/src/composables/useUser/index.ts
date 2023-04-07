@@ -99,11 +99,17 @@ const params: UseUserFactoryParams<User, any, any> = {
           orderTokenValue
         }
       });
+
+      if (loginUserResponse.graphQLErrors !== undefined) {
+        throw {
+          message: 'Can\'t authenticate with provided username/password.'
+        };
+      }
+
       apiState.setCustomerToken(loginUserResponse.token);
       apiState.setCustomerRefreshToken(loginUserResponse.refreshToken);
       apiState.setCustomerId(loginUserResponse.user.customer.id);
     } catch (e) {
-      console.log(e);
       throw {
         message: 'Can\'t authenticate with provided username/password.'
       };

@@ -23,7 +23,7 @@
           <SfInput
             v-e2e="'billing-firstName'"
             v-model="form.firstName"
-            label="First name"
+            :label="$t('First name')"
             name="firstName"
             class="form__element form__element--half"
             required
@@ -40,7 +40,7 @@
           <SfInput
             v-e2e="'billing-lastName'"
             v-model="form.lastName"
-            label="Last name"
+            :label="$t('Last name')"
             name="lastName"
             class="form__element form__element--half form__element--half-even"
             required
@@ -57,7 +57,7 @@
           <SfInput
             v-e2e="'billing-streetName'"
             v-model="form.street"
-            label="Street name"
+            :label="$t('Street name')"
             name="street"
             class="form__element"
             required
@@ -74,7 +74,7 @@
           <SfInput
             v-e2e="'billing-city'"
             v-model="form.city"
-            label="City"
+            :label="$t('City')"
             name="city"
             class="form__element form__element--half"
             required
@@ -89,7 +89,7 @@
           <SfInput
             v-e2e="'billing-state'"
             v-model="form.state"
-            label="State/Province"
+            :label="$t('State/Province')"
             name="state"
             class="form__element form__element--half form__element--half-even"
           />
@@ -103,12 +103,13 @@
           <SfSelect
             v-e2e="'billing-country'"
             v-model="form.countryCode"
-            label="Country"
+            :label="$t('Country')"
             name="countryCode"
             class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
+            :placeholder="$t('Select country')"
           >
             <SfSelectOption
               v-for="countryOption in countries"
@@ -128,7 +129,7 @@
           <SfInput
             v-e2e="'billing-zipcode'"
             v-model="form.postcode"
-            label="Zip-code"
+            :label="$t('Zip-code')"
             name="zipCode"
             class="form__element form__element--half form__element--half-even"
             required
@@ -145,7 +146,7 @@
           <SfInput
             v-e2e="'billing-email'"
             v-model="form.email"
-            label="E-mail"
+            :label="$t('E-mail')"
             name="email"
             class="form__element form__element--half"
             required
@@ -162,7 +163,7 @@
           <SfInput
             v-e2e="'billing-phone'"
             v-model="form.phoneNumber"
-            label="Phone number"
+            :label="$t('Phone number')"
             name="phoneNumber"
             class="form__element form__element--half form__element--half-even"
             required
@@ -248,7 +249,7 @@ export default {
       street: '',
       city: '',
       state: '',
-      countryCode: '',
+      countryCode: null,
       postcode: '',
       email: null,
       phoneNumber: null

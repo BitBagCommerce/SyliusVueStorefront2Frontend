@@ -1,6 +1,6 @@
 export default {
   payment: {
-    redirectHost: 'http://localhost:8000'
+    redirectHost: process.env.SYLIUS_PAYMENT_GATEWAY_HOST
   },
   home: {
     bannerA: {

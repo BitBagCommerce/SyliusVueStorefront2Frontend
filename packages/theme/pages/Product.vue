@@ -84,7 +84,7 @@
             v-e2e="'product_add-to-cart'"
             :stock="product.selectedVariant.onHand"
             v-model="qty"
-            :disabled="loading || product.selectedVariant.onHand === 0"
+            :disabled="loading || !product.selectedVariant.inStock"
             class="product__add-to-cart"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
@@ -92,7 +92,7 @@
 
         <LazyHydrate when-idle>
           <SfTabs :open-tab="1" class="product__tabs">
-            <SfTab title="Description" key="description">
+            <SfTab :title="$t('Description')" key="description">
               <div class="product__description">
                   {{ product.description }}
               </div>
@@ -110,7 +110,11 @@
                 </template>
               </SfProperty>
             </SfTab>
-            <SfTab v-if="Array.isArray(reviews) && reviews.length" title="Read reviews" key="read_reviews">
+            <SfTab
+              v-if="Array.isArray(reviews) && reviews.length"
+              :title="$t('Read reviews')"
+              key="read_reviews"
+            >
               <SfReview
                 v-for="review in reviews"
                 :key="reviewGetters.getReviewId(review)"
@@ -125,7 +129,11 @@
                 class="product__review"
               />
             </SfTab>
-            <SfTab v-if="isAuthenticated" title="Add review" key="add_review">
+            <SfTab
+              v-if="isAuthenticated"
+              :title="$t('Add review')"
+              key="add_review"
+            >
               <add-review-form
                 :product-id="product.id"
                 @submit="handleReviewSubmit"
@@ -169,7 +177,7 @@ import {
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
-import { ref, computed } from '@nuxtjs/composition-api';
+import { ref, computed, onUpdated } from '@nuxtjs/composition-api';
 import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser } from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
@@ -180,6 +188,7 @@ export default {
   name: 'Product',
   transition: 'fade',
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const qty = ref(1);
     const { id, slug } = context.root.$route.params;
     const { isAuthenticated } = useUser();
@@ -197,7 +206,7 @@ export default {
 
     const options = computed(() => productGetters.getAttributes(products.value?.products, ['color', 'size'])) || [];
 
-    const configuration = computed(() => productGetters.getAttributes(product?.value, ['color', 'size'])) || [];
+    const configuration = computed(() => product?.value ? productGetters.getAttributes(product?.value, ['color', 'size']) : []);
     const categories = computed(() => productGetters.getCategoryIds(product?.value)) || [];
 
     const reviews = computed(() => {
@@ -228,13 +237,36 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: 'Product has been added to the cart' });
+      send({ type: 'success', message: t('Product has been added to the cart') });
     };
 
     const updateFilter = (item) => {
+      if (Array.isArray(item)) {
+        const filterObj = item.reduce((prev, curr) => {
+          const record = {};
+          record[curr.filter] = curr.value;
+
+          return {
+            ...prev,
+            ...record
+          };
+        }, {});
+
+        context.root.$router.replace({
+          path: context.root.$route.path,
+          query: {
+            ...configuration.value,
+            ...filterObj
+          }
+        });
+
+        return;
+      }
+
       const filterObj = {};
       filterObj[item.filter] = item.value;
-      context.root.$router.push({
+
+      context.root.$router.replace({
         path: context.root.$route.path,
         query: {
           ...configuration.value,
@@ -257,6 +289,19 @@ export default {
         value: item.stringValue,
         name: item.name
       })) || [];
+    });
+
+    onUpdated(() => {
+      if (
+        !Object.keys(context.root.$route.query).length &&
+        Object.keys(options.value).length
+      ) {
+        const filter = Object
+          .keys(options.value)
+          .map(key => ({ value: options.value[key].value[0].value, filter: key }));
+
+        updateFilter(filter);
+      }
     });
 
     return {
@@ -327,6 +372,7 @@ export default {
   }
   &__info {
     margin: var(--spacer-sm) auto;
+    flex-grow: 1;
     @include for-desktop {
       max-width: 32.625rem;
       margin: 0 auto;
@@ -425,6 +471,7 @@ export default {
   }
   &__tabs {
     --tabs-title-z-index: 0;
+    --tabs-title-margin: 0 var(--spacer-sm) 0 0;
     margin: var(--spacer-lg) auto var(--spacer-2xl);
     --tabs-title-font-size: var(--font-size--lg);
     @include for-desktop {

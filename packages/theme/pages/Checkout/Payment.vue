@@ -2,7 +2,7 @@
   <div>
     <SfHeading
       :level="3"
-      title="Payment"
+      :title="$t('Payment')"
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfTable class="sf-table--bordered table desktop-only">
@@ -51,7 +51,7 @@
       <div class="summary__group" v-if="totals">
         <div class="summary__total">
           <SfProperty
-            name="Subtotal"
+            :name="$t('Subtotal')"
             :value="$n(totals.special > 0 ? totals.special : totals.subtotal, 'currency')"
             class="sf-property--full-width property"
           />
@@ -59,7 +59,7 @@
 
         <div class="summary__total" v-if="totals.shipping">
           <SfProperty
-            name="Shipping"
+            :name="$t('Shipping')"
             :value="$n(totals.shipping, 'currency')"
             class="sf-property--full-width property"
           />
@@ -68,7 +68,7 @@
         <SfDivider />
 
         <SfProperty
-          name="Total price"
+          :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
           class="sf-property--full-width sf-property--large summary__property-total"
         />
@@ -112,7 +112,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { ref, computed } from '@nuxtjs/composition-api';
+import { ref, computed, watch, useRouter, onMounted } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 
@@ -134,9 +134,15 @@ export default {
   },
   setup(props, context) {
     const { cart, load, setCart } = useCart();
+    const tokenValue = cartGetters.getCartTokenValue(cart.value);
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
+    const t = (key) => context.root.$i18n.t(key);
+    const router = useRouter();
 
+    const products = computed(() => cartGetters.getItems(cart.value));
+
+    const isRedirecting = ref(false);
     const isPaymentReady = ref(false);
 
     onSSR(async () => {
@@ -154,12 +160,12 @@ export default {
         return;
       }
 
-      const tokenValue = orderGetters.getTokenValue(order.value);
-
-      send({ type: 'info', message: 'Your order has been placed' });
+      send({ type: 'info', message: t('Your order has been placed') });
       const { locales, locale } = context.root.$i18n;
 
       let redirected = false;
+      isRedirecting.value = true;
+
       for (const localeIndex in locales) {
         if (locales[localeIndex].code === locale) {
           redirected = true;
@@ -175,12 +181,26 @@ export default {
       }
     };
 
+    const redirectToHome = () => {
+      if (!products.value.length && !isRedirecting.value) {
+        router.push({ path: router.app.localePath('/') });
+      }
+    };
+
+    watch(() => products.value, redirectToHome);
+
+    onMounted(redirectToHome);
+
     return {
       isPaymentReady,
       loading,
-      products: computed(() => cartGetters.getItems(cart.value)),
+      products,
       totals: computed(() => cartGetters.getTotals(cart.value)),
-      tableHeaders: ['Description', 'Quantity', 'Amount'],
+      tableHeaders: [
+        t('Description'),
+        t('Quantity'),
+        t('Amount')
+      ],
       cartGetters,
       processOrder
     };

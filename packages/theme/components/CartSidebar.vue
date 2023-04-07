@@ -3,7 +3,7 @@
     <SfSidebar
       v-e2e="'sidebar-cart'"
       :visible="isCartSidebarOpen"
-      title="My Cart"
+      :title="$t('My Cart')"
       class="sf-sidebar--right"
       @close="toggleCartSidebar"
     >
@@ -11,7 +11,7 @@
         <SfProperty
           v-if="totalItems"
           class="sf-property--large cart-summary desktop-only"
-          name="Total items"
+          :name="$t('Total items')"
           :value="totalItems"
         />
       </template>
@@ -58,11 +58,10 @@
               width="256"
             />
             <SfHeading
-              title="Your cart is empty"
+              :title="$t('Your cart is empty')"
               :level="2"
               class="empty-cart__heading"
-              description="Looks like you haven’t added any items to the bag yet. Start
-              shopping to fill it in."
+              :description="$t('Empty cart desc')"
             />
           </div>
         </div>
@@ -71,7 +70,7 @@
         <transition name="sf-fade">
           <div v-if="totalItems">
             <SfProperty
-              name="Subtotal price"
+              :name="$t('Subtotal')"
               class="sf-property--full-width sf-property--large my-cart__total-price"
             >
               <template #value>
@@ -117,7 +116,7 @@ import {
 import ProductItem from '~/components/CartSidebar/ProductItem';
 import { computed } from '@nuxtjs/composition-api';
 import { useCart, useUser, cartGetters, productGetters } from '@vue-storefront/sylius';
-import { useUiState } from '~/composables';
+import { useUiNotification, useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
 
 export default {
@@ -133,17 +132,28 @@ export default {
     SfQuantitySelector,
     ProductItem
   },
-  setup() {
+  setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeItem, updateItemQty, load: loadCart, loading } = useCart();
+    const { cart, removeItem, updateItemQty, load: loadCart, loading, error } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
+    const { send } = useUiNotification();
     loadCart();
 
     const updateQuantity = debounce(async ({ product, quantity }) => {
       await updateItemQty({ product, quantity });
+
+      const cartError = Object.values(error.value).find(err => err !== null);
+
+      if (cartError) {
+        send({ type: 'danger', message: t(cartError.message) });
+      } else {
+        send({ type: 'info', message: t('Your cart has been updated') });
+      }
+
     }, 500);
 
     return {
