@@ -2,8 +2,6 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)'],
-  collectCoverage: true,
   transform: {
     '^.+\\.[jt]s$': 'ts-jest'
   },
@@ -14,4 +12,5 @@ module.exports = {
   ],
   moduleFileExtensions: ['ts', 'js', 'json'],
   watchPathIgnorePatterns: ['**/node_modules'],
+  testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)']
 };
