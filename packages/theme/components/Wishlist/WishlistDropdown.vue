@@ -5,13 +5,22 @@
     :class="`dropdown ${circleIcon ? '' : 'no-icon'}`"
   >
     <template #opener>
-      <SfCircleIcon
-        v-if="circleIcon"
-        aria-label="Remove filter"
-        icon="heart"
-        class="sf-circle-icon__icon color-danger"
-        @click="(isOpen = !isOpen)"
-      />
+      <template v-if="circleIcon">
+        <SfCircleIcon
+          v-if="isInAnyWishlist(product)"
+          aria-label="Remove filter"
+          icon="heart_fill"
+          class="sf-circle-icon__icon color-danger"
+          @click="(isOpen = !isOpen)"
+        />
+        <SfCircleIcon
+          v-else
+          aria-label="Remove filter"
+          icon="heart"
+          class="sf-circle-icon__icon color-danger"
+          @click="(isOpen = !isOpen)"
+        />
+      </template>
 
       <SfButton
         v-else
@@ -24,32 +33,24 @@
 
     <SfList class="dropdown__list" v-click-outside="() => isOpen = false">
       <SfListItem
-        v-for="(wishlist, i) in wishlists"
-        :key="'wishlist'+i"
+      v-for="(wishlist, i) in wishlists"
+      :key="'wishlist'+i"
       >
         <SfButton
-          v-if="isInWishlist(product, wishlist)"
-          class="sf-button--pure dropdown__list--item danger"
-          @click="handleRemoveFromWishlist(product.selectedVariant.id, wishlist.id)"
+        class="sf-button--pure dropdown__list--item"
+        @click="handleWishlistAction(product, wishlist)"
+        :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id), 'danger': isInWishlist(product, wishlist) }"
         >
+          <SfLoader class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" size="xs" />
+
           <span>
             {{wishlist.name}}
           </span>
 
-          <SfIcon icon="heart_fill" size="1.25rem" />
+          <SfIcon v-if="isInWishlist(product, wishlist)" icon="heart_fill" size="1.25rem" />
+          <SfIcon v-else icon="heart" size="1.25rem" />
         </SfButton>
 
-        <SfButton
-          v-else
-          class="sf-button--pure dropdown__list--item"
-          @click="handleAddToWishlist(product.selectedVariant.id, wishlist.id)"
-        >
-          <span>
-            {{wishlist.name}}
-          </span>
-
-          <SfIcon icon="heart" size="1.25rem" />
-        </SfButton>
       </SfListItem>
     </SfList>
 
@@ -66,7 +67,8 @@ import {
   SfList,
   SfDropdown,
   SfCircleIcon,
-  SfHeading
+  SfHeading,
+  SfLoader
 } from '@storefront-ui/vue';
 import { ref, watch } from '@nuxtjs/composition-api';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
@@ -81,7 +83,8 @@ export default {
     SfList,
     SfDropdown,
     SfCircleIcon,
-    SfHeading
+    SfHeading,
+    SfLoader
   },
   directives: { clickOutside },
   props: {
@@ -101,23 +104,18 @@ export default {
     const { isAuthenticated } = useUser();
     const { send } = useUiNotification();
     const isOpen = ref(false);
+    const wishlistsWithActionInProgressId = ref([]);
 
-    const handleAddToWishlist = async (itemId, wishlistId) => {
-      await addItem(itemId, wishlistId);
-      isOpen.value = false;
+    const isInAnyWishlist = (product) => {
+      return props.wishlists.some((wishlist) => isInWishlist(product, wishlist));
+    };
 
-      if (error.value.addItem) {
-        send({ type: 'danger', message: error.value.addItem.message });
-
-        return;
-      }
-
-      send({ type: 'info', message: 'Item has been added to wishlist' });
+    const isWishlistActionInProgress = (wishlistId) => {
+      return wishlistsWithActionInProgressId.value.includes(wishlistId);
     };
 
     const handleRemoveFromWishlist = async (itemId, wishlistId) => {
       await removeItem(itemId, wishlistId);
-      isOpen.value = false;
 
       if (error.value.removeItem) {
         send({ type: 'danger', message: error.value.removeItem.message });
@@ -128,6 +126,32 @@ export default {
       send({ type: 'info', message: 'Item has been removed from wishlist' });
     };
 
+    const handleAddToWishlist = async (itemId, wishlistId) => {
+      await addItem(itemId, wishlistId);
+
+      if (error.value.addItem) {
+        send({ type: 'danger', message: error.value.addItem.message });
+
+        return;
+      }
+
+      send({ type: 'info', message: 'Item has been added to wishlist' });
+    };
+
+    const handleWishlistAction = async (product, wishlist) => {
+      const itemId = product.selectedVariant.id;
+      const wishlistId = wishlist.id;
+
+      wishlistsWithActionInProgressId.value = [...wishlistsWithActionInProgressId.value, wishlistId];
+
+      isInWishlist(product, wishlist) ? await handleRemoveFromWishlist(itemId, wishlistId) : await handleAddToWishlist(itemId, wishlistId);
+
+      const removedIdAfterLoading = wishlistsWithActionInProgressId.value.filter((id) => id !== wishlistId);
+      wishlistsWithActionInProgressId.value = removedIdAfterLoading;
+
+      isOpen.value = false;
+    };
+
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     watch(() => props.visible, (newVal, oldVal) => {
       if (newVal === false) isOpen.value = false;
@@ -136,8 +160,9 @@ export default {
     return {
       isOpen,
       isInWishlist,
-      handleAddToWishlist,
-      handleRemoveFromWishlist,
+      isInAnyWishlist,
+      isWishlistActionInProgress,
+      handleWishlistAction,
       isAuthenticated
     };
   }
@@ -193,5 +218,12 @@ export default {
       top: calc(100% - var(--spacer-sm));
     }
   }
+}
+
+.wishlist-action-loader{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
