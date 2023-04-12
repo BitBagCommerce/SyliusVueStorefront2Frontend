@@ -157,7 +157,7 @@ export default {
       &--content {
         height: 100%;
         padding: var(--spacer-base) 0;
-        flex: 1 0 auto;
+        flex: 1 1 auto;
         justify-content: flex-start;
         gap: var(--spacer-sm);
 
@@ -177,6 +177,7 @@ export default {
         justify-items: end;
         overflow: hidden;
         position: relative;
+        flex-shrink: 0;
 
         .buttons {
           &__remove {
