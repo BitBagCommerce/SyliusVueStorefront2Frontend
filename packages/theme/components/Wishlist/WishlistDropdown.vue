@@ -2,10 +2,30 @@
   <SfDropdown
     v-if="isAuthenticated"
     :isOpen="isOpen"
-    :class="`dropdown ${circleIcon ? '' : 'no-icon'}`"
+    :class="`dropdown ${circleIcon || icon ? '' : 'no-icon'}`"
   >
     <template #opener>
-      <template v-if="circleIcon">
+      <template v-if="icon">
+        <SfButton
+          class="sf-button--pure"
+          @click="(isOpen = !isOpen)"
+        >
+          <SfIcon
+            v-if="isInAnyWishlist(product)"
+            class="sf-header__icon"
+            icon="heart_fill"
+            size="1.25rem"
+          />
+          <SfIcon
+            v-else
+            class="sf-header__icon"
+            icon="heart"
+            size="1.25rem"
+          />
+        </SfButton>
+      </template>
+
+      <template v-else-if="circleIcon">
         <SfCircleIcon
           v-if="isInAnyWishlist(product)"
           aria-label="Remove filter"
@@ -96,7 +116,11 @@ export default {
     },
     circleIcon: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    icon: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {

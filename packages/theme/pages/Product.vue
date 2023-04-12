@@ -36,16 +36,23 @@
             :regular="$n(productGetters.getPrice(product).regular, 'currency')"
             :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
           />
-          <div>
+          <div class="product__rating-and-wishlist">
             <div class="product__rating">
               <SfRating
-                :score="averageRating"
-                :max="5"
+              :score="averageRating"
+              :max="5"
               />
               <a v-if="!!totalReviews" href="#" class="product__count">
                 ({{ totalReviews }})
               </a>
             </div>
+            <WishlistDropdown
+                class="product__wishlist"
+                :wishlists="wishlists"
+                :product="product"
+                :visible="true"
+                :icon="true"
+            />
           </div>
         </div>
         <div>
@@ -87,13 +94,6 @@
             :disabled="loading || !product.selectedVariant.inStock"
             class="product__add-to-cart"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
-          />
-          <WishlistDropdown
-              class="product__add-to-wishlist"
-              :wishlists="wishlists"
-              :product="product"
-              :visible="true"
-              :circleIcon="false"
           />
         </div>
 
@@ -429,6 +429,16 @@ export default {
     justify-content: flex-end;
     margin: var(--spacer-xs) 0 var(--spacer-xs);
   }
+  &__rating-and-wishlist{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: var(--spacer-sm);
+    @include for-desktop {
+      flex-direction: row;
+    }
+  }
   &__count {
     @include font(
       --count-font,
@@ -479,9 +489,6 @@ export default {
     @include for-desktop {
       margin-top: var(--spacer-2xl);
     }
-  }
-  &__add-to-wishlist{
-    margin: var(--spacer-base) var(--spacer-sm) 0;
   }
   &__guide,
   &__compare,
