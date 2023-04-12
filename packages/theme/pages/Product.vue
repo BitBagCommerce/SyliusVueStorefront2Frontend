@@ -439,6 +439,23 @@ export default {
       flex-direction: row;
     }
   }
+  ::v-deep .sf-dropdown__container {
+    left: 0;
+    right: auto;
+    width: max-content;
+    max-width: 200px;
+    @media screen and (min-width: 360px){
+      max-width: 320px;
+    }
+    @media screen and (min-width: 460px){
+      max-width: 420px;
+    }
+    @include for-desktop {
+      right: 0;
+      left: auto;
+      max-width: 320px;
+    }
+  }
   &__count {
     @include font(
       --count-font,

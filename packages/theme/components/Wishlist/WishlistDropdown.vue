@@ -57,13 +57,13 @@
       :key="'wishlist'+i"
       >
         <SfButton
-        class="sf-button--pure dropdown__list--item"
+        class="sf-button--pure dropdown__list__item"
         @click="handleWishlistAction(product, wishlist)"
         :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id), 'danger': isInWishlist(product, wishlist) }"
         >
           <SfLoader class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" size="xs" />
 
-          <span>
+          <span class="dropdown__list__item__text">
             {{wishlist.name}}
           </span>
 
@@ -209,7 +209,7 @@ export default {
     padding: var(--spacer-sm);
     padding-bottom: 0;
 
-    &--item {
+    &__item {
       width: 100%;
       padding: var(--spacer-sm);
       display: flex;
@@ -227,6 +227,12 @@ export default {
 
         background-color: var(--c-danger-variant);
         color: var(--c-danger);
+      }
+
+      &__text{
+        @include for-desktop {
+          text-align: left;
+        }
       }
     }
   }
