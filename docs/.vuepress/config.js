@@ -28,8 +28,8 @@ module.exports = {
         sidebarDepth: 1,
         children: [
           ['/', 'Introduction'],
-          ['/guide/sylius', 'Sylius Plugin'],
-          ['/guide/getting-started', 'Vue Storefront'],
+          ['/guide/essentials/getting-started', 'Getting Started'],
+          ['/guide/essentials/general-concepts', 'General concepts'],
         ]
       },
       {
