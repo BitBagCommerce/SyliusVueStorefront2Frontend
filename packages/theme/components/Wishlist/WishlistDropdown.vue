@@ -199,6 +199,13 @@ export default {
     top: calc(100% + var(--spacer-xs));
     right: 0;
     width: auto;
+
+    @include for-desktop {
+      width: max-content;
+      right: 0;
+      left: auto;
+      max-width: 320px;
+    }
   }
 
   &__list {
