@@ -10,7 +10,7 @@
     </div>
     <div class="collected-product-list">
       <transition-group name="fade" tag="div">
-        <SfCollectedProduct
+        <ProductItem
           v-for="product in renderedProducts"
           :key="wishlistGetters.getItemSku(product)"
           :image="wishlistGetters.getItemImage(product)"
@@ -49,7 +49,7 @@
           </template>
 
           <template #actions>&nbsp;</template>
-        </SfCollectedProduct>
+        </ProductItem>
       </transition-group>
     </div>
   </div>
@@ -85,6 +85,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useWishlists, wishlistGetters } from '@vue-storefront/sylius';
+import ProductItem from '../CartSidebar/ProductItem.vue';
 
 export default {
   name: 'WishlistItems',
@@ -98,7 +99,8 @@ export default {
     SfList,
     SfHeading,
     SfCheckbox,
-    SfQuantitySelector
+    SfQuantitySelector,
+    ProductItem
   },
   props: ['wishlistId'],
   setup(props, { emit }) {
