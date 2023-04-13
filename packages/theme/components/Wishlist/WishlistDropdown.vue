@@ -61,14 +61,14 @@
         @click="handleWishlistAction(product, wishlist)"
         :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id), 'danger': isInWishlist(product, wishlist) }"
         >
-          <SfLoader class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" size="xs" />
 
-          <span class="dropdown__list__item__text">
-            {{wishlist.name}}
-          </span>
+        <span class="dropdown__list__item__text">
+          {{wishlist.name}}
+        </span>
 
-          <SfIcon v-if="isInWishlist(product, wishlist)" icon="heart_fill" size="1.25rem" />
-          <SfIcon v-else icon="heart" size="1.25rem" />
+        <SfLoader v-if="isWishlistActionInProgress(wishlist.id)" class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" />
+        <SfIcon v-else-if="isInWishlist(product, wishlist)" icon="heart_fill" size="1.25rem" />
+        <SfIcon v-else icon="heart" size="1.25rem" />
         </SfButton>
 
       </SfListItem>
@@ -170,14 +170,11 @@ export default {
 
       isInWishlist(product, wishlist) ? await handleRemoveFromWishlist(itemId, wishlistId) : await handleAddToWishlist(itemId, wishlistId);
 
-      const removedIdAfterLoading = wishlistsWithActionInProgressId.value.filter((id) => id !== wishlistId);
-      wishlistsWithActionInProgressId.value = removedIdAfterLoading;
-
-      isOpen.value = false;
+      wishlistsWithActionInProgressId.value = wishlistsWithActionInProgressId.value.filter((id) => id !== wishlistId);
     };
 
-    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    watch(() => props.visible, (newVal, oldVal) => {
+    // autamatically close dropdown on products grid view, when mouse leaves item
+    watch(() => props.visible, (newVal) => {
       if (newVal === false) isOpen.value = false;
     });
 
@@ -230,9 +227,7 @@ export default {
       }
 
       &__text{
-        @include for-desktop {
-          text-align: left;
-        }
+        text-align: left;
       }
     }
   }
@@ -251,9 +246,10 @@ export default {
 }
 
 .wishlist-action-loader{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 20px;
+  flex-shrink: 0;
+  ::v-deep sf-loader__overlay{
+    background-color: transparent;
+  }
 }
 </style>
