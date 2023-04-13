@@ -5,10 +5,12 @@
         v-for="(wishlist) in wishlists"
         :key="wishlist.id"
         class="list__item"
+        :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id)}"
       >
         <SfButton
           aria-label="back"
           class="sf-button--pure list__item--content"
+          :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id)}"
           type="button"
           @click="$emit('click', wishlist.id)"
         >
@@ -34,31 +36,34 @@
         <div v-if="wishlists.length > 1" class="list__item--buttons">
           <Transition>
             <div v-if="(toggledConfirm === wishlist.id)" class="buttons__confirm">
-                <span class="buttons__confirm--title">Are sure?</span>
+                <SfLoader v-if="isWishlistActionInProgress(wishlist.id)" class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" />
+                <template v-else>
+                  <span class="buttons__confirm--title">Are sure?</span>
 
-                <SfButton
-                  aria-label="Confirm wishlist"
-                  class="sf-button--pure buttons__confirm--confirm"
-                  @click="handleRemoveWishlist(wishlist.id)"
-                >
-                  <SfIcon
-                    viewBox="0 0 512 512"
-                    icon="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
-                    class="icon--primary"
-                  />
-                </SfButton>
+                  <SfButton
+                    aria-label="Confirm wishlist"
+                    class="sf-button--pure buttons__confirm--confirm"
+                    @click="handleRemoveWishlist(wishlist.id)"
+                  >
+                    <SfIcon
+                      viewBox="0 0 512 512"
+                      icon="M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"
+                      class="icon--primary"
+                    />
+                  </SfButton>
 
-                <SfButton
-                  aria-label="Cancel wishlist"
-                  class="sf-button--pure buttons__confirm--cancel"
-                  @click="toggledConfirm = ''"
-                >
-                  <SfIcon
-                    viewBox="0 0 512 512"
-                    icon="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"
-                    class="icon--danger"
-                  />
-                </SfButton>
+                  <SfButton
+                    aria-label="Cancel wishlist"
+                    class="sf-button--pure buttons__confirm--cancel"
+                    @click="toggledConfirm = ''"
+                  >
+                    <SfIcon
+                      viewBox="0 0 512 512"
+                      icon="M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z"
+                      class="icon--danger"
+                    />
+                  </SfButton>
+                </template>
             </div>
 
             <SfButton
@@ -87,7 +92,8 @@ import {
   SfList,
   SfCircleIcon,
   SfImage,
-  SfBadge
+  SfBadge,
+  SfLoader
 } from '@storefront-ui/vue';
 import { ref } from '@nuxtjs/composition-api';
 import { useWishlists, wishlistGetters } from '@vue-storefront/sylius';
@@ -101,16 +107,27 @@ export default {
     SfList,
     SfCircleIcon,
     SfImage,
-    SfBadge
+    SfBadge,
+    SfLoader
   },
   props: ['wishlists'],
   setup() {
     const { send } = useUiNotification();
     const { removeWishlist, error } = useWishlists();
     const toggledConfirm = ref('');
+    const wishlistsWithActionInProgressId = ref([]);
+
+    const isWishlistActionInProgress = (wishlistId) => {
+      return wishlistsWithActionInProgressId.value.includes(wishlistId);
+    };
 
     const handleRemoveWishlist = async (wishlistId) => {
+      wishlistsWithActionInProgressId.value = [...wishlistsWithActionInProgressId.value, wishlistId];
+
       await removeWishlist(wishlistId);
+
+      wishlistsWithActionInProgressId.value = wishlistsWithActionInProgressId.value.filter((id) => id !== wishlistId);
+
       toggledConfirm.value = '';
 
       if (error.value.removeWishlist) {
@@ -125,7 +142,8 @@ export default {
     return {
       wishlistGetters,
       toggledConfirm,
-      handleRemoveWishlist
+      handleRemoveWishlist,
+      isWishlistActionInProgress
     };
   }
 };
@@ -139,6 +157,10 @@ export default {
       margin-bottom: var(--spacer-xs);
       display: flex;
       align-items: center;
+
+      &.is-disabled--button{
+        background-color: var(--c-light);
+      }
 
       &:hover {
         background-color: var(--c-light);
@@ -227,5 +249,14 @@ export default {
 .v-leave-to {
   transform: translateY(200%);
   opacity: 0;
+}
+
+.wishlist-action-loader{
+  width: 24px;
+  margin-right: 6px;
+  flex-shrink: 0;
+  ::v-deep sf-loader__overlay{
+    background-color: transparent;
+  }
 }
 </style>
