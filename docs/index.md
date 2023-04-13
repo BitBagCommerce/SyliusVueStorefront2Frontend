@@ -6,6 +6,6 @@ This page only contains the documentation specific to Sylius integration. For mo
 
 [Sylius](https://www.vuestorefront.io/sylius) integration for Vue Storefront is open-source.
 
-If you want to preview our product, feel free to visit our [demo](https://vsf-next.ournights-staging.rocks/) application.
+If you want to preview our product, feel free to visit our [demo](http://vsf2-demo.bitbag.io/) application.
 
-You can also support us by contributing [here](https://github.com/vuestorefront/sylius).
+You can also support us by contributing [here](https://github.com/BitBagCommerce/SyliusVueStorefront2Frontend).
