@@ -109,7 +109,7 @@
             class="bottom__button"
             type="button"
             @click="handleAddToCart"
-            :disabled="!selectedProducts.length"
+            :disabled="!selectedProducts.length || isFormActionInProgress"
           >
             Add to cart
           </SfButton>
@@ -119,7 +119,7 @@
             class="color-danger bottom__button"
             type="button"
             @click="handleClearWishlist(currentWishlistId)"
-            :disabled="wishlistGetters.getTotalItems(currentWishlist) === 0"
+            :disabled="wishlistGetters.getTotalItems(currentWishlist) === 0 || isFormActionInProgress"
           >
             Clear
           </SfButton>
@@ -253,7 +253,9 @@ export default {
     };
 
     const handleClearWishlist = async (wishlistId) => {
+      isFormActionInProgress.value = true;
       await clearWishlist(wishlistId);
+      isFormActionInProgress.value = false;
 
       if (error.value.clearWishlist) {
         send({ type: 'danger', message: error.value.clearWishlist.message });
@@ -265,7 +267,9 @@ export default {
     };
 
     const handleAddToCart = async () => {
+      isFormActionInProgress.value = true;
       await addItem({ product: selectedProducts.value, quantity: 1 });
+      isFormActionInProgress.value = false;
 
       const cartError = Object.values(useCartError.value).find(err => err !== null);
 
