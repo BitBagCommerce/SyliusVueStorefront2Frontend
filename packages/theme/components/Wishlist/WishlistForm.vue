@@ -19,6 +19,7 @@
         <SfButton
           type="submit"
           class="wishlist-form__buttons--button"
+          :class="{'is-disabled--button': isFormActionInProgress}"
         >
           {{ isEdit ? 'Change' : 'Create' }}
         </SfButton>
@@ -26,6 +27,7 @@
         <SfButton
           @click="$emit('click:cancel')"
           class="color-secondary wishlist-form__buttons--button"
+          :class="{'is-disabled--button': isFormActionInProgress}"
         >
           Cancel
         </SfButton>
@@ -61,6 +63,10 @@ export default {
       default: {}
     },
     isEdit: {
+      type: Boolean,
+      default: false
+    },
+    isFormActionInProgress: {
       type: Boolean,
       default: false
     }

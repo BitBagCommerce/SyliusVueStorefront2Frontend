@@ -83,6 +83,7 @@
           v-else-if="(currentView === views.create || currentView === views.edit)"
           :isEdit="currentView === views.edit"
           :wishlistId="currentWishlistId"
+          :isFormActionInProgress="isFormActionInProgress"
           @click:create="handleCreateWishlist"
           @click:edit="handleEditWishlist"
           @click:cancel="toggleListView"
@@ -186,6 +187,7 @@ export default {
     const currentView = ref(views.list);
     const currentWishlistId = ref('');
     const selectedProducts = ref([]);
+    const isFormActionInProgress = ref(false);
 
     const currentWishlist = computed(() => wishlistGetters.getWishlist(currentWishlistId.value, wishlists.value) || {});
     const sidebarTitle = computed(() => {
@@ -221,7 +223,9 @@ export default {
     };
 
     const handleCreateWishlist = async (wishlistName) => {
+      isFormActionInProgress.value = true;
       await createWishlist(wishlistName);
+      isFormActionInProgress.value = false;
 
       if (error.value.createWishlist) {
         send({ type: 'danger', message: error.value.createWishlist.message });
@@ -296,7 +300,8 @@ export default {
       handleEditWishlist,
       handleClearWishlist,
       isEditOpen,
-      handleAddToCart
+      handleAddToCart,
+      isFormActionInProgress
     };
   }
 };
