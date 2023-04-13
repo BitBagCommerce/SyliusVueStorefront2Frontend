@@ -238,7 +238,9 @@ export default {
     };
 
     const handleEditWishlist = async (wishlistId, wishlistName) => {
+      isFormActionInProgress.value = true;
       await editWishlist(wishlistId, wishlistName);
+      isFormActionInProgress.value = false;
 
       if (error.value.editWishlist) {
         send({ type: 'danger', message: error.value.editWishlist.message });
