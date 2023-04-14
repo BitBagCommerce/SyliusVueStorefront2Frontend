@@ -6,134 +6,138 @@
       class="sidebar-filters"
       @close="toggleFilterSidebar"
     >
-      <div class="filters desktop-only">
-        <div v-for="(facet, i) in facets" :key="i">
-          <div v-if="facet.type === 'text'">
+      <SfLoader :class="{ loading }" :loading="loading">
+        <div v-if="!loading">
+          <div class="filters desktop-only">
+            <div v-for="(facet, i) in facets" :key="i">
+              <div v-if="facet.type === 'text'">
+                <SfHeading
+                  :level="4"
+                  :title="facet.label"
+                  class="filters__title sf-heading--left"
+                  :key="`filter-title-${facet.id}`"
+                />
+                <SfFilter
+                  v-for="option in facet.options"
+                  :key="`${facet.id}-${option.stringValue}`"
+                  :label="option.stringValue"
+                  :selected="isFilterSelected(facet, option)"
+                  class="filters__item"
+                  @change="() => selectFilter(facet, option)"
+                />
+              </div>
+              <div v-else>
+                <div class="filters__wrapper filters__title sf-heading--left">
+                  <SfHeading
+                    :level="4"
+                    :title="facet.label"
+                    :key="`filter-title-${facet.id}`"
+                  />
+                  <SfCircleIcon
+                    v-if="isRangeSelected(facet)"
+                    icon-size="12px"
+                    aria-label="Remove filter"
+                    icon="cross"
+                    class="sf-circle-icon__icon desktop-only"
+                    @click="removeRange(facet)"
+                  />
+                </div>
+                <SfRange
+                  :config="{
+                    start: getRange(facet),
+                    range: { min: 0, max: 20 },
+                    step: 1,
+                    margin: 1,
+                    tooltips: true,
+                    connect: true
+                  }"
+                  class="filters__range"
+                  @change="setPrice"
+                />
+              </div>
+            </div>
             <SfHeading
               :level="4"
-              :title="facet.label"
+              title="Price"
               class="filters__title sf-heading--left"
-              :key="`filter-title-${facet.id}`"
             />
-            <SfFilter
-              v-for="option in facet.options"
-              :key="`${facet.id}-${option.stringValue}`"
-              :label="option.stringValue"
-              :selected="isFilterSelected(facet, option)"
-              class="filters__item"
-              @change="() => selectFilter(facet, option)"
-            />
-          </div>
-          <div v-else>
-            <div class="filters__wrapper filters__title sf-heading--left">
-              <SfHeading
-                :level="4"
-                :title="facet.label"
-                :key="`filter-title-${facet.id}`"
-              />
-              <SfCircleIcon
-                v-if="isRangeSelected(facet)"
-                icon-size="12px"
-                aria-label="Remove filter"
-                icon="cross"
-                class="sf-circle-icon__icon desktop-only"
-                @click="removeRange(facet)"
-              />
-            </div>
             <SfRange
               :config="{
-                start: getRange(facet),
-                range: { min: 0, max: 20 },
-                step: 1,
-                margin: 1,
+                start: priceRange,
+                range: getMaxPrice(),
                 tooltips: true,
                 connect: true
               }"
               class="filters__range"
-              @change="setRange(facet, $event)"
+              @change="setPrice"
             />
           </div>
-        </div>
-        <SfHeading
-          :level="4"
-          title="Price"
-          class="filters__title sf-heading--left"
-        />
-        <SfRange
-          :config="{
-            start: priceRange,
-            range: getMaxPrice(),
-            tooltips: true,
-            connect: true
-          }"
-          class="filters__range"
-          @change="setPrice"
-        />
-      </div>
-      <SfAccordion class="filters smartphone-only">
-        <div v-for="(facet, i) in facets" :key="i">
-          <div v-if="facet.type === 'text'">
-            <SfAccordionItem
-              :key="`filter-title-${facet.id}`"
-              :header="facet.label"
-              class="filters__accordion-item"
-            >
-              <SfFilter
-                v-for="option in facet.options"
-                :key="`${facet.id}-${option.stringValue}`"
-                :label="option.stringValue"
-                :selected="isFilterSelected(facet, option)"
-                class="filters__item"
-                @change="() => selectFilter(facet, option)"
-              />
-            </SfAccordionItem>
-          </div>
-          <div v-else>
-              <div class="filters__wrapper filters__title sf-heading--left">
-                <SfHeading
-                  :level="4"
-                  :title="facet.label"
+          <SfAccordion class="filters smartphone-only">
+            <div v-for="(facet, i) in facets" :key="i">
+              <div v-if="facet.type === 'text'">
+                <SfAccordionItem
                   :key="`filter-title-${facet.id}`"
-                />
-                <SfCircleIcon
-                  v-if="isRangeSelected(facet)"
-                  icon-size="12px"
-                  aria-label="Remove filter"
-                  icon="cross"
-                  class="sf-circle-icon__icon desktop-only"
-                  @click="removeRange(facet)"
-                />
+                  :header="facet.label"
+                  class="filters__accordion-item"
+                >
+                  <SfFilter
+                    v-for="option in facet.options"
+                    :key="`${facet.id}-${option.stringValue}`"
+                    :label="option.stringValue"
+                    :selected="isFilterSelected(facet, option)"
+                    class="filters__item"
+                    @change="() => selectFilter(facet, option)"
+                  />
+                </SfAccordionItem>
               </div>
+              <div v-else>
+                  <div class="filters__wrapper filters__title sf-heading--left">
+                    <SfHeading
+                      :level="4"
+                      :title="facet.label"
+                      :key="`filter-title-${facet.id}`"
+                    />
+                    <SfCircleIcon
+                      v-if="isRangeSelected(facet)"
+                      icon-size="12px"
+                      aria-label="Remove filter"
+                      icon="cross"
+                      class="sf-circle-icon__icon desktop-only"
+                      @click="removeRange(facet)"
+                    />
+                  </div>
+                  <SfRange
+                    :config="{
+                      start: getRange(facet),
+                      range: { min: 0, max: 20 },
+                      step: 1,
+                      margin: 1,
+                      tooltips: true,
+                      connect: true
+                    }"
+                    class="filters__range"
+                    @change="setPrice"
+                  />
+                </div>
+            </div>
+            <SfHeading
+                :level="4"
+                title="Price"
+                class="filters__title sf-heading--left"
+              />
               <SfRange
                 :config="{
-                  start: getRange(facet),
-                  range: { min: 0, max: 20 },
-                  step: 1,
-                  margin: 1,
+                  start: priceRange,
+                  range: getMaxPrice(),
                   tooltips: true,
                   connect: true
                 }"
                 class="filters__range"
-                @change="setRange(facet, $event)"
+                @change="setPrice"
               />
-            </div>
+          </SfAccordion>
         </div>
-        <SfHeading
-            :level="4"
-            title="Price"
-            class="filters__title sf-heading--left"
-          />
-          <SfRange
-            :config="{
-              start: priceRange,
-              range: getMaxPrice(),
-              tooltips: true,
-              connect: true
-            }"
-            class="filters__range"
-            @change="setPrice"
-          />
-      </SfAccordion>
+      </SfLoader>
       <template #content-bottom>
         <div class="filters__buttons">
           <SfButton
@@ -165,11 +169,12 @@ import {
   SfAccordion,
   SfColor,
   SfRange,
-  SfCircleIcon
+  SfCircleIcon,
+  SfLoader
 } from '@storefront-ui/vue';
 
-import { ref, computed, onMounted, watch } from '@nuxtjs/composition-api';
-import { useFacet, facetGetters } from '@vue-storefront/sylius';
+import { ref, computed, onMounted, watch, useRoute } from '@nuxtjs/composition-api';
+import { useAttributes, useProducts } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState } from '~/composables';
 import Vue from 'vue';
 
@@ -183,15 +188,19 @@ export default {
     SfColor,
     SfHeading,
     SfRange,
-    SfCircleIcon
+    SfCircleIcon,
+    SfLoader
   },
   setup(props, context) {
+    const route = useRoute();
+
     const { changeFilters, isFacetColor } = useUiHelpers();
     const { toggleFilterSidebar, isFilterSidebarOpen } = useUiState();
-    const { result } = useFacet();
+    const { attributes, loading } = useAttributes();
+    const { productsNotFiltered } = useProducts();
 
-    const facets = computed(() => facetGetters.getGrouped(result.value));
-    const products = computed(() => facetGetters.getProductsNotFiltered(result.value));
+    const facets = computed(() => attributes.value);
+    const products = computed(() => productsNotFiltered.value);
     const selectedFilters = ref({});
     const priceRange = ref([]);
 
@@ -230,7 +239,7 @@ export default {
     };
 
     const getMaxPrice = () => {
-      if (!products.value.length) return { min: 0, max: 1 };
+      if (!products.value?.length) return { min: 0, max: 1 };
 
       const prices = products.value.map(prod => prod.variants[0].channelPricings[0].price / 100);
 
@@ -240,7 +249,7 @@ export default {
       };
     };
 
-    const getPrice = () => result.value.input.price?.[0].between.split('..').map(price => price / 100) || Object.values(getMaxPrice());
+    const getPrice = () => route.value.query?.priceRange?.split('..')?.map(price => price / 100) || Object.values(getMaxPrice());
     const setPrice = range => priceRange.value = range;
 
     const isRangeSelected = facet => Boolean(selectedFilters.value[facet.id]?.length);
@@ -264,20 +273,21 @@ export default {
       changeFilters(selectedFilters.value, priceRange.value);
     };
 
-    setSelectedFilters();
+    if (attributes.value) setSelectedFilters();
 
     onMounted(() => {
       context.root.$scrollTo(context.root.$el, 2000);
       setPrice(getPrice());
     });
 
-    watch(facets, () => {
+    watch(() => attributes.value, () => {
       setPrice(getPrice());
       setSelectedFilters();
     });
 
     return {
       facets,
+      loading,
       isFacetColor,
       selectFilter,
       isFilterSelected,

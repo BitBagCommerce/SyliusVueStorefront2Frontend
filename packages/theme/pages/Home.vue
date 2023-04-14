@@ -85,7 +85,7 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <SfLoader class="loading" :loading="loading">
+      <SfLoader :class="{ loading }" :loading="loading">
         <SfCarousel class="carousel" :settings="{ peek: 16, gap: 10, breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } } }">
           <template #prev="{go}">
             <SfArrow
@@ -155,11 +155,10 @@ import {
   SfLoader
 } from '@storefront-ui/vue';
 import { computed, useContext } from '@nuxtjs/composition-api';
-import {useCart, useCategory} from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
+import { useCart, useCategory, useProducts, productGetters } from '@vue-storefront/sylius';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
-import { useFacet, facetGetters, productGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables';
 import loader from '~/static/icons/loader.svg';
 
@@ -185,10 +184,10 @@ export default {
     const t = (key) => root.$i18n.t(key);
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
-    const { result, search, loading } = useFacet('category/t-shirts');
     const { addItem: addItemToCart, error } = useCart();
     const { send } = useUiNotification();
-    const products = computed(() => facetGetters.getProducts(result.value));
+    const { load, result, loading } = useProducts();
+    const products = computed(() => result.value?.products || []);
 
     const heroes = [
       {
@@ -293,11 +292,9 @@ export default {
       send({ type: 'success', message: t('Product has been added to the cart') });
     };
 
-    onSSR(() => search({
-      categorySlug: 'category/t-shirts',
-      channelsCode: process.env.SYLIUS_CHANNEL_CODE,
-      attributes: {}
-    }));
+    onSSR(async () => {
+      await load({ categorySlug: 'category/t-shirts' });
+    });
 
     return {
       banners,
