@@ -37,12 +37,17 @@ module.exports = {
         title: 'Composables',
         collapsable: false,
         children: [
+          ['/guide/composables/useBilling', 'useBilling'],
           ['/guide/composables/useCart', 'useCart'],
           ['/guide/composables/useProduct', 'useProduct'],
           ['/guide/composables/useCategory', 'useCategory'],
           ['/guide/composables/useReview', 'useReview'],
+          ['/guide/composables/useShipping', 'useShipping'],
+          ['/guide/composables/useShippingProvider', 'useShippingProvider'],
           ['/guide/composables/useMakeOrder', 'useMakeOrder'],
           ['/guide/composables/useUser', 'useUser'],
+          ['/guide/composables/useUserBilling', 'useUserBilling'],
+          ['/guide/composables/useUserOrder', 'useUserOrder'],
           ['/guide/composables/useUserShipping', 'useUserShipping'],
         ]
       },

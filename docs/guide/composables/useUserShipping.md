@@ -15,17 +15,37 @@
 
 
 ### `load`
-function for loading all saved addresses for current user.
+Function for loading all saved addresses for current user.
 
 ### `addAddress`
-function for adding a new address.
+Function for adding a new address. It accepts an object with the following keys:
+
+  * `address`
+      * `firstName: string`
+      * `lastName: string`
+      * `street: string`
+      * `city: string`
+      * `postcode: string`
+      * `countryCode: string`
+      * `phoneNumber: string`
 
 ### `updateAddress`
-function for updating an address.
+Function for updating an address. It accepts an object with the following keys:
+
+  * `address`
+      * `firstName: string`
+      * `lastName: string`
+      * `street: string`
+      * `city: string`
+      * `postcode: string`
+      * `countryCode: string`
+      * `phoneNumber: string`
 
 ### `deleteAddress`
-function for deleting an address.
+Function for deleting an address. It accepts an object with the following keys:
 
+  * `address`
+      * `id: string`
 
 ## Getters
 

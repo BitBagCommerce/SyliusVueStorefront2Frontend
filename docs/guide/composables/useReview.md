@@ -10,14 +10,21 @@
 * `loading: boolean` - a reactive object containing information whether reviews are loading.
 * `error: UseReviewErrors` - a map of errors per method
 
-[Review](../api-client/sylius-api.review.md)
 
 ### `search`
-function for fetching reviews based on passed `params`.
+
+Function for fetching reviews based on passed `params`. It accepts an object with the following key:
+
+  * `productId: string`
 
 ### `addReview`
-function for adding a review.
 
+Function for adding a review. It accepts an object with the following keys:
+
+  * `title: string`
+  * `comment: string`
+  * `reviewSubject: string`
+  * `rating: number`
 
 ## Getters
 
