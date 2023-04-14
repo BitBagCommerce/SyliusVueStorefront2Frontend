@@ -102,7 +102,7 @@ More about composables in VSF2 can be found [here](https://docs.vuestorefront.io
 
 ## Theme
 
-Folder `packages/theme` is the place where your [Nuxt2](https://nuxtjs.org/) app is located, here you white your [Vue2](https://vuejs.org/) code using [composition API](https://vuejs.org/guide/extras/composition-api-faq.html).
+Folder `packages/theme` is the place where your [Nuxt2](https://nuxtjs.org/) app is located, here you write your [Vue2](https://vuejs.org/) code using [composition API](https://vuejs.org/guide/extras/composition-api-faq.html).
 
 Example `.vue` file:
 
@@ -156,7 +156,7 @@ export default {
 }
 ```
 
-Remember to also configure the same translation on the Sylius side, and to use the proper locale code from Sylius translations for `sylius` key above, this code should be similar to the ones above `en_US``.
+Remember to also configure the same translation on the Sylius side, and to use the proper locale code from Sylius translations for `sylius` key above, this code should be similar to the ones above `en_US`.
 
 After this configuration, you can add your translation file to `packages/theme/lang`, and add your custom translations to it:
 
@@ -187,7 +187,7 @@ To access your translations in Vue templates, you just need to use `$t('Key from
 
 ```html
 <span>
-  {{ $t('Custom translation') }}
+  {{ $t('New translation') }}
 <span>
 ```
 
@@ -197,7 +197,7 @@ Inside of `setup()` function it can be accessed through context, for example:
 export default {
   // ...
   setup(props, context) {
-    context.root.$i18n.t('Custom translation'));
+    context.root.$i18n.t('New translation'));
   }
 }
 ```
