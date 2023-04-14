@@ -16,17 +16,49 @@
 
 
 ### `load`
-function for loading the current user.
+
+Function for loading the current user.
 
 ### `logIn`
 
+Function for logging in user. It accepts an object with the following keys:
+
+  * `username: string`
+  * `password: string`
+
 ### `logOut`
+
+Function for logging out current user.
 
 ### `register`
 
+Function for registering a new user. It accepts an object with the following keys:
+
+  * `email: string`
+  * `password: string`
+  * `firstName: string`
+  * `lastName: string`
+
 ### `updateUser`
 
+Function for updating user information. It accepts an object with the following keys:
+
+  * `user`
+      * `firstName: string`
+      * `lastName: string`
+      * `email: string`
+      * `gender: string`
+      * `birthday: string`
+      * `phoneNumber: string`
+      * `subscribedToNewsletter: boolean`
+
 ### `changePassword`
+
+Function for changing current users password. It accepts an object with the following keys:
+
+  * `currentUser: any`
+  * `currentPassword: string`
+  * `newPassword: string`
 
 
 ## Getters

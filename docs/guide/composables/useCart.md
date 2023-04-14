@@ -15,15 +15,15 @@
 * `loading: boolean` - a reactive object containing information about loading state of the cart.
 * `error` - reactive object containing the error message.
 
-[Cart](../api-client/sylius-api.cart.md)
-
 ### `load`
-function for loading existing cart from cookie or creating a brand new cart and storing cart identifier to cookie.
+
+Function for loading existing cart from cookie or creating a brand new cart and storing cart identifier to cookie.
 function required to fetch cart from a server or create brand new if it doesn't exist.
 
 
 ### `addItem`
-function for adding products to the cart and it accepts an object with the following keys:
+
+Function for adding products to the cart. It accepts an object with the following keys:
 
   * `product: Product`
 
@@ -32,7 +32,8 @@ function for adding products to the cart and it accepts an object with the follo
   * `customQuery?: customQuery`
 
 ### `updateItemQty`
-function for updating quantity of a product in cart and it accepts an object with the following keys:
+
+Function for updating quantity of a product in cart. It accepts an object with the following keys:
 
   * `product: Product`
 
@@ -41,25 +42,28 @@ function for updating quantity of a product in cart and it accepts an object wit
   * `customQuery?: CustomQuery`
 
 ### `removeItem`
-function for removing a product from cart and it accepts an object with the following keys:
+
+Function for removing a product from cart. It accepts an object with the following keys:
 
   * `product: Product`
 
   * `customQuery?: CustomQuery`
 
 ### `isInCart`
-function for checking if given product is currently in the cart.
+
+Function for checking if given product is currently in the cart.
 
 * `clear` - function for removing all items in cart.
 
-* `applyCoupon` - function for applying coupon to cart and it accepts an object with the following keys:
+* `applyCoupon` - function for applying coupon to cart. It accepts an object with the following keys:
 
   * `couponCode: string`
 
   * `customQuery?: CustomQuery`
 
 ### `removeCoupon`
-function for removing coupon from cart and it accepts an object with the following keys:
+
+Function for removing coupon from cart. It accepts an object with the following keys:
 
   * `coupon: string`
 
@@ -74,7 +78,7 @@ function for removing coupon from cart and it accepts an object with the followi
 * `getItemImage: string`
 * `getItemPrice: AgnosticPrice`
 * `getItemQty: number`
-* `getItemAttributes: Array<string>`
+* `getItemAttributes: Record<string, string>`
 * `getItemSku: string`
 * `getFormattedPrice: string`
 * `getTotalItems: number`

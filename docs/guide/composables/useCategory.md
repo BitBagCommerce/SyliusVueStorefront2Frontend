@@ -9,11 +9,9 @@
 * `categories: Category[]` - an array of fetched categories.
 * `loading: boolean` - a reactive object containing information whether categories are loading.
 
-[Category](../api-client/sylius-api.category.md)
 
-
-### `categorySearch`
-function for fetching products based on passed `params`.
+### `search`
+Function for fetching products based on passed `params`.
 
 
 ## Getters

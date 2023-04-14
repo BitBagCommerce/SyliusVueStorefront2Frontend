@@ -9,10 +9,10 @@
 * `products: Product[]` - an array of fetched products.
 * `loading: boolean` - a reactive object containing information whether products are loading.
 
-[Product](../api-client/sylius-api.product.md)
 
-### `productsSearch`
-function for fetching products based on passed `params: ProductsSearchParams`.
+### `search`
+
+Function for fetching products based on passed `params: ProductsSearchParams`.
 
 [ProductsSearchParams](https://docs.vuestorefront.io/v2/reference/api/core.productssearchparams.html)
 
