@@ -9,8 +9,8 @@
     "dev": "vuepress dev",
     "build": "vuepress build",
     "build:docs": "concurrently \"yarn:docs-gen:*\" && concurrently \"yarn:docs-md:*\"",
-    "docs-gen:api": "cd ../packages/sylius/api-client && api-extractor run --local",
-    "docs-gen:composables": "cd ../packages/sylius/composables && api-extractor run --local",
+    "docs-gen:api": "cd ../packages/api-client && api-extractor run --local",
+    "docs-gen:composables": "cd ../packages/composables && api-extractor run --local",
     "docs-md:api": "api-documenter markdown --i ../packages/docs/api-client --o guide/api-client",
     "docs-md:composables": "api-documenter markdown --i ../packages/docs/composables --o guide/composables"
   },
