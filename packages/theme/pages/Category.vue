@@ -78,8 +78,8 @@
           </SfLoader>
         </LazyHydrate>
       </div>
-      <SfLoader :class="{ loading }" :loading="loading">
-        <div class="products" v-if="!loading">
+      <SfLoader :class="{ loading }" :loading="productsLoading">
+        <div class="products" v-if="!productsLoading">
           <transition-group
             v-if="isCategoryGridView"
             appear
@@ -227,15 +227,15 @@
             <SfPagination
               v-if="!loading"
               class="products__pagination desktop-only"
-              v-show="pagination.totalPages > 1"
-              :current="pagination.currentPage"
-              :total="pagination.totalPages"
+              v-show="pagination.lastPage > 1"
+              :current="pagination.page"
+              :total="pagination.lastPage"
               :visible="5"
             />
           </LazyHydrate>
 
           <div
-            v-show="pagination.totalPages > 1"
+            v-show="pagination.lastPage > 1"
             class="products__show-on-page"
           >
             <span class="products__show-on-page__label">{{
@@ -252,7 +252,7 @@
                 @input="th.changeItemsPerPage"
               >
                 <SfSelectOption
-                  v-for="option in pagination.pageOptions"
+                  v-for="option in [10, 20, 50]"
                   :key="option"
                   :value="option"
                   class="products__items-per-page__option"
@@ -288,7 +288,7 @@ import {
   SfProperty,
 } from '@storefront-ui/vue';
 import AddToCart from '~/components/AddToCart.vue';
-import { computed, ref, watch } from '@nuxtjs/composition-api';
+import { computed, ref, watch, onMounted } from '@nuxtjs/composition-api';
 import {
   useCart,
   useWishlists,
@@ -296,9 +296,10 @@ import {
   useFacet,
   facetGetters,
   wishlistGetters,
+  useProducts,
+  useAttributes
 } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
-import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
 import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
@@ -313,6 +314,8 @@ export default {
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart, error: useCartError } = useCart();
     const { result, search, loading, error } = useFacet();
+    const { load: loadAttributes } = useAttributes();
+    const { load: loadProducts, result: productsResult, loading: productsLoading } = useProducts();
     const {
       addItem: addItemToWishlist,
       isInWishlist,
@@ -322,16 +325,16 @@ export default {
     const { send } = useUiNotification();
     const { open } = useVariantSelector();
 
+    const products = computed(() => productsResult.value?.products || []);
     const productsQuantity = ref({});
     const isDropdownVisible = false;
-    const products = computed(() => facetGetters.getProducts(result.value));
     const categoryTree = computed(() =>
       facetGetters.getCategoryTree(result.value)
     );
     const breadcrumbs = computed(() =>
       facetGetters.getBreadcrumbs(result.value)
     );
-    const pagination = computed(() => facetGetters.getPagination(result.value));
+    const pagination = computed(() => productsResult.value?.pagination || {});
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
 
@@ -376,23 +379,30 @@ export default {
     };
 
     const removeProductFromWishlist = (productItem) => {
-      const productsInWhishlist = computed(() =>
+      const productsInWishlist = computed(() =>
         wishlistGetters.getItems(wishlists.value)
       );
-      const product = productsInWhishlist.value.find(
+      const product = productsInWishlist.value.find(
         (wishlistProduct) => wishlistProduct.variant.sku === productItem.sku
       );
       removeItemFromWishlist({ product });
     };
 
-    onSSR(async () => {
-      await search(th.getFacetsFromURL());
+    onMounted(async () => {
+      const facets = th.getFacetsFromURL();
+
+      await Promise.all([
+        search(facets),
+        loadAttributes(facets),
+        loadProducts(facets)
+      ]);
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
     });
 
     return {
       ...uiState,
       th,
+      productsLoading,
       products,
       categoryTree,
       loading,
