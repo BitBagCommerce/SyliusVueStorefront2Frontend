@@ -57,39 +57,27 @@
     </div>
     <slot name="remove" v-bind="{ removeHandler }">
       <template :class="{ 'display-none': !hasRemove }">
-        <SfCircleIcon
-          icon="cross"
-          aria-label="Remove"
-          class="
-            sf-circle-icon--small
-            sf-collected-product__remove
-            sf-collected-product__remove--circle-icon
-          "
-          @click="removeHandler"
-        />
-        <SfButton
-          class="
-            sf-button--text
-            sf-collected-product__remove sf-collected-product__remove--text
-          "
-          data-testid="collected-product-desktop-remove"
-          @click="removeHandler"
-        >Remove</SfButton>
-      </template>
-    </slot>
-    <slot name="more-actions" v-bind="{ actionsHandler }">
-      <template :class="{ 'display-none': !hasMoreActions }">
-        <SfButton
-          aria-label="More actions"
-          class="
-            sf-button--pure
-            sf-collected-product__more-actions
-            smartphone-only
-          "
-          @click="actionsHandler"
-        >
-          <SfIcon icon="more" size="18px" />
-        </SfButton>
+        <SfLoader v-if="isRemovingInProgress" class="wishlist-action-loader" :loading="true" />
+        <template v-else>
+          <SfCircleIcon
+            icon="cross"
+            aria-label="Remove"
+            class="
+              sf-circle-icon--small
+              sf-collected-product__remove
+              sf-collected-product__remove--circle-icon
+            "
+            @click="removeHandler"
+          />
+          <SfButton
+            class="
+              sf-button--text
+              sf-collected-product__remove sf-collected-product__remove--text
+            "
+            data-testid="collected-product-desktop-remove"
+            @click="removeHandler"
+          >Remove</SfButton>
+        </template>
       </template>
     </slot>
   </div>
@@ -103,7 +91,8 @@ import {
   SfButton,
   SfQuantitySelector,
   SfLink,
-  SfProperty
+  SfProperty,
+  SfLoader
 } from '@storefront-ui/vue';
 import { computed, ref } from '@nuxtjs/composition-api';
 import productPlaceholder from '@storefront-ui/shared/images/product_placeholder.svg';
@@ -120,7 +109,8 @@ export default {
     SfQuantitySelector,
     SfLink,
     SfProperty,
-    QuantitySelector
+    QuantitySelector,
+    SfLoader
   },
   model: {
     prop: 'qty'
@@ -177,6 +167,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    isRemovingInProgress: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
@@ -213,7 +207,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@storefront-ui/shared/styles/components/organisms/SfCollectedProduct";
 
 .input {
@@ -235,6 +229,31 @@ export default {
     bottom: 0;
     z-index: 10;
     width: 1.5rem;
+  }
+}
+
+.wishlist-action-loader {
+  position: absolute;
+  height: auto;
+  bottom: var(--spacer-xs);
+  right: 0;
+  z-index: 10;
+  width: 20px;
+  transform: translate(-10px, -20px);
+  @include for-desktop{
+    top: var(--spacer-xs);
+    bottom: unset;
+    transform: translate(7px, 0px);
+  }
+  ::v-deep .sf-loader__overlay{
+    border-radius: 9999px;
+    background-color: var(--c-light);
+    height: 26px;
+    width: 26px;
+    svg{
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 </style>

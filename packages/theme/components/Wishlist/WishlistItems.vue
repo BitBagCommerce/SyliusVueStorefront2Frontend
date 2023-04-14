@@ -20,7 +20,8 @@
           :stock="99999"
           image-width="180"
           image-height="200"
-          @click:remove="removeItem(product.id, wishlistId)"
+          :isRemovingInProgress="isRemovingInProgress(product.id)"
+          @click:remove="handleRemoveItemFromWishlist(product.id, wishlistId)"
           class="collected-product"
         >
           <template #configuration>
@@ -110,6 +111,19 @@ export default {
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value) || 0);
     const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value) || 0);
     const renderedProducts = ref(products.value?.map(prod => ({ ...prod, selected: false })));
+    const wishlistsItemRemovingInProgressId = ref([]);
+
+    const isRemovingInProgress = (productId) => {
+      return wishlistsItemRemovingInProgressId.value.includes(productId);
+    };
+
+    const handleRemoveItemFromWishlist = async (productId, wishlistId) => {
+      wishlistsItemRemovingInProgressId.value = [...wishlistsItemRemovingInProgressId.value, productId];
+
+      await removeItem(productId, wishlistId);
+
+      wishlistsItemRemovingInProgressId.value = wishlistsItemRemovingInProgressId.value.filter((id) => id !== productId);
+    };
 
     const getSelected = () => renderedProducts.value
       .filter(prod => prod.selected === true)
@@ -157,7 +171,9 @@ export default {
       renderedProducts,
       toggleSelection,
       toggleAll,
-      isEverythingSelected
+      isEverythingSelected,
+      handleRemoveItemFromWishlist,
+      isRemovingInProgress
     };
   }
 };
