@@ -255,8 +255,8 @@ export default {
 .wishlist-action-loader{
   width: 20px;
   flex-shrink: 0;
-  ::v-deep sf-loader__overlay{
-    background-color: transparent;
+  ::v-deep .sf-loader__overlay{
+    background-color: unset;
   }
 }
 </style>

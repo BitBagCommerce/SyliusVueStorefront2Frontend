@@ -256,7 +256,7 @@ export default {
   margin-right: 6px;
   flex-shrink: 0;
   ::v-deep sf-loader__overlay{
-    background-color: transparent;
+    background-color: unset;
   }
 }
 </style>
