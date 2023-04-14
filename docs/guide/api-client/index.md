@@ -8,5 +8,5 @@
 
 |  Package | Description |
 |  --- | --- |
-|  [@realtainment/sylius-api](./sylius-api.md) |  |
+|  [@vue-storefront/sylius-api](./sylius-api.md) |  |
 
