@@ -657,16 +657,47 @@ export default {
       position: absolute;
       top: calc(1rem + var(--spacer-sm));
       right: calc(1rem + var(--spacer-sm));
-      z-index: 1;
     }
 
-    &:hover {
-      --product-card-add-button-opacity: 1;
-      --product-card-z-index: 1;
-      --product-card-box-shadow: 0px 4px 11px rgba(29, 31, 34, 0.1);
-
+    @include for-mobile{
       .wishlist {
         display: flex;
+        z-index: 1;
+        &.active {
+          z-index: 2;
+        }
+      }
+
+      ::v-deep {
+        .sf-overlay {
+          background-color: unset;
+        }
+        .sf-dropdown__container {
+          position: fixed;
+          top: unset;
+          left: 0;
+          bottom: 58px;
+          right: 0;
+          z-index: 1;
+          box-shadow: 0px 0px 16px rgba(29, 31, 34, 0.2);
+        }
+        .dropdown__list__item{
+          flex-direction: row-reverse;
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    @include for-desktop{
+      &:hover {
+        --product-card-add-button-opacity: 1;
+        --product-card-z-index: 1;
+        --product-card-box-shadow: 0px 4px 11px rgba(29, 31, 34, 0.1);
+
+        .wishlist {
+          display: flex;
+          z-index: 10;
+        }
       }
     }
   }

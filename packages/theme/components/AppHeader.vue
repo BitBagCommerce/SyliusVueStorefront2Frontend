@@ -289,4 +289,8 @@ export default {
   bottom: 40%;
   left: 40%;
 }
+
+::v-deep .sf-modal__container{
+  z-index: 3;
+}
 </style>

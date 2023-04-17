@@ -2,7 +2,7 @@
   <SfDropdown
     v-if="isAuthenticated"
     :isOpen="isOpen"
-    :class="`dropdown ${circleIcon || icon ? '' : 'no-icon'}`"
+    :class="`dropdown ${circleIcon || icon ? '' : 'no-icon'} ${isOpen ? 'active' : ''}`"
   >
     <template #opener>
       <template v-if="icon">
