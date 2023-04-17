@@ -35,7 +35,7 @@
 
         <div v-if="wishlists.length > 1" class="list__item--buttons">
           <Transition>
-            <div v-if="(toggledConfirm === wishlist.id)" class="buttons__confirm">
+            <div v-if="(toggledConfirm === wishlist.id || isWishlistActionInProgress(wishlist.id))" class="buttons__confirm">
                 <SfLoader v-if="isWishlistActionInProgress(wishlist.id)" class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" />
                 <template v-else>
                   <span class="buttons__confirm--title">Are sure?</span>
