@@ -658,32 +658,12 @@ export default {
       top: calc(1rem + var(--spacer-sm));
       right: calc(1rem + var(--spacer-sm));
     }
-
     @include for-mobile{
       .wishlist {
         display: flex;
         z-index: 1;
         &.active {
           z-index: 2;
-        }
-      }
-
-      ::v-deep {
-        .sf-overlay {
-          background-color: unset;
-        }
-        .sf-dropdown__container {
-          position: fixed;
-          top: unset;
-          left: 0;
-          bottom: 58px;
-          right: 0;
-          z-index: 1;
-          box-shadow: 0px 0px 16px rgba(29, 31, 34, 0.2);
-        }
-        .dropdown__list__item{
-          flex-direction: row-reverse;
-          justify-content: flex-end;
         }
       }
     }

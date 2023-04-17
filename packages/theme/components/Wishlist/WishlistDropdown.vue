@@ -208,6 +208,28 @@ export default {
     }
   }
 
+  @include for-mobile{
+    ::v-deep {
+      .sf-overlay {
+        background-color: unset;
+      }
+      .sf-dropdown__container {
+        position: fixed;
+        top: unset;
+        width: 100%;
+        left: 0;
+        bottom: 58px;
+        max-width: unset;
+        z-index: 1;
+        box-shadow: 0px 0px 16px rgba(29, 31, 34, 0.2);
+      }
+      .dropdown__list__item{
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+      }
+    }
+  }
+
   &__list {
     min-width: 10rem;
     padding: var(--spacer-sm);
