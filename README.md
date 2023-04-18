@@ -47,6 +47,12 @@ You can run the Vue Storefront 2 integration by running a few steps inside root 
 4. To run application in development mode, please run `yarn dev` command.
 5. To run application in production mode, please run `yarn start` command.
 
+If you want to run our docs page yourself, do the following:
+
+1. Run `yarn docs:install` in the root directory to install docs dependencies.
+2. To run the docs page in development mode use `yarn docs:dev`.
+3. If you want to build a docs page run `yarn docs:build`.
+
 #### Internationalization
 
 By default, the integration supports `en_US` and `de_DE` locales. To have more locales, you have to enable them in Sylius Channel configuration (in admin panel).
