@@ -226,5 +226,6 @@ export default {
   'Thank you for your order!': 'Vielen Dank für Ihren Auftrag!',
   'Cart has been updated': 'Warenkorb wurde aktualisiert',
   'Select size': 'Wähle die Größe aus',
-  'Add to cart': 'In den Warenkorb legen'
+  'Add to cart': 'In den Warenkorb legen',
+  'Select country': 'Land auswählen'
 };

@@ -33,7 +33,8 @@
 
 import { SfSteps, SfButton } from '@storefront-ui/vue';
 import CartPreview from '~/components/Checkout/CartPreview';
-import { computed } from '@nuxtjs/composition-api';
+import { useCart, cartGetters } from '@vue-storefront/sylius';
+import { computed, onMounted, useRouter, watch } from '@nuxtjs/composition-api';
 
 const STEPS = {
   billing: 'Billing',
@@ -49,14 +50,28 @@ export default {
     CartPreview
   },
   setup(props, context) {
+    const { cart } = useCart();
+    const router = useRouter();
+
     const currentStep = computed(() => context.root.$route.path.split('/').pop());
+    const products = computed(() => cartGetters.getItems(cart.value));
     const currentStepIndex = computed(() => Object.keys(STEPS).findIndex(s => s === currentStep.value));
     const isThankYou = computed(() => currentStep.value === 'thank-you');
 
     const handleStepClick = (stepIndex) => {
       const key = Object.keys(STEPS)[stepIndex];
-      context.root.$router.push(`/checkout/${key}`);
+      router.push(router.app.localePath(`/checkout/${key}`));
     };
+
+    const redirectToHome = () => {
+      if (!products.value?.length && !isThankYou.value && currentStep.value !== 'payment') {
+        router.push({ path: router.app.localePath('/') });
+      }
+    };
+
+    watch(() => products.value, redirectToHome);
+
+    onMounted(redirectToHome);
 
     return {
       handleStepClick,

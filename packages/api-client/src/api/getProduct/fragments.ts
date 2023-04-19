@@ -43,6 +43,7 @@ export const productFragment = `
       inStock
       onHold
       onHand
+      enabled
       channelPricings {
         collection {
           channelCode

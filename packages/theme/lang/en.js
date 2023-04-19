@@ -226,5 +226,6 @@ export default {
   'Thank you for your order!': 'Thank you for your order!',
   'Cart has been updated': 'Cart has been updated',
   'Select size': 'Select size',
-  'Add to cart': 'Add to cart'
+  'Add to cart': 'Add to cart',
+  'Select country': 'Select country'
 };
