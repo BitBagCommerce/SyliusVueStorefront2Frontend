@@ -33,7 +33,7 @@ import LoginModal from '~/components/LoginModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 import { onSSR } from '@vue-storefront/core';
-import { useRoute, watch } from '@nuxtjs/composition-api';
+import { useRoute, watch, onMounted } from '@nuxtjs/composition-api';
 import {
   useCart,
   useStore,
@@ -68,8 +68,14 @@ export default {
     const { load: loadWishlists } = useWishlists();
 
     onSSR(async () => {
-      await Promise.all([loadStores(), loadUser(), loadCart()]);
+      await loadUser();
+    });
 
+    onMounted(async () => {
+      await Promise.all([
+        loadStores(),
+        loadCart()
+      ]);
       if (isAuthenticated.value) await loadWishlists();
     });
 
