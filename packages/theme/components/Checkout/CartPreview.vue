@@ -54,15 +54,15 @@
         class="sf-property--full-width sf-property--large property-total"
       />
     </div>
-    <div class="highlighted promo-code">
+    <form @submit.prevent="submitCouponForm" class="highlighted promo-code">
       <SfInput
         v-model="promoCode"
         name="promoCode"
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
       />
-      <SfButton class="promo-code__button" @click="submitCouponForm">{{ $t('Apply') }}</SfButton>
-    </div>
+      <SfButton type="submit" class="promo-code__button">{{ $t('Apply') }}</SfButton>
+    </form>
     <div class="highlighted">
       <SfCharacteristic
         v-for="characteristic in characteristics"
