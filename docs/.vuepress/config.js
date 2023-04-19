@@ -5,6 +5,7 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }]
   ],
+  port: 3005,
   configureWebpack: (config) => {
     config.module.rules = config.module.rules.map(rule => ({
       ...rule,
