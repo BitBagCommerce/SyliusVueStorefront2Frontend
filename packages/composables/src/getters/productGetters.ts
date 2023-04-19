@@ -124,6 +124,11 @@ export const getProductOptions = (product: Product): any => {
   return options;
 };
 
+export const getProductStockForVariant = (product: Product, variantId: string): number => {
+  const variant = product.variants.find(variant => variant.id === variantId);
+  return variant ? (variant as any).onHand - (variant as any).onHold : 0;
+};
+
 export const getProductDescription = (product: Product): any => (product as any)?.description || '';
 
 export const getProductCategoryIds = (product: Product): string[] => (product as any)?._categoriesRef || '';
@@ -152,5 +157,6 @@ export const productGetters: ProductGetters<Product, ProductVariantFilters> = {
   getFormattedPrice: getFormattedPrice,
   getTotalReviews: getProductTotalReviews,
   getAverageRating: getProductAverageRating,
-  getOptions: getProductOptions
+  getOptions: getProductOptions,
+  getStockForVariant: getProductStockForVariant
 };

@@ -102,6 +102,7 @@
               :is-in-wishlist="isInWishlist({ product })"
               :is-added-to-cart="isInCart({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+              :addToCartDisabled="(!isInStock(product, product.variants[0].id) && !hasMultipleVariants(product))"
               class="products__product-card"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
               @click:add-to-cart="open(product)"
@@ -260,6 +261,9 @@ export default {
       return category?.label || items[0].label;
     });
 
+    const isInStock = (product, variantId) => productGetters.getStockForVariant(product, variantId) > 0;
+    const hasMultipleVariants = (product) => product.variants.length > 1;
+
     const initProductsQuantity = async () => {
       await products.value?.forEach(product => {
         productsQuantity.value[product._id] = 1;
@@ -310,7 +314,9 @@ export default {
       isInWishlist,
       isInCart,
       productsQuantity,
-      open
+      open,
+      isInStock,
+      hasMultipleVariants
     };
   },
   components: {
