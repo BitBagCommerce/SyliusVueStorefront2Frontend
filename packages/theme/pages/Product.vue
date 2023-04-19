@@ -48,7 +48,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <form @submit.prevent="handleAddToCart({ product, quantity: parseInt(qty) })">
           <p class="product__description desktop-only">
             {{ product.shortDescription }}
           </p>
@@ -88,7 +88,7 @@
             class="product__add-to-cart"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
-        </div>
+        </form>
 
         <LazyHydrate when-idle>
           <SfTabs :open-tab="1" class="product__tabs">
