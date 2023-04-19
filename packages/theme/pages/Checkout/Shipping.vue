@@ -203,7 +203,7 @@ import {
   SfSelect,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { ref, computed, onMounted, watch } from '@nuxtjs/composition-api';
+import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
 import { useBilling, useShipping, useUserShipping, userShippingGetters, useUser } from '@vue-storefront/sylius';
 import { required, min, digits } from 'vee-validate/dist/rules';
