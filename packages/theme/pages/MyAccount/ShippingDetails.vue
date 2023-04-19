@@ -30,40 +30,46 @@
             )
           }}
         </p>
-        <transition-group tag="div" name="fade" class="shipping-list">
-          <div
-            v-for="address in addresses"
-            :key="userShippingGetters.getId(address)"
-            class="shipping"
-          >
-            <div class="shipping__content">
-              <div class="shipping__address">
-                <UserAddress :address="address" />
-              </div>
-            </div>
-            <div class="shipping__actions">
-              <SfIcon
-                icon="cross"
-                color="gray"
-                size="14px"
-                role="button"
-                class="smartphone-only"
-                @click="removeAddress(address)"
-              />
-              <SfButton @click="changeAddress(address)">
-                {{ $t('Change') }}
-              </SfButton>
-
-              <SfButton
-                class="color-light shipping__button-delete desktop-only"
-                @click="removeAddress(address)"
+        <SfLoader :class="{ loading }" :loading="loading">
+          <div v-if="!loading">
+            <transition-group tag="div" name="fade" class="shipping-list">
+              <div
+                v-for="address in addresses"
+                :key="userShippingGetters.getId(address)"
+                class="shipping"
               >
-                {{ $t('Delete') }}
-              </SfButton>
-            </div>
+                <div class="shipping__content">
+                  <div class="shipping__address">
+                    <UserAddress :address="address" />
+                  </div>
+                </div>
+                <div class="shipping__actions">
+                  <SfIcon
+                    icon="cross"
+                    color="gray"
+                    size="14px"
+                    role="button"
+                    class="smartphone-only"
+                    @click="removeAddress(address)"
+                  />
+                  <SfButton @click="changeAddress(address)">
+                    {{ $t('Change') }}
+                  </SfButton>
+
+                  <SfButton
+                    class="color-light shipping__button-delete desktop-only"
+                    @click="removeAddress(address)"
+                  >
+                    {{ $t('Delete') }}
+                  </SfButton>
+                </div>
+              </div>
+            </transition-group>
           </div>
-        </transition-group>
-        <SfButton class="action-button" @click="changeAddress()">
+        </SfLoader>
+        <SfButton
+          class="action-button"
+          @click="changeAddress()">
           {{ $t('Add new address') }}
         </SfButton>
       </SfTab>
@@ -71,12 +77,16 @@
   </transition>
 </template>
 <script>
-import { SfTabs, SfButton, SfIcon } from '@storefront-ui/vue';
+import {
+  SfTabs,
+  SfButton,
+  SfIcon,
+  SfLoader,
+} from '@storefront-ui/vue';
 import UserAddress from '~/components/UserAddress';
 import ShippingAddressForm from '~/components/MyAccount/ShippingAddressForm';
 import { useUserShipping, userShippingGetters } from '@vue-storefront/sylius';
-import { ref, computed } from '@nuxtjs/composition-api';
-import { onSSR } from '@vue-storefront/core';
+import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
 
 export default {
@@ -87,6 +97,7 @@ export default {
     SfIcon,
     UserAddress,
     ShippingAddressForm,
+    SfLoader,
   },
   setup(_, { root }) {
     const t = (key) => root.$i18n.t(key);
@@ -97,6 +108,7 @@ export default {
       deleteAddress,
       updateAddress,
       error,
+      loading,
     } = useUserShipping();
     const { send } = useUiNotification();
     const addresses = computed(() =>
@@ -146,7 +158,7 @@ export default {
       onComplete(completeMsg);
     };
 
-    onSSR(async () => {
+    onMounted(async () => {
       await loadUserShipping();
     });
 
@@ -160,6 +172,7 @@ export default {
       edittingAddress,
       activeAddress,
       isNewAddress,
+      loading,
     };
   },
 };
@@ -238,5 +251,8 @@ export default {
       }
     }
   }
+}
+.loading {
+  height: var(--spacer-2xl);
 }
 </style>
