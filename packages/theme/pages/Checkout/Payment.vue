@@ -152,7 +152,6 @@ export default {
     const processOrder = async () => {
       isRedirecting.value = true;
       await make();
-      console.log(cart);
 
       const cartError = Object.values(error.value).find(err => err !== null);
 
@@ -204,8 +203,7 @@ export default {
         t('Amount')
       ],
       cartGetters,
-      processOrder,
-      cart
+      processOrder
     };
   }
 };
