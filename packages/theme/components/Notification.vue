@@ -46,10 +46,10 @@ export default {
   right: 0;
   z-index: 9;
   @include for-desktop {
-    top: 100px;
-    left: auto;
-    bottom: auto;
-    right: 5%;
+    top: auto;
+    left: 75px;
+    bottom: 50px;
+    right: auto;
     width: 450px;
   }
 }
@@ -77,7 +77,7 @@ export default {
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.3s;
-  bottom: 0;
+  bottom: auto;
 }
 .slide-fade-enter {
   transform: translateY(40px);
