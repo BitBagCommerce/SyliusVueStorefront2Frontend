@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <dir class="modal__selects">
+    <div class="modal__selects">
       <SfSelect
         v-for="(item, key) in optionKeys"
         :key="key"
@@ -46,7 +46,7 @@
           {{size.label}}
         </SfSelectOption>
       </SfSelect>
-    </dir>
+    </div>
 
     <SfAddToCart
       v-e2e="'modal_add-to-cart'"
