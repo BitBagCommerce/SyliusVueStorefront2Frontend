@@ -4,18 +4,19 @@
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
-    <div class="product">
-      <LazyHydrate when-idle>
-        <SfGallery
-          v-if="productGallery"
-          :images="productGallery"
-          imageWidth="550"
-          imageHeight="412"
-          thumbWidth="260"
-          thumbHeight="260"
-          class="product__gallery"
-        />
-      </LazyHydrate>
+    <SfLoader :loading='loadingProduct'>
+      <div class="product" v-if='!loadingProduct'>
+        <LazyHydrate when-idle>
+          <SfGallery
+            v-if="productGallery"
+            :images="productGallery"
+            imageWidth="550"
+            imageHeight="412"
+            thumbWidth="260"
+            thumbHeight="260"
+            class="product__gallery"
+          />
+        </LazyHydrate>
 
       <div class="product__info" v-if="product">
         <div class="product__header">
@@ -136,59 +137,60 @@
           />
         </form>
 
-        <LazyHydrate when-idle>
-          <SfTabs :open-tab="1" class="product__tabs">
-            <SfTab :title="$t('Description')" key="description">
-              <div class="product__description">
-                {{ product.description }}
-              </div>
-              <SfProperty
-                v-for="(property, i) in properties"
-                :key="i"
-                :name="property.name"
-                :value="property.value"
-                class="product__property"
+          <LazyHydrate when-idle>
+            <SfTabs :open-tab="1" class="product__tabs">
+              <SfTab :title="$t('Description')" key="description">
+                <div class="product__description">
+                  {{ product.description }}
+                </div>
+                <SfProperty
+                  v-for="(property, i) in properties"
+                  :key="i"
+                  :name="property.name"
+                  :value="property.value"
+                  class="product__property"
+                >
+                  <template v-if="property.name === 'Category'" #value>
+                    <SfButton class="product__property__button sf-button--text">
+                      {{ property.value }}
+                    </SfButton>
+                  </template>
+                </SfProperty>
+              </SfTab>
+              <SfTab
+                v-if="Array.isArray(reviews) && reviews.length"
+                :title="$t('Read reviews')"
+                key="read_reviews"
               >
-                <template v-if="property.name === 'Category'" #value>
-                  <SfButton class="product__property__button sf-button--text">
-                    {{ property.value }}
-                  </SfButton>
-                </template>
-              </SfProperty>
-            </SfTab>
-            <SfTab
-              v-if="Array.isArray(reviews) && reviews.length"
-              :title="$t('Read reviews')"
-              key="read_reviews"
-            >
-              <SfReview
-                v-for="review in reviews"
-                :key="reviewGetters.getReviewId(review)"
-                :author="reviewGetters.getReviewAuthor(review)"
-                :date="reviewGetters.getReviewDate(review)"
-                :message="reviewGetters.getReviewMessage(review)"
-                :max-rating="5"
-                :rating="reviewGetters.getReviewRating(review)"
-                :char-limit="250"
-                :read-more-text="$t('Read more')"
-                :hide-full-text="$t('Read less')"
-                class="product__review"
-              />
-            </SfTab>
-            <SfTab
-              v-if="isAuthenticated"
-              :title="$t('Add review')"
-              key="add_review"
-            >
-              <add-review-form
-                :product-id="product.id"
-                @submit="handleReviewSubmit"
-              />
-            </SfTab>
-          </SfTabs>
-        </LazyHydrate>
+                <SfReview
+                  v-for="review in reviews"
+                  :key="reviewGetters.getReviewId(review)"
+                  :author="reviewGetters.getReviewAuthor(review)"
+                  :date="reviewGetters.getReviewDate(review)"
+                  :message="reviewGetters.getReviewMessage(review)"
+                  :max-rating="5"
+                  :rating="reviewGetters.getReviewRating(review)"
+                  :char-limit="250"
+                  :read-more-text="$t('Read more')"
+                  :hide-full-text="$t('Read less')"
+                  class="product__review"
+                />
+              </SfTab>
+              <SfTab
+                v-if="isAuthenticated"
+                :title="$t('Add review')"
+                key="add_review"
+              >
+                <add-review-form
+                  :product-id="product.id"
+                  @submit="handleReviewSubmit"
+                />
+              </SfTab>
+            </SfTabs>
+          </LazyHydrate>
+        </div>
       </div>
-    </div>
+    </SfLoader>
 
     <LazyHydrate when-visible>
       <InstagramFeed />
@@ -217,11 +219,12 @@ import {
   SfBreadcrumbs,
   SfButton,
   SfColor,
+  SfLoader,
 } from '@storefront-ui/vue';
 import AddToCart from '~/components/AddToCart.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
-import { ref, computed, onUpdated } from '@nuxtjs/composition-api';
+import { ref, computed, onUpdated, onMounted } from '@nuxtjs/composition-api';
 import {
   useProduct,
   useCart,
@@ -247,7 +250,7 @@ export default {
     const qty = ref(1);
     const { id, slug } = context.root.$route.params;
     const { isAuthenticated } = useUser();
-    const { products, search } = useProduct('products');
+    const { products, search, loading: loadingProduct } = useProduct('products');
     const { send } = useUiNotification();
 
     const { addItem, loading, error } = useCart();
@@ -259,7 +262,7 @@ export default {
     const { addItemToWishlist, isInWishlist, removeItem, wishlists } =
       useWishlists();
 
-    onSSR(async () => {
+    onMounted(async () => {
       await search({ slug, query: context.root.$route.query });
       await searchReviews({ productId: id });
     });
@@ -426,6 +429,7 @@ export default {
       productGallery,
       isAuthenticated,
       handleReviewSubmit,
+      loadingProduct,
       wishlists,
       addItemToWishlist,
       removeProductFromWishlist,
@@ -450,6 +454,7 @@ export default {
     SfReview,
     SfBreadcrumbs,
     SfButton,
+    SfLoader,
     InstagramFeed,
     MobileStoreBanner,
     LazyHydrate,
