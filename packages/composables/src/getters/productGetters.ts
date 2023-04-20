@@ -129,6 +129,10 @@ export const getProductStockForVariant = (product: Product, variantId: string): 
   return variant ? (variant as any).onHand - (variant as any).onHold : 0;
 };
 
+export const isProductInStock = (product: Product, variantId): boolean => getProductStockForVariant(product, variantId) > 0;
+
+export const productHasMultipleVariants = (product: Product): boolean => product.variants.length > 1;
+
 export const getProductDescription = (product: Product): any => (product as any)?.description || '';
 
 export const getProductCategoryIds = (product: Product): string[] => (product as any)?._categoriesRef || '';
@@ -158,5 +162,7 @@ export const productGetters: ProductGetters<Product, ProductVariantFilters> = {
   getTotalReviews: getProductTotalReviews,
   getAverageRating: getProductAverageRating,
   getOptions: getProductOptions,
-  getStockForVariant: getProductStockForVariant
+  getStockForVariant: getProductStockForVariant,
+  isInStock: isProductInStock,
+  hasMultipleVariants: productHasMultipleVariants
 };

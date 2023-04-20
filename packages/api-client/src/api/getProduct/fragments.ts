@@ -44,6 +44,7 @@ export const productFragment = `
       onHold
       onHand
       enabled
+      tracked
       channelPricings {
         collection {
           channelCode
@@ -95,6 +96,25 @@ export const minimalProductFragment = `
       }
     }
   }
+  options {
+    edges {
+      node {
+        id
+        _id
+        values {
+          edges {
+            node {
+              id
+              code
+              value
+            }
+          }
+        }
+        name
+        code
+      }
+    }
+  }
   variants {
     collection {
       id
@@ -104,6 +124,7 @@ export const minimalProductFragment = `
       onHold
       onHand
       enabled
+      tracked
       channelPricings {
         collection {
           channelCode

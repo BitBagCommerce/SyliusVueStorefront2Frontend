@@ -37,16 +37,16 @@
               :regular="$n(productGetters.getPrice(product).regular, 'currency')"
               :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
             />
-            <div :class="`stock-info ${isInStock(product, product.selectedVariant.id) ? '' : 'danger'}`">
+            <div v-if="product.selectedVariant.tracked" :class="`stock-info ${productGetters.isInStock(product, product.selectedVariant.id) ? '' : 'danger'}`">
               <SfIcon
                 icon="store"
                 size="sm"
-                :color='isInStock(product, product.selectedVariant.id) ? "green-primary" : "red-primary"'
+                :color='productGetters.isInStock(product, product.selectedVariant.id) ? "green-primary" : "red-primary"'
                 viewBox="0 0 24 24"
                 :coverage="1"
               />
               <p>
-                <template v-if="isInStock(product, product.selectedVariant.id)">
+                <template v-if="productGetters.isInStock(product, product.selectedVariant.id)">
                   {{ productGetters.getStockForVariant(product, product.selectedVariant.id) }}
                 </template>
                 <template v-else>
@@ -103,7 +103,7 @@
             v-e2e="'product_add-to-cart'"
             :stock="product.selectedVariant.onHand"
             v-model="qty"
-            :disabled="loading || !product.selectedVariant.inStock"
+            :disabled="loading || (!productGetters.isInStock(product, product.selectedVariant.id) && product.selectedVariant.tracked)"
             class="product__add-to-cart"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
@@ -217,8 +217,6 @@ export default {
     const { addItem, loading, error } = useCart();
     const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
 
-    const isInStock = (product, variantId) => productGetters.getStockForVariant(product, variantId) > 0;
-
     onSSR(async () => {
       await search({ slug, query: context.root.$route.query});
       await searchReviews({ productId: id });
@@ -248,7 +246,6 @@ export default {
     })));
 
     const handleAddToCart = async (params) => {
-      console.log('handleAddToCart', params);
       await addItem(params);
 
       const cartError = Object.values(error.value).find(err => err !== null);
@@ -344,8 +341,7 @@ export default {
       productGetters,
       productGallery,
       isAuthenticated,
-      handleReviewSubmit,
-      isInStock
+      handleReviewSubmit
     };
   },
   components: {
