@@ -32,10 +32,29 @@
           />
         </div>
         <div class="product__price-and-rating">
-          <SfPrice
-            :regular="$n(productGetters.getPrice(product).regular, 'currency')"
-            :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
-          />
+          <div class="product__price-and-stock">
+            <SfPrice
+              :regular="$n(productGetters.getPrice(product).regular, 'currency')"
+              :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
+            />
+            <div :class="`stock-info ${isInStock(product, product.selectedVariant.id) ? '' : 'danger'}`">
+              <SfIcon
+                icon="store"
+                size="sm"
+                :color='isInStock(product, product.selectedVariant.id) ? "green-primary" : "red-primary"'
+                viewBox="0 0 24 24"
+                :coverage="1"
+              />
+              <p>
+                <template v-if="isInStock(product, product.selectedVariant.id)">
+                  {{ productGetters.getStockForVariant(product, product.selectedVariant.id) }}
+                </template>
+                <template v-else>
+                  0
+                </template>
+              </p>
+            </div>
+          </div>
           <div>
             <div class="product__rating">
               <SfRating
@@ -198,6 +217,8 @@ export default {
     const { addItem, loading, error } = useCart();
     const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
 
+    const isInStock = (product, variantId) => productGetters.getStockForVariant(product, variantId) > 0;
+
     onSSR(async () => {
       await search({ slug, query: context.root.$route.query});
       await searchReviews({ productId: id });
@@ -227,6 +248,7 @@ export default {
     })));
 
     const handleAddToCart = async (params) => {
+      console.log('handleAddToCart', params);
       await addItem(params);
 
       const cartError = Object.values(error.value).find(err => err !== null);
@@ -322,7 +344,8 @@ export default {
       productGetters,
       productGallery,
       isAuthenticated,
-      handleReviewSubmit
+      handleReviewSubmit,
+      isInStock
     };
   },
   components: {
@@ -543,6 +566,25 @@ export default {
   }
   100% {
     transform: translate3d(0, 0, 0);
+  }
+}
+
+.product__price-and-stock{
+  display: flex;
+  align-items: center;
+  gap: var(--spacer-xs);
+}
+.stock-info{
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem 0.25rem 0.3rem;
+  background-color: var(--c-light);
+  border-radius: 15px;
+  p{
+    margin: 0;
+  }
+  &.danger{
+    background-color: lighten(#d12727, 40);
   }
 }
 </style>
