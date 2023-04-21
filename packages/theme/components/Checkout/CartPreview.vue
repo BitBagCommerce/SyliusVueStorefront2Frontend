@@ -8,56 +8,59 @@
       />
     </div>
     <div class="highlighted">
-      <SfProperty
-        :name="$t('Products')"
-        :value="totalItems"
-        class="sf-property--full-width sf-property--large property"
-      />
-      <SfProperty
-        :name="$t('Subtotal')"
-        :value="$n(totals.subtotal, 'currency')"
-        :class="[
-          'sf-property--full-width',
-          'sf-property--large property',
-          { discounted: hasSpecialPrice },
-        ]"
-      />
-      <SfProperty
-        v-for="discount in discounts"
-        :key="discount.id"
-        :name="discount.name + (discount.code && ` (${discount.code})`)"
-        :value="'-' + $n(discount.value, 'currency')"
-        class="sf-property--full-width sf-property--large property"
-      >
-        <template #value="{ props }">
-          <span class="sf-property__value" style="text-align: right">
-            {{ props.value }}
-            <a
-              href="#"
-              @click.prevent="handleCouponRemoval(discount)"
-              class="text-primary"
-              style="font-size: 12px; font-weight: normal"
-              >Remove</a
-            >
-          </span>
-        </template>
-      </SfProperty>
-      <SfProperty
-        v-if="hasSpecialPrice"
-        :value="$n(totals.special, 'currency')"
-        class="sf-property--full-width sf-property--small property special-price"
-      />
-      <SfProperty
-        v-if="hasShipping"
-        :name="$t('Shipping')"
-        :value="$n(totals.shipping, 'currency')"
-        class="sf-property--full-width sf-property--large property"
-      />
-      <SfProperty
-        :name="$t('Total')"
-        :value="$n(totals.total, 'currency')"
-        class="sf-property--full-width sf-property--large property-total"
-      />
+      <SfLoader :loading="loading">
+        <div v-if="!loading">
+          <SfProperty
+            :name="$t('Products')"
+            :value="totalItems"
+            class="sf-property--full-width sf-property--large property"
+          />
+          <SfProperty
+            :name="$t('Subtotal')"
+            :value="$n(totals.subtotal, 'currency')"
+            :class="[
+              'sf-property--full-width',
+              'sf-property--large property',
+              { discounted: hasSpecialPrice },
+            ]"
+          />
+          <SfProperty
+            v-for="discount in discounts"
+            :key="discount.id"
+            :name="discount.name + (discount.code && ` (${discount.code})`)"
+            :value="'-' + $n(discount.value, 'currency')"
+            class="sf-property--full-width sf-property--large property"
+          >
+            <template #value="{ props }">
+              <span class="sf-property__value" style="text-align: right;">
+                {{ props.value }}
+                <a
+                  href="#"
+                  @click.prevent="handleCouponRemoval(discount)"
+                  class="text-primary"
+                  style="font-size: 12px;font-weight: normal;"
+                >Remove</a>
+              </span>
+            </template>
+          </SfProperty>
+         <SfProperty
+            v-if="hasSpecialPrice"
+            :value="$n(totals.special, 'currency')"
+            class="sf-property--full-width sf-property--small property special-price"
+          />
+          <SfProperty
+            v-if="hasShipping"
+            :name="$t('Shipping')"
+            :value="$n(totals.shipping, 'currency')"
+            class="sf-property--full-width sf-property--large property"
+          />
+          <SfProperty
+            :name="$t('Total')"
+            :value="$n(totals.total, 'currency')"
+            class="sf-property--full-width sf-property--large property-total"
+          />
+        </div>
+      </SfLoader>
     </div>
     <form @submit.prevent="submitCouponForm" class="highlighted promo-code">
       <SfInput
@@ -91,9 +94,9 @@ import {
   SfCharacteristic,
   SfInput,
   SfCircleIcon,
+  SfLoader,
 } from '@storefront-ui/vue';
-import { onSSR } from '@vue-storefront/core';
-import { computed, ref } from '@nuxtjs/composition-api';
+import { computed, ref, onMounted } from '@nuxtjs/composition-api';
 import { useCart, cartGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 
@@ -107,6 +110,7 @@ export default {
     SfCharacteristic,
     SfInput,
     SfCircleIcon,
+    SfLoader,
   },
   setup(_, context) {
     const {
@@ -117,6 +121,7 @@ export default {
       load,
       removeCoupon,
       error,
+      loading,
     } = useCart();
     const { send } = useUiNotification();
     const t = (key) => context.root.$i18n.t(key);
@@ -146,7 +151,7 @@ export default {
       });
     };
 
-    onSSR(async () => {
+    onMounted(async () => {
       if (!cart.value) await load();
     });
 
@@ -154,6 +159,7 @@ export default {
       discounts,
       totalItems,
       listIsHidden,
+      loading,
       products,
       totals,
       promoCode,
