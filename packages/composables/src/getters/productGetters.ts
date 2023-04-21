@@ -124,12 +124,18 @@ export const getProductOptions = (product: Product): any => {
   return options;
 };
 
-export const getProductStockForVariant = (product: Product, variantId: string): number => {
-  const variant = product.variants.find(variant => variant.id === variantId);
+export const getProductStockForVariant = (variant): number => {
   return variant ? (variant as any).onHand - (variant as any).onHold : 0;
 };
 
-export const isProductInStock = (product: Product, variantId): boolean => getProductStockForVariant(product, variantId) > 0;
+const getProductQuantityLimit = (variant) => {
+  if (!variant.tracked) {
+    return 999;
+  }
+  return getProductStockForVariant(variant);
+};
+
+export const isVariantInStock = (variant): boolean => getProductStockForVariant(variant) > 0;
 
 export const productHasMultipleVariants = (product: Product): boolean => product.variants.length > 1;
 
@@ -163,6 +169,7 @@ export const productGetters: ProductGetters<Product, ProductVariantFilters> = {
   getAverageRating: getProductAverageRating,
   getOptions: getProductOptions,
   getStockForVariant: getProductStockForVariant,
-  isInStock: isProductInStock,
-  hasMultipleVariants: productHasMultipleVariants
+  isInStock: isVariantInStock,
+  hasMultipleVariants: productHasMultipleVariants,
+  getQuantityLimit: getProductQuantityLimit
 };

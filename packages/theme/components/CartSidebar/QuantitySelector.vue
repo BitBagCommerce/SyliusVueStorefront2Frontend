@@ -48,11 +48,11 @@ export default {
     },
     min: {
       type: Number,
-      default: 0
+      default: 1
     },
     max: {
       type: Number,
-      default: 99
+      default: 999
     },
     disabled: {
       type: Boolean,
@@ -76,8 +76,10 @@ export default {
     };
 
     const handleCancel = () => {
-      inputQty.value = props.qty;
-      isConfirmOpen.value = false;
+      if (isConfirmOpen.value) {
+        inputQty.value = props.qty;
+        isConfirmOpen.value = false;
+      }
     };
 
     const handleInput = (input, isConfirm) => {
@@ -85,7 +87,7 @@ export default {
 
       inputQty.value = input;
 
-      if (input > props.max) inputQty.value = props.max;
+      if (props.max !== null && input > props.max) inputQty.value = props.max;
 
       if (input < props.min) inputQty.value = props.min;
 

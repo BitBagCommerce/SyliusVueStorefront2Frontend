@@ -37,17 +37,17 @@
               :regular="$n(productGetters.getPrice(product).regular, 'currency')"
               :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
             />
-            <div v-if="product.selectedVariant.tracked" :class="`stock-info ${productGetters.isInStock(product, product.selectedVariant.id) ? '' : 'danger'}`">
+            <div v-if="product.selectedVariant.tracked" :class="`stock-info ${productGetters.isInStock(product.selectedVariant) ? '' : 'danger'}`">
               <SfIcon
                 icon="store"
                 size="sm"
-                :color='productGetters.isInStock(product, product.selectedVariant.id) ? "green-primary" : "red-primary"'
+                :color='productGetters.isInStock(product.selectedVariant) ? "green-primary" : "red-primary"'
                 viewBox="0 0 24 24"
                 :coverage="1"
               />
               <p>
-                <template v-if="productGetters.isInStock(product, product.selectedVariant.id)">
-                  {{ productGetters.getStockForVariant(product, product.selectedVariant.id) }}
+                <template v-if="productGetters.isInStock(product.selectedVariant)">
+                  {{ productGetters.getStockForVariant(product.selectedVariant) }}
                 </template>
                 <template v-else>
                   0
@@ -101,9 +101,9 @@
           </div>
           <SfAddToCart
             v-e2e="'product_add-to-cart'"
-            :stock="product.selectedVariant.onHand"
+            :stock="productGetters.getStockForVariant(selectedVariant)"
             v-model="qty"
-            :disabled="loading || (!productGetters.isInStock(product, product.selectedVariant.id) && product.selectedVariant.tracked)"
+            :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
             class="product__add-to-cart"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
@@ -202,6 +202,7 @@ import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
+import QuantitySelector from '~/components/CartSidebar/QuantitySelector.vue';
 
 export default {
   name: 'Product',
@@ -365,7 +366,8 @@ export default {
     InstagramFeed,
     MobileStoreBanner,
     LazyHydrate,
-    AddReviewForm
+    AddReviewForm,
+    QuantitySelector
   },
   data() {
     return {
