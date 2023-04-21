@@ -46,11 +46,12 @@ export default {
   right: 0;
   z-index: 9;
   @include for-desktop {
-    top: auto;
-    left: 75px;
-    bottom: 50px;
+    top: 25px;
+    left: 50%;
+    bottom: auto;
     right: auto;
     width: 450px;
+    transform: translateX(-50%);
   }
 }
 .sf-notification {
@@ -80,13 +81,13 @@ export default {
   bottom: auto;
 }
 .slide-fade-enter {
-  transform: translateY(40px);
+  transform: translateY(-40px);
   @include for-desktop {
     opacity: 0;
   }
 }
 .slide-fade-leave-to {
-  transform: translateY(-80px);
+  transform: translateY(60px);
   @include for-desktop {
     opacity: 0;
   }
