@@ -1,7 +1,7 @@
 <template>
   <div class="quantity" v-click-outside="() => handleCancel()">
-    <SfButton v-if="!isConfirmOpen" class="sf-button--pure quantity__button" @click="handleInput(inputQty - 1, false)">
-      <SfIcon icon="minus" size="1rem" />
+    <SfButton v-if="!isConfirmOpen" class="sf-button--pure quantity__button" :disabled="disabled" @click="handleInput(inputQty - 1, false)">
+      <SfIcon icon="minus" size="1rem" :color="disabled ? 'lightgrey' : ''" />
     </SfButton>
 
     <SfButton v-else class="sf-button--pure quantity__button quantity__button--danger" @click="handleCancel()">
@@ -15,8 +15,8 @@
 
     <SfInput class="sf-input--filled quantity__input" type="number" @input="handleInput($event, true)" :value="inputQty" :disabled="disabled" />
 
-    <SfButton v-if="!isConfirmOpen" class="sf-button--pure quantity__button" @click="handleInput(inputQty + 1, false)">
-      <SfIcon icon="plus" size="1rem" />
+    <SfButton v-if="!isConfirmOpen" class="sf-button--pure quantity__button" :disabled="disabled" @click="handleInput(inputQty + 1, false)">
+      <SfIcon icon="plus" size="1rem" :color="disabled ? 'lightgrey' : ''" />
     </SfButton>
 
     <SfButton v-else class="sf-button--pure quantity__button quantity__button--primary" @click="handleConfirm()">
@@ -113,23 +113,23 @@ export default {
     --input-padding: .25rem;
     --input-font-size: var(--font-size--xsm);
     text-align: center;
-    z-index: 1000 !important;
+    z-index: 1;
   }
 
   &__button {
     padding: 0 .3rem;
     background-color: var(--c-light);
-    z-index: 0 !important;
+    z-index: 0;
 
     &--primary {
-      color: white !important;
+      color: white;
       background-color: var(--c-primary);
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
     }
 
     &--danger {
-      color: white !important;
+      color: white;
       background-color: var(--c-danger);
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;

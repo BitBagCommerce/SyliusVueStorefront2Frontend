@@ -99,14 +99,28 @@
               @click="updateFilter({color})"
             />
           </div>
-          <SfAddToCart
-            v-e2e="'product_add-to-cart'"
-            :stock="productGetters.getStockForVariant(selectedVariant)"
-            v-model="qty"
-            :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
-            class="product__add-to-cart"
-            @click="handleAddToCart({ product, quantity: parseInt(qty) })"
-          />
+
+          <template>
+            <SfAddToCart
+              v-e2e="'product_add-to-cart'"
+              :stock="productGetters.getStockForVariant(product.selectedVariant)"
+              v-model="qty"
+              :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
+              class="product__add-to-cart"
+              @click="handleAddToCart({ product, quantity: parseInt(qty) })"
+            >
+              <template #quantity-select-input>
+                <QuantitySelector
+                  :qty="1"
+                  :min="1"
+                  :max="productGetters.getStockForVariant(product.selectedVariant)"
+                  class="sf-collected-product__quantity-selector"
+                  @input="$emit('input', $event)"
+                  :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
+                />
+              </template>
+            </SfAddToCart>
+          </template>
         </div>
 
         <LazyHydrate when-idle>
@@ -477,6 +491,11 @@ export default {
   }
   &__add-to-cart {
     margin: var(--spacer-base) var(--spacer-sm) 0;
+    gap: 1.5rem;
+    flex-direction: column;
+    @media screen and (min-width: 300px) {
+      flex-direction: row;
+    }
     @include for-desktop {
       margin-top: var(--spacer-2xl);
     }
