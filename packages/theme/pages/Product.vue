@@ -52,6 +52,7 @@
                 <template v-else>
                   0
                 </template>
+                in stock
               </p>
             </div>
           </div>
@@ -594,7 +595,7 @@ export default {
 .stock-info{
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem 0.25rem 0.3rem;
+  padding: 0.25rem 0.55rem 0.25rem 0.3rem;
   background-color: var(--c-light);
   border-radius: 15px;
   p{
