@@ -162,7 +162,6 @@ export default {
       cart,
       removeItem,
       updateItemQty,
-      load: loadCart,
       loading,
       error,
     } = useCart();
@@ -172,7 +171,6 @@ export default {
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const { send } = useUiNotification();
     const cartItemRemovingInProgressId = ref([]);
-    loadCart();
 
     const isRemovingInProgress = (productId) => {
       return cartItemRemovingInProgressId.value.includes(productId);
