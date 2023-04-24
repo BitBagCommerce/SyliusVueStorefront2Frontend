@@ -34,7 +34,6 @@ const factoryParams = {
         { type: 'sort', id: 'rating-highest', value: 'Rating: highest' },
         { type: 'sort', id: 'rating-lowest', value: 'Rating: lowest' }
       ]
-
     };
   }
 };
