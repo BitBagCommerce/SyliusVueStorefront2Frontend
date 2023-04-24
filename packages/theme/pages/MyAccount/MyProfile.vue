@@ -28,37 +28,10 @@
 </template>
 
 <script>
-import { extend } from 'vee-validate';
-import { email, required, min, confirmed } from 'vee-validate/dist/rules';
 import ProfileUpdateForm from '~/components/MyAccount/ProfileUpdateForm';
 import PasswordResetForm from '~/components/MyAccount/PasswordResetForm';
 import { SfTabs, SfInput, SfButton } from '@storefront-ui/vue';
 import { useUser, userGetters } from '@vue-storefront/sylius';
-
-extend('email', {
-  ...email,
-  message: 'Invalid email'
-});
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-
-extend('password', {
-  validate: value => String(value).length >= 8 && String(value).match(/[A-Za-z]/gi) && String(value).match(/[0-9]/gi),
-  message: 'Password must have at least 8 characters including one letter and a number'
-});
-
-extend('confirmed', {
-  ...confirmed,
-  message: 'Passwords don\'t match'
-});
 
 export default {
   name: 'PersonalDetails',

@@ -24,7 +24,7 @@
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
-        <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
+        <ValidationProvider rules="required|passwordMatch:password" v-slot="{ errors }" class="form__element">
           <SfInput
             v-model="form.repeatPassword"
             type="password"

@@ -198,28 +198,9 @@ import {
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useBilling, useUser, useUserBilling, userBillingGetters } from '@vue-storefront/sylius';
-import { required, min, digits, email } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { onSSR, useVSFContext } from '@vue-storefront/core';
 import { useUiNotification, useUiState } from '~/composables/';
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-extend('digits', {
-  ...digits,
-  message: 'Please provide a valid phone number'
-});
-
-extend('email', {
-  ...email,
-  message: 'Please provide a valid e-mail address'
-});
 
 export default {
   name: 'Billing',

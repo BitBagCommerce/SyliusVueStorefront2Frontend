@@ -206,22 +206,8 @@ import {
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
 import { useBilling, useShipping, useUserShipping, userShippingGetters, useUser } from '@vue-storefront/sylius';
-import { required, min, digits } from 'vee-validate/dist/rules';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { onSSR, useVSFContext } from '@vue-storefront/core';
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-extend('digits', {
-  ...digits,
-  message: 'Please provide a valid phone number'
-});
 
 export default {
   name: 'Shipping',

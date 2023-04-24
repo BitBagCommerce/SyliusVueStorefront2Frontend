@@ -33,7 +33,7 @@
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
                 :label="$t('Repeat Password')"
-                name="repeat-password"
+                name="repeatPassword"
                 type="password"
                 class="form__element"
               />
@@ -67,13 +67,7 @@
 import { SfModal, SfButton, SfLoader, SfBar, SfInput } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
 import { useForgotPassword, forgotPasswordGetters } from '@vue-storefront/sylius';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required } from 'vee-validate/dist/rules';
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 
 export default {
   name: 'ResetPassword',

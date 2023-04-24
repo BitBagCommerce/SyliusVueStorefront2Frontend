@@ -158,8 +158,7 @@ import {
   SfSelect,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { required, min, oneOf } from 'vee-validate/dist/rules';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { reactive } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
 
@@ -169,20 +168,6 @@ const COUNTRIES = [
   { key: 'IT', label: 'Italy' },
   { key: 'PL', label: 'Poland' }
 ];
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-
-extend('oneOf', {
-  ...oneOf,
-  message: 'Invalid country'
-});
 
 export default {
   name: 'ShippingAddressForm',

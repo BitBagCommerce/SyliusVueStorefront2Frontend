@@ -139,7 +139,7 @@
                 v-model="form.firstName"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
-                name="first-name"
+                name="firstName"
                 :label="$t('First name')"
                 class="form__element"
               />
@@ -150,7 +150,7 @@
                 v-model="form.lastName"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
-                name="last-name"
+                name="lastName"
                 :label="$t('Last name')"
                 class="form__element"
               />
@@ -173,7 +173,7 @@
                 v-model="createAccount"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
-                name="create-account"
+                name="createAccount"
                 :label="$t('I accept the terms & conditions')"
                 class="form__element"
               />
@@ -206,21 +206,10 @@
 <script>
 import { ref, watch, reactive, computed } from '@nuxtjs/composition-api';
 import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from '@storefront-ui/vue';
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { required, email } from 'vee-validate/dist/rules';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { useUser, useForgotPassword } from '@vue-storefront/sylius';
 import { useUiState, useUiNotification } from '~/composables';
 import { useVSFContext } from '@vue-storefront/core';
-
-extend('email', {
-  ...email,
-  message: 'Invalid email'
-});
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
 
 export default {
   name: 'LoginModal',
