@@ -91,50 +91,50 @@
                 </SfAccordionItem>
               </div>
               <div v-else>
-                  <div class="filters__wrapper filters__title sf-heading--left">
-                    <SfHeading
-                      :level="4"
-                      :title="facet.label"
-                      :key="`filter-title-${facet.id}`"
-                    />
-                    <SfCircleIcon
-                      v-if="isRangeSelected(facet)"
-                      icon-size="12px"
-                      aria-label="Remove filter"
-                      icon="cross"
-                      class="sf-circle-icon__icon desktop-only"
-                      @click="removeRange(facet)"
-                    />
-                  </div>
-                  <SfRange
-                    :config="{
-                      start: getRange(facet),
-                      range: { min: 0, max: 20 },
-                      step: 1,
-                      margin: 1,
-                      tooltips: true,
-                      connect: true
-                    }"
-                    class="filters__range"
-                    @change="setPrice"
+                <div class="filters__wrapper filters__title sf-heading--left">
+                  <SfHeading
+                    :level="4"
+                    :title="facet.label"
+                    :key="`filter-title-${facet.id}`"
+                  />
+                  <SfCircleIcon
+                    v-if="isRangeSelected(facet)"
+                    icon-size="12px"
+                    aria-label="Remove filter"
+                    icon="cross"
+                    class="sf-circle-icon__icon desktop-only"
+                    @click="removeRange(facet)"
                   />
                 </div>
+                <SfRange
+                  :config="{
+                    start: getRange(facet),
+                    range: { min: 0, max: 20 },
+                    step: 1,
+                    margin: 1,
+                    tooltips: true,
+                    connect: true
+                  }"
+                  class="filters__range"
+                  @change="setPrice"
+                />
+              </div>
             </div>
             <SfHeading
-                :level="4"
-                title="Price"
-                class="filters__title sf-heading--left"
-              />
-              <SfRange
-                :config="{
-                  start: priceRange,
-                  range: getMaxPrice(),
-                  tooltips: true,
-                  connect: true
-                }"
-                class="filters__range"
-                @change="setPrice"
-              />
+              :level="4"
+              title="Price"
+              class="filters__title sf-heading--left"
+            />
+            <SfRange
+              :config="{
+                start: priceRange,
+                range: getMaxPrice(),
+                tooltips: true,
+                connect: true
+              }"
+              class="filters__range"
+              @change="setPrice"
+            />
           </SfAccordion>
         </div>
       </SfLoader>
