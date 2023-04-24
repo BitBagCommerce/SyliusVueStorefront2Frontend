@@ -84,6 +84,9 @@ export default {
     'vue-scrollto/nuxt',
     '@vue-storefront/middleware/nuxt'
   ],
+  plugins: [
+    '~/plugins/configure-vee-validate.js'
+  ],
   i18n: i18n,
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] }), './assets/styles.scss']

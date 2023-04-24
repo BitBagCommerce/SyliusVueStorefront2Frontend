@@ -1,4 +1,5 @@
 /* eslint-disable  */
+import veeValidateMessages from 'vee-validate/dist/locale/de.json'
 
 export default {
   'Categories': 'Kategorien',
@@ -225,5 +226,25 @@ export default {
   'Please check your email to verify your account': 'Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen',
   'Thank you for your order!': 'Vielen Dank für Ihren Auftrag!',
   'Cart has been updated': 'Warenkorb wurde aktualisiert',
-  'Select country': 'Land auswählen' 
+  'Select country': 'Land auswählen',
+  'Passwords don\'t match': 'Passwörter stimmen nicht überein',
+  'Password must have at least 8 characters including one letter and a number': '"Das Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Buchstaben und eine Zahl enthalten',
+  firstName: 'vorname',
+  lastName: 'nachname',
+  createAccount: 'geschäftsbedingungen',
+  currentPassword: 'aktuelles passwort',
+  newPassword: 'neues passwort',
+  repeatPassword: 'kennwort wiederholen',
+  gender: 'gender',
+  phoneNumber: 'telefonnummer',
+  birthday: 'geburtstag',
+  subscribedToNewsletter: 'newsletter abonnement',
+  street: 'straße',
+  city: 'stadt',
+  zipCode: 'postleitzahl',
+  countryCode: 'land',
+  title: 'titel',
+  rate: 'rate',
+  comment: 'kommentar',
+  validations: veeValidateMessages.messages
 };

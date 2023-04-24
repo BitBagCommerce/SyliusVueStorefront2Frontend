@@ -19,6 +19,7 @@
       <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
         <SfInput
           v-model.number="form.rating"
+          name="rate"
           type="number"
           :label="$t('Rating (1-5)')"
           min="1"
@@ -33,6 +34,7 @@
         <SfTextarea
           v-model="form.comment"
           :label="$t('Comment')"
+          name='comment'
           cols="30"
           rows="5"
           required
