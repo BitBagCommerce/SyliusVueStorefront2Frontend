@@ -50,12 +50,23 @@
 
     <SfAddToCart
       v-e2e="'modal_add-to-cart'"
-      :stock="product.selectedVariant.onHand"
+      :stock="productUpdated.selectedVariant.onHand"
       v-model="qty"
-      :disabled="loading || !product.selectedVariant.inStock"
+      :disabled="loading || !productUpdated.selectedVariant.inStock"
       class="modal__add-to-cart"
       @click="handleAddToCart"
-    />
+    >
+      <template #quantity-select-input>
+        <QuantitySelector
+          :qty="1"
+          :min="1"
+          :max="productUpdated.selectedVariant.tracked ? productGetters.getStockForVariant(productUpdated.selectedVariant) : 999"
+          class="sf-collected-product__quantity-selector"
+          @input="$emit('input', $event)"
+          :disabled="loading || (!productGetters.isInStock(productUpdated.selectedVariant) && productUpdated.selectedVariant.tracked)"
+        />
+      </template>
+    </SfAddToCart>
   </SfModal>
 </template>
 
@@ -73,6 +84,7 @@ import {
 } from '@storefront-ui/vue';
 import { computed, ref, watch } from '@nuxtjs/composition-api';
 import Vue from 'vue';
+import QuantitySelector from '~/components/CartSidebar/QuantitySelector.vue';
 
 export default {
   name: 'VariantSelector',
@@ -82,12 +94,15 @@ export default {
     SfImage,
     SfPrice,
     SfSelect,
-    SfAddToCart
+    SfAddToCart,
+    QuantitySelector
   },
   setup(_, context) {
     const { product, close } = useVariantSelector();
     const { addItem, loading, error } = useCart();
     const { send } = useUiNotification();
+
+    const productUpdated = computed(() => productGetters.getFiltered([product.value], { master: true, attributes: attributes.value })[0]);
 
     const options = computed(() => product.value ? productGetters.getAttributes([product.value], ['color', 'size']) : []);
     const configuration = computed(() => product.value ? productGetters.getAttributes(product.value, ['color', 'size']) : []);
@@ -109,9 +124,7 @@ export default {
     };
 
     const handleAddToCart = async () => {
-      const selectedVariant = productGetters.getFiltered([product.value], { master: true, attributes: attributes.value })[0];
-
-      await addItem({ product: selectedVariant, quantity: qty.value });
+      await addItem({ product: productUpdated.value, quantity: qty.value });
 
       const cartError = Object.values(error.value).find(err => err !== null);
 
@@ -146,7 +159,8 @@ export default {
       qty,
       attributes,
       setAttribute,
-      handleAddToCart
+      handleAddToCart,
+      productUpdated
     };
   }
 };
@@ -178,10 +192,11 @@ export default {
   }
 
   &__add-to-cart {
-    margin: 0 var(--spacer-lg);
-
-    ::v-deep .sf-quantity-selector {
-      margin: 0 var(--spacer-sm) 0 0;
+    margin: var(--spacer-base) var(--spacer-sm) 0;
+    gap: 1.5rem;
+    flex-direction: column;
+    @media screen and (min-width: 300px) {
+      flex-direction: row;
     }
   }
 }

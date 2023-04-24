@@ -52,7 +52,7 @@
                 <template v-else>
                   0
                 </template>
-                in stock
+                {{$t('in stock')}}
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@
                 <QuantitySelector
                   :qty="1"
                   :min="1"
-                  :max="productGetters.getStockForVariant(product.selectedVariant)"
+                  :max="product.selectedVariant.tracked ? productGetters.getStockForVariant(product.selectedVariant) : 999"
                   class="sf-collected-product__quantity-selector"
                   @input="$emit('input', $event)"
                   :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
@@ -244,12 +244,8 @@ export default {
     const configuration = computed(() => product?.value ? productGetters.getAttributes(product?.value, ['color', 'size']) : []);
     const categories = computed(() => productGetters.getCategoryIds(product?.value)) || [];
 
-    const reviews = computed(() => {
-      return productReviews?.value ? reviewGetters.getItems(productReviews?.value) : [];
-    });
-    const totalReviewsCount = computed(() => {
-      return productReviews?.value ? reviewGetters.getTotalReviews(productReviews.value) : 0;
-    });
+    const reviews = computed(() => productReviews?.value ? reviewGetters.getItems(productReviews?.value) : []);
+    const totalReviewsCount = computed(() => productReviews?.value ? reviewGetters.getTotalReviews(productReviews.value) : 0);
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);

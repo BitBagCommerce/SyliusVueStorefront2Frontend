@@ -227,5 +227,6 @@ export default {
   'Cart has been updated': 'Warenkorb wurde aktualisiert',
   'Select size': 'Wähle die Größe aus',
   'Add to cart': 'In den Warenkorb legen',
-  'Select country': 'Land auswählen'
+  'Select country': 'Land auswählen',
+  'in stock': 'auf Lager'
 };

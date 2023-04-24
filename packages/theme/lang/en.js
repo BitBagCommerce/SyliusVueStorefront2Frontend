@@ -227,5 +227,6 @@ export default {
   'Cart has been updated': 'Cart has been updated',
   'Select size': 'Select size',
   'Add to cart': 'Add to cart',
-  'Select country': 'Select country'
+  'Select country': 'Select country',
+  'in stock': 'in stock'
 };
