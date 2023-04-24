@@ -117,13 +117,9 @@ export default {
     const toggledConfirm = ref('');
     const wishlistsWithActionInProgressId = ref([]);
 
-    const isAllowedToRemoveWishlists = computed(() => {
-      return props.wishlists.length - wishlistsWithActionInProgressId.value.length > 1;
-    });
+    const isAllowedToRemoveWishlists = computed(() => props.wishlists.length - wishlistsWithActionInProgressId.value.length > 1);
 
-    const isWishlistActionInProgress = (wishlistId) => {
-      return wishlistsWithActionInProgressId.value.includes(wishlistId);
-    };
+    const isWishlistActionInProgress = (wishlistId) => wishlistsWithActionInProgressId.value.includes(wishlistId);
 
     const handleRemoveWishlist = async (wishlistId) => {
       wishlistsWithActionInProgressId.value = [...wishlistsWithActionInProgressId.value, wishlistId];
