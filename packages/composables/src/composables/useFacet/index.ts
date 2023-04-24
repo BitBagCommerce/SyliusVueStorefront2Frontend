@@ -16,8 +16,6 @@ const factoryParams = {
       }, categories);
       category = categoriesFlat.find(cat => cat.slug === params.input.categorySlug);
 
-      // productsNotFiltered = data[2].products;
-
     } catch (e) {
       Logger.error(e);
     }
