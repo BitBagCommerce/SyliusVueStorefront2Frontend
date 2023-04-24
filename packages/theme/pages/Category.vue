@@ -84,7 +84,7 @@
             tag="div"
             class="products__grid"
           >
-          <SfProductCard
+            <SfProductCard
               v-e2e="'category-product-card'"
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
