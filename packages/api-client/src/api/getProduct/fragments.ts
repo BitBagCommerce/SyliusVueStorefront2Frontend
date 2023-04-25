@@ -9,13 +9,6 @@ export const productFragment = `
   description
   metaKeywords
   metaDescription
-  productTaxons {
-    collection {
-      taxon {
-        id
-      }
-    }
-  }
   options {
     edges {
       node {
