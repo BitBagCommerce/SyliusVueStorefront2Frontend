@@ -21,10 +21,23 @@
           class="sf-heading--no-underline sf-heading--left"
         />
 
-        <SfPrice
-          :regular="$n(productGetters.getPrice(product).regular, 'currency')"
-          :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
-        />
+        <div class="product__price-and-stock">
+          <SfPrice
+            :regular="$n(productGetters.getPrice(productUpdated).regular, 'currency')"
+            :special="productGetters.getPrice(productUpdated).special && $n(productGetters.getPrice(productUpdated).special, 'currency')"
+          />
+          <div v-if="productUpdated.selectedVariant.tracked" :class="`stock-info ${productGetters.isInStock(productUpdated.selectedVariant) ? '' : 'danger'}`">
+            <p>
+              <template v-if="productGetters.isInStock(productUpdated.selectedVariant)">
+                {{ productGetters.getStockForVariant(productUpdated.selectedVariant) }}
+              </template>
+              <template v-else>
+                0
+              </template>
+              {{$t('in stock')}}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -51,18 +64,18 @@
     <SfAddToCart
       v-e2e="'modal_add-to-cart'"
       :stock="productUpdated.selectedVariant.onHand"
-      v-model="qty"
       :disabled="loading || !productUpdated.selectedVariant.inStock"
       class="modal__add-to-cart"
       @click="handleAddToCart"
     >
       <template #quantity-select-input>
         <QuantitySelector
+          v-model="qty"
+          @input="qty = $event"
           :qty="1"
           :min="1"
           :max="productUpdated.selectedVariant.tracked ? productGetters.getStockForVariant(productUpdated.selectedVariant) : 999"
           class="sf-collected-product__quantity-selector"
-          @input="$emit('input', $event)"
           :disabled="loading || (!productGetters.isInStock(productUpdated.selectedVariant) && productUpdated.selectedVariant.tracked)"
         />
       </template>
@@ -101,15 +114,13 @@ export default {
     const { product, close } = useVariantSelector();
     const { addItem, loading, error } = useCart();
     const { send } = useUiNotification();
-
-    const productUpdated = computed(() => productGetters.getFiltered([product.value], { master: true, attributes: attributes.value })[0]);
+    const attributes = ref({});
 
     const options = computed(() => product.value ? productGetters.getAttributes([product.value], ['color', 'size']) : []);
     const configuration = computed(() => product.value ? productGetters.getAttributes(product.value, ['color', 'size']) : []);
     const optionKeys = computed(() => Object.keys(options.value));
 
     const qty = ref(1);
-    const attributes = ref({});
 
     const t = (key) => context.root.$i18n.t(key);
 
@@ -123,6 +134,7 @@ export default {
       });
     };
 
+    const productUpdated = computed(() => productGetters.getFiltered([product.value], { master: true, attributes: attributes.value })[0]);
     const handleAddToCart = async () => {
       await addItem({ product: productUpdated.value, quantity: qty.value });
 
@@ -198,6 +210,21 @@ export default {
     @media screen and (min-width: 300px) {
       flex-direction: row;
     }
+  }
+}
+
+.stock-info{
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.5rem;
+  background-color: var(--c-light);
+  border-radius: 15px;
+  p{
+    line-height: 1.3;
+    margin: 0;
+  }
+  &.danger{
+    background-color: lighten(#d12727, 40);
   }
 }
 </style>

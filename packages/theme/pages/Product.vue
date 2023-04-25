@@ -105,18 +105,18 @@
             <SfAddToCart
               v-e2e="'product_add-to-cart'"
               :stock="productGetters.getStockForVariant(product.selectedVariant)"
-              v-model="qty"
               :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
               class="product__add-to-cart"
               @click="handleAddToCart({ product, quantity: parseInt(qty) })"
             >
               <template #quantity-select-input>
                 <QuantitySelector
+                  v-model="qty"
+                  @input="qty = $event"
                   :qty="1"
                   :min="1"
                   :max="product.selectedVariant.tracked ? productGetters.getStockForVariant(product.selectedVariant) : 999"
                   class="sf-collected-product__quantity-selector"
-                  @input="$emit('input', $event)"
                   :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
                 />
               </template>
