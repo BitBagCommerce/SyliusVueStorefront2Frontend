@@ -1,28 +1,28 @@
 import { computed } from '@nuxtjs/composition-api';
 import { sharedRef, useVSFContext, Logger } from '@vue-storefront/core';
 
-const composableName = 'useProducts';
+const composableName = 'useProductsNotFiltered';
 
-export const useProducts = () => {
+export const useProductsNotFiltered = () => {
   const context = useVSFContext();
-  const products = sharedRef(null, composableName);
+  const productsNotFiltered = sharedRef(null, `${composableName}`);
   const loading = sharedRef(false, `${composableName}-loading`);
   const error = sharedRef({ load: null }, `${composableName}-error`);
 
   const load = async (params) => {
     try {
       loading.value = true;
-      products.value = await context.$sylius.api.getProduct(params);
+      productsNotFiltered.value = await context.$sylius.api.getProductNotFiltered(params);
       loading.value = false;
     } catch (error) {
-      products.value = [];
+      productsNotFiltered.value = [];
       error.value.load = error;
       Logger.error(`${composableName}/load`, error);
     }
   };
 
   return {
-    result: computed(() => products.value),
+    productsNotFiltered: computed(() => productsNotFiltered.value),
     loading: computed(() => loading.value),
     error: computed(() => error.value),
     load

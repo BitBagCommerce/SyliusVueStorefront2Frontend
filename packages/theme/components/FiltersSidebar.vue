@@ -169,7 +169,7 @@ import {
 } from '@storefront-ui/vue';
 
 import { ref, computed, onMounted, watch, useRoute } from '@nuxtjs/composition-api';
-import { useAttributes, useProducts } from '@vue-storefront/sylius';
+import { useAttributes, useProductsNotFiltered } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState } from '~/composables';
 import Vue from 'vue';
 
@@ -192,7 +192,7 @@ export default {
     const { changeFilters, isFacetColor } = useUiHelpers();
     const { toggleFilterSidebar, isFilterSidebarOpen } = useUiState();
     const { attributes, loading } = useAttributes();
-    const { productsNotFiltered } = useProducts();
+    const { productsNotFiltered } = useProductsNotFiltered();
 
     const facets = computed(() => attributes.value);
     const products = computed(() => productsNotFiltered.value);
