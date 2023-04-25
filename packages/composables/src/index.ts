@@ -16,6 +16,9 @@ export { useUserBilling } from './composables/useUserBilling';
 export { useUserOrder } from './composables/useUserOrder';
 export { useUserShipping } from './composables/useUserShipping';
 export { useWishlist } from './composables/useWishlist';
+export { useProducts } from './composables/useProducts';
+export { useProductsNotFiltered } from './composables/useProductsNotFiltered';
+export { useAttributes } from './composables/useAttributes';
 
 // Getters
 export * from './getters';
