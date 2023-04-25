@@ -36,11 +36,12 @@ export const useAttributes = () => {
       });
 
       attributes.value = response;
-      loading.value = false;
     } catch (error) {
       attributes.value = [];
       error.value.load = error;
       Logger.error(`${composableName}/load`, error);
+    } finally {
+      loading.value = false;
     }
   };
 

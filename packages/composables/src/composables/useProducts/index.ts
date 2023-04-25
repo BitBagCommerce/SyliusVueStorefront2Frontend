@@ -13,11 +13,12 @@ export const useProducts = () => {
     try {
       loading.value = true;
       products.value = await context.$sylius.api.getProduct(params);
-      loading.value = false;
     } catch (error) {
       products.value = [];
       error.value.load = error;
       Logger.error(`${composableName}/load`, error);
+    } finally {
+      loading.value = false;
     }
   };
 

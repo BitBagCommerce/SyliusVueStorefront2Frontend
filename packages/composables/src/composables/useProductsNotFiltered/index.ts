@@ -13,11 +13,12 @@ export const useProductsNotFiltered = () => {
     try {
       loading.value = true;
       productsNotFiltered.value = await context.$sylius.api.getProductNotFiltered(params);
-      loading.value = false;
     } catch (error) {
       productsNotFiltered.value = [];
       error.value.load = error;
       Logger.error(`${composableName}/load`, error);
+    } finally {
+      loading.value = false;
     }
   };
 
