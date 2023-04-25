@@ -34,7 +34,7 @@
 import { SfSteps, SfButton } from '@storefront-ui/vue';
 import CartPreview from '~/components/Checkout/CartPreview';
 import { useCart, cartGetters } from '@vue-storefront/sylius';
-import { computed, onMounted, useRouter, watch } from '@nuxtjs/composition-api';
+import { computed, useRouter, watch } from '@nuxtjs/composition-api';
 
 const STEPS = {
   billing: 'Billing',
@@ -50,7 +50,7 @@ export default {
     CartPreview
   },
   setup(props, context) {
-    const { cart } = useCart();
+    const { cart, loading: cartLoading } = useCart();
     const router = useRouter();
 
     const currentStep = computed(() => context.root.$route.path.split('/').pop());
@@ -69,9 +69,7 @@ export default {
       }
     };
 
-    watch(() => products.value, redirectToHome);
-
-    onMounted(redirectToHome);
+    watch([cartLoading, products], redirectToHome);
 
     return {
       handleStepClick,

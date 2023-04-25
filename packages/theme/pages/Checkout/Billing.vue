@@ -7,12 +7,16 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <form @submit.prevent="handleSubmit(handleFormSubmit)">
-      <UserAddresses
-        v-if="isAuthenticated && hasSavedBillingAddress"
-        :addresses="userBilling"
-        :addressGetters="userBillingGetters"
-        @setCurrentAddress="handleSetCurrentAddress"
-      />
+      <SfLoader :loading="loading">
+        <div v-if="!loading">
+          <UserAddresses
+            v-if="isAuthenticated && hasSavedBillingAddress"
+            :addresses="userBilling"
+            :addressGetters="userBillingGetters"
+            @setCurrentAddress="handleSetCurrentAddress"
+          />
+        </div>
+      </SfLoader>
       <div class="form">
         <ValidationProvider
           name="firstName"
@@ -194,13 +198,14 @@ import {
   SfButton,
   SfSelect,
   SfRadio,
-  SfCheckbox
+  SfCheckbox,
+  SfLoader
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useBilling, useUser, useUserBilling, userBillingGetters } from '@vue-storefront/sylius';
 import { required, min, digits, email } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { onSSR, useVSFContext } from '@vue-storefront/core';
+import { useVSFContext } from '@vue-storefront/core';
 import { useUiNotification, useUiState } from '~/composables/';
 
 extend('required', {
@@ -232,6 +237,7 @@ export default {
     SfCheckbox,
     ValidationProvider,
     ValidationObserver,
+    SfLoader,
     UserAddresses: () => import('@/components/Checkout/UserAddresses')
   },
   setup(props, context) {
@@ -239,7 +245,7 @@ export default {
     const { toggleLoginModal } = useUiState();
     const { $vsf } = useVSFContext();
     const { isAuthenticated, user } = useUser();
-    const { billing: userBilling, load: loadUserBilling } = useUserBilling();
+    const { billing: userBilling, load: loadUserBilling, loading } = useUserBilling();
     const { send } = useUiNotification();
     const canAddNewAddress = ref(true);
     const countries = ref([]);
@@ -294,10 +300,6 @@ export default {
       return Boolean(addresses?.length);
     });
 
-    onSSR(async () => {
-      await load();
-    });
-
     onMounted(async () => {
       if (!billing.value) {
         await load();
@@ -318,6 +320,7 @@ export default {
       form,
       countries,
       billing,
+      loading,
       handleFormSubmit,
       handleSetCurrentAddress,
       hasSavedBillingAddress,

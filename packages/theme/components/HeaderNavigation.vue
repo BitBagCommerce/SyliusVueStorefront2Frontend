@@ -1,15 +1,17 @@
 <template>
   <div>
-    <div class="sf-header__navigation desktop">
-      <SfHeaderNavigationItem
-        v-for="(category, index) in categories"
-        :key="index"
-        class="nav-item"
-        v-e2e="`app-header-url_${category.slug}`"
-        :label="category.name"
-        :link="localePath(`/c/${category.slug}`)"
-      />
-    </div>
+    <SfLoader :class="{ loading }" :loading="loading">
+      <div class="sf-header__navigation desktop" v-if='!loading'>
+        <SfHeaderNavigationItem
+          v-for="(category, index) in categories"
+          :key="index"
+          class="nav-item"
+          v-e2e="`app-header-url_${category.slug}`"
+          :label="category.name"
+          :link="localePath(`/c/${category.slug}`)"
+        />
+      </div>
+    </SfLoader>
     <SfModal class="smartphone-only" :visible="isMobileMenuOpen">
       <SfHeaderNavigationItem>
         <template #mobile-navigation-item>
@@ -82,13 +84,13 @@
 </template>
 
 <script>
-import { onSSR } from '@vue-storefront/core';
 import {
   SfMenuItem,
   SfModal,
   SfAccordion,
   SfList,
-  SfCircleIcon
+  SfCircleIcon,
+  SfLoader
 } from '@storefront-ui/vue';
 import { onMounted, onUnmounted, ref } from '@nuxtjs/composition-api';
 import { useUiState } from '~/composables';
@@ -100,7 +102,8 @@ export default {
     SfModal,
     SfAccordion,
     SfList,
-    SfCircleIcon
+    SfCircleIcon,
+    SfLoader
   },
   props: {
     isMobile: {
@@ -112,7 +115,8 @@ export default {
     const { isMobileMenuOpen, toggleMobileMenu } = useUiState();
     const {
       categories,
-      search: categoriesListSearch
+      search: categoriesListSearch,
+      loading
     } = useCategory('AppHeader:CategoryList');
     const activeAccordionItem = ref('');
 
@@ -120,30 +124,28 @@ export default {
       activeAccordionItem.value = item;
     };
 
-    onSSR(async () => {
+    onMounted(async () => {
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
+      });
       await categoriesListSearch({
         level: 1
       });
     });
 
-    onMounted(() => {
-      window.addEventListener('resize', () => {
-        if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
-      })
-    });
-
     onUnmounted(() => {
       window.removeEventListener('resize', () => {
         if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
-      })
-    })
+      });
+    });
 
     return {
       categories,
       isMobileMenuOpen,
       toggleMobileMenu,
       toggleAccordionItem,
-      activeAccordionItem
+      activeAccordionItem,
+      loading
     };
   }
 };
@@ -202,5 +204,10 @@ export default {
   ::v-deep &__content {
     padding: var(--modal-content-padding, var(--spacer-base) 0);
   }
+}
+
+.loading {
+  height: var(--spacer-2xl);
+  width: var(--spacer-2xl);
 }
 </style>

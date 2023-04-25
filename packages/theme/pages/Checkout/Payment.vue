@@ -17,6 +17,7 @@
           {{ tableHeader }}
         </SfTableHeader>
       </SfTableHeading>
+      <SfLoader :class="{ loading: cartLoading }" :loading="cartLoading" />
       <SfTableRow
         v-for="(product, index) in products"
         :key="index"
@@ -75,6 +76,8 @@
 
         <VsfPaymentProvider @status="isPaymentReady = true"/>
 
+        <SfLoader :class="{ loading: cartLoading }" :loading="cartLoading" />
+
         <div class="summary__action">
           <SfButton
             type="button"
@@ -109,9 +112,9 @@ import {
   SfPrice,
   SfProperty,
   SfAccordion,
-  SfLink
+  SfLink,
+  SfLoader
 } from '@storefront-ui/vue';
-import { onSSR } from '@vue-storefront/core';
 import { ref, computed, watch, useRouter, onMounted } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
@@ -130,10 +133,11 @@ export default {
     SfProperty,
     SfAccordion,
     SfLink,
+    SfLoader,
     VsfPaymentProvider: () => import('~/components/Checkout/VsfPaymentProvider')
   },
   setup(props, context) {
-    const { cart, load, setCart } = useCart();
+    const { cart, load, setCart, loading: cartLoading } = useCart();
     const tokenValue = cartGetters.getCartTokenValue(cart.value);
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
@@ -144,10 +148,6 @@ export default {
 
     const isRedirecting = ref(false);
     const isPaymentReady = ref(false);
-
-    onSSR(async () => {
-      await load();
-    });
 
     const processOrder = async () => {
       await make();
@@ -182,18 +182,21 @@ export default {
     };
 
     const redirectToHome = () => {
-      if (!products.value.length && !isRedirecting.value) {
+      if (!products.value?.length && !isRedirecting.value) {
         router.push({ path: router.app.localePath('/') });
       }
     };
 
-    watch(() => products.value, redirectToHome);
+    watch([cartLoading, products], redirectToHome);
 
-    onMounted(redirectToHome);
+    onMounted(async () => {
+      await load();
+    });
 
     return {
       isPaymentReady,
       loading,
+      cartLoading,
       products,
       totals: computed(() => cartGetters.getTotals(cart.value)),
       tableHeaders: [
@@ -319,5 +322,8 @@ export default {
   &__label {
     font-weight: var(--font-weight--normal);
   }
+}
+.loading {
+  height: var(--spacer-2xl);
 }
 </style>

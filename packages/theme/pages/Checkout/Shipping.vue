@@ -16,12 +16,16 @@
       class="form__element"
     />
     <form @submit.prevent="handleSubmit(handleFormSubmit)">
-      <UserAddresses
-        v-if="isAuthenticated && hasSavedShippingAddress"
-        :addresses="userShipping"
-        :addressGetters="userShippingGetters"
-        @setCurrentAddress="handleSetCurrentAddress"
-      />
+      <SfLoader :loading="shippingLoading">
+        <div v-if="!shippingLoading">
+          <UserAddresses
+            v-if="isAuthenticated && hasSavedShippingAddress"
+            :addresses="userShipping"
+            :addressGetters="userShippingGetters"
+            @setCurrentAddress="handleSetCurrentAddress"
+          />
+        </div>
+      </SfLoader>
       <div class="form">
         <ValidationProvider
           name="firstName"
@@ -201,14 +205,15 @@ import {
   SfInput,
   SfButton,
   SfSelect,
-  SfCheckbox
+  SfCheckbox,
+  SfLoader
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
 import { useBilling, useShipping, useUserShipping, userShippingGetters, useUser } from '@vue-storefront/sylius';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { onSSR, useVSFContext } from '@vue-storefront/core';
+import { useVSFContext } from '@vue-storefront/core';
 
 extend('required', {
   ...required,
@@ -231,6 +236,7 @@ export default {
     SfButton,
     SfSelect,
     SfCheckbox,
+    SfLoader,
     ValidationProvider,
     ValidationObserver,
     UserAddresses: () => import('@/components/Checkout/UserAddresses'),
@@ -246,7 +252,7 @@ export default {
     const { send } = useUiNotification();
     const { $sylius } = useVSFContext();
     const { load, save, loading, shipping } = useShipping();
-    const { shipping: userShipping, load: loadUserShipping } = useUserShipping();
+    const { shipping: userShipping, load: loadUserShipping, loading: shippingLoading } = useUserShipping();
     const { isAuthenticated, user } = useUser();
     const { billing } = useBilling();
 
@@ -302,12 +308,8 @@ export default {
       return Boolean(addresses?.length);
     });
 
-    onSSR(async () => {
-      await load();
-      countries.value = await $sylius.api.getCountries();
-    });
-
     onMounted(async () => {
+      await load();
       if (!countries.value.length) {
         countries.value = await $sylius.api.getCountries();
       }
@@ -323,6 +325,7 @@ export default {
       isFormSubmitted,
       isAuthenticated,
       sameAsBilling,
+      shippingLoading,
       form,
       shippingMethods,
       userShipping,
