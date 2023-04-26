@@ -39,19 +39,19 @@
           <div class="product__rating-and-wishlist">
             <div class="product__rating">
               <SfRating
-              :score="averageRating"
-              :max="5"
+                :score="averageRating"
+                :max="5"
               />
               <a v-if="!!totalReviews" href="#" class="product__count">
                 ({{ totalReviews }})
               </a>
             </div>
             <WishlistDropdown
-                class="product__wishlist"
-                :wishlists="wishlists"
-                :product="product"
-                :visible="true"
-                :icon="true"
+              class="product__wishlist"
+              :wishlists="wishlists"
+              :product="product"
+              :visible="true"
+              :icon="true"
             />
           </div>
         </div>
