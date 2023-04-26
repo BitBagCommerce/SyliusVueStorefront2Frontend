@@ -3,7 +3,7 @@
     v-if="isAuthenticated"
     :isOpen="isOpen"
     class="dropdown"
-    :class="{'no-icon': !icon && !circleIcon, 'active': isOpen}"
+    :class="{ 'no-icon': !icon && !circleIcon, 'active': isOpen }"
   >
     <template #opener>
       <template v-if="icon">
