@@ -38,7 +38,7 @@
             <div v-if="(toggledConfirm === wishlist.id)" class="buttons__confirm">
                 <SfLoader v-if="isWishlistActionInProgress(wishlist.id)" class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" />
                 <template v-else>
-                  <span class="buttons__confirm--title">Are sure?</span>
+                  <span class="buttons__confirm--title">{{ $t('Are sure?') }}</span>
 
                   <SfButton
                     aria-label="Confirm wishlist"
