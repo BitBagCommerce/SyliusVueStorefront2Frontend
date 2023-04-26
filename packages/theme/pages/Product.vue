@@ -205,7 +205,7 @@ export default {
 
     const { addItem, loading, error } = useCart();
     const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
-    const { addItemToWishlist, isInWishlist, removeItemFromWishlist, wishlists } = useWishlists();
+    const { addItemToWishlist, isInWishlist, removeItem, wishlists } = useWishlists();
 
     onSSR(async () => {
       await search({ slug, query: context.root.$route.query});
@@ -252,7 +252,7 @@ export default {
     const removeProductFromWishlist = (productItem) => {
       const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlists.value));
       const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
-      removeItemFromWishlist({ product });
+      removeItem({ product });
     };
 
     const updateFilter = (item) => {
