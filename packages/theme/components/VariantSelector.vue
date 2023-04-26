@@ -23,13 +23,13 @@
 
         <div class="product__price-and-stock">
           <SfPrice
-            :regular="$n(productGetters.getPrice(productUpdated).regular, 'currency')"
-            :special="productGetters.getPrice(productUpdated).special && $n(productGetters.getPrice(productUpdated).special, 'currency')"
+            :regular="$n(productGetters.getPrice(product).regular, 'currency')"
+            :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
           />
-          <div v-if="productUpdated.selectedVariant.tracked" :class="`stock-info ${productGetters.isInStock(productUpdated.selectedVariant) ? '' : 'danger'}`">
+          <div v-if="product.selectedVariant.tracked" :class="`stock-info ${productGetters.isInStock(product.selectedVariant) ? '' : 'danger'}`">
             <p>
-              <template v-if="productGetters.isInStock(productUpdated.selectedVariant)">
-                {{ productGetters.getStockForVariant(productUpdated.selectedVariant) }}
+              <template v-if="productGetters.isInStock(product.selectedVariant)">
+                {{ productGetters.getStockForVariant(product.selectedVariant) }}
               </template>
               <template v-else>
                 0
@@ -63,8 +63,8 @@
 
     <SfAddToCart
       v-e2e="'modal_add-to-cart'"
-      :stock="productUpdated.selectedVariant.onHand"
-      :disabled="loading || !productUpdated.selectedVariant.inStock"
+      :stock="product.selectedVariant.onHand"
+      :disabled="loading || !product.selectedVariant.inStock"
       class="modal__add-to-cart"
       @click="handleAddToCart"
     >
@@ -74,9 +74,9 @@
           @input="qty = $event"
           :qty="1"
           :min="1"
-          :max="productUpdated.selectedVariant.tracked ? productGetters.getStockForVariant(productUpdated.selectedVariant) : 999"
+          :max="product.selectedVariant.tracked ? productGetters.getStockForVariant(product.selectedVariant) : 999"
           class="sf-collected-product__quantity-selector"
-          :disabled="loading || (!productGetters.isInStock(productUpdated.selectedVariant) && productUpdated.selectedVariant.tracked)"
+          :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
         />
       </template>
     </SfAddToCart>
@@ -95,8 +95,7 @@ import {
   SfSelect,
   SfAddToCart
 } from '@storefront-ui/vue';
-import { computed, ref, watch } from '@nuxtjs/composition-api';
-import Vue from 'vue';
+import { ref, watch } from '@nuxtjs/composition-api';
 import QuantitySelector from '~/components/CartSidebar/QuantitySelector.vue';
 
 export default {
@@ -111,32 +110,16 @@ export default {
     QuantitySelector
   },
   setup(_, context) {
-    const { product, close } = useVariantSelector();
+    const { product, close, setAttribute, attributes, options, optionKeys } = useVariantSelector();
     const { addItem, loading, error } = useCart();
     const { send } = useUiNotification();
-    const attributes = ref({});
-
-    const options = computed(() => product.value ? productGetters.getAttributes([product.value], ['color', 'size']) : []);
-    const configuration = computed(() => product.value ? productGetters.getAttributes(product.value, ['color', 'size']) : []);
-    const optionKeys = computed(() => Object.keys(options.value));
 
     const qty = ref(1);
 
     const t = (key) => context.root.$i18n.t(key);
 
-    const setAttribute = (key, value) => Vue.set(attributes.value, key, value);
-
-    const initAttributes = () => {
-      attributes.value = {};
-
-      optionKeys.value.forEach(key => {
-        setAttribute(key, configuration.value[key]);
-      });
-    };
-
-    const productUpdated = computed(() => productGetters.getFiltered([product.value], { master: true, attributes: attributes.value })[0]);
     const handleAddToCart = async () => {
-      await addItem({ product: productUpdated.value, quantity: qty.value });
+      await addItem({ product: product.value, quantity: qty.value });
 
       const cartError = Object.values(error.value).find(err => err !== null);
 
@@ -151,7 +134,6 @@ export default {
     };
 
     watch(() => product.value, () => {
-      initAttributes();
       qty.value = 1;
 
       if (optionKeys.value.length < 1 && product.value) {
@@ -166,13 +148,11 @@ export default {
       loading,
       product,
       options,
-      configuration,
       optionKeys,
       qty,
-      attributes,
       setAttribute,
       handleAddToCart,
-      productUpdated
+      attributes
     };
   }
 };
