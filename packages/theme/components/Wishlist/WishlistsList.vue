@@ -5,12 +5,12 @@
         v-for="(wishlist) in wishlists"
         :key="wishlist.id"
         class="list__item"
-        :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id)}"
+        :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id) }"
       >
         <SfButton
           aria-label="back"
           class="sf-button--pure list__item--content"
-          :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id)}"
+          :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id) }"
           type="button"
           @click="$emit('click', wishlist.id)"
         >
