@@ -53,13 +53,13 @@
 
     <SfList class="dropdown__list" v-click-outside="() => isOpen = false">
       <SfListItem
-      v-for="(wishlist, i) in wishlists"
-      :key="'wishlist'+i"
+        v-for="(wishlist, i) in wishlists"
+        :key="'wishlist'+i"
       >
         <SfButton
-        class="sf-button--pure dropdown__list__item"
-        @click="handleWishlistAction(product, wishlist)"
-        :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id), 'danger': isInWishlist(product, wishlist) }"
+          class="sf-button--pure dropdown__list__item"
+          @click="handleWishlistAction(product, wishlist)"
+          :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id), 'danger': isInWishlist(product, wishlist) }"
         >
 
         <span class="dropdown__list__item__text">
