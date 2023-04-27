@@ -226,5 +226,6 @@ export default {
   'Thank you for your order!': 'Vielen Dank für Ihren Auftrag!',
   'Cart has been updated': 'Warenkorb wurde aktualisiert',
   'Select country': 'Land auswählen',
-  'Are sure?': 'Sind sicher?'
+  'Are sure?': 'Sind sicher?',
+  'Remove': 'Entfernen',
 };

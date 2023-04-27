@@ -62,21 +62,16 @@
           <SfCircleIcon
             icon="cross"
             aria-label="Remove"
-            class="
-              sf-circle-icon--small
-              sf-collected-product__remove
-              sf-collected-product__remove--circle-icon
-            "
+            class="sf-circle-icon--small sf-collected-product__remove sf-collected-product__remove--circle-icon"
             @click="removeHandler"
           />
           <SfButton
-            class="
-              sf-button--text
-              sf-collected-product__remove sf-collected-product__remove--text
-            "
+            class="sf-button--text sf-collected-product__remove sf-collected-product__remove--text"
             data-testid="collected-product-desktop-remove"
             @click="removeHandler"
-          >Remove</SfButton>
+          >
+            {{ $t('Remove') }}
+          </SfButton>
         </template>
       </template>
     </slot>
