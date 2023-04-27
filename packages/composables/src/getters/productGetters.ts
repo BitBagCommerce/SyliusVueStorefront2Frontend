@@ -128,12 +128,7 @@ export const getProductStockForVariant = (variant): number => {
   return variant ? (variant as any).onHand - (variant as any).onHold : 0;
 };
 
-const getProductQuantityLimit = (variant) => {
-  if (!variant.tracked) {
-    return 999;
-  }
-  return getProductStockForVariant(variant);
-};
+export const getProductQuantityLimit = (variant) => variant.tracked ? getProductStockForVariant(variant) : 999;
 
 export const isVariantInStock = (variant): boolean => getProductStockForVariant(variant) > 0;
 
