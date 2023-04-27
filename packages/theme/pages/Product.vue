@@ -37,7 +37,7 @@
               :regular="$n(productGetters.getPrice(product).regular, 'currency')"
               :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
             />
-            <div v-if="product.selectedVariant.tracked" :class="`stock-info ${productGetters.isInStock(product.selectedVariant) ? '' : 'danger'}`">
+            <div v-if="product.selectedVariant.tracked" class="stock-info" :class="{ 'danger': !productGetters.isInStock(product.selectedVariant)  }">
               <SfIcon
                 icon="store"
                 size="sm"
