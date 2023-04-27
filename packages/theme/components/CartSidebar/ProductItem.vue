@@ -57,8 +57,8 @@
     </div>
     <slot name="remove" v-bind="{ removeHandler }">
       <template :class="{ 'display-none': !hasRemove }">
-        <SfLoader v-if="isRemovingInProgress" class="wishlist-action-loader" :loading="true" />
-        <template v-else>
+        <SfLoader :loading="isRemovingInProgress" class="wishlist-action-loader" />
+        <template v-if="!isRemovingInProgress">
           <SfCircleIcon
             icon="cross"
             aria-label="Remove"
