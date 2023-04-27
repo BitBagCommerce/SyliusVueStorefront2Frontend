@@ -10,7 +10,6 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
   load: async (context: Context) => {
     const apiState = context.$sylius.config.state;
     let cartId = apiState.getCartId();
-    let cartResponse;
 
     const createCart = async (): Promise<string> => {
       const { cartToken } = await context.$sylius.api.createCart();
@@ -22,18 +21,20 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
       // create new cart object in the backend
       if (!cartId) cartId = await createCart();
 
-      cartResponse = await context.$sylius.api.getCart(cartId);
+      const cartResponse = await context.$sylius.api.getCart(cartId);
 
       // empty response means cart token is no longer valid
       if (cartResponse && Object.keys(cartResponse).length === 0) {
         cartId = await createCart();
         return await context.$sylius.api.getCart(cartId);
       }
+
+      return cartResponse;
     } catch (e) {
       Logger.error(e);
     }
 
-    return cartResponse;
+    return null;
   },
   addItem: async (context: Context, { product, quantity, customQuery }) => {
     const apiState = context.$sylius.config.state;
