@@ -235,7 +235,6 @@ import {
   useWishlists,
   wishlistGetters,
 } from '@vue-storefront/sylius';
-import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
@@ -275,13 +274,7 @@ export default {
         })[0]
     );
 
-    const options =
-      computed(() =>
-        productGetters.getAttributes(products.value?.products, [
-          'color',
-          'size',
-        ])
-      ) || [];
+    const options = computed(() =>products.value?.products ? productGetters.getAttributes(products.value?.products, ['color', 'size']) : []);
 
     const configuration = computed(() =>
       product?.value
