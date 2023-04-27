@@ -214,6 +214,7 @@ export default {
       .sf-overlay {
         background-color: unset;
       }
+
       .sf-dropdown__container {
         position: fixed;
         top: unset;
@@ -224,6 +225,7 @@ export default {
         z-index: 1;
         box-shadow: 0px 0px 16px rgba(29, 31, 34, 0.2);
       }
+
       .list__item-button{
         flex-direction: row-reverse;
         justify-content: flex-end;
@@ -237,7 +239,7 @@ export default {
     padding-bottom: 0;
 
     .list__item {
-      &-button{
+      &-button {
         width: 100%;
         padding: var(--spacer-sm);
         display: flex;
@@ -257,7 +259,8 @@ export default {
           color: var(--c-danger);
         }
       }
-      &-text{
+
+      &-text {
         text-align: left;
       }
     }
@@ -279,6 +282,7 @@ export default {
 .wishlist-action-loader{
   width: 20px;
   flex-shrink: 0;
+
   ::v-deep .sf-loader__overlay{
     background-color: unset;
   }
