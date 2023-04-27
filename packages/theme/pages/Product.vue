@@ -115,7 +115,7 @@
                   @input="qty = $event"
                   :qty="1"
                   :min="1"
-                  :max="product.selectedVariant.tracked ? productGetters.getStockForVariant(product.selectedVariant) : 999"
+                  :max="productGetters.getQuantityLimit(product.selectedVariant)"
                   class="sf-collected-product__quantity-selector"
                   :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
                 />
