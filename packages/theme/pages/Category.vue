@@ -115,7 +115,7 @@
                 :wishlists="wishlists"
                 :product="product"
                 :visible="isDropdownVisible"
-                :circleIcon="true"
+                :icon="'circleIcon'"
               />
             </div>
           </transition-group>
@@ -168,7 +168,6 @@
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
-                  :circleIcon="false"
                 />
               </template>
               <template #wishlist-icon>

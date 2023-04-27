@@ -3,10 +3,10 @@
     v-if="isAuthenticated"
     :isOpen="isOpen"
     class="dropdown"
-    :class="{ 'no-icon': !icon && !circleIcon, 'active': isOpen }"
+    :class="{ 'no-icon': !icon, 'active': isOpen }"
   >
     <template #opener>
-      <template v-if="icon">
+      <template v-if="icon == 'icon'">
         <SfButton
           class="sf-button--pure"
           @click="(isOpen = !isOpen)"
@@ -26,7 +26,7 @@
         </SfButton>
       </template>
 
-      <template v-else-if="circleIcon">
+      <template v-else-if="icon == 'circleIcon'">
         <SfCircleIcon
           v-if="isInAnyWishlist(product)"
           aria-label="Remove filter"
@@ -48,7 +48,7 @@
         @click="(isOpen = !isOpen)"
         class="sf-button"
       >
-        <span>Add to wishlist</span>
+        <span>{{ $t('Add to wishlist') }}</span>
       </SfButton>
     </template>
 
@@ -115,13 +115,9 @@ export default {
       type: Boolean,
       default: true
     },
-    circleIcon: {
-      type: Boolean,
-      default: false
-    },
     icon: {
-      type: Boolean,
-      default: false
+      type: String,
+      default: null
     }
   },
   setup(props) {

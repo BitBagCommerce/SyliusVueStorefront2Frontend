@@ -100,7 +100,7 @@
         >
           <SfIcon icon="plus" color="white" class="add-wishlist__icon" />
 
-          <span>Add new wishlist</span>
+          <span>{{ $t('Add new wishlist') }}</span>
         </SfButton>
 
         <div v-else-if="(currentView === views.items)" class="bottom">
@@ -111,7 +111,7 @@
             @click="handleAddToCart"
             :disabled="!selectedProducts.length || isFormActionInProgress"
           >
-            Add to cart
+            {{ $t('Add to cart') }}
           </SfButton>
 
           <SfButton
@@ -121,7 +121,7 @@
             @click="handleClearWishlist(currentWishlistId)"
             :disabled="wishlistGetters.getTotalItems(currentWishlist) === 0 || isFormActionInProgress"
           >
-            Clear
+            {{ $t('Clear') }}
           </SfButton>
         </div>
       </template>

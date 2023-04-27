@@ -51,7 +51,7 @@
               :wishlists="wishlists"
               :product="product"
               :visible="true"
-              :icon="true"
+              :icon="'icon'"
             />
           </div>
         </div>

@@ -227,5 +227,7 @@ export default {
   'Cart has been updated': 'Warenkorb wurde aktualisiert',
   'Select country': 'Land auswählen',
   'Are sure?': 'Sind sicher?',
-  'Remove': 'Entfernen',
+  'Add to wishlist': 'Zur Wunschliste hinzufügen',
+  'Add to cart': 'In den Warenkorb legen',
+  'Add new wishlist': 'Neue Wunschliste hinzufügen',
 };

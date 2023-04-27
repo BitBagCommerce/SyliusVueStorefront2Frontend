@@ -228,4 +228,8 @@ export default {
   'Select country': 'Select country',
   'Are sure?': 'Are sure?',
   'Remove': 'Remove',
+  'Add to wishlist': 'Add to wishlist',
+  'Add to cart': 'Add to cart',
+  'Clear': 'Clear',
+  'Add new wishlist': 'Add new wishlist',
 };
