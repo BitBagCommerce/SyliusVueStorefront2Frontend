@@ -87,7 +87,7 @@
       </div>
     </LazyHydrate>
 
-    <LazyHydrate when-visible>
+    <ClientOnly>
       <SfLoader :class="{ loading }" :loading="loading">
         <SfCarousel
           class="carousel"
@@ -161,7 +161,7 @@
           </SfCarouselItem>
         </SfCarousel>
       </SfLoader>
-    </LazyHydrate>
+    </ClientOnly>
 
     <LazyHydrate when-visible>
       <InstagramFeed />
@@ -190,6 +190,7 @@ import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
 import loader from '~/static/icons/loader.svg';
+import ClientOnly from 'vue-client-only';
 import useVariantSelector from '~/composables/useVariantSelector';
 
 export default {
@@ -209,6 +210,7 @@ export default {
     SfButton,
     LazyHydrate,
     SfLoader,
+    ClientOnly,
   },
   setup(_, { root }) {
     const t = (key) => root.$i18n.t(key);
