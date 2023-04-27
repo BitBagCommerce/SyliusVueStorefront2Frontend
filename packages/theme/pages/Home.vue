@@ -183,8 +183,8 @@ import {
   SfButton,
   SfLoader,
 } from '@storefront-ui/vue';
-import { computed, useContext } from '@nuxtjs/composition-api';
-import { onSSR } from '@vue-storefront/core';
+import { computed, useContext, onMounted } from '@nuxtjs/composition-api';
+
 import { useCart, useCategory, useProducts, productGetters } from '@vue-storefront/sylius';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -326,7 +326,7 @@ export default {
       });
     };
 
-    onSSR(async () => {
+    onMounted(async () => {
       await load({ categorySlug: 'category/t-shirts' });
     });
 
