@@ -1,8 +1,6 @@
-import gql from 'graphql-tag';
-import { customerFragment } from '../fragments/customer';
-import { addressFragment } from '../fragments/address';
+import { gql } from 'api-client/__generated__';
 
-export const loginMutation = gql`
+export const loginMutation = gql(`
   mutation login(
     $login: shop_loginShopUserTokenInput!
   ) {
@@ -20,9 +18,9 @@ export const loginMutation = gql`
       }
     }
   }
-`;
+`);
 
-export const registerMutation = gql`
+export const registerMutation = gql(`
   mutation registerUser(
     $user: shop_registerUserInput!
   ) {
@@ -39,9 +37,9 @@ export const registerMutation = gql`
       }
     }
   }
-`;
+`);
 
-export const refreshLoginTokenMutation = gql`
+export const refreshLoginTokenMutation = gql(`
   mutation refreshToken(
     $token: shop_refreshShopUserTokenInput!
   ) {
@@ -62,9 +60,9 @@ export const refreshLoginTokenMutation = gql`
       }
     }
   }
-`;
+`);
 
-export const updateProfileMutation = gql`
+export const updateProfileMutation = gql(`
   mutation editUser(
     $customer: shop_putCustomerInput!
   ) {
@@ -72,13 +70,19 @@ export const updateProfileMutation = gql`
       input: $customer
     ) {
       customer {
-        ${customerFragment}
+        firstName
+        lastName
+        email
+        phoneNumber
+        gender
+        birthday
+        subscribedToNewsletter
       }
     }
   }
-`;
+`);
 
-export const updatePasswordMutation = gql`
+export const updatePasswordMutation = gql(`
   mutation changeCustomerPassword(
     $customerPassword: shop_password_updateCustomerInput!
   ) {
@@ -88,9 +92,9 @@ export const updatePasswordMutation = gql`
       clientMutationId
     }
   }
-`;
+`);
 
-export const addAddressMutation = gql`
+export const addAddressMutation = gql(`
   mutation addUserAddress(
     $address: shop_postAddressInput!
   ) {
@@ -99,13 +103,20 @@ export const addAddressMutation = gql`
     ) {
       address {
         id
-        ${addressFragment}
+        firstName
+        lastName
+        street
+        city
+        postcode
+        state: provinceName
+        countryCode
+        phoneNumber
       }
     }
   }
-`;
+`);
 
-export const updateAddressMutation = gql`
+export const updateAddressMutation = gql(`
   mutation updateUserAddress(
     $address: shop_putAddressInput!
   ) {
@@ -113,13 +124,21 @@ export const updateAddressMutation = gql`
       input: $address
     ) {
       address {
-        ${addressFragment}
+        id
+        firstName
+        lastName
+        street
+        city
+        postcode
+        state: provinceName
+        countryCode
+        phoneNumber
       }
     }
   }
-`;
+`);
 
-export const deleteAddressMutation = gql`
+export const deleteAddressMutation = gql(`
   mutation deleteUserAddress(
     $address: deleteAddressInput!
   ) {
@@ -129,10 +148,10 @@ export const deleteAddressMutation = gql`
       clientMutationId
     }
   }
-`;
+`);
 
-export const triggerResetPasswordMutation = gql`
-  mutation resetPasswordMail(
+export const triggerResetPasswordMutation = gql(`
+  mutation resetPasswordMailTrigger(
       $customerPassword: shop_send_reset_password_emailCustomerInput!
   ) {
     shop_send_reset_password_emailCustomer(
@@ -143,9 +162,9 @@ export const triggerResetPasswordMutation = gql`
       }
     }
   }
-`;
+`);
 
-export const resetPasswordMutation = gql`
+export const resetPasswordMutation = gql(`
   mutation resetPasswordMail(
     $customerPassword: shop_reset_passwordCustomerInput!
   ) {
@@ -157,4 +176,4 @@ export const resetPasswordMutation = gql`
       }
     }
   }
-`;
+`);

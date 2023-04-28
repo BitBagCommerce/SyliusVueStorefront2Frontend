@@ -1,7 +1,6 @@
-import gql from 'graphql-tag';
-import { productFragment } from './fragments';
+import { gql } from 'api-client/__generated__';
 
-export const BaseQuery = gql`
+export const BaseQuery = gql(`
   query getProducts(
     $slug: String,
     $categorySlug: String,
@@ -27,7 +26,85 @@ export const BaseQuery = gql`
       channels_code: $channelsCode,
     ) {
       collection {
-        ${productFragment}
+        id
+        _id
+        sku: code
+        name
+        slug
+        averageRating
+        shortDescription
+        description
+        metaKeywords
+        metaDescription
+        productTaxons {
+          collection {
+            taxon {
+              id
+            }
+          }
+        }
+        options {
+          edges {
+            node {
+              id
+              _id
+              values {
+                edges {
+                  node {
+                    id
+                    code
+                    value
+                  }
+                }
+              }
+              name
+              code
+            }
+          }
+        }
+        variants {
+          collection {
+            id
+            code
+            name
+            inStock
+            onHold
+            onHand
+            enabled
+            channelPricings {
+              collection {
+                channelCode
+                price
+              }
+            }
+            optionValues {
+              edges {
+                node {
+                  id
+                  code
+                  value
+                  option {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+        attributes {
+          collection {
+            type
+            name
+            stringValue
+            localeCode
+          }
+        }
+        imagesRef: images {
+          collection {
+            path
+          }
+        }
+        enabled
       }
       paginationInfo {
         itemsPerPage
@@ -36,9 +113,9 @@ export const BaseQuery = gql`
       }
     }
   }
-`;
+`);
 
-export const getProductsNotFilteredQuery = gql`
+export const getProductsNotFilteredQuery = gql(`
   query getProductsNotFiltered(
     $slug: String,
     $categorySlug: String,
@@ -50,13 +127,91 @@ export const getProductsNotFilteredQuery = gql`
       channels_code: $channelsCode,
     ) {
       collection {
-        ${productFragment}
+        id
+        _id
+        sku: code
+        name
+        slug
+        averageRating
+        shortDescription
+        description
+        metaKeywords
+        metaDescription
+        productTaxons {
+          collection {
+            taxon {
+              id
+            }
+          }
+        }
+        options {
+          edges {
+            node {
+              id
+              _id
+              values {
+                edges {
+                  node {
+                    id
+                    code
+                    value
+                  }
+                }
+              }
+              name
+              code
+            }
+          }
+        }
+        variants {
+          collection {
+            id
+            code
+            name
+            inStock
+            onHold
+            onHand
+            enabled
+            channelPricings {
+              collection {
+                channelCode
+                price
+              }
+            }
+            optionValues {
+              edges {
+                node {
+                  id
+                  code
+                  value
+                  option {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+        attributes {
+          collection {
+            type
+            name
+            stringValue
+            localeCode
+          }
+        }
+        imagesRef: images {
+          collection {
+            path
+          }
+        }
+        enabled
       }
     }
   }
-`;
+`);
 
-export const getProductsAttributesQuery = gql`
+export const getProductsAttributesQuery = gql(`
   query productsAttributesInTaxon(
     $categorySlug: String,
     $locale: String
@@ -77,4 +232,4 @@ export const getProductsAttributesQuery = gql`
       }
     }
   }
-`;
+`);

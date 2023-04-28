@@ -1,8 +1,6 @@
-import gql from 'graphql-tag';
-import { addressFragment } from '../fragments/address';
-import { cartFragment } from '../fragments/cart';
+import { gql } from 'api-client/__generated__';
 
-export const createCartMutation = gql`
+export const createCartMutation = gql(`
   mutation createCart(
     $locale: String
   ) {
@@ -14,9 +12,9 @@ export const createCartMutation = gql`
       }
     }
   }
-`;
+`);
 
-export const addToCartMutation = gql`
+export const addToCartMutation = gql(`
   mutation addToCart(
     $token: String!,
     $variantId: String!,
@@ -28,13 +26,112 @@ export const addToCartMutation = gql`
       quantity: $quantity
     }) {
       order {
-        ${cartFragment}
+        tokenValue
+        localeCode
+        total
+        taxTotal
+        shippingTotal
+        orderPromotionTotal
+        promotionCoupon {
+          code
+          promotion {
+            name
+            description
+          }
+        }
+        shippingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        billingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        shipments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        payments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        items {
+          totalCount
+          edges {
+            node {
+              _id
+              variant {
+                code
+                optionValues {
+                  edges {
+                    node {
+                      option {
+                        id
+                      }
+                      code
+                      value
+                    }
+                  }
+                }
+                product {
+                  images {
+                    collection {
+                      path
+                    }
+                  }
+                  options {
+                    edges {
+                      node {
+                        id
+                        name
+                        code
+                      }
+                    }
+                  }
+                }
+              }
+              unitPrice
+              total
+              productName
+              variantName
+              quantity
+            }
+          }
+        }
       }
     }
   }
-`;
+`);
 
-export const removeFromCartMutation = gql`
+export const removeFromCartMutation = gql(`
   mutation removeFromCart(
     $cartId: String!,
     $itemId: String!
@@ -44,13 +141,112 @@ export const removeFromCartMutation = gql`
       orderItemId: $itemId
     }) {
       order {
-        ${cartFragment}
+        tokenValue
+        localeCode
+        total
+        taxTotal
+        shippingTotal
+        orderPromotionTotal
+        promotionCoupon {
+          code
+          promotion {
+            name
+            description
+          }
+        }
+        shippingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        billingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        shipments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        payments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        items {
+          totalCount
+          edges {
+            node {
+              _id
+              variant {
+                code
+                optionValues {
+                  edges {
+                    node {
+                      option {
+                        id
+                      }
+                      code
+                      value
+                    }
+                  }
+                }
+                product {
+                  images {
+                    collection {
+                      path
+                    }
+                  }
+                  options {
+                    edges {
+                      node {
+                        id
+                        name
+                        code
+                      }
+                    }
+                  }
+                }
+              }
+              unitPrice
+              total
+              productName
+              variantName
+              quantity
+            }
+          }
+        }
       }
     }
   }
-`;
+`);
 
-export const clearCartMutation = gql`
+export const clearCartMutation = gql(`
   mutation deleteCart(
     $cartId: String!
   ) {
@@ -62,41 +258,57 @@ export const clearCartMutation = gql`
       }
     }
   }
-`;
+`);
 
-export const addShippingAddressMutation = gql`
-  mutation addAddress(
+export const addShippingAddressMutation = gql(`
+  mutation addShippingAddress(
     $addAddressInput: shop_add_shipping_addressOrderInput!
   ) {
     shop_add_shipping_addressOrder(
       input: $addAddressInput
-    ){
+    ) {
       order {
         shippingAddress {
-          ${addressFragment}
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
         }
       }
     }
   }
-`;
+`);
 
-export const addBillingAddressMutation = gql`
-  mutation addAddress(
+export const addBillingAddressMutation = gql(`
+  mutation addBillingAddress(
     $addAddressInput: shop_add_billing_addressOrderInput!
   ) {
     shop_add_billing_addressOrder(
       input: $addAddressInput
-    ){
+    ) {
       order {
         billingAddress {
-          ${addressFragment}
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
         }
       }
     }
   }
-`;
+`);
 
-export const applyCouponMutation = gql`
+export const applyCouponMutation = gql(`
   mutation addCouponToCart(
     $coupon: shop_apply_couponOrderInput!
   ) {
@@ -104,13 +316,112 @@ export const applyCouponMutation = gql`
       input: $coupon
     ) {
       order {
-        ${cartFragment}
+        tokenValue
+        localeCode
+        total
+        taxTotal
+        shippingTotal
+        orderPromotionTotal
+        promotionCoupon {
+          code
+          promotion {
+            name
+            description
+          }
+        }
+        shippingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        billingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        shipments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        payments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        items {
+          totalCount
+          edges {
+            node {
+              _id
+              variant {
+                code
+                optionValues {
+                  edges {
+                    node {
+                      option {
+                        id
+                      }
+                      code
+                      value
+                    }
+                  }
+                }
+                product {
+                  images {
+                    collection {
+                      path
+                    }
+                  }
+                  options {
+                    edges {
+                      node {
+                        id
+                        name
+                        code
+                      }
+                    }
+                  }
+                }
+              }
+              unitPrice
+              total
+              productName
+              variantName
+              quantity
+            }
+          }
+        }
       }
     }
   }
-`;
+`);
 
-export const removeCouponFromCartMutation = gql`
+export const removeCouponFromCartMutation = gql(`
   mutation removeCouponFromCart(
     $removeCouponInput: shop_remove_couponOrderInput!
   ) {
@@ -118,13 +429,112 @@ export const removeCouponFromCartMutation = gql`
       input:$removeCouponInput
     ) {
       order {
-        ${cartFragment}
+        tokenValue
+        localeCode
+        total
+        taxTotal
+        shippingTotal
+        orderPromotionTotal
+        promotionCoupon {
+          code
+          promotion {
+            name
+            description
+          }
+        }
+        shippingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        billingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        shipments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        payments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        items {
+          totalCount
+          edges {
+            node {
+              _id
+              variant {
+                code
+                optionValues {
+                  edges {
+                    node {
+                      option {
+                        id
+                      }
+                      code
+                      value
+                    }
+                  }
+                }
+                product {
+                  images {
+                    collection {
+                      path
+                    }
+                  }
+                  options {
+                    edges {
+                      node {
+                        id
+                        name
+                        code
+                      }
+                    }
+                  }
+                }
+              }
+              unitPrice
+              total
+              productName
+              variantName
+              quantity
+            }
+          }
+        }
       }
     }
   }
-`;
+`);
 
-export const updateCartQuantityMutation = gql`
+export const updateCartQuantityMutation = gql(`
   mutation updateCartQuantity(
     $cartId: String!,
     $itemId: String!,
@@ -136,13 +546,112 @@ export const updateCartQuantityMutation = gql`
       quantity: $quantity
     }) {
       order {
-        ${cartFragment}
+        tokenValue
+        localeCode
+        total
+        taxTotal
+        shippingTotal
+        orderPromotionTotal
+        promotionCoupon {
+          code
+          promotion {
+            name
+            description
+          }
+        }
+        shippingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        billingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        shipments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        payments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        items {
+          totalCount
+          edges {
+            node {
+              _id
+              variant {
+                code
+                optionValues {
+                  edges {
+                    node {
+                      option {
+                        id
+                      }
+                      code
+                      value
+                    }
+                  }
+                }
+                product {
+                  images {
+                    collection {
+                      path
+                    }
+                  }
+                  options {
+                    edges {
+                      node {
+                        id
+                        name
+                        code
+                      }
+                    }
+                  }
+                }
+              }
+              unitPrice
+              total
+              productName
+              variantName
+              quantity
+            }
+          }
+        }
       }
     }
   }
-`;
+`);
 
-export const updateCartPaymentMutation = gql`
+export const updateCartPaymentMutation = gql(`
   mutation updateCartPayment(
     $paymentMethod: shop_select_payment_methodOrderInput!
   ) {
@@ -150,13 +659,112 @@ export const updateCartPaymentMutation = gql`
       input: $paymentMethod
     ) {
       order {
-        ${cartFragment}
+        tokenValue
+        localeCode
+        total
+        taxTotal
+        shippingTotal
+        orderPromotionTotal
+        promotionCoupon {
+          code
+          promotion {
+            name
+            description
+          }
+        }
+        shippingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        billingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        shipments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        payments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        items {
+          totalCount
+          edges {
+            node {
+              _id
+              variant {
+                code
+                optionValues {
+                  edges {
+                    node {
+                      option {
+                        id
+                      }
+                      code
+                      value
+                    }
+                  }
+                }
+                product {
+                  images {
+                    collection {
+                      path
+                    }
+                  }
+                  options {
+                    edges {
+                      node {
+                        id
+                        name
+                        code
+                      }
+                    }
+                  }
+                }
+              }
+              unitPrice
+              total
+              productName
+              variantName
+              quantity
+            }
+          }
+        }
       }
     }
   }
-`;
+`);
 
-export const updateCartShippingMutation = gql`
+export const updateCartShippingMutation = gql(`
   mutation updateCartShipping(
     $shippingMethod: shop_select_shipping_methodOrderInput!
   ) {
@@ -164,8 +772,107 @@ export const updateCartShippingMutation = gql`
       input: $shippingMethod
     ) {
       order {
-        ${cartFragment}
+        tokenValue
+        localeCode
+        total
+        taxTotal
+        shippingTotal
+        orderPromotionTotal
+        promotionCoupon {
+          code
+          promotion {
+            name
+            description
+          }
+        }
+        shippingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        billingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        shipments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        payments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        items {
+          totalCount
+          edges {
+            node {
+              _id
+              variant {
+                code
+                optionValues {
+                  edges {
+                    node {
+                      option {
+                        id
+                      }
+                      code
+                      value
+                    }
+                  }
+                }
+                product {
+                  images {
+                    collection {
+                      path
+                    }
+                  }
+                  options {
+                    edges {
+                      node {
+                        id
+                        name
+                        code
+                      }
+                    }
+                  }
+                }
+              }
+              unitPrice
+              total
+              productName
+              variantName
+              quantity
+            }
+          }
+        }
       }
     }
   }
-`;
+`);

@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
+import { gql } from 'api-client/__generated__';
 
-export default gql`
+export default gql(`
   mutation createOrder(
     $order: shop_completeOrderInput!
   ) {
@@ -13,4 +13,4 @@ export default gql`
       }
     }
   }
-`;
+`);
