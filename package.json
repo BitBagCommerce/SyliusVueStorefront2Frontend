@@ -27,7 +27,9 @@
     "update:check": "ncu && lerna run update:check --stream",
     "update:update": "ncu -u && lerna run update:update --stream",
     "commit": "cz",
-    "heroku-postbuild": "scripts/build.sh"
+    "heroku-postbuild": "scripts/build.sh",
+    "graphql:api-client": "cd packages/api-client && yarn graphql",
+    "graphql-watch:api-client": "cd packages/api-client && yarn graphql-watch"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

@@ -2,6 +2,7 @@
 **/lib/*
 **/GraphQL.ts
 !**/.vuepress/**/*
+**/__generated__/*
 packages/boilerplate/composables/nuxt/plugin.js
 packages/commercetools/composables/nuxt/plugin.js
 packages/core/cache/nuxt/plugin.js
