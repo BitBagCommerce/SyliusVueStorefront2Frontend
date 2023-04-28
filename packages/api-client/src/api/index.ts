@@ -4,6 +4,7 @@ export {
   getProduct,
   getProductNotFiltered,
   getProductAttribute,
+  getFirstProductId,
   getMinimalProduct,
 } from './getProduct';
 export {
