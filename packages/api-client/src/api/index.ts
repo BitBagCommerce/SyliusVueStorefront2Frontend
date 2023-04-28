@@ -40,6 +40,3 @@ export {
   getReviews,
   addReview
 } from './review';
-export {
-  getFilters
-} from './filters';
