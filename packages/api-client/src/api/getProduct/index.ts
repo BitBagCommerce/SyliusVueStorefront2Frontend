@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CustomQuery } from '@vue-storefront/core';
 import { BaseQuery, getProductsNotFilteredQuery, getProductsAttributesQuery } from './queries';
-import gql from 'graphql-tag';
+import { extendQuery, query } from '../helpers';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function getProduct(context, params, customQuery?: CustomQuery): Promise<any> {
@@ -8,56 +9,54 @@ export async function getProduct(context, params, customQuery?: CustomQuery): Pr
   let products = [];
 
   try {
-    const { productsQuery } = context.extendQuery(
-      customQuery,
-      {
-        productsQuery: {
-          query: BaseQuery,
-          variables: params
-        }
-      }
-    );
-
-    const { data } = await context.client.query({
-      query: gql`${productsQuery.query}`,
-      variables: productsQuery.variables,
-      fetchPolicy: 'no-cache'
-    });
+    const { query: queryGql, variables } = extendQuery(context, BaseQuery, params, customQuery);
+    const data = await query(context, queryGql, variables);
 
     const { locale, imagePaths } = context.config;
     pagination = data.products.paginationInfo;
+    // TODO: rewrite this map function so typescript doesn't throw errors
     products = data.products.collection.map(item => {
       if (item.attributes) {
+        // @ts-ignore
         item.attributes = item.attributes.collection
           .filter(attr => attr.type === 'integer' || attr.localeCode === locale);
       }
 
       if (item.productTaxons) {
+        // @ts-ignore
         item._categoriesRef = item.productTaxons.collection.map(taxon => taxon.taxon.id);
         delete item.productTaxons;
       }
 
       if (item.options) {
-        item.options = item.options.edges.map(edge => {
-          edge.node.values = edge.node.values.edges.map(e => e.node);
+        // @ts-ignore
+        item.options = item.options?.edges?.map(edge => {
+          // @ts-ignore
+          edge.node.values = edge?.node?.values?.edges?.map(e => e?.node);
           return edge.node;
         });
       }
 
       if (item.variants) {
+        // @ts-ignore
         item.variants = item.variants.collection.map(variant => {
+          // @ts-ignore
           variant.optionValues = variant.optionValues.edges.map(e => e.node);
           if (variant.channelPricings) {
+            // @ts-ignore
             variant.channelPricings = variant.channelPricings.collection;
           }
           return variant;
         });
       }
+      // @ts-ignore
       item.selectedVariant = item?.variants?.length ? item.variants?.[0] : null;
 
       if (item.imagesRef) {
         const mapImages = item.imagesRef.collection;
+        // @ts-ignore
         item.images = mapImages.map(img => [imagePaths.thumbnail, img.path].join('/'));
+        // @ts-ignore
         item.galleryImages = mapImages.map(img => [imagePaths.regular, img.path].join('/'));
         delete item.imagesRef;
       }
@@ -74,60 +73,55 @@ export async function getProduct(context, params, customQuery?: CustomQuery): Pr
 }
 
 export async function getProductNotFiltered(context, params, customQuery?: CustomQuery) {
-  let pagination = {};
   let products = [];
 
   try {
-    const { productsQuery } = context.extendQuery(
-      customQuery,
-      {
-        productsQuery: {
-          query: getProductsNotFilteredQuery,
-          variables: params
-        }
-      }
-    );
-
-    const { data } = await context.client.query({
-      query: gql`${productsQuery.query}`,
-      variables: productsQuery.variables,
-      fetchPolicy: 'no-cache'
-    });
+    const { query: queryGql, variables } = extendQuery(context, getProductsNotFilteredQuery, params, customQuery);
+    const data = await query(context, queryGql, variables);
 
     const { locale, imagePaths } = context.config;
-    pagination = data.products.paginationInfo;
-    products = data.products.collection.map(item => {
+    products = data.products.collection.map((item) => {
       if (item.attributes) {
+        // @ts-ignore
         item.attributes = item.attributes.collection
           .filter(attr => attr.type === 'integer' || attr.localeCode === locale);
       }
 
       if (item.productTaxons) {
-        item._categoriesRef = item.productTaxons.collection.map(taxon => taxon.taxon.id);
+        // @ts-ignore
+        item._categoriesRef = item.productTaxons.collection?.map(taxon => taxon.taxon.id);
         delete item.productTaxons;
       }
 
       if (item.options) {
-        item.options = item.options.edges.map(edge => {
-          edge.node.values = edge.node.values.edges.map(e => e.node);
+        // @ts-ignore
+        item.options = item.options?.edges?.map(edge => {
+          // @ts-ignore
+          edge.node.values = edge?.node?.values?.edges?.map(e => e.node);
           return edge.node;
         });
       }
 
       if (item.variants) {
-        item.variants = item.variants.collection.map(variant => {
-          variant.optionValues = variant.optionValues.edges.map(e => e.node);
+        // @ts-ignore
+        item.variants = item.variants.collection?.map(variant => {
+          // @ts-ignore
+          variant.optionValues = variant.optionValues.edges?.map(e => e.node);
           if (variant.channelPricings) {
+            // @ts-ignore
             variant.channelPricings = variant.channelPricings.collection;
           }
           return variant;
         });
       }
+      // @ts-ignore
       item.selectedVariant = item?.variants?.length ? item.variants?.[0] : null;
 
       if (item.imagesRef) {
         const mapImages = item.imagesRef.collection;
+        // @ts-ignore
         item.images = mapImages.map(img => [imagePaths.thumbnail, img.path].join('/'));
+        // @ts-ignore
         item.galleryImages = mapImages.map(img => [imagePaths.regular, img.path].join('/'));
         delete item.imagesRef;
       }
@@ -138,8 +132,7 @@ export async function getProductNotFiltered(context, params, customQuery?: Custo
   }
 
   return {
-    products,
-    pagination
+    products
   };
 }
 
@@ -157,7 +150,7 @@ export async function getProductAttribute(context, params, customQuery?: CustomQ
   );
 
   const { data } = await context.client.query({
-    query: gql`${productsQuery.query}`,
+    query: productsQuery.query,
     variables: productsQuery.variables,
     fetchPolicy: 'no-cache'
   });
@@ -169,7 +162,7 @@ export async function getProductAttribute(context, params, customQuery?: CustomQ
 
   const groupedAttributes = [];
 
-  attributes.forEach(attr => {
+  attributes?.forEach(attr => {
     const index = groupedAttributes.findIndex(a => a.id === attr.code);
 
     if (index === -1) {

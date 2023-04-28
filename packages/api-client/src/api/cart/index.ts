@@ -72,14 +72,17 @@ export const clearCart = async (context, defaultVariables, customQuery?: CustomQ
 };
 
 export const addAddress = async (context, defaultVariables, customQuery?: CustomQuery) => {
-  const query = defaultVariables.addAddressInput?.shippingAddress
-    ? addShippingAddressMutation
-    : addBillingAddressMutation;
-  const queryGql = extendQuery(context, query, defaultVariables, customQuery);
+  if (defaultVariables.addAddressInput?.shippingAddress) {
+    const queryGql = extendQuery(context, addShippingAddressMutation, defaultVariables, customQuery);
+    const data = await mutate(context, queryGql);
+
+    return data.shop_add_shipping_addressOrder.order;
+  }
+
+  const queryGql = extendQuery(context, addBillingAddressMutation, defaultVariables, customQuery);
   const data = await mutate(context, queryGql);
-  return defaultVariables.addAddressInput?.shippingAddress
-    ? data.shop_add_shipping_addressOrder.order
-    : data.shop_add_billing_addressOrder.order;
+
+  return data.shop_add_billing_addressOrder.order;
 };
 
 export const updateCartPayment = async (context, defaultVariables, customQuery?: CustomQuery) => {

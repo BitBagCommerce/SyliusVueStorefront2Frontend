@@ -1,25 +1,50 @@
-import gql from 'graphql-tag';
-import { CustomQuery } from '@vue-storefront/core';
-export const extendQuery = (context, query, variables, customQuery?: CustomQuery) => {
+import { Context, CustomQuery } from '@vue-storefront/core';
+import { TypedDocumentNode } from '@apollo/client/core';
+import { Exact } from 'api-client/__generated__/graphql';
+
+type QueryVariables = Record<string, any>
+
+type ExtendQuery<TQuery extends TypedDocumentNode, TVariables> = {
+  query: TQuery;
+  variables: TVariables;
+};
+
+export const extendQuery = <TQuery extends TypedDocumentNode, TVariables extends QueryVariables>(
+  context: Context,
+  query: TQuery,
+  variables: TVariables,
+  customQuery?: CustomQuery
+): ExtendQuery<TQuery, TVariables> => {
   const { queryGql } = context.extendQuery(
-    customQuery, {
+    customQuery,
+    {
       queryGql: { query, variables }
     }
   );
+
   return queryGql;
 };
 
-export const query = async (context, query, variables) => {
+export const query = async <TData, TVariables extends QueryVariables>(
+  context: Context,
+  query: TypedDocumentNode<TData, Exact<TVariables>>,
+  variables: TVariables
+): Promise<TData> => {
   const { data } = await context.client.query({ query, variables });
+
   return data;
 };
 
-export const mutate = async(context, mutation) => {
+export const mutate = async <TData, TVariables extends QueryVariables>(
+  context: Context,
+  mutation: ExtendQuery<TypedDocumentNode<TData, Exact<TVariables>>, TVariables>
+): Promise<TData> => {
   const { data } = await context.client.mutate({
-    mutation: gql`${mutation.query}`,
+    mutation: mutation.query,
     variables: mutation.variables,
     fetchPolicy: 'no-cache'
   });
+
   return data;
 };
 

@@ -36,25 +36,28 @@ const factoryParams = {
       productsNotFiltered = data[2].products;
 
       attributes = data[3];
-      attributes.forEach(attr => {
-        if (attr.type === 'text') {
-          attr.options = attr.options.map(option => ({
-            ...option,
-            selected: params.input.attributes[option.code]?.includes(option.stringValue) || false
-          }));
 
-          return;
-        }
+      if (Array.isArray(attributes)) {
+        attributes.forEach(attr => {
+          if (attr.type === 'text') {
+            attr.options = attr.options.map(option => ({
+              ...option,
+              selected: params.input.attributes[option.code]?.includes(option.stringValue) || false
+            }));
 
-        if (params.input.attributes?.[attr.id]) {
-          attr.options[0].selected = true;
-          attr.range = params.input.attributes[attr.id];
+            return;
+          }
 
-          return;
-        }
+          if (params.input.attributes?.[attr.id]) {
+            attr.options[0].selected = true;
+            attr.range = params.input.attributes[attr.id];
 
-        attr.options[0].selected = false;
-      });
+            return;
+          }
+
+          attr.options[0].selected = false;
+        });
+      }
     } catch (e) {
       Logger.error(e);
     }
