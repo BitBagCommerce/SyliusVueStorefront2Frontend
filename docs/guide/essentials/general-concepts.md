@@ -13,7 +13,11 @@ Most work you will do on API will be done in `packages/api-client/src/api`, sepa
 - `queries.ts` - in this file, you write your GraphQL code used for getting data from the backend, for example:
 ```ts
 // packages/api-client/src/api/getProduct/queries.ts
-export const getProductsAttributesQuery = gql`
+// make sure to import gql from here it ensures type safety while working with GraphQL
+import { gql } from 'api-client/__generated__';
+
+// your GraphQL query
+export const getProductsAttributesQuery = gql(`
   query productsAttributesInTaxon(
     $categorySlug: String,
     $locale: String
@@ -34,13 +38,17 @@ export const getProductsAttributesQuery = gql`
       }
     }
   }
-`;
+`);
 ```
 
 - `mutations.ts` - in this file, you write your GraphQL code used for changing data on the backend, for example:
 ```ts
 // packages/api-client/src/api/cart/mutations.ts
-export const clearCartMutation = gql`
+// make sure to import gql from here it ensures type safety while working with GraphQL
+import { gql } from 'api-client/__generated__';
+
+// your GraphQL query mutation
+export const clearCartMutation = gql(`
   mutation deleteCart(
     $cartId: String!
   ) {
@@ -52,16 +60,19 @@ export const clearCartMutation = gql`
       }
     }
   }
-`;
+`);
 ```
 
 - `index.ts` - in this file, you use your queries, and mutations created before, and add any additional logic, for example:
 ```ts
 // packages/api-client/src/api/getProduct/index.ts
+import { getProductsAttributesQuery } from './queries';
+import { extendQuery, query } from '../helpers';
+
 export async function getProduct(context, params, customQuery?: CustomQuery): Promise<any> {
   try {
     // crating a query
-    const { productsQuery } = context.extendQuery(
+    const { productsQuery } = extendQuery(
       customQuery,
       {
         productsQuery: {
@@ -72,8 +83,8 @@ export async function getProduct(context, params, customQuery?: CustomQuery): Pr
     );
 
     // executing created query
-    const { data } = await context.client.query({
-      query: gql`${productsQuery.query}`,
+    const data = await query({
+      query: productsQuery.query,
       variables: productsQuery.variables,
       fetchPolicy: 'no-cache'
     });
@@ -87,6 +98,10 @@ export async function getProduct(context, params, customQuery?: CustomQuery): Pr
   }
 }
 ```
+
+:::tip Working with GraphQL code
+This project uses [GraphQL Code Generation]('https://the-guild.dev/graphql/codegen') for generating TypeScript types for your GraphQL code. Remember to run `graphql:api-client` after every change to your GraphQL code or `graphql-watch:api-client` to watch for file changes automatically, this ensures that types generated from your GraphQL are accurate.
+:::
 
 ## Composables
 
