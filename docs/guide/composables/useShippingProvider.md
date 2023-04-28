@@ -6,13 +6,13 @@
 
 ## API
 
-* `loading: boolean` - a reactive object containing information about loading state of shipping provider.
+- `loading: boolean` - a reactive object containing information about loading state of shipping provider.
 
 ### `save`
 
 Function for saving shipping data. It accepts an object with the following key:
 
-  * `shippingMethod: any`
+- `shippingMethod: any`
 
 ## Example
 
@@ -21,12 +21,12 @@ import { onSSR } from '@vue-storefront/core';
 import { useShippingProvider } from '@realtainment/sylius';
 
 export default {
-  setup () {
+  setup() {
     const { save } = useShippingProvider();
 
     onSSR(async () => {
       await save({ shippingMethod });
     });
-  }
+  },
 };
 ```

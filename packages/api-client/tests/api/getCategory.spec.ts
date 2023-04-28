@@ -15,13 +15,13 @@ describe('[sylius-api-client] getCategory', () => {
           return {
             data: {
               taxa: {
-                collection: []
-              }
-            }
+                collection: [],
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await getCategory(context, params);

@@ -34,14 +34,14 @@
         <div class="product__price-and-rating">
           <SfPrice
             :regular="$n(productGetters.getPrice(product).regular, 'currency')"
-            :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
+            :special="
+              productGetters.getPrice(product).special &&
+              $n(productGetters.getPrice(product).special, 'currency')
+            "
           />
           <div>
             <div class="product__rating">
-              <SfRating
-                :score="averageRating"
-                :max="5"
-              />
+              <SfRating :score="averageRating" :max="5" />
               <a v-if="!!totalReviews" href="#" class="product__count">
                 ({{ totalReviews }})
               </a>
@@ -56,7 +56,7 @@
             v-for="(item, key) in Object.keys(options)"
             :key="key"
             :value="configuration[item]"
-            @input="value => updateFilter({ value, filter: item })"
+            @input="(value) => updateFilter({ value, filter: item })"
             :label="options[item].label"
             class="sf-select--underlined product__select-size"
             :required="true"
@@ -66,18 +66,21 @@
               :key="size.value"
               :value="size.value"
             >
-              {{size.label}}
+              {{ size.label }}
             </SfSelectOption>
           </SfSelect>
 
-          <div v-if="options.color && options.color.length > 1" class="product__colors desktop-only">
+          <div
+            v-if="options.color && options.color.length > 1"
+            class="product__colors desktop-only"
+          >
             <p class="product__color-label">{{ $t('Color') }}:</p>
             <SfColor
               v-for="(color, i) in options.color"
               :key="i"
               :color="color.value"
               class="product__color"
-              @click="updateFilter({color})"
+              @click="updateFilter({ color })"
             />
           </div>
           <SfAddToCart
@@ -94,7 +97,7 @@
           <SfTabs :open-tab="1" class="product__tabs">
             <SfTab :title="$t('Description')" key="description">
               <div class="product__description">
-                  {{ product.description }}
+                {{ product.description }}
               </div>
               <SfProperty
                 v-for="(property, i) in properties"
@@ -151,7 +154,6 @@
     <LazyHydrate when-visible>
       <MobileStoreBanner />
     </LazyHydrate>
-
   </div>
 </template>
 <script>
@@ -172,13 +174,20 @@ import {
   SfReview,
   SfBreadcrumbs,
   SfButton,
-  SfColor
+  SfColor,
 } from '@storefront-ui/vue';
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
 import { ref, computed, onUpdated } from '@nuxtjs/composition-api';
-import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser } from '@vue-storefront/sylius';
+import {
+  useProduct,
+  useCart,
+  productGetters,
+  useReview,
+  reviewGetters,
+  useUser,
+} from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -196,40 +205,70 @@ export default {
     const { send } = useUiNotification();
 
     const { addItem, loading, error } = useCart();
-    const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
+    const {
+      reviews: productReviews,
+      search: searchReviews,
+      addReview,
+    } = useReview('productReviews');
 
     onSSR(async () => {
-      await search({ slug, query: context.root.$route.query});
+      await search({ slug, query: context.root.$route.query });
       await searchReviews({ productId: id });
     });
-    const product = computed(() => products.value.products && productGetters.getFiltered(products.value.products, { master: true, attributes: context.root.$route.query })[0]);
+    const product = computed(
+      () =>
+        products.value.products &&
+        productGetters.getFiltered(products.value.products, {
+          master: true,
+          attributes: context.root.$route.query,
+        })[0]
+    );
 
-    const options = computed(() => productGetters.getAttributes(products.value?.products, ['color', 'size'])) || [];
+    const options =
+      computed(() =>
+        productGetters.getAttributes(products.value?.products, [
+          'color',
+          'size',
+        ])
+      ) || [];
 
-    const configuration = computed(() => product?.value ? productGetters.getAttributes(product?.value, ['color', 'size']) : []);
-    const categories = computed(() => productGetters.getCategoryIds(product?.value)) || [];
+    const configuration = computed(() =>
+      product?.value
+        ? productGetters.getAttributes(product?.value, ['color', 'size'])
+        : []
+    );
+    const categories =
+      computed(() => productGetters.getCategoryIds(product?.value)) || [];
 
     const reviews = computed(() => {
-      return productReviews?.value ? reviewGetters.getItems(productReviews?.value) : [];
+      return productReviews?.value
+        ? reviewGetters.getItems(productReviews?.value)
+        : [];
     });
     const totalReviewsCount = computed(() => {
-      return productReviews?.value ? reviewGetters.getTotalReviews(productReviews.value) : 0;
+      return productReviews?.value
+        ? reviewGetters.getTotalReviews(productReviews.value)
+        : 0;
     });
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
 
-    const productGallery = computed(() => product?.value && productGetters.getGallery(product?.value).map(img => ({
-      mobile: { url: img.small },
-      desktop: { url: img.normal },
-      big: { url: img.small },
-      alt: product?.value?.name
-    })));
+    const productGallery = computed(
+      () =>
+        product?.value &&
+        productGetters.getGallery(product?.value).map((img) => ({
+          mobile: { url: img.small },
+          desktop: { url: img.normal },
+          big: { url: img.small },
+          alt: product?.value?.name,
+        }))
+    );
 
     const handleAddToCart = async (params) => {
       await addItem(params);
 
-      const cartError = Object.values(error.value).find(err => err !== null);
+      const cartError = Object.values(error.value).find((err) => err !== null);
 
       if (cartError) {
         send({ type: 'danger', message: cartError.message });
@@ -237,7 +276,10 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: t('Product has been added to the cart') });
+      send({
+        type: 'success',
+        message: t('Product has been added to the cart'),
+      });
     };
 
     const updateFilter = (item) => {
@@ -248,7 +290,7 @@ export default {
 
           return {
             ...prev,
-            ...record
+            ...record,
           };
         }, {});
 
@@ -256,8 +298,8 @@ export default {
           path: context.root.$route.path,
           query: {
             ...configuration.value,
-            ...filterObj
-          }
+            ...filterObj,
+          },
         });
 
         return;
@@ -270,11 +312,11 @@ export default {
         path: context.root.$route.path,
         query: {
           ...configuration.value,
-          ...filterObj
-        }
+          ...filterObj,
+        },
       });
     };
-    const handleReviewSubmit = async ({form, onComplete, onError}) => {
+    const handleReviewSubmit = async ({ form, onComplete, onError }) => {
       try {
         form.value.productId = parseInt(id);
         await addReview(form.value);
@@ -285,10 +327,12 @@ export default {
     };
 
     const properties = computed(() => {
-      return product.value?.attributes?.map(item => ({
-        value: item.stringValue,
-        name: item.name
-      })) || [];
+      return (
+        product.value?.attributes?.map((item) => ({
+          value: item.stringValue,
+          name: item.name,
+        })) || []
+      );
     });
 
     onUpdated(() => {
@@ -296,9 +340,10 @@ export default {
         !Object.keys(context.root.$route.query).length &&
         Object.keys(options.value).length
       ) {
-        const filter = Object
-          .keys(options.value)
-          .map(key => ({ value: options.value[key].value[0].value, filter: key }));
+        const filter = Object.keys(options.value).map((key) => ({
+          value: options.value[key].value[0].value,
+          filter: key,
+        }));
 
         updateFilter(filter);
       }
@@ -313,7 +358,9 @@ export default {
       reviews,
       reviewGetters,
       price: computed(() => productGetters.getPrice(product.value)),
-      averageRating: computed(() => productGetters.getAverageRating(product.value)),
+      averageRating: computed(() =>
+        productGetters.getAverageRating(product.value)
+      ),
       totalReviews: totalReviewsCount,
       options,
       qty,
@@ -322,7 +369,7 @@ export default {
       productGetters,
       productGallery,
       isAuthenticated,
-      handleReviewSubmit
+      handleReviewSubmit,
     };
   },
   components: {
@@ -346,14 +393,14 @@ export default {
     InstagramFeed,
     MobileStoreBanner,
     LazyHydrate,
-    AddReviewForm
+    AddReviewForm,
   },
   data() {
     return {
       detailsIsActive: false,
-      breadcrumbs: []
+      breadcrumbs: [],
     };
-  }
+  },
 };
 </script>
 

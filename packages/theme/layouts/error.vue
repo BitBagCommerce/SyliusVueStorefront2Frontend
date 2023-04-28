@@ -10,14 +10,21 @@
     <SfHeading
       :title="error.statusCode === 404 ? 'Page not found' : 'An error occured'"
       :level="2"
-      :description="error.statusCode === 404 ? 'We are sorry that we can’t find the page, please go back or try again' : 'Please go back or try again'"
+      :description="
+        error.statusCode === 404
+          ? 'We are sorry that we can’t find the page, please go back or try again'
+          : 'Please go back or try again'
+      "
       class="heading sf-heading--no-underline"
     />
     <div class="actions">
       <SfButton link="/" class="sf-button--full-width actions__button">
         Return home
       </SfButton>
-      <SfButton class="sf-button--full-width sf-button--text actions__button" @click="router.go(-1)">
+      <SfButton
+        class="sf-button--full-width sf-button--text actions__button"
+        @click="router.go(-1)"
+      >
         Back
       </SfButton>
     </div>
@@ -38,13 +45,13 @@ export default {
     const router = useRouter();
 
     return {
-      router
+      router,
     };
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
+@import '~@storefront-ui/vue/styles';
 #error {
   box-sizing: border-box;
   display: flex;

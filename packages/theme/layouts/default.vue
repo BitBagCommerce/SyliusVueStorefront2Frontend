@@ -7,7 +7,7 @@
     <AppHeader />
 
     <div id="layout">
-      <nuxt :key="route.fullPath"/>
+      <nuxt :key="route.fullPath" />
 
       <BottomNavigation />
       <CartSidebar />
@@ -33,7 +33,12 @@ import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 import { onSSR } from '@vue-storefront/core';
 import { useRoute } from '@nuxtjs/composition-api';
-import { useCart, useStore, useUser, useWishlist } from '@vue-storefront/sylius';
+import {
+  useCart,
+  useStore,
+  useUser,
+  useWishlist,
+} from '@vue-storefront/sylius';
 
 export default {
   name: 'DefaultLayout',
@@ -47,12 +52,10 @@ export default {
     CartSidebar,
     WishlistSidebar,
     LoginModal,
-    Notification
+    Notification,
   },
 
-  middleware: [
-    'is-connected'
-  ],
+  middleware: ['is-connected'],
 
   setup() {
     const route = useRoute();
@@ -62,23 +65,18 @@ export default {
     const { load: loadWishlist } = useWishlist();
 
     onSSR(async () => {
-      await Promise.all([
-        loadStores(),
-        loadUser(),
-        loadCart(),
-        loadWishlist()
-      ]);
+      await Promise.all([loadStores(), loadUser(), loadCart(), loadWishlist()]);
     });
 
     return {
-      route
+      route,
     };
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/vue/styles";
+@import '~@storefront-ui/vue/styles';
 
 #layout {
   box-sizing: border-box;

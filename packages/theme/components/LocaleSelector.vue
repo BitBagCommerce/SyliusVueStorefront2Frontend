@@ -10,16 +10,14 @@
         width="20"
         alt="Flag"
         :placeholder="loader"
-        />
+      />
     </SfButton>
     <SfMegaMenu
       :visible="isLangModalOpen"
       v-click-outside="closeLangModal"
       class="mega-menu"
     >
-      <h4 class="mega-menu__header">
-        Choose a language
-      </h4>
+      <h4 class="mega-menu__header">Choose a language</h4>
       <SfList class="mega-menu__list">
         <SfListItem
           v-for="lang in availableLocales"
@@ -65,7 +63,7 @@ import {
   SfBottomModal,
   SfCharacteristic,
   SfMegaMenu,
-  SfOverlay
+  SfOverlay,
 } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
@@ -80,14 +78,16 @@ export default {
     SfBottomModal,
     SfCharacteristic,
     SfMegaMenu,
-    SfOverlay
+    SfOverlay,
   },
   emits: ['click'],
   directives: { clickOutside },
   setup(props, context) {
     const { locales, locale } = context.root.$i18n;
     const isLangModalOpen = ref(false);
-    const availableLocales = computed(() => locales.filter(i => i.code !== locale));
+    const availableLocales = computed(() =>
+      locales.filter((i) => i.code !== locale)
+    );
 
     const openLangModal = () => {
       isLangModalOpen.value = true;
@@ -107,9 +107,9 @@ export default {
       isLangModalOpen,
       openLangModal,
       closeLangModal,
-      loader
+      loader,
     };
-  }
+  },
 };
 </script>
 
@@ -136,7 +136,8 @@ export default {
     ::v-deep .sf-mega-menu {
       height: 100%;
 
-      &__content, &__menu {
+      &__content,
+      &__menu {
         height: 100%;
       }
     }

@@ -7,12 +7,10 @@ describe('[sylius-api-client] getProduct', () => {
     const params = {
       page: 1,
       itemsPerPage: 20,
-      orderBy: [
-        { createdAt: 'ASC' }
-      ],
+      orderBy: [{ createdAt: 'ASC' }],
       slug: 'test',
       search: 'test',
-      categorySlug: 'test'
+      categorySlug: 'test',
     };
 
     const context = {
@@ -26,39 +24,45 @@ describe('[sylius-api-client] getProduct', () => {
               products: {
                 collection: [
                   {
-                    attributes: { edges: [
-                      {
-                        node: {}
-                      }
-                    ]},
-                    productTaxons: { edges: []},
-                    options: { edges: [
-                      {
-                        node: {
-                          values: { edges: []}
-                        }
-                      }
-                    ]},
-                    variants: { collection: [
-                      {
-                        optionValues: { edges: []},
-                        channelPricings: { collection: []}
-                      }
-                    ]},
-                    imagesRef: { collection: []}
-                  }
-                ]
-              }
-            }
+                    attributes: {
+                      edges: [
+                        {
+                          node: {},
+                        },
+                      ],
+                    },
+                    productTaxons: { edges: [] },
+                    options: {
+                      edges: [
+                        {
+                          node: {
+                            values: { edges: [] },
+                          },
+                        },
+                      ],
+                    },
+                    variants: {
+                      collection: [
+                        {
+                          optionValues: { edges: [] },
+                          channelPricings: { collection: [] },
+                        },
+                      ],
+                    },
+                    imagesRef: { collection: [] },
+                  },
+                ],
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const { products } = await getProduct(context, {
       ...params,
-      sort: 'createdAt_ASC'
+      sort: 'createdAt_ASC',
     });
     expect(Array.isArray(products)).toBe(true);
   });

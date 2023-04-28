@@ -3,12 +3,24 @@
   <SfBottomNavigation class="navigation-bottom smartphone-only">
     <SfBottomNavigationItem
       :class="route.path == '/' ? 'sf-bottom-navigation__item--active' : ''"
-      icon="home" size="20px" label="Home"
+      icon="home"
+      size="20px"
+      label="Home"
       @click="handleHomeClick"
     />
-    <SfBottomNavigationItem icon="menu" size="20px" label="Menu" @click="toggleMobileMenu"/>
+    <SfBottomNavigationItem
+      icon="menu"
+      size="20px"
+      label="Menu"
+      @click="toggleMobileMenu"
+    />
     <!-- <SfBottomNavigationItem icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/> -->
-    <SfBottomNavigationItem :icon="accountIcon" size="20px" label="Account" @click="handleAccountClick"/>
+    <SfBottomNavigationItem
+      :icon="accountIcon"
+      size="20px"
+      label="Account"
+      @click="handleAccountClick"
+    />
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
     <SfBottomNavigationItem
       label="Cart"
@@ -21,9 +33,11 @@
             icon="add_to_cart"
             color="white"
             size="25px"
-            :style="{margin: '0 0 0 -2px'}"
+            :style="{ margin: '0 0 0 -2px' }"
           />
-          <SfBadge v-if="cartTotalItems" class="sf-badge--number cart-badge">{{cartTotalItems}}</SfBadge>
+          <SfBadge v-if="cartTotalItems" class="sf-badge--number cart-badge">{{
+            cartTotalItems
+          }}</SfBadge>
         </SfCircleIcon>
       </template>
     </SfBottomNavigationItem>
@@ -31,7 +45,12 @@
 </template>
 
 <script>
-import { SfBottomNavigation, SfIcon, SfCircleIcon, SfBadge } from '@storefront-ui/vue';
+import {
+  SfBottomNavigation,
+  SfIcon,
+  SfCircleIcon,
+  SfBadge,
+} from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 import { useUser, useCart, cartGetters } from '@vue-storefront/sylius';
 import { computed, useRoute, useRouter } from '@nuxtjs/composition-api';
@@ -41,15 +60,23 @@ export default {
     SfBottomNavigation,
     SfIcon,
     SfCircleIcon,
-    SfBadge
+    SfBadge,
   },
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, toggleMobileMenu, isMobileMenuOpen } = useUiState();
+    const {
+      toggleCartSidebar,
+      toggleWishlistSidebar,
+      toggleLoginModal,
+      toggleMobileMenu,
+      isMobileMenuOpen,
+    } = useUiState();
     const { isAuthenticated } = useUser();
     const { cart } = useCart();
-    const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
+    const accountIcon = computed(() =>
+      isAuthenticated.value ? 'profile_fill' : 'profile'
+    );
 
     const handleAccountClick = async () => {
       if (isAuthenticated.value) {
@@ -78,9 +105,9 @@ export default {
       cartTotalItems,
       accountIcon,
       handleAccountClick,
-      handleHomeClick
+      handleHomeClick,
     };
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

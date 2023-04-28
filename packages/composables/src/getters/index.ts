@@ -22,5 +22,5 @@ export {
   userShippingGetters,
   userBillingGetters,
   orderGetters,
-  wishlistGetters
+  wishlistGetters,
 };

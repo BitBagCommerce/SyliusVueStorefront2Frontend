@@ -3,7 +3,7 @@ import page from '../pages/factory';
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
     cy.fixtures = {
-      data: fixture
+      data: fixture,
     };
   });
 });

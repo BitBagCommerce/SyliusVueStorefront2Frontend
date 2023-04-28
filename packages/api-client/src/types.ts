@@ -1,5 +1,8 @@
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
-import { FilterEqualTypeInput, FilterMatchTypeInput } from './api/getCategory/types';
+import {
+  FilterEqualTypeInput,
+  FilterMatchTypeInput,
+} from './api/getCategory/types';
 
 export type ProductAttributeFilterInput = {
   name: FilterMatchTypeInput;

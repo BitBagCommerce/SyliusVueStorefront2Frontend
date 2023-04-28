@@ -25,8 +25,13 @@
                 :key="cartGetters.getItemSku(product)"
                 :image="productGetters.getCoverImage(product)"
                 :title="cartGetters.getItemName(product)"
-                :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
-                :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
+                :regular-price="
+                  $n(cartGetters.getItemPrice(product).regular, 'currency')
+                "
+                :special-price="
+                  cartGetters.getItemPrice(product).special &&
+                  $n(cartGetters.getItemPrice(product).special, 'currency')
+                "
                 :stock="99999"
                 @click:remove="removeItem({ product })"
                 class="collected-product"
@@ -37,7 +42,10 @@
                 <template #configuration>
                   <div class="collected-product__properties">
                     <SfProperty
-                      v-for="(attribute, key) in cartGetters.getItemAttributes(product, ['color', 'size'])"
+                      v-for="(attribute, key) in cartGetters.getItemAttributes(
+                        product,
+                        ['color', 'size']
+                      )"
                       :key="key"
                       :name="key"
                       :value="attribute"
@@ -71,12 +79,19 @@
           <div v-if="totalItems">
             <SfProperty
               :name="$t('Subtotal')"
-              class="sf-property--full-width sf-property--large my-cart__total-price"
+              class="
+                sf-property--full-width sf-property--large
+                my-cart__total-price
+              "
             >
               <template #value>
                 <SfPrice
                   :regular="$n(totals.subtotal, 'currency')"
-                  :special="(totals.special !== totals.subtotal) ? $n(totals.special, 'currency') : 0"
+                  :special="
+                    totals.special !== totals.subtotal
+                      ? $n(totals.special, 'currency')
+                      : 0
+                  "
                 />
               </template>
             </SfProperty>
@@ -94,7 +109,7 @@
             <SfButton
               class="sf-button--full-width color-primary"
               @click="toggleCartSidebar"
-            >{{ $t('Go back shopping') }}</SfButton
+              >{{ $t('Go back shopping') }}</SfButton
             >
           </div>
         </transition>
@@ -111,11 +126,16 @@ import {
   SfProperty,
   SfPrice,
   SfImage,
-  SfQuantitySelector
+  SfQuantitySelector,
 } from '@storefront-ui/vue';
 import ProductItem from '~/components/CartSidebar/ProductItem';
 import { computed } from '@nuxtjs/composition-api';
-import { useCart, useUser, cartGetters, productGetters } from '@vue-storefront/sylius';
+import {
+  useCart,
+  useUser,
+  cartGetters,
+  productGetters,
+} from '@vue-storefront/sylius';
 import { useUiNotification, useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
 
@@ -130,12 +150,19 @@ export default {
     SfPrice,
     SfImage,
     SfQuantitySelector,
-    ProductItem
+    ProductItem,
   },
   setup(props, context) {
     const t = (key) => context.root.$i18n.t(key);
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const { cart, removeItem, updateItemQty, load: loadCart, loading, error } = useCart();
+    const {
+      cart,
+      removeItem,
+      updateItemQty,
+      load: loadCart,
+      loading,
+      error,
+    } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
@@ -146,14 +173,13 @@ export default {
     const updateQuantity = debounce(async ({ product, quantity }) => {
       await updateItemQty({ product, quantity });
 
-      const cartError = Object.values(error.value).find(err => err !== null);
+      const cartError = Object.values(error.value).find((err) => err !== null);
 
       if (cartError) {
         send({ type: 'danger', message: t(cartError.message) });
       } else {
         send({ type: 'info', message: t('Your cart has been updated') });
       }
-
     }, 500);
 
     return {
@@ -167,110 +193,110 @@ export default {
       totals,
       totalItems,
       cartGetters,
-      productGetters
+      productGetters,
     };
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-  #cart {
-    --sidebar-z-index: 3;
-    --overlay-z-index: 3;
-    @include for-desktop {
-      & > * {
-        --sidebar-bottom-padding: var(--spacer-base);
-        --sidebar-content-padding: var(--spacer-base);
-      }
+#cart {
+  --sidebar-z-index: 3;
+  --overlay-z-index: 3;
+  @include for-desktop {
+    & > * {
+      --sidebar-bottom-padding: var(--spacer-base);
+      --sidebar-content-padding: var(--spacer-base);
     }
   }
-  .cart-summary {
-    margin-top: var(--spacer-xl);
+}
+.cart-summary {
+  margin-top: var(--spacer-xl);
+}
+.my-cart {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  &__total-items {
+    margin: 0;
   }
-  .my-cart {
-    flex: 1;
+  &__total-price {
+    --price-font-size: var(--font-size--xl);
+    --price-font-weight: var(--font-weight--medium);
+    margin: 0 0 var(--spacer-base) 0;
+  }
+}
+.empty-cart {
+  --heading-description-margin: 0 0 var(--spacer-xl) 0;
+  --heading-title-margin: 0 0 var(--spacer-xl) 0;
+  --heading-title-color: var(--c-primary);
+  --heading-title-font-weight: var(--font-weight--semibold);
+  display: flex;
+  flex: 1;
+  align-items: center;
+  flex-direction: column;
+  &__banner {
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    &__total-items {
-      margin: 0;
-    }
-    &__total-price {
-      --price-font-size: var(--font-size--xl);
-      --price-font-weight: var(--font-weight--medium);
-      margin: 0 0 var(--spacer-base) 0;
-    }
-  }
-  .empty-cart {
-    --heading-description-margin: 0 0 var(--spacer-xl) 0;
-    --heading-title-margin: 0 0 var(--spacer-xl) 0;
-    --heading-title-color: var(--c-primary);
-    --heading-title-font-weight: var(--font-weight--semibold);
-    display: flex;
-    flex: 1;
     align-items: center;
-    flex-direction: column;
-    &__banner {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-    }
-    &__heading {
-      padding: 0 var(--spacer-base);
-    }
-    &__image {
-      --image-width: 16rem;
-      margin: 0 0 var(--spacer-2xl) 7.5rem;
-    }
-    @include for-desktop {
-      --heading-title-font-size: var(--font-size--xl);
-      --heading-title-margin: 0 0 var(--spacer-sm) 0;
-    }
-  }
-  .collected-product-list {
     flex: 1;
   }
-  .collected-product {
-    margin: 0 0 var(--spacer-sm) 0;
-    &__properties {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: flex-start;
-      flex: 2;
-      &:first-child {
-        margin-bottom: 8px;
-      }
+  &__heading {
+    padding: 0 var(--spacer-base);
+  }
+  &__image {
+    --image-width: 16rem;
+    margin: 0 0 var(--spacer-2xl) 7.5rem;
+  }
+  @include for-desktop {
+    --heading-title-font-size: var(--font-size--xl);
+    --heading-title-margin: 0 0 var(--spacer-sm) 0;
+  }
+}
+.collected-product-list {
+  flex: 1;
+}
+.collected-product {
+  margin: 0 0 var(--spacer-sm) 0;
+  &__properties {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex: 2;
+    &:first-child {
+      margin-bottom: 8px;
     }
-    &__actions {
-      transition: opacity 150ms ease-in-out;
-    }
-    &__save,
-    &__compare {
-      --button-padding: 0;
-      &:focus {
-        --cp-save-opacity: 1;
-        --cp-compare-opacity: 1;
-      }
-    }
-    &__save {
-      opacity: var(--cp-save-opacity, 0);
-    }
-    &__compare {
-      opacity: var(--cp-compare-opacity, 0);
-    }
-    &:hover {
+  }
+  &__actions {
+    transition: opacity 150ms ease-in-out;
+  }
+  &__save,
+  &__compare {
+    --button-padding: 0;
+    &:focus {
       --cp-save-opacity: 1;
       --cp-compare-opacity: 1;
-      @include for-desktop {
-        .collected-product__properties {
-          display: none;
-        }
-      }
-    }
-    ::v-deep .sf-collected-product__quantity-wrapper {
-      top: 4rem;
     }
   }
+  &__save {
+    opacity: var(--cp-save-opacity, 0);
+  }
+  &__compare {
+    opacity: var(--cp-compare-opacity, 0);
+  }
+  &:hover {
+    --cp-save-opacity: 1;
+    --cp-compare-opacity: 1;
+    @include for-desktop {
+      .collected-product__properties {
+        display: none;
+      }
+    }
+  }
+  ::v-deep .sf-collected-product__quantity-wrapper {
+    top: 4rem;
+  }
+}
 </style>

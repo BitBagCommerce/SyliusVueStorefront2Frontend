@@ -11,16 +11,12 @@ Inside of `/packages/api-client` folder you can find functions that directly sen
 Most work you will do on API will be done in `packages/api-client/src/api`, separate functionalities here are split into different folders, those folders usually contain three files:
 
 - `queries.ts` - in this file, you write your GraphQL code used for getting data from the backend, for example:
+
 ```ts
 // packages/api-client/src/api/getProduct/queries.ts
 export const getProductsAttributesQuery = gql`
-  query productsAttributesInTaxon(
-    $categorySlug: String,
-    $locale: String
-  ) {
-    products(
-      productTaxons_taxon_translations_slug: $categorySlug,
-    ) {
+  query productsAttributesInTaxon($categorySlug: String, $locale: String) {
+    products(productTaxons_taxon_translations_slug: $categorySlug) {
       collection {
         attributes(localeCode: $locale) {
           collection {
@@ -38,15 +34,12 @@ export const getProductsAttributesQuery = gql`
 ```
 
 - `mutations.ts` - in this file, you write your GraphQL code used for changing data on the backend, for example:
+
 ```ts
 // packages/api-client/src/api/cart/mutations.ts
 export const clearCartMutation = gql`
-  mutation deleteCart(
-    $cartId: String!
-  ) {
-    deleteOrder(input: {
-      id: $cartId
-    }) {
+  mutation deleteCart($cartId: String!) {
+    deleteOrder(input: { id: $cartId }) {
       order {
         tokenValue
       }
@@ -56,26 +49,30 @@ export const clearCartMutation = gql`
 ```
 
 - `index.ts` - in this file, you use your queries, and mutations created before, and add any additional logic, for example:
+
 ```ts
 // packages/api-client/src/api/getProduct/index.ts
-export async function getProduct(context, params, customQuery?: CustomQuery): Promise<any> {
+export async function getProduct(
+  context,
+  params,
+  customQuery?: CustomQuery
+): Promise<any> {
   try {
     // crating a query
-    const { productsQuery } = context.extendQuery(
-      customQuery,
-      {
-        productsQuery: {
-          query: getProductsAttributesQuery,
-          variables: params
-        }
-      }
-    );
+    const { productsQuery } = context.extendQuery(customQuery, {
+      productsQuery: {
+        query: getProductsAttributesQuery,
+        variables: params,
+      },
+    });
 
     // executing created query
     const { data } = await context.client.query({
-      query: gql`${productsQuery.query}`,
+      query: gql`
+        ${productsQuery.query}
+      `,
       variables: productsQuery.variables,
-      fetchPolicy: 'no-cache'
+      fetchPolicy: 'no-cache',
     });
 
     // here you can do any additional logic
@@ -92,7 +89,8 @@ export async function getProduct(context, params, customQuery?: CustomQuery): Pr
 
 Composables are a feature of Vue's composition API, which allows you to encapsulate the state in a function. For more general information about composables visit [Vue docs](https://vuejs.org/guide/reusability/composables.html).
 
-Composables are located in `packages/composables/src`, and split into two folders: 
+Composables are located in `packages/composables/src`, and split into two folders:
+
 - `/composables` - here you can find general stateful composables used for querying data, and mutating it
 - `/getters` - functions located here are mostly just utility functions used to help with retrieving data from stateful composables
 
@@ -117,14 +115,14 @@ export default {
   props: {
     address: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   // props and context can be accessed through setup() function
   setup(props, context) {
     // your custom logic
-  }
-}
+  },
+};
 </script>
 
 <!-- styling throughout the project is done with scss -->
@@ -151,9 +149,9 @@ export default {
     { code: 'en', label: 'English', file: 'en.js', iso: 'en', sylius: 'en_US' },
     { code: 'de', label: 'German', file: 'de.js', iso: 'de', sylius: 'de_DE' },
     // your new locale
-    { code: 'pl', label: 'Polish', file: 'pl.js', iso: 'pl', sylius: 'pl_PL' }
+    { code: 'pl', label: 'Polish', file: 'pl.js', iso: 'pl', sylius: 'pl_PL' },
   ],
-}
+};
 ```
 
 Remember to also configure the same translation on the Sylius side, and to use the proper locale code from Sylius translations for `sylius` key above, this code should be similar to the ones above `en_US`.
@@ -164,8 +162,8 @@ After this configuration, you can add your translation file to `packages/theme/l
 // packages/theme/lang/pl.js
 export default {
   // ...
-  'New translation': 'Nowe tłumaczenie'
-}
+  'New translation': 'Nowe tłumaczenie',
+};
 ```
 
 Remember to add the same translation key to other translation files:
@@ -183,12 +181,14 @@ export default {
   'New translation': 'Neue Übersetzung'
 }
 ```
+
 To access your translations in Vue templates, you just need to use `$t('Key from translation file')`, for example:
 
 ```html
 <span>
   {{ $t('New translation') }}
-<span>
+  <span></span
+></span>
 ```
 
 Inside of `setup()` function it can be accessed through context, for example:

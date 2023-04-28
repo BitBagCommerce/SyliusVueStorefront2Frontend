@@ -1,5 +1,9 @@
 <template>
-  <SfSection :title-heading="$t('Share your look')" subtitle-heading="#YOURLOOK" class="title">
+  <SfSection
+    :title-heading="$t('Share your look')"
+    subtitle-heading="#YOURLOOK"
+    class="title"
+  >
     <div class="grid grid-images">
       <div class="grid__row">
         <div class="grid__col">
@@ -98,21 +102,18 @@
 </template>
 
 <script>
-import {
-  SfSection,
-  SfImage
-} from '@storefront-ui/vue';
+import { SfSection, SfImage } from '@storefront-ui/vue';
 import loader from '~/static/icons/loader.svg';
 
 export default {
   name: 'InstagramFeed',
   components: {
     SfSection,
-    SfImage
+    SfImage,
   },
   setup() {
     return { loader };
-  }
+  },
 };
 </script>
 
@@ -155,8 +156,8 @@ export default {
       &.small {
         height: 10rem;
       }
-     width: 29.375rem;
-     height: 29.375rem;
+      width: 29.375rem;
+      height: 29.375rem;
     }
     & + & {
       margin-top: var(--spacer-xs);

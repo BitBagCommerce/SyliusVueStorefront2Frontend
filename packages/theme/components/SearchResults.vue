@@ -6,36 +6,57 @@
       class="search"
     >
       <transition name="sf-fade" mode="out-in">
-        <div v-if="products && products.length > 0" class="search__wrapper-results" key="results">
-          <SfMegaMenuColumn :title="$t('Categories')" class="sf-mega-menu-column--pined-content-on-mobile search__categories">
-            <template #title="{title}">
+        <div
+          v-if="products && products.length > 0"
+          class="search__wrapper-results"
+          key="results"
+        >
+          <SfMegaMenuColumn
+            :title="$t('Categories')"
+            class="
+              sf-mega-menu-column--pined-content-on-mobile
+              search__categories
+            "
+          >
+            <template #title="{ title }">
               <SfHeading :title="title" :level="4" class="search__header" />
             </template>
             <SfList>
               <SfListItem v-for="(category, key) in categories" :key="key">
-                <SfMenuItem :label="category.name" :link="localePath(`/c/${category.slug}`)">
-                  <template #mobile-nav-icon>
-                    &#8203;
-                  </template>
+                <SfMenuItem
+                  :label="category.name"
+                  :link="localePath(`/c/${category.slug}`)"
+                >
+                  <template #mobile-nav-icon> &#8203; </template>
                 </SfMenuItem>
               </SfListItem>
             </SfList>
           </SfMegaMenuColumn>
-          <SfMegaMenuColumn :title="$t('Product suggestions')" class="sf-mega-menu-column--pined-content-on-mobile search__results">
-            <template #title="{title}">
-              <SfMenuItem :label="title" class="sf-mega-menu-column__header search__header">
-                <template #mobile-nav-icon>
-                  &#8203;
-                </template>
+          <SfMegaMenuColumn
+            :title="$t('Product suggestions')"
+            class="sf-mega-menu-column--pined-content-on-mobile search__results"
+          >
+            <template #title="{ title }">
+              <SfMenuItem
+                :label="title"
+                class="sf-mega-menu-column__header search__header"
+              >
+                <template #mobile-nav-icon> &#8203; </template>
               </SfMenuItem>
             </template>
-            <SfScrollable class="results--desktop desktop-only" show-text="" hide-text="">
+            <SfScrollable
+              class="results--desktop desktop-only"
+              show-text=""
+              hide-text=""
+            >
               <div class="results-listing">
                 <SfProductCard
                   v-for="(product, index) in products"
                   :key="index"
                   class="result-card"
-                  :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+                  :regular-price="
+                    $n(productGetters.getPrice(product).regular, 'currency')
+                  "
                   :score-rating="productGetters.getAverageRating(product)"
                   :reviews-count="7"
                   wishlistIcon=""
@@ -45,13 +66,27 @@
                   imageWidth="260"
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
-                  :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+                  :link="
+                    localePath(
+                      `/p/${productGetters.getId(
+                        product
+                      )}/${productGetters.getSlug(product)}`
+                    )
+                  "
                   :showAddToCartButton="true"
                   @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
                   :is-added-to-cart="isInCart({ product })"
                 >
                   <template #image>
-                    <NuxtLink :to="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)">
+                    <NuxtLink
+                      :to="
+                        localePath(
+                          `/p/${productGetters.getId(
+                            product
+                          )}/${productGetters.getSlug(product)}`
+                        )
+                      "
+                    >
                       <SfImage
                         class="sf-product-card__image"
                         :src="productGetters.getCoverImage(product)"
@@ -70,7 +105,9 @@
                 v-for="(product, index) in products"
                 :key="index"
                 class="result-card"
-                :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+                :regular-price="
+                  $n(productGetters.getPrice(product).regular, 'currency')
+                "
                 :score-rating="productGetters.getAverageRating(product)"
                 :reviews-count="7"
                 wishlistIcon=""
@@ -80,7 +117,13 @@
                 imageWidth="260"
                 :alt="productGetters.getName(product)"
                 :title="productGetters.getName(product)"
-                :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+                :link="
+                  localePath(
+                    `/p/${productGetters.getId(
+                      product
+                    )}/${productGetters.getSlug(product)}`
+                  )
+                "
                 @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
                 @click.native="$emit('close')"
                 :is-added-to-cart="isInCart({ product })"
@@ -88,14 +131,33 @@
             </div>
           </SfMegaMenuColumn>
           <div class="action-buttons smartphone-only">
-            <SfButton class="action-buttons__button color-light" @click="$emit('close')">{{ $t('Cancel') }}</SfButton>
+            <SfButton
+              class="action-buttons__button color-light"
+              @click="$emit('close')"
+              >{{ $t('Cancel') }}</SfButton
+            >
           </div>
         </div>
         <div v-else key="no-results" class="before-results">
-          <SfImage src="/error/error.svg" height="240" width="240" class="before-results__picture" alt="error" loading="lazy"/>
-          <p class="before-results__paragraph">{{ $t('You haven’t searched for items yet') }}</p>
-          <p class="before-results__paragraph">{{ $t('Let’s start now – we’ll help you') }}</p>
-          <SfButton class="before-results__button color-secondary smartphone-only" @click="$emit('close')">{{ $t('Go back') }}</SfButton>
+          <SfImage
+            src="/error/error.svg"
+            height="240"
+            width="240"
+            class="before-results__picture"
+            alt="error"
+            loading="lazy"
+          />
+          <p class="before-results__paragraph">
+            {{ $t('You haven’t searched for items yet') }}
+          </p>
+          <p class="before-results__paragraph">
+            {{ $t('Let’s start now – we’ll help you') }}
+          </p>
+          <SfButton
+            class="before-results__button color-secondary smartphone-only"
+            @click="$emit('close')"
+            >{{ $t('Go back') }}</SfButton
+          >
         </div>
       </transition>
     </SfMegaMenu>
@@ -110,7 +172,7 @@ import {
   SfScrollable,
   SfMenuItem,
   SfButton,
-  SfHeading
+  SfHeading,
 } from '@storefront-ui/vue';
 import SfImage from '~/components/SearchResults/SfImage.vue';
 import { ref, watch, computed } from '@nuxtjs/composition-api';
@@ -128,16 +190,16 @@ export default {
     SfMenuItem,
     SfButton,
     SfImage,
-    SfHeading
+    SfHeading,
   },
   props: {
     visible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     result: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   setup(props, { emit, root }) {
     const t = (key) => root.$i18n.t(key);
@@ -150,7 +212,7 @@ export default {
     const handleAddToCart = async (params) => {
       await addItemToCart(params);
 
-      const cartError = Object.values(error.value).find(err => err !== null);
+      const cartError = Object.values(error.value).find((err) => err !== null);
 
       if (cartError) {
         send({ type: 'danger', message: cartError.message });
@@ -158,18 +220,24 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: t('Product has been added to the cart') });
+      send({
+        type: 'success',
+        message: t('Product has been added to the cart'),
+      });
     };
 
-    watch(() => props.visible, (newVal) => {
-      isSearchOpen.value = newVal;
-      if (isSearchOpen.value) {
-        document.body.classList.add('no-scroll');
-      } else {
-        document.body.classList.remove('no-scroll');
-        emit('removeSearchResults');
+    watch(
+      () => props.visible,
+      (newVal) => {
+        isSearchOpen.value = newVal;
+        if (isSearchOpen.value) {
+          document.body.classList.add('no-scroll');
+        } else {
+          document.body.classList.remove('no-scroll');
+          emit('removeSearchResults');
+        }
       }
-    });
+    );
 
     return {
       isSearchOpen,
@@ -177,9 +245,9 @@ export default {
       products,
       categories,
       handleAddToCart,
-      isInCart
+      isInCart,
     };
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

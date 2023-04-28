@@ -9,7 +9,7 @@
           :subtitle="hero.subtitle"
           :class="hero.className"
         >
-         <template #withImgTag>
+          <template #withImgTag>
             <SfImage
               :src="hero.image"
               :alt="hero.title"
@@ -18,7 +18,7 @@
               :width="586"
               class="hero__image"
             />
-         </template>
+          </template>
         </SfHeroItem>
       </SfHero>
     </LazyHydrate>
@@ -77,8 +77,11 @@
 
     <LazyHydrate when-visible>
       <div class="similar-products">
-        <SfHeading :title="$t('Our products')" :level="2"/>
-        <nuxt-link :to="localePath('/c/category/t-shirts')" class="smartphone-only">
+        <SfHeading :title="$t('Our products')" :level="2" />
+        <nuxt-link
+          :to="localePath('/c/category/t-shirts')"
+          class="smartphone-only"
+        >
           {{ $t('See all') }}
         </nuxt-link>
       </div>
@@ -86,45 +89,72 @@
 
     <LazyHydrate when-visible>
       <SfLoader class="loading" :loading="loading">
-        <SfCarousel class="carousel" :settings="{ peek: 16, gap: 10, breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } } }">
-          <template #prev="{go}">
+        <SfCarousel
+          class="carousel"
+          :settings="{
+            peek: 16,
+            gap: 10,
+            breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } },
+          }"
+        >
+          <template #prev="{ go }">
             <SfArrow
               aria-label="prev"
               class="sf-arrow--left sf-arrow--long"
               @click="go('prev')"
             />
           </template>
-          <template #next="{go}">
+          <template #next="{ go }">
             <SfArrow
               aria-label="next"
               class="sf-arrow--right sf-arrow--long"
               @click="go('next')"
             />
           </template>
-          <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
+          <SfCarouselItem
+            class="carousel__item"
+            v-for="(product, i) in products"
+            :key="i"
+          >
             <SfProductCard
               :title="product.name"
               :image="productGetters.getCoverImage(product)"
               imageHeight="260"
               imageWidth="260"
-              :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+              :regular-price="
+                $n(productGetters.getPrice(product).regular, 'currency')
+              "
               :max-rating="5"
               :score-rating="product.averageRating"
               :show-add-to-cart-button="true"
               wishlistIcon=""
               isInWishlistIcon=""
-              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+              :link="
+                localePath(
+                  `/p/${productGetters.getId(product)}/${productGetters.getSlug(
+                    product
+                  )}`
+                )
+              "
               class="carousel__item__product"
               @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
             >
               <template #image>
-                <NuxtLink :to="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)">
+                <NuxtLink
+                  :to="
+                    localePath(
+                      `/p/${productGetters.getId(
+                        product
+                      )}/${productGetters.getSlug(product)}`
+                    )
+                  "
+                >
                   <img
                     class="carousel__item__image"
                     :src="productGetters.getCoverImage(product)"
                     :alt="product.name"
                     loading="lazy"
-                  >
+                  />
                 </NuxtLink>
               </template>
             </SfProductCard>
@@ -136,7 +166,6 @@
     <LazyHydrate when-visible>
       <InstagramFeed />
     </LazyHydrate>
-
   </div>
 </template>
 <script>
@@ -152,10 +181,10 @@ import {
   SfHeading,
   SfArrow,
   SfButton,
-  SfLoader
+  SfLoader,
 } from '@storefront-ui/vue';
 import { computed, useContext } from '@nuxtjs/composition-api';
-import {useCart, useCategory} from '@vue-storefront/sylius';
+import { useCart, useCategory } from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -179,7 +208,7 @@ export default {
     SfArrow,
     SfButton,
     LazyHydrate,
-    SfLoader
+    SfLoader,
   },
   setup(_, { root }) {
     const t = (key) => root.$i18n.t(key);
@@ -195,7 +224,7 @@ export default {
         title: 'Colorful summer dresses are already in store',
         subtitle: 'SUMMER COLLECTION 2019',
         background: '#eceff1',
-        image: '/homepage/bannerH.webp'
+        image: '/homepage/bannerH.webp',
       },
       {
         title: 'Colorful summer dresses are already in store',
@@ -203,14 +232,14 @@ export default {
         background: '#efebe9',
         image: '/homepage/bannerA.webp',
         className:
-          'sf-hero-item--position-bg-top-left sf-hero-item--align-right'
+          'sf-hero-item--position-bg-top-left sf-hero-item--align-right',
       },
       {
         title: 'Colorful summer dresses are already in store',
         subtitle: 'SUMMER COLLECTION 2019',
         background: '#fce4ec',
-        image: '/homepage/bannerB.webp'
-      }
+        image: '/homepage/bannerB.webp',
+      },
     ];
 
     const banners = computed(() => {
@@ -228,16 +257,16 @@ export default {
             mobile: {
               src: $config.theme.home.bannerA.image.mobile,
               height: 400,
-              width: 1240
+              width: 1240,
             },
             desktop: {
               src: $config.theme.home.bannerA.image.desktop,
               height: 660,
-              width: 330
-            }
+              width: 330,
+            },
           },
           class: 'sf-banner--slim desktop-only',
-          link: `/c/${categories.value[0].slug}`
+          link: `/c/${categories.value[0].slug}`,
         },
         {
           slot: 'banner-B',
@@ -247,10 +276,10 @@ export default {
           image: {
             src: $config.theme.home.bannerB.image,
             height: 660,
-            width: 500
+            width: 500,
           },
           class: 'sf-banner--slim banner__central desktop-only',
-          link: `/c/${categories.value[1].slug}`
+          link: `/c/${categories.value[1].slug}`,
         },
         {
           slot: 'banner-C',
@@ -259,10 +288,10 @@ export default {
           image: {
             src: $config.theme.home.bannerC.image,
             height: 398,
-            width: 1234
+            width: 1234,
           },
           class: 'sf-banner--slim banner__tshirt',
-          link: `/c/${categories.value[2].slug}`
+          link: `/c/${categories.value[2].slug}`,
         },
         {
           slot: 'banner-D',
@@ -271,18 +300,18 @@ export default {
           image: {
             src: $config.theme.home.bannerD.image,
             height: 310,
-            width: 330
+            width: 330,
           },
           class: 'sf-banner--slim',
-          link: `/c/${categories.value[3].slug}`
-        }
+          link: `/c/${categories.value[3].slug}`,
+        },
       ];
     });
 
     const handleAddToCart = async (params) => {
       await addItemToCart(params);
 
-      const cartError = Object.values(error.value).find(err => err !== null);
+      const cartError = Object.values(error.value).find((err) => err !== null);
 
       if (cartError) {
         send({ type: 'danger', message: cartError.message });
@@ -290,14 +319,19 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: t('Product has been added to the cart') });
+      send({
+        type: 'success',
+        message: t('Product has been added to the cart'),
+      });
     };
 
-    onSSR(() => search({
-      categorySlug: 'category/t-shirts',
-      channelsCode: process.env.SYLIUS_CHANNEL_CODE,
-      attributes: {}
-    }));
+    onSSR(() =>
+      search({
+        categorySlug: 'category/t-shirts',
+        channelsCode: process.env.SYLIUS_CHANNEL_CODE,
+        attributes: {},
+      })
+    );
 
     return {
       banners,
@@ -306,9 +340,9 @@ export default {
       productGetters,
       loading,
       handleAddToCart,
-      loader
+      loader,
     };
-  }
+  },
 };
 </script>
 
@@ -357,7 +391,8 @@ export default {
     }
   }
   ::v-deep .sf-hero__control {
-    &--right, &--left {
+    &--right,
+    &--left {
       display: none;
     }
   }
@@ -443,7 +478,7 @@ export default {
     margin: 0;
   }
   ::v-deep .glide__slide--clone {
-    opacity: .4;
+    opacity: 0.4;
   }
   &__item {
     margin: 1.375rem 0 2.5rem 0;
@@ -463,8 +498,8 @@ export default {
   }
   ::v-deep .sf-arrow--long .sf-arrow--right {
     --arrow-icon-transform: rotate(180deg);
-     -webkit-transform-origin: center;
-     transform-origin: center;
+    -webkit-transform-origin: center;
+    transform-origin: center;
   }
 }
 

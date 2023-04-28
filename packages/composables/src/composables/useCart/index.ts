@@ -2,14 +2,10 @@ import {
   Context,
   Logger,
   useCartFactory,
-  UseCartFactoryParams
+  UseCartFactoryParams,
 } from '@vue-storefront/core';
 
-import type {
-  Cart,
-  CartItem,
-  Product
-} from '@vue-storefront/sylius-api';
+import type { Cart, CartItem, Product } from '@vue-storefront/sylius-api';
 
 const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   load: async (context: Context) => {
@@ -51,41 +47,53 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
 
     const token = cartId.replace('/api/v2/shop/orders/', '');
 
-    const cart = await context.$sylius.api.addToCart({
-      quantity,
-      variantId,
-      token
-    }, customQuery);
+    const cart = await context.$sylius.api.addToCart(
+      {
+        quantity,
+        variantId,
+        token,
+      },
+      customQuery
+    );
 
     if (cart.graphQLErrors?.length) {
       throw {
-        message: cart.graphQLErrors?.[0]?.debugMessage
+        message: cart.graphQLErrors?.[0]?.debugMessage,
       };
     }
 
     return cart;
   },
-  removeItem: async (context: Context, { product, customQuery}) => {
+  removeItem: async (context: Context, { product, customQuery }) => {
     const apiState = context.$sylius.config.state;
     const cartId = apiState.getCartId();
-    const cart = await context.$sylius.api.removeFromCart({
-      cartId,
-      itemId: String((product as Product)._id)
-    }, customQuery);
+    const cart = await context.$sylius.api.removeFromCart(
+      {
+        cartId,
+        itemId: String((product as Product)._id),
+      },
+      customQuery
+    );
     return cart;
   },
-  updateItemQty: async (context: Context, { product, quantity, customQuery }) => {
+  updateItemQty: async (
+    context: Context,
+    { product, quantity, customQuery }
+  ) => {
     const apiState = context.$sylius.config.state;
     const cartId = apiState.getCartId();
-    const cart = await context.$sylius.api.updateCartQuantity({
-      cartId,
-      itemId: String((product as Product)._id),
-      quantity
-    }, customQuery);
+    const cart = await context.$sylius.api.updateCartQuantity(
+      {
+        cartId,
+        itemId: String((product as Product)._id),
+        quantity,
+      },
+      customQuery
+    );
 
     if (cart.graphQLErrors?.length) {
       throw {
-        message: cart.graphQLErrors?.[0]?.debugMessage
+        message: cart.graphQLErrors?.[0]?.debugMessage,
       };
     }
 
@@ -98,50 +106,68 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
     return await context.$sylius.api.clearCart({ cartId });
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
+  applyCoupon: async (
+    context: Context,
+    { currentCart, couponCode, customQuery }
+  ) => {
     const apiState = context.$sylius.config.state;
-    const orderTokenValue = apiState.getCartId().replace('/api/v2/shop/orders/', '');
-    const applyCouponResponse = await context.$sylius.api.addCouponToCart({
-      coupon: {
-        orderTokenValue,
-        couponCode
-      }
-    }, customQuery);
+    const orderTokenValue = apiState
+      .getCartId()
+      .replace('/api/v2/shop/orders/', '');
+    const applyCouponResponse = await context.$sylius.api.addCouponToCart(
+      {
+        coupon: {
+          orderTokenValue,
+          couponCode,
+        },
+      },
+      customQuery
+    );
 
     if (applyCouponResponse.graphQLErrors?.length) {
       throw {
-        message: applyCouponResponse.graphQLErrors?.[0]?.debugMessage
+        message: applyCouponResponse.graphQLErrors?.[0]?.debugMessage,
       };
     }
 
     return {
       updatedCart: applyCouponResponse,
-      updatedCoupon: couponCode
+      updatedCoupon: couponCode,
     };
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeCoupon: async (context: Context, { currentCart, customQuery, couponCode }) => {
+  removeCoupon: async (
+    context: Context,
+    { currentCart, customQuery, couponCode }
+  ) => {
     const apiState = context.$sylius.config.state;
-    const orderTokenValue = apiState.getCartId().replace('/api/v2/shop/orders/', '');
-    const removeCouponResponse = await context.$sylius.api.removeCouponFromCart({
-      removeCouponInput: {
-        orderTokenValue,
-        couponCode
-      }
-    }, customQuery);
+    const orderTokenValue = apiState
+      .getCartId()
+      .replace('/api/v2/shop/orders/', '');
+    const removeCouponResponse = await context.$sylius.api.removeCouponFromCart(
+      {
+        removeCouponInput: {
+          orderTokenValue,
+          couponCode,
+        },
+      },
+      customQuery
+    );
     return {
-      updatedCart: removeCouponResponse
+      updatedCart: removeCouponResponse,
     };
   },
   isInCart: (context: Context, { currentCart, product }) => {
     if (currentCart?.items) {
-      const productCheck = currentCart.items.filter(p => product.selectedVariant.code === p.variant.code);
+      const productCheck = currentCart.items.filter(
+        (p) => product.selectedVariant.code === p.variant.code
+      );
       return productCheck.length > 0;
     }
 
     return false;
-  }
+  },
 };
 
 export const useCart = useCartFactory<Cart, CartItem, Product>(params);

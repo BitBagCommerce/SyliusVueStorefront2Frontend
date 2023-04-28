@@ -9,15 +9,21 @@
     >
       <template #title>
         <div class="heading__wrapper">
-          <SfHeading :level="3" title="My wishlist" class="sf-heading--left"/>
-          <SfButton class="heading__close-button sf-button--pure" aria-label="Wishlist sidebar close button" @click="toggleWishlistSidebar">
-            <SfIcon icon="cross" size="14px" color="gray-primary"/>
+          <SfHeading :level="3" title="My wishlist" class="sf-heading--left" />
+          <SfButton
+            class="heading__close-button sf-button--pure"
+            aria-label="Wishlist sidebar close button"
+            @click="toggleWishlistSidebar"
+          >
+            <SfIcon icon="cross" size="14px" color="gray-primary" />
           </SfButton>
         </div>
       </template>
       <transition name="fade" mode="out-in">
         <div v-if="totalItems" class="my-wishlist" key="my-wishlist">
-          <div class="my-wishlist__total-items">Total items: <strong>{{ totalItems }}</strong></div>
+          <div class="my-wishlist__total-items">
+            Total items: <strong>{{ totalItems }}</strong>
+          </div>
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
               <SfCollectedProduct
@@ -25,17 +31,32 @@
                 :key="wishlistGetters.getItemSku(product)"
                 image="wishlistGetters.getItemImage(product)"
                 :title="wishlistGetters.getItemName(product)"
-                :regular-price="$n(wishlistGetters.getItemPrice(product).regular, 'currency')"
-                :special-price="wishlistGetters.getItemPrice(product).special && $n(wishlistGetters.getItemPrice(product).special, 'currency')"
+                :regular-price="
+                  $n(wishlistGetters.getItemPrice(product).regular, 'currency')
+                "
+                :special-price="
+                  wishlistGetters.getItemPrice(product).special &&
+                  $n(wishlistGetters.getItemPrice(product).special, 'currency')
+                "
                 :stock="99999"
                 image-width="180"
                 image-height="200"
                 @click:remove="removeItem({ product })"
                 class="collected-product"
               >
-               <template #configuration>
+                <template #configuration>
                   <div class="collected-product__properties">
-                    <SfProperty v-for="(attribute, key) in wishlistGetters.getItemAttributes(product, ['color', 'size'])" :key="key" :name="key" :value="attribute"/>
+                    <SfProperty
+                      v-for="(
+                        attribute, key
+                      ) in wishlistGetters.getItemAttributes(product, [
+                        'color',
+                        'size',
+                      ])"
+                      :key="key"
+                      :name="key"
+                      :value="attribute"
+                    />
                   </div>
                 </template>
                 <template #input="{}">&nbsp;</template>
@@ -43,19 +64,25 @@
             </transition-group>
           </div>
           <div class="sidebar-bottom">
-          <SfProperty class="sf-property--full-width my-wishlist__total-price">
-            <template #name>
-              <span class="my-wishlist__total-price-label">Total price:</span>
-            </template>
-            <template #value>
-              <SfPrice :regular="$n(totals.subtotal, 'currency')" />
-            </template>
-          </SfProperty>
+            <SfProperty
+              class="sf-property--full-width my-wishlist__total-price"
+            >
+              <template #name>
+                <span class="my-wishlist__total-price-label">Total price:</span>
+              </template>
+              <template #value>
+                <SfPrice :regular="$n(totals.subtotal, 'currency')" />
+              </template>
+            </SfProperty>
           </div>
         </div>
         <div v-else class="empty-wishlist" key="empty-wishlist">
           <div class="empty-wishlist__banner">
-            <SfImage src="/icons/empty-cart.svg" alt="Empty bag" class="empty-wishlist__icon" />
+            <SfImage
+              src="/icons/empty-cart.svg"
+              alt="Empty bag"
+              class="empty-wishlist__icon"
+            />
             <SfHeading
               title="Your bag is empty"
               description="Looks like you haven’t added any items to the bag yet. Start
@@ -66,7 +93,10 @@
         </div>
       </transition>
       <template #content-bottom>
-        <SfButton @click="toggleWishlistSidebar" class="sf-button--full-width color-secondary">
+        <SfButton
+          @click="toggleWishlistSidebar"
+          class="sf-button--full-width color-secondary"
+        >
           {{ $t('Start shopping') }}
         </SfButton>
       </template>
@@ -82,7 +112,7 @@ import {
   SfProperty,
   SfPrice,
   SfCollectedProduct,
-  SfImage
+  SfImage,
 } from '@storefront-ui/vue';
 import { computed } from '@nuxtjs/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '@vue-storefront/sylius';
@@ -98,7 +128,7 @@ export default {
     SfProperty,
     SfPrice,
     SfCollectedProduct,
-    SfImage
+    SfImage,
   },
   setup() {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
@@ -106,7 +136,9 @@ export default {
     const { isAuthenticated } = useUser();
     const products = computed(() => wishlistGetters.getItems(wishlist.value));
     const totals = computed(() => wishlistGetters.getTotals(wishlist.value));
-    const totalItems = computed(() => wishlistGetters.getTotalItems(wishlist.value));
+    const totalItems = computed(() =>
+      wishlistGetters.getTotalItems(wishlist.value)
+    );
 
     return {
       isAuthenticated,
@@ -116,9 +148,9 @@ export default {
       toggleWishlistSidebar,
       totals,
       totalItems,
-      wishlistGetters
+      wishlistGetters,
     };
-  }
+  },
 };
 </script>
 
@@ -126,7 +158,8 @@ export default {
 .sidebar {
   --sidebar-z-index: 3;
   --overlay-z-index: 3;
-  --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0 var(--spacer-base);
+  --sidebar-top-padding: var(--spacer-lg) var(--spacer-base) 0
+    var(--spacer-base);
   --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);
 }
 
@@ -135,7 +168,8 @@ export default {
   display: flex;
   flex-direction: column;
   &__total-items {
-    font: var(--font-weight--normal) var(--font-size--lg) / 1.6 var(--font-family--secondary);
+    font: var(--font-weight--normal) var(--font-size--lg) / 1.6
+      var(--font-family--secondary);
     color: var(--c-link);
     margin: 0;
   }
@@ -144,7 +178,8 @@ export default {
     --price-font-size: var(--font-size--xl);
     margin: 0 0 var(--spacer-xl) 0;
     &-label {
-      font: var(--font-weight--normal) var(--font-size--2xl) / 1.6 var(--font-family--secondary);
+      font: var(--font-weight--normal) var(--font-size--2xl) / 1.6
+        var(--font-family--secondary);
       color: var(--c-link);
     }
   }
@@ -169,10 +204,10 @@ export default {
     --heading-title-margin: 0 0 var(--spacer-xl) 0;
     --heading-title-color: var(--c-primary);
     --heading-title-font-weight: var(--font-weight--semibold);
-      @include for-desktop {
+    @include for-desktop {
       --heading-title-font-size: var(--font-size--xl);
       --heading-title-margin: 0 0 var(--spacer-sm) 0;
-  }
+    }
   }
   &__icon {
     --image-width: 16rem;
@@ -198,5 +233,4 @@ export default {
     margin: var(--spacer-sm) 0 0 0;
   }
 }
-
 </style>

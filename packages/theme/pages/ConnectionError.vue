@@ -17,7 +17,10 @@
       <SfButton link="/" class="sf-button--full-width actions__button">
         Return home
       </SfButton>
-      <SfButton class="sf-button--full-width sf-button--text actions__button" @click="router.go(-1)">
+      <SfButton
+        class="sf-button--full-width sf-button--text actions__button"
+        @click="router.go(-1)"
+      >
         Back
       </SfButton>
     </div>
@@ -34,7 +37,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~@storefront-ui/vue/styles";
+@import '~@storefront-ui/vue/styles';
 #connection-error {
   box-sizing: border-box;
   display: flex;

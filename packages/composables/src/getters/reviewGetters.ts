@@ -4,13 +4,15 @@ type Review = any;
 type ReviewItem = any;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItems = (review: Review): ReviewItem[] => review.filter(r => r.status === 'accepted');
+export const getItems = (review: Review): ReviewItem[] =>
+  review.filter((r) => r.status === 'accepted');
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getReviewId = (item: ReviewItem): string => item.id;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getReviewAuthor = (item: ReviewItem): string => item.author.fullName;
+export const getReviewAuthor = (item: ReviewItem): string =>
+  item.author.fullName;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getReviewMessage = (item: ReviewItem): string => item.comment;
@@ -20,12 +22,17 @@ export const getReviewRating = (item: ReviewItem): number => item.rating;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getReviewDate = (item: ReviewItem): string => {
-  const parsedDate = parseDate(item.createdAt, 'yyyy-MM-dd HH:mm:ss', new Date());
+  const parsedDate = parseDate(
+    item.createdAt,
+    'yyyy-MM-dd HH:mm:ss',
+    new Date()
+  );
   return formatDate(parsedDate, 'dd.MM.yyyy');
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getTotalReviews = (review: Review): number => review.filter(r => r.status === 'accepted').length;
+export const getTotalReviews = (review: Review): number =>
+  review.filter((r) => r.status === 'accepted').length;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getAverageRating = (review: Review): number => 0;
@@ -46,5 +53,5 @@ export const reviewGetters: ReviewGetters<Review, ReviewItem> = {
   getTotalReviews,
   getAverageRating,
   getRatesCount,
-  getReviewsPage
+  getReviewsPage,
 };

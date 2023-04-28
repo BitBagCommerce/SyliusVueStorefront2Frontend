@@ -3,11 +3,7 @@
     "target": "es2018",
     "module": "esnext",
     "moduleResolution": "node",
-    "lib": [
-      "esnext",
-      "esnext.asynciterable",
-      "dom"
-    ],
+    "lib": ["esnext", "esnext.asynciterable", "dom"],
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
@@ -15,24 +11,10 @@
     "noEmit": true,
     "baseUrl": "./",
     "paths": {
-      "~/*": [
-        "./*"
-      ],
-      "@/*": [
-        "./*"
-      ]
+      "~/*": ["./*"],
+      "@/*": ["./*"]
     },
-    "types": [
-      "@types/node",
-      "@nuxt/types",
-      "nuxt-i18n"
-    ]
+    "types": ["@types/node", "@nuxt/types", "nuxt-i18n"]
   },
-  "exclude": [
-    "node_modules",
-    "tests/e2e/*",
-    "_theme",
-    ".nuxt",
-    "dist"
-  ]
+  "exclude": ["node_modules", "tests/e2e/*", "_theme", ".nuxt", "dist"]
 }

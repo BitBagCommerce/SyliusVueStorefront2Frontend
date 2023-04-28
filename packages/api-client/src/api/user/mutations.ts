@@ -3,12 +3,8 @@ import { customerFragment } from '../fragments/customer';
 import { addressFragment } from '../fragments/address';
 
 export const loginMutation = gql`
-  mutation login(
-    $login: shop_loginShopUserTokenInput!
-  ) {
-    shop_loginShopUserToken(
-      input: $login
-    ) {
+  mutation login($login: shop_loginShopUserTokenInput!) {
+    shop_loginShopUserToken(input: $login) {
       shopUserToken {
         token
         refreshToken
@@ -23,12 +19,8 @@ export const loginMutation = gql`
 `;
 
 export const registerMutation = gql`
-  mutation registerUser(
-    $user: shop_registerUserInput!
-  ) {
-    shop_registerUser(
-      input: $user
-    ) {
+  mutation registerUser($user: shop_registerUserInput!) {
+    shop_registerUser(input: $user) {
       user {
         username
         email
@@ -42,16 +34,12 @@ export const registerMutation = gql`
 `;
 
 export const refreshLoginTokenMutation = gql`
-  mutation refreshToken(
-    $token: shop_refreshShopUserTokenInput!
-  ) {
-    shop_refreshShopUserToken(
-      input: $token
-    ) {
+  mutation refreshToken($token: shop_refreshShopUserTokenInput!) {
+    shop_refreshShopUserToken(input: $token) {
       shopUserToken {
         token
         refreshToken
-        user{
+        user {
           id
           username
           customer {
@@ -82,9 +70,7 @@ export const updatePasswordMutation = gql`
   mutation changeCustomerPassword(
     $customerPassword: shop_password_updateCustomerInput!
   ) {
-    shop_password_updateCustomer(
-      input: $customerPassword
-    ) {
+    shop_password_updateCustomer(input: $customerPassword) {
       clientMutationId
     }
   }
@@ -120,12 +106,8 @@ export const updateAddressMutation = gql`
 `;
 
 export const deleteAddressMutation = gql`
-  mutation deleteUserAddress(
-    $address: deleteAddressInput!
-  ) {
-    deleteAddress(
-      input: $address
-    ) {
+  mutation deleteUserAddress($address: deleteAddressInput!) {
+    deleteAddress(input: $address) {
       clientMutationId
     }
   }
@@ -133,11 +115,9 @@ export const deleteAddressMutation = gql`
 
 export const triggerResetPasswordMutation = gql`
   mutation resetPasswordMail(
-      $customerPassword: shop_send_reset_password_emailCustomerInput!
+    $customerPassword: shop_send_reset_password_emailCustomerInput!
   ) {
-    shop_send_reset_password_emailCustomer(
-      input: $customerPassword
-    ) {
+    shop_send_reset_password_emailCustomer(input: $customerPassword) {
       customer {
         email
       }
@@ -149,9 +129,7 @@ export const resetPasswordMutation = gql`
   mutation resetPasswordMail(
     $customerPassword: shop_reset_passwordCustomerInput!
   ) {
-    shop_reset_passwordCustomer(
-      input: $customerPassword
-    ) {
+    shop_reset_passwordCustomer(input: $customerPassword) {
       customer {
         email
       }
