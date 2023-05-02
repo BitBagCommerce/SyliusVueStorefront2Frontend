@@ -10,7 +10,7 @@
     <SfHeading
       :title="$t('Connection error')"
       :level="1"
-      :description="'We are sorry that you see this page, but we couldn’t connect to the API. Please go back or try again.'"
+      :description="$t('We are sorry that you see this page, but we couldn’t connect to the API. Please go back or try again.')"
       class="heading sf-heading--no-underline"
     />
     <div class="actions">
