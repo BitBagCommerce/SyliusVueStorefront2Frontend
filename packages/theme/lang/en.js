@@ -227,4 +227,6 @@ export default {
   'Cart has been updated': 'Cart has been updated',
   'Select country': 'Select country',
   'All Orders': 'All Orders',
+  'Add the address': 'Add the address',
+  'Update the address': 'Update the address',
 };

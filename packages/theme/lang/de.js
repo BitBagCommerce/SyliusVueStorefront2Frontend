@@ -227,4 +227,6 @@ export default {
   'Cart has been updated': 'Warenkorb wurde aktualisiert',
   'Select country': 'Land auswählen',
   'All Orders': 'Alle Bestellungen',
+  'Add the address': 'Adresse hinzufügen',
+  'Update the address': 'Adresse aktualisieren',
 };

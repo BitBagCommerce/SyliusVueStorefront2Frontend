@@ -7,7 +7,7 @@
       class="tab-orphan"
     >
       <SfTab
-        :title="isNewAddress ? 'Add the address' : 'Update the address'">
+        :title="isNewAddress ? $t('Add the address') : $t('Update the address')">
         <p class="message">
           {{ $t('Contact details updated') }}
         </p>
