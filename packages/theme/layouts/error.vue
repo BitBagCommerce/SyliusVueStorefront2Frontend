@@ -10,7 +10,7 @@
     <SfHeading
       :title="error.statusCode === 404 ? $t('Page not found') : $t('An error occured')"
       :level="2"
-      :description="error.statusCode === 404 ? $t('We are sorry that we can’t find the page, please go back or try again') : $t('Please go back or try again')"
+      :description="error.statusCode === 404 ? $t('We are sorry that we can\'t find the page, please go back or try again') : $t('Please go back or try again')"
       class="heading sf-heading--no-underline"
     />
     <div class="actions">
