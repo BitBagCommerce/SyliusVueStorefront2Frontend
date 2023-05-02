@@ -245,4 +245,5 @@ export default {
   'The field should have at least': 'The field should have at least',
   'characters': 'characters',
   'Please provide a valid e-mail address': 'Please provide a valid e-mail address',
+  'Invalid country': 'Invalid country',
 };

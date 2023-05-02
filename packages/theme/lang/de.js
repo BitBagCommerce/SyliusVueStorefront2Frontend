@@ -245,4 +245,5 @@ export default {
   'The field should have at least': 'Das Feld sollte mindestens',
   'characters': 'zeichen haben',
   'Please provide a valid e-mail address': 'Bitte geben Sie eine gültige E-Mail-Adresse an',
+  'Invalid country': 'Ungültiges Land',
 };
