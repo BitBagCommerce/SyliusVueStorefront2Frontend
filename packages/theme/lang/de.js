@@ -232,4 +232,6 @@ export default {
   'Update the address': 'Adresse aktualisieren',
   'Return home': 'Zurück zur Startseite',
   'Back': 'Zurück',
+  'Read more': 'Weiterlesen',
+  'Read less': 'Weniger lesen',
 };
