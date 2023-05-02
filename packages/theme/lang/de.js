@@ -257,4 +257,6 @@ export default {
   'Previous': 'Zurück',
   'Next': 'Nächster',
   'Your cart has been updated': 'Ihr Warenkorb wurde aktualisiert',
+  'Flag': 'Flagge',
+  'Choose a language': 'Wähle eine Sprache',
 };

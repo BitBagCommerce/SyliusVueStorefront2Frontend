@@ -8,7 +8,7 @@
         :src="`/icons/langs/${locale}.webp`"
         height="20"
         width="20"
-        alt="Flag"
+        :alt="$t('Flag')"
         :placeholder="loader"
         />
     </SfButton>
@@ -18,7 +18,7 @@
       class="mega-menu"
     >
       <h4 class="mega-menu__header">
-        Choose a language
+        {{ $t('Choose a language') }}
       </h4>
       <SfList class="mega-menu__list">
         <SfListItem
@@ -37,7 +37,7 @@
                   :src="`/icons/langs/${lang.code}.webp`"
                   height="20"
                   width="20"
-                  alt="Flag"
+                  :alt="$t('Flag')"
                   :placeholder="loader"
                   class="language__flag"
                 />

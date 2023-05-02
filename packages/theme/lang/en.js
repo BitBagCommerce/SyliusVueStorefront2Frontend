@@ -257,4 +257,6 @@ export default {
   'Previous': 'Previous',
   'Next': 'Next',
   'Your cart has been updated': 'Your cart has been updated',
+  'Flag': 'Flag',
+  'Choose a language': 'Choose a language',
 };
