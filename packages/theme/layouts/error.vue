@@ -3,7 +3,7 @@
     <SfImage
       class="image"
       src="/error/error.svg"
-      alt="leaves"
+      :alt="$t('leaves')"
       height="412"
       width="412"
     />

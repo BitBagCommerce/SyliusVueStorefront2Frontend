@@ -262,4 +262,6 @@ export default {
   'Empty bag': 'Empty bag',
   'Looks like you haven\'t added any items to the bag yet. Start shopping to fill it in.': 'Looks like you haven\'t added any items to the bag yet. Start shopping to fill it in.',
   'My Wishlist': 'My Wishlist',
+  'Placeholder': 'Placeholder',
+  'Leaves': 'Leaves',
 };
