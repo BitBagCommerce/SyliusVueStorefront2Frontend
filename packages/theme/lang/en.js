@@ -234,4 +234,9 @@ export default {
   'Back': 'Back',
   'Read more': 'Read more',
   'Read less': 'Read less',
+  'Passwords do not match': 'Passwords do not match',
+  'Page not found': 'Page not found',
+  'An error occured': 'An error occured',
+  'We are sorry that we can\'t find the page, please go back or try again': 'We are sorry that we can\'t find the page, please go back or try again',
+  'Please go back or try again': 'Please go back or try again',
 };
