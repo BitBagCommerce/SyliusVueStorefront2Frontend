@@ -259,4 +259,7 @@ export default {
   'Your cart has been updated': 'Your cart has been updated',
   'Flag': 'Flag',
   'Choose a language': 'Choose a language',
+  'Empty bag': 'Empty bag',
+  'Looks like you haven\'t added any items to the bag yet. Start shopping to fill it in.': 'Looks like you haven\'t added any items to the bag yet. Start shopping to fill it in.',
+  'My Wishlist': 'My Wishlist',
 };

@@ -259,4 +259,7 @@ export default {
   'Your cart has been updated': 'Ihr Warenkorb wurde aktualisiert',
   'Flag': 'Flagge',
   'Choose a language': 'Wähle eine Sprache',
+  'Empty bag': 'Leere Tasche',
+  'Looks like you haven\'t added any items to the bag yet. Start shopping to fill it in.': 'Sieht so aus, als hätten Sie der Tasche noch keine Artikel hinzugefügt. Beginnen Sie mit dem Einkaufen, um es auszufüllen.',
+  'My Wishlist': 'Meine Wunschliste',
 };
