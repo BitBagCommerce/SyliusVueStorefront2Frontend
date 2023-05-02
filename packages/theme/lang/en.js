@@ -229,4 +229,6 @@ export default {
   'All Orders': 'All Orders',
   'Add the address': 'Add the address',
   'Update the address': 'Update the address',
+  'Return home': 'Return home',
+  'Back': 'Back',
 };

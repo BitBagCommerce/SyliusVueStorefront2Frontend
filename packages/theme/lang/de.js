@@ -229,4 +229,6 @@ export default {
   'All Orders': 'Alle Bestellungen',
   'Add the address': 'Adresse hinzufügen',
   'Update the address': 'Adresse aktualisieren',
+  'Return home': 'Zurück zur Startseite',
+  'Back': 'Zurück',
 };
