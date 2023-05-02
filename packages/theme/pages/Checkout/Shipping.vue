@@ -210,19 +210,6 @@ import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { onSSR, useVSFContext } from '@vue-storefront/core';
 
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-extend('digits', {
-  ...digits,
-  message: 'Please provide a valid phone number'
-});
-
 export default {
   name: 'Shipping',
   components: {
@@ -238,6 +225,20 @@ export default {
   },
   setup (_, { root }) {
     const t = (key) => root.$i18n.t(key);
+
+    extend('required', {
+      ...required,
+      message: t('This field is required')
+    });
+    extend('min', {
+      ...min,
+      message: t('The field should have at least') + ' {length} ' + t('characters')
+    });
+    extend('digits', {
+      ...digits,
+      message: t('Please provide a valid phone number')
+    });
+
     const isFormSubmitted = ref(false);
     const sameAsBilling = ref(false);
     const countries = ref([]);
