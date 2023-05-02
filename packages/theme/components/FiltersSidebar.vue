@@ -2,7 +2,7 @@
   <div id="filters">
     <SfSidebar
       :visible="isFilterSidebarOpen"
-      title="Filters"
+      :title="$t('Filters')"
       class="sidebar-filters"
       @close="toggleFilterSidebar"
     >
@@ -56,7 +56,7 @@
         </div>
         <SfHeading
           :level="4"
-          title="Price"
+          :title="$t('Price')"
           class="filters__title sf-heading--left"
         />
         <SfRange
@@ -120,7 +120,7 @@
         </div>
         <SfHeading
             :level="4"
-            title="Price"
+            :title="$t('Price')"
             class="filters__title sf-heading--left"
           />
           <SfRange

@@ -264,4 +264,8 @@ export default {
   'My Wishlist': 'Meine Wunschliste',
   'Placeholder': 'Platzhalter',
   'Leaves': 'Blätter',
+  'Your Purchase': 'Ihr Kauf',
+  'Primary contacts for any questions': 'Primäre Kontakte für Fragen',
+  'Your Account': 'Dein Konto',
+  'My orders': 'Meine Bestellungen',
 };

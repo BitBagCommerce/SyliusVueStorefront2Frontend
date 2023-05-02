@@ -264,4 +264,8 @@ export default {
   'My Wishlist': 'My Wishlist',
   'Placeholder': 'Placeholder',
   'Leaves': 'Leaves',
+  'Your Purchase': 'Your Purchase',
+  'Primary contacts for any questions': 'Primary contacts for any questions',
+  'Your Account': 'Your Account',
+  'My orders': 'My orders',
 };
