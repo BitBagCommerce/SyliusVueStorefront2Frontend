@@ -59,7 +59,7 @@
       <template :class="{ 'display-none': !hasRemove }">
         <SfCircleIcon
           icon="cross"
-          aria-label="Remove"
+          :aria-label="$t('Remove')"
           class="
             sf-circle-icon--small
             sf-collected-product__remove
@@ -80,7 +80,7 @@
     <slot name="more-actions" v-bind="{ actionsHandler }">
       <template :class="{ 'display-none': !hasMoreActions }">
         <SfButton
-          aria-label="More actions"
+          :aria-label="$t('More actions')"
           class="
             sf-button--pure
             sf-collected-product__more-actions

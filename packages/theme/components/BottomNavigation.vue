@@ -16,7 +16,7 @@
       @click="toggleCartSidebar"
     >
       <template #icon>
-        <SfCircleIcon class="cart-button" aria-label="Add to cart">
+        <SfCircleIcon class="cart-button" :aria-label="$t('Add to cart')">
           <SfIcon
             icon="add_to_cart"
             color="white"

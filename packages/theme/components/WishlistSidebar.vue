@@ -10,7 +10,7 @@
       <template #title>
         <div class="heading__wrapper">
           <SfHeading :level="3" title="My wishlist" class="sf-heading--left"/>
-          <SfButton class="heading__close-button sf-button--pure" aria-label="Wishlist sidebar close button" @click="toggleWishlistSidebar">
+          <SfButton class="heading__close-button sf-button--pure" :aria-label="$t('Wishlist sidebar close button')" @click="toggleWishlistSidebar">
             <SfIcon icon="cross" size="14px" color="gray-primary"/>
           </SfButton>
         </div>

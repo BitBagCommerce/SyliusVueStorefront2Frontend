@@ -34,7 +34,7 @@
               <SfCircleIcon
                 v-if="isRangeSelected(facet)"
                 icon-size="12px"
-                aria-label="Remove filter"
+                :aria-label="$t('Remove filter')"
                 icon="cross"
                 class="sf-circle-icon__icon desktop-only"
                 @click="removeRange(facet)"
@@ -98,7 +98,7 @@
                 <SfCircleIcon
                   v-if="isRangeSelected(facet)"
                   icon-size="12px"
-                  aria-label="Remove filter"
+                  :aria-label="$t('Remove filter')"
                   icon="cross"
                   class="sf-circle-icon__icon desktop-only"
                   @click="removeRange(facet)"

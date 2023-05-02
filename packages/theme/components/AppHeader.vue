@@ -68,7 +68,7 @@
           <SfSearchBar
             ref="searchBarRef"
             :placeholder="$t('Search for items')"
-            aria-label="Search"
+            :aria-label="$t('Search')"
             class="sf-header__search--bar"
             :value="term"
             @input="handleSearch"
