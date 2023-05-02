@@ -256,4 +256,5 @@ export default {
   'Wishlist sidebar close button': 'Schaltfläche zum Schließen der Seitenleiste der Wunschliste',
   'Previous': 'Zurück',
   'Next': 'Nächster',
+  'Your cart has been updated': 'Ihr Warenkorb wurde aktualisiert',
 };

@@ -256,4 +256,5 @@ export default {
   'Wishlist sidebar close button': 'Wishlist sidebar close button',
   'Previous': 'Previous',
   'Next': 'Next',
+  'Your cart has been updated': 'Your cart has been updated',
 };
