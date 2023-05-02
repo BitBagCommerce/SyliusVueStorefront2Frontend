@@ -240,4 +240,9 @@ export default {
   'We are sorry that we can\'t find the page, please go back or try again': 'Es tut uns leid, dass wir die Seite nicht finden können. Bitte gehen Sie zurück oder versuchen Sie es erneut',
   'Please go back or try again': 'Bitte gehen Sie zurück oder versuchen Sie es erneut',
   'Remove': 'Entfernen',
+  'Please provide a valid phone number': 'Bitte geben Sie eine gültige Telefonnummer an',
+  'This field is required': 'Dieses Feld ist erforderlich',
+  'The field should have at least': 'Das Feld sollte mindestens',
+  'characters': 'zeichen haben',
+  'Please provide a valid e-mail address': 'Bitte geben Sie eine gültige E-Mail-Adresse an',
 };
