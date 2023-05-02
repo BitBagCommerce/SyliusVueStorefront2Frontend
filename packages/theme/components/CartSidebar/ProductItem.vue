@@ -74,7 +74,7 @@
           "
           data-testid="collected-product-desktop-remove"
           @click="removeHandler"
-        >Remove</SfButton>
+        >{{ $t('Remove') }}</SfButton>
       </template>
     </slot>
     <slot name="more-actions" v-bind="{ actionsHandler }">

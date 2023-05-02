@@ -239,4 +239,5 @@ export default {
   'An error occured': 'An error occured',
   'We are sorry that we can\'t find the page, please go back or try again': 'We are sorry that we can\'t find the page, please go back or try again',
   'Please go back or try again': 'Please go back or try again',
+  'Remove': 'Remove',
 };
