@@ -268,4 +268,8 @@ export default {
   'Primary contacts for any questions': 'Primäre Kontakte für Fragen',
   'Your Account': 'Dein Konto',
   'My orders': 'Meine Bestellungen',
+  'Cart': 'Wagen',
+  'Menu': 'Speisekarte',
+  'Account': 'Konto',
+  'Wishlist': 'Wunschliste',
 };
