@@ -58,7 +58,7 @@ export default {
     const route = useRoute();
     const { load: loadStores } = useStore();
     const { load: loadUser } = useUser();
-    const { load: loadCart } = useCart();
+    const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
 
     onSSR(async () => {
@@ -68,9 +68,11 @@ export default {
     onMounted(async () => {
       await Promise.all([
         loadStores(),
-        loadCart(),
         loadWishlist()
       ]);
+      if (!cart.value) {
+        await loadCart();
+      }
     });
 
     return {

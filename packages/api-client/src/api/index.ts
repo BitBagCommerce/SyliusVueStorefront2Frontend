@@ -3,7 +3,8 @@ export { default as getCategory } from './getCategory';
 export {
   getProduct,
   getProductNotFiltered,
-  getProductAttribute
+  getProductAttribute,
+  getFirstProductId
 } from './getProduct';
 export {
   createCart,

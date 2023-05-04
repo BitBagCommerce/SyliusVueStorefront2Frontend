@@ -84,7 +84,7 @@
       </div>
     </LazyHydrate>
 
-    <LazyHydrate when-visible>
+    <ClientOnly>
       <SfLoader :class="{ loading }" :loading="loading">
         <SfCarousel class="carousel" :settings="{ peek: 16, gap: 10, breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } } }">
           <template #prev="{go}">
@@ -131,7 +131,7 @@
           </SfCarouselItem>
         </SfCarousel>
       </SfLoader>
-    </LazyHydrate>
+    </ClientOnly>
 
     <LazyHydrate when-visible>
       <InstagramFeed />
@@ -154,13 +154,14 @@ import {
   SfButton,
   SfLoader
 } from '@storefront-ui/vue';
-import { computed, useContext } from '@nuxtjs/composition-api';
-import { onSSR } from '@vue-storefront/core';
+import { computed, useContext, onMounted } from '@nuxtjs/composition-api';
+
 import { useCart, useCategory, useProducts, productGetters } from '@vue-storefront/sylius';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
 import loader from '~/static/icons/loader.svg';
+import ClientOnly from 'vue-client-only';
 
 export default {
   name: 'Home',
@@ -178,7 +179,8 @@ export default {
     SfArrow,
     SfButton,
     LazyHydrate,
-    SfLoader
+    SfLoader,
+    ClientOnly
   },
   setup(_, { root }) {
     const t = (key) => root.$i18n.t(key);
@@ -292,7 +294,7 @@ export default {
       send({ type: 'success', message: t('Product has been added to the cart') });
     };
 
-    onSSR(async () => {
+    onMounted(async () => {
       await load({ categorySlug: 'category/t-shirts' });
     });
 
