@@ -58,7 +58,7 @@ export default {
   'Update password': 'Passwort aktualisieren',
   'Update personal data': 'Persönliche Daten aktualisieren',
   'Item': 'Artikel',
-  'Go back': 'Go back',
+  'Go back': 'Geh zurück',
   'Continue to shipping': 'Weiter zum Versand',
   'I agree to': 'Ich stimme zu',
   'Terms and conditions': 'Allgemeine Geschäftsbedingungen',
