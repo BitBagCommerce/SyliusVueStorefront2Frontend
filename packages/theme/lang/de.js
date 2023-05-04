@@ -65,7 +65,7 @@ export default {
   'Pay for order': 'Für Bestellung bezahlen',
   'Log into your account': 'In dein Konto einloggen',
   'or fill the details below': 'oder füllen Sie die Details unten',
-  'Enjoy your free account': 'Enjoy these perks with your free account!',
+  'Enjoy your free account': 'Genießen Sie diese Vorteile mit Ihrem kostenlosen Konto!',
   'Continue to payment': 'Weiter zur Zahlung',
   'Order No.': 'Bestellnummer',
   'Successful placed order': 'Sie haben die Bestellung erfolgreich aufgegeben. Sie können den Status Ihres Bestellen Sie über unsere Lieferstatusfunktion. Sie erhalten eine Bestellung Bestätigungs-E-Mail mit Details Ihrer Bestellung und einem Link zum Verfolgen der Bestellung Fortschritt.',
