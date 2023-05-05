@@ -12,11 +12,6 @@ export const BaseQuery = gql`
     ){
       collection {
         ${categoryFragment}
-        children {
-          collection {
-            ${categoryFragment}
-          }
-        }
       }
     }
   }
