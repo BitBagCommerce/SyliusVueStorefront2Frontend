@@ -7,8 +7,6 @@ export const categoryFragment = `
   description
   parent {
     id
-    name
-    slug
   }
   enabled
 `;
