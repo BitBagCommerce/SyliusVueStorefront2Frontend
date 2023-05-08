@@ -108,6 +108,8 @@ export default {
 <style lang="scss" scoped>
 .quantity {
   display: flex;
+  min-width: 100px;
+  flex-shrink: 1;
 
   &__input {
     --input-padding: .25rem;

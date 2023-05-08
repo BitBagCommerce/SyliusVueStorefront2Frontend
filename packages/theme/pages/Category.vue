@@ -154,12 +154,13 @@
               </template>
               <template #wishlist-icon />
               <template #add-to-cart>
-                <SfButton
-                  @click="open(product)"
-                  class="products__product-card-horizontal--button"
-                >
-                  {{ $t('Add to cart') }}
-                </SfButton>
+                <AddToCart
+                  :stock="product.selectedVariant.onHand"
+                  :disabled="loading || !product.selectedVariant.inStock"
+                  :qty="1"
+                  @input="productsQuantity[product._id] = $event"
+                  @click="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
+                />
               </template>
             </SfProductCardHorizontal>
           </transition-group>
@@ -220,9 +221,9 @@ import {
   SfBreadcrumbs,
   SfLoader,
   SfColor,
-  SfProperty,
-  SfAddToCart
+  SfProperty
 } from '@storefront-ui/vue';
+import AddToCart from '~/components/AddToCart.vue';
 import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
@@ -333,7 +334,7 @@ export default {
     SfHeading,
     SfProperty,
     LazyHydrate,
-    SfAddToCart
+    AddToCart
   }
 };
 </script>
