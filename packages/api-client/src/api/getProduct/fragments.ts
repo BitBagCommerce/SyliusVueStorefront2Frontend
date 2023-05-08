@@ -44,7 +44,7 @@ export const productFragment = `
       onHold
       onHand
       enabled
-      channelPricings {
+      channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
         collection {
           channelCode
           price

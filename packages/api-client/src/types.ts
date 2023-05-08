@@ -43,7 +43,7 @@ export type ProductVariant = {
   channelPricings: any[];
   optionValues: ProductOptionValue[];
 };
-export type Wishlist = Record<string, unknown>;
+
 export type Product = {
   _id?: number;
   description: string;
@@ -110,6 +110,7 @@ export type Cart = {
   orderPromotionTotal: number;
   promotionCoupon: any;
   tokenValue: string;
+  shippingAddress: any;
 };
 
 export interface Storage {
@@ -205,4 +206,45 @@ export type ShippingAddress = TODO;
 
 export type ShippingProvider = TODO;
 
-export type WishlistItem = TODO;
+export type ChannelPricing = {
+  id: string;
+  price: number;
+  originalPrice?: number;
+}
+
+export type WishlistItem = {
+  _id: string;
+  id: string;
+  code: string;
+  sku?: string;
+  name?: string;
+  productName: string;
+  unitPrice: number;
+  images: string[];
+  variant: {
+    id
+    code: string;
+    product: {
+      name: string;
+      images: string[];
+    }
+    channelPricings: ChannelPricing[];
+  }
+  price?: {
+    regular: number;
+    special: number;
+  }
+  selectedVariant: {
+    code: string;
+    optionValues: ProductOptionValue[];
+    product: {
+      options: ProductOption[];
+    }
+  }
+};
+
+export type Wishlist = {
+  id: string;
+  name: string;
+  items: WishlistItem[]
+};
