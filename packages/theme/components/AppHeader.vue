@@ -35,16 +35,17 @@
               size="1.25rem"
             />
           </SfButton>
-          <!-- <SfButton
+          <SfButton
             class="sf-button--pure sf-header__action"
             @click="toggleWishlistSidebar"
+            v-if="isAuthenticated"
           >
             <SfIcon
               class="sf-header__icon"
               icon="heart"
               size="1.25rem"
             />
-          </SfButton> -->
+          </SfButton>
           <SfButton
             v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
@@ -240,7 +241,8 @@ export default {
       removeSearchResults,
       isLangModalOpen,
       setIsLangModalOpen,
-      loader
+      loader,
+      isAuthenticated
     };
   }
 };
@@ -286,5 +288,9 @@ export default {
   position: absolute;
   bottom: 40%;
   left: 40%;
+}
+
+::v-deep .sf-modal__container{
+  z-index: 3;
 }
 </style>

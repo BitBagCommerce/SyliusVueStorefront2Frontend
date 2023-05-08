@@ -36,7 +36,7 @@
             :regular="$n(productGetters.getPrice(product).regular, 'currency')"
             :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
           />
-          <div>
+          <div class="product__rating-and-wishlist">
             <div class="product__rating">
               <SfRating
                 :score="averageRating"
@@ -46,6 +46,13 @@
                 ({{ totalReviews }})
               </a>
             </div>
+            <WishlistDropdown
+              class="product__wishlist"
+              :wishlists="wishlists"
+              :product="product"
+              :visible="true"
+              :icon="'icon'"
+            />
           </div>
         </div>
         <form @submit.prevent="handleAddToCart({ product, quantity: parseInt(qty) })">
@@ -178,11 +185,12 @@ import {
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
 import { ref, computed, onUpdated } from '@nuxtjs/composition-api';
-import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser } from '@vue-storefront/sylius';
+import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser, useWishlists, wishlistGetters } from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
+import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
 
 export default {
   name: 'Product',
@@ -197,6 +205,7 @@ export default {
 
     const { addItem, loading, error } = useCart();
     const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
+    const { addItemToWishlist, isInWishlist, removeItem, wishlists } = useWishlists();
 
     onSSR(async () => {
       await search({ slug, query: context.root.$route.query});
@@ -238,6 +247,12 @@ export default {
       }
 
       send({ type: 'success', message: t('Product has been added to the cart') });
+    };
+
+    const removeProductFromWishlist = (productItem) => {
+      const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlists.value));
+      const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
+      removeItem({ product });
     };
 
     const updateFilter = (item) => {
@@ -322,7 +337,11 @@ export default {
       productGetters,
       productGallery,
       isAuthenticated,
-      handleReviewSubmit
+      handleReviewSubmit,
+      wishlists,
+      addItemToWishlist,
+      removeProductFromWishlist,
+      isInWishlist
     };
   },
   components: {
@@ -346,7 +365,8 @@ export default {
     InstagramFeed,
     MobileStoreBanner,
     LazyHydrate,
-    AddReviewForm
+    AddReviewForm,
+    WishlistDropdown
   },
   data() {
     return {
@@ -408,6 +428,24 @@ export default {
     align-items: center;
     justify-content: flex-end;
     margin: var(--spacer-xs) 0 var(--spacer-xs);
+  }
+  &__rating-and-wishlist{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: var(--spacer-sm);
+    @include for-desktop {
+      flex-direction: row;
+    }
+  }
+  ::v-deep .sf-dropdown__container {
+    @include for-desktop {
+      right: 0;
+      left: auto;
+      max-width: 320px;
+      width: max-content
+    }
   }
   &__count {
     @include font(
