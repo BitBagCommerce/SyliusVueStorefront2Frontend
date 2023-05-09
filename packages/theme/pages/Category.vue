@@ -158,7 +158,7 @@
                   :selectedVariant="product.selectedVariant"
                   :disabled="loading"
                   @quantityChange="productsQuantity[product._id] = $event"
-                  @click="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
+                  @click="open(product)"
                 />
               </template>
             </SfProductCardHorizontal>
