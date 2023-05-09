@@ -61,25 +61,16 @@
       </SfSelect>
     </div>
 
-    <SfAddToCart
-      v-e2e="'modal_add-to-cart'"
-      :stock="product.selectedVariant.onHand"
-      :disabled="loading || !product.selectedVariant.inStock"
+    <AddToCart
+      v-e2e="'modal__add-to-cart'"
+      :stock="productGetters.getStockForVariant(product.selectedVariant)"
+      :product="product"
+      :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
       class="modal__add-to-cart"
+      v-model="qty"
+      @input="qty = $event"
       @click="handleAddToCart"
-    >
-      <template #quantity-select-input>
-        <QuantitySelector
-          v-model="qty"
-          @input="qty = $event"
-          :qty="1"
-          :min="1"
-          :max="productGetters.getQuantityLimit(product.selectedVariant)"
-          class="sf-collected-product__quantity-selector"
-          :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
-        />
-      </template>
-    </SfAddToCart>
+    />
   </SfModal>
 </template>
 
@@ -97,6 +88,7 @@ import {
 } from '@storefront-ui/vue';
 import { ref, watch } from '@nuxtjs/composition-api';
 import QuantitySelector from '~/components/CartSidebar/QuantitySelector.vue';
+import AddToCart from '~/components/AddToCart.vue';
 
 export default {
   name: 'VariantSelector',
@@ -107,7 +99,8 @@ export default {
     SfPrice,
     SfSelect,
     SfAddToCart,
-    QuantitySelector
+    QuantitySelector,
+    AddToCart
   },
   setup(_, context) {
     const { product, close, setAttribute, attributes, options, optionKeys } = useVariantSelector();
