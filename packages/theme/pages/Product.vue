@@ -46,12 +46,7 @@
                 :coverage="1"
               />
               <p>
-                <template v-if="productGetters.isInStock(product.selectedVariant)">
-                  {{ productGetters.getStockForVariant(product.selectedVariant) }}
-                </template>
-                <template v-else>
-                  0
-                </template>
+                {{ productGetters.isInStock(product.selectedVariant) ? productGetters.getStockForVariant(product.selectedVariant) : 0 }}
                 {{$t('in stock')}}
               </p>
             </div>
