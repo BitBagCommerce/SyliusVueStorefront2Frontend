@@ -157,7 +157,6 @@
                 <AddToCart
                   :stock="product.selectedVariant.onHand"
                   :disabled="loading || !product.selectedVariant.inStock"
-                  :qty="1"
                   @input="productsQuantity[product._id] = $event"
                   @click="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
                 />

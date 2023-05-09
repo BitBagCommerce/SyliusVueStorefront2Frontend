@@ -2,7 +2,6 @@
   <div class="sf-add-to-cart">
     <slot name="quantity-select-input">
       <QuantitySelector
-        v-model="qty"
         @input="$emit('input', $event)"
         :qty="qty"
         :min="1"
