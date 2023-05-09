@@ -1,6 +1,6 @@
 import { Context, CustomQuery } from '@vue-storefront/core';
 import { TypedDocumentNode } from '@apollo/client/core';
-import { Exact } from 'api-client/__generated__/graphql';
+import { Exact, GetCartQuery } from 'api-client/__generated__/graphql';
 
 type QueryVariables = Record<string, any>
 
@@ -8,6 +8,8 @@ type ExtendQuery<TQuery extends TypedDocumentNode, TVariables> = {
   query: TQuery;
   variables: TVariables;
 };
+
+export type VariablesHelper<TDocument> = TDocument extends TypedDocumentNode<any, Exact<infer TVariables>> ? TVariables : never
 
 export const extendQuery = <TQuery extends TypedDocumentNode, TVariables extends QueryVariables>(
   context: Context,
@@ -48,26 +50,31 @@ export const mutate = async <TData, TVariables extends QueryVariables>(
   return data;
 };
 
-export const transformCartItems = (context, items) => {
+export const transformCartItems = (context: Context, items: GetCartQuery['order']['items']) => {
   const { imagePaths: { thumbnail } } = context.config;
-  return items.edges.map(edge => {
-    const orderItem = edge.node;
-    orderItem.variant.optionValues = orderItem.variant.optionValues.edges.map(edge => edge.node);
-    orderItem.variant.product.options = orderItem.variant.product.options.edges.map(edge => edge.node);
-    orderItem.variant.product.images = orderItem.variant.product.images.collection.map(
-      image => `${thumbnail}/${image.path}`
-    );
-    return orderItem;
-  });
+
+  return items.edges.map(edge => ({
+    ...edge.node,
+    variant: {
+      ...edge.node.variant,
+      optionValues: edge.node.variant.optionValues.edges.map(edge => edge.node),
+      product: {
+        options: edge.node.variant.product.options.edges.map(edge => edge.node),
+        images: edge.node.variant.product.images.collection.map(
+          image => `${thumbnail}/${image.path}`
+        )
+      }
+    }
+  }));
 };
 
-export const transformCart = (context, cart) => {
-  cart.items = transformCartItems(context, cart.items);
-  cart.shipments = cart.shipments.edges.length
+export const transformCart = (context: Context, cart: GetCartQuery['order']) => ({
+  ...cart,
+  items: transformCartItems(context, cart.items),
+  shipments: cart.shipments.edges.length
     ? cart.shipments.edges[0].node
-    : [];
-  cart.payments = cart.payments.edges.length
+    : [],
+  payments: cart.payments.edges.length
     ? cart.payments.edges[0].node
-    : [];
-  return cart;
-};
+    : []
+});

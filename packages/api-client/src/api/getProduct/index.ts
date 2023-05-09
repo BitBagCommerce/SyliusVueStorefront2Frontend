@@ -1,169 +1,133 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CustomQuery } from '@vue-storefront/core';
+import { Context, CustomQuery } from '@vue-storefront/core';
 import { BaseQuery, getProductsNotFilteredQuery, getProductsAttributesQuery } from './queries';
-import { extendQuery, query } from '../helpers';
+import { extendQuery, query, VariablesHelper } from '../helpers';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function getProduct(context, params, customQuery?: CustomQuery): Promise<any> {
-  let pagination = {};
-  let products = [];
-
+export async function getProduct(
+  context: Context,
+  params: VariablesHelper<typeof BaseQuery>,
+  customQuery?: CustomQuery
+) {
   try {
     const { query: queryGql, variables } = extendQuery(context, BaseQuery, params, customQuery);
     const data = await query(context, queryGql, variables);
-
     const { locale, imagePaths } = context.config;
-    pagination = data.products.paginationInfo;
-    // TODO: rewrite this map function so typescript doesn't throw errors
-    products = data.products.collection.map(item => {
-      if (item.attributes) {
-        // @ts-ignore
-        item.attributes = item.attributes.collection
-          .filter(attr => attr.type === 'integer' || attr.localeCode === locale);
-      }
 
-      if (item.productTaxons) {
-        // @ts-ignore
-        item._categoriesRef = item.productTaxons.collection.map(taxon => taxon.taxon.id);
-        delete item.productTaxons;
-      }
+    const pagination = data.products.paginationInfo;
+    const products = data.products.collection.map((item) => {
+      const variants = item.variants?.collection.map((variant) => ({
+        ...variant,
+        optionValues: variant.optionValues?.edges.map((e) => e.node),
+        channelPricings: variant.channelPricings?.collection
+      }));
+      const imagesRef = item.imagesRef?.collection;
 
-      if (item.options) {
-        // @ts-ignore
-        item.options = item.options?.edges?.map(edge => {
-          // @ts-ignore
-          edge.node.values = edge?.node?.values?.edges?.map(e => e?.node);
-          return edge.node;
-        });
-      }
-
-      if (item.variants) {
-        // @ts-ignore
-        item.variants = item.variants.collection.map(variant => {
-          // @ts-ignore
-          variant.optionValues = variant.optionValues.edges.map(e => e.node);
-          if (variant.channelPricings) {
-            // @ts-ignore
-            variant.channelPricings = variant.channelPricings.collection;
-          }
-          return variant;
-        });
-      }
-      // @ts-ignore
-      item.selectedVariant = item?.variants?.length ? item.variants?.[0] : null;
-
-      if (item.imagesRef) {
-        const mapImages = item.imagesRef.collection;
-        // @ts-ignore
-        item.images = mapImages.map(img => [imagePaths.thumbnail, img.path].join('/'));
-        // @ts-ignore
-        item.galleryImages = mapImages.map(img => [imagePaths.regular, img.path].join('/'));
-        delete item.imagesRef;
-      }
-      return item;
+      return {
+        ...item,
+        attributes: item.attributes?.collection.filter((attr) => attr.type === 'integer' || attr.localeCode === locale),
+        _categoriesRef: item.productTaxons?.collection.map((taxon) => taxon.taxon.id),
+        options: item.options?.edges.map((edge) => ({
+          ...edge.node,
+          values: edge.node?.values.edges.map((e) => e.node)
+        })),
+        variants,
+        selectedVariant: variants.length ? variants[0] : null,
+        images: imagesRef?.map((img) => [imagePaths.thumbnail, img.path].join('/')),
+        galleryImages: imagesRef?.map((img) => [imagePaths.regular, img.path].join('/'))
+      };
     });
+
+    return {
+      products,
+      pagination
+    };
   } catch (err) {
     console.log('Sylius getProduct error', err);
-  }
 
-  return {
-    products,
-    pagination
-  };
+    return {
+      products: [],
+      pagination: {}
+    };
+  }
 }
 
-export async function getProductNotFiltered(context, params, customQuery?: CustomQuery) {
-  let products = [];
-
+export async function getProductNotFiltered(
+  context: Context,
+  params: VariablesHelper<typeof getProductsNotFilteredQuery>,
+  customQuery?: CustomQuery
+) {
   try {
     const { query: queryGql, variables } = extendQuery(context, getProductsNotFilteredQuery, params, customQuery);
     const data = await query(context, queryGql, variables);
 
     const { locale, imagePaths } = context.config;
-    products = data.products.collection.map((item) => {
-      if (item.attributes) {
-        // @ts-ignore
-        item.attributes = item.attributes.collection
-          .filter(attr => attr.type === 'integer' || attr.localeCode === locale);
-      }
+    const products = data.products.collection.map((item) => {
+      const variants = item.variants?.collection.map((variant) => ({
+        ...variant,
+        optionValues: variant.optionValues?.edges.map((e) => e.node),
+        channelPricings: variant.channelPricings?.collection
+      }));
+      const imagesRef = item.imagesRef?.collection;
 
-      if (item.productTaxons) {
-        // @ts-ignore
-        item._categoriesRef = item.productTaxons.collection?.map(taxon => taxon.taxon.id);
-        delete item.productTaxons;
-      }
-
-      if (item.options) {
-        // @ts-ignore
-        item.options = item.options?.edges?.map(edge => {
-          // @ts-ignore
-          edge.node.values = edge?.node?.values?.edges?.map(e => e.node);
-          return edge.node;
-        });
-      }
-
-      if (item.variants) {
-        // @ts-ignore
-        item.variants = item.variants.collection?.map(variant => {
-          // @ts-ignore
-          variant.optionValues = variant.optionValues.edges?.map(e => e.node);
-          if (variant.channelPricings) {
-            // @ts-ignore
-            variant.channelPricings = variant.channelPricings.collection;
-          }
-          return variant;
-        });
-      }
-      // @ts-ignore
-      item.selectedVariant = item?.variants?.length ? item.variants?.[0] : null;
-
-      if (item.imagesRef) {
-        const mapImages = item.imagesRef.collection;
-        // @ts-ignore
-        item.images = mapImages.map(img => [imagePaths.thumbnail, img.path].join('/'));
-        // @ts-ignore
-        item.galleryImages = mapImages.map(img => [imagePaths.regular, img.path].join('/'));
-        delete item.imagesRef;
-      }
-      return item;
+      return {
+        ...item,
+        attributes: item.attributes?.collection.filter((attr) => attr.type === 'integer' || attr.localeCode === locale),
+        _categoriesRef: item.productTaxons?.collection.map((taxon) => taxon.taxon.id),
+        options: item.options?.edges.map((edge) => ({
+          ...edge.node,
+          values: edge.node?.values.edges.map((e) => e.node)
+        })),
+        variants,
+        selectedVariant: variants.length ? variants[0] : null,
+        images: imagesRef?.map((img) => [imagePaths.thumbnail, img.path].join('/')),
+        galleryImages: imagesRef?.map((img) => [imagePaths.regular, img.path].join('/'))
+      };
     });
+
+    return {
+      products
+    };
   } catch (err) {
     console.log('Sylius getProduct error', err);
-  }
 
-  return {
-    products
-  };
+    return {
+      products: []
+    };
+  }
 }
 
-export async function getProductAttribute(context, params, customQuery?: CustomQuery) {
+export async function getProductAttribute(
+  context: Context,
+  params: { categorySlug: string },
+  customQuery?: CustomQuery
+) {
+  type Attribute = {
+    __typename?: 'ProductAttributeValue';
+    id: string;
+    code?: string;
+    name?: string;
+    stringValue?: string;
+    type?: string;
+  };
+
+  type GroupedAttributes = {
+    id: string;
+    label: string;
+    type: string;
+    options: Attribute[];
+  }[];
+
   const variables = { ...params, locale: context.config.locale };
+  const { query: attributeQuery, variables: attributeVariables } = extendQuery(context, getProductsAttributesQuery, variables, customQuery);
+  const data = await query(context, attributeQuery, attributeVariables);
 
-  const { productsQuery } = context.extendQuery(
-    customQuery,
-    {
-      productsQuery: {
-        query: getProductsAttributesQuery,
-        variables: variables
-      }
-    }
-  );
+  const attributes = data.products.collection.reduce((prev, curr) => [...prev, ...curr.attributes.collection], [] as Attribute[]);
 
-  const { data } = await context.client.query({
-    query: productsQuery.query,
-    variables: productsQuery.variables,
-    fetchPolicy: 'no-cache'
-  });
+  const groupedAttributes: GroupedAttributes = [];
 
-  const attributes = data.products.collection.reduce((prev, curr) => ([
-    ...prev,
-    ...curr.attributes.collection
-  ]), {});
-
-  const groupedAttributes = [];
-
-  attributes?.forEach(attr => {
-    const index = groupedAttributes.findIndex(a => a.id === attr.code);
+  attributes?.forEach((attr) => {
+    const index = groupedAttributes.findIndex((a) => a.id === attr.code);
 
     if (index === -1) {
       const group = {
@@ -178,11 +142,10 @@ export async function getProductAttribute(context, params, customQuery?: CustomQ
       return;
     }
 
-    if (groupedAttributes[index].options.some(option => option.stringValue === attr.stringValue)) return;
+    if (groupedAttributes[index].options.some((option) => option.stringValue === attr.stringValue)) return;
 
     groupedAttributes[index].options.push(attr);
   });
 
   return groupedAttributes;
 }
-
