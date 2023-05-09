@@ -104,10 +104,9 @@
             v-e2e="'product_add-to-cart'"
             :stock="productGetters.getStockForVariant(product.selectedVariant)"
             :product="product"
-            :loading="loading"
-            v-model="qty"
             :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
             class="product__add-to-cart"
+            v-model="qty"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
         </div>
