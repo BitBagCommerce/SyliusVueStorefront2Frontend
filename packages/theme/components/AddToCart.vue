@@ -62,6 +62,7 @@ export default {
 <style lang="scss">
 .sf-add-to-cart {
   display: flex;
+  gap: 1em;
   &__button {
     --button-font-weight: var(--font-weight--semibold);
     --button-width: 100%;

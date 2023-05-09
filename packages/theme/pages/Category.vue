@@ -155,8 +155,8 @@
               <template #wishlist-icon />
               <template #add-to-cart>
                 <AddToCart
-                  :stock="productGetters.getStockForVariant(product.selectedVariant)"
-                  :disabled="loading || !product.selectedVariant.inStock"
+                  :selectedVariant="product.selectedVariant"
+                  :disabled="loading"
                   @quantityChange="productsQuantity[product._id] = $event"
                   @click="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
                 />
