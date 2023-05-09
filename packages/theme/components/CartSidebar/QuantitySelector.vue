@@ -64,14 +64,13 @@ export default {
     SfInput,
     SfIcon
   },
-  emits: ['input'],
   directives: { clickOutside },
   setup(props, { emit }) {
     const inputQty = ref(props.qty);
     const isConfirmOpen = ref(false);
 
     const handleConfirm = () => {
-      emit('input', inputQty.value);
+      emit('quantityChange', inputQty.value);
       isConfirmOpen.value = false;
     };
 

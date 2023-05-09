@@ -102,11 +102,11 @@
           </div>
           <AddToCart
             v-e2e="'product_add-to-cart'"
-            :stock="productGetters.getStockForVariant(product.selectedVariant)"
-            :product="product"
-            :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
             class="product__add-to-cart"
             v-model="qty"
+            :selectedVariant="product.selectedVariant"
+            :disabled="loading"
+            @quantityChange="qty = $event"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
         </div>

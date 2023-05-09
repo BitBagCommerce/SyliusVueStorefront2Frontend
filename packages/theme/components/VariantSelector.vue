@@ -63,12 +63,11 @@
 
     <AddToCart
       v-e2e="'modal__add-to-cart'"
-      :stock="productGetters.getStockForVariant(product.selectedVariant)"
-      :product="product"
-      :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
       class="modal__add-to-cart"
       v-model="qty"
-      @input="qty = $event"
+      :selectedVariant="product.selectedVariant"
+      :disabled="loading"
+      @quantityChange="qty = $event"
       @click="handleAddToCart"
     />
   </SfModal>

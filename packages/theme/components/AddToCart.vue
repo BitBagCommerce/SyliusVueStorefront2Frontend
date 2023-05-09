@@ -2,18 +2,18 @@
   <div class="sf-add-to-cart">
     <slot name="quantity-select-input">
       <QuantitySelector
-        @input="$emit('input', $event)"
+        class="sf-collected-product__quantity-selector"
+        @quantityChange="$emit('quantityChange', $event)"
         :qty="qty"
         :min="1"
-        :max="productGetters.getQuantityLimit(product.selectedVariant)"
-        class="sf-collected-product__quantity-selector"
-        :disabled="disabled"
+        :max="productGetters.getQuantityLimit(selectedVariant)"
+        :disabled="disabledOrOutOfStock"
       />
     </slot>
     <slot name="add-to-cart-btn">
       <SfButton
         class="sf-add-to-cart__button"
-        :disabled="disabled"
+        :disabled="disabledOrOutOfStock"
         v-on="$listeners"
       >
         {{ $t('Add to cart') }}
@@ -27,6 +27,8 @@ import {
 } from '@storefront-ui/vue';
 import QuantitySelector from './CartSidebar/QuantitySelector.vue';
 import { productGetters } from '@vue-storefront/sylius';
+import { computed } from '@nuxtjs/composition-api';
+
 export default {
   name: 'AddToCart',
   components: {
@@ -42,14 +44,19 @@ export default {
       type: Number,
       default: 1
     },
-    product: {
+    selectedVariant: {
       type: Object,
       required: true
     }
   },
-  data: () => ({
-    productGetters
-  })
+  setup(props) {
+    const disabledOrOutOfStock = computed(() => props.disabled || (props.selectedVariant.tracked && !productGetters.isInStock(props.selectedVariant)));
+
+    return {
+      productGetters,
+      disabledOrOutOfStock
+    };
+  }
 };
 </script>
 <style lang="scss">

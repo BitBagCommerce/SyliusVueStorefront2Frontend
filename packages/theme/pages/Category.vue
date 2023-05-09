@@ -134,7 +134,7 @@
               :wishlistIcon="false"
               :is-in-wishlist="isInWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-              @input="productsQuantity[product._id] = $event"
+              @quantityChange="productsQuantity[product._id] = $event"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
             >
               <template #configuration>
@@ -157,7 +157,7 @@
                 <AddToCart
                   :stock="productGetters.getStockForVariant(product.selectedVariant)"
                   :disabled="loading || !product.selectedVariant.inStock"
-                  @input="productsQuantity[product._id] = $event"
+                  @quantityChange="productsQuantity[product._id] = $event"
                   @click="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
                 />
               </template>
