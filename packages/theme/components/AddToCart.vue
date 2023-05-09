@@ -3,7 +3,7 @@
     <slot name="quantity-select-input">
       <QuantitySelector
         class="sf-collected-product__quantity-selector"
-        @quantityChange="$emit('quantityChange', $event)"
+        @quantity-change="$emit('quantity-change', $event)"
         :qty="qty"
         :min="1"
         :max="productGetters.getQuantityLimit(selectedVariant)"

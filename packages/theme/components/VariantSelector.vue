@@ -62,7 +62,7 @@
       v-model="qty"
       :selectedVariant="product.selectedVariant"
       :disabled="loading"
-      @quantityChange="qty = $event"
+      @quantity-change="qty = $event"
       @click="handleAddToCart"
     />
   </SfModal>

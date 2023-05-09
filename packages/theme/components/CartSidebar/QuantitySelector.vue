@@ -70,7 +70,7 @@ export default {
     const isConfirmOpen = ref(false);
 
     const handleConfirm = () => {
-      emit('quantityChange', inputQty.value);
+      emit('quantity-change', inputQty.value);
       isConfirmOpen.value = false;
     };
 
