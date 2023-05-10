@@ -96,7 +96,7 @@ export default {
 .footer {
   @include for-mobile {
     margin-bottom: 3.75rem;
-    padding-bottom: 1rem;
+    padding-bottom: var(--spacer-sm);
   }
 
   &__socials {

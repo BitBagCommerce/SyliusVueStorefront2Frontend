@@ -314,7 +314,7 @@ export default {
 }
 ::v-deep .sf-sidebar__bottom {
   @include for-mobile {
-    margin-bottom: 80px;
+    margin-bottom: var(--spacer-2xl);
   }
 }
 .filters {
