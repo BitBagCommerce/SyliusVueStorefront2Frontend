@@ -6,26 +6,31 @@
       :message="notification.message"
       :action="notification.action && notification.action.text"
       :type="notification.type"
-      @click:close="notification.dismiss"
       @click:action="notification.action && notification.action.onClick()"
       visible
     >
       <template #icon v-if="notification.icon">
         <SfIcon :icon="notification.icon" color="white"/>
       </template>
+      <template #close>
+        <SfButton @click="notification.dismiss" aria-label="Close notification" class="sf-button--pure sf-notification__close">
+          <SfIcon icon="cross" color="white" />
+        </SfButton>
+      </template>
     </SfNotification>
   </transition-group>
 </template>
 
 <script>
-import { SfNotification, SfIcon } from '@storefront-ui/vue';
+import { SfNotification, SfIcon, SfButton } from '@storefront-ui/vue';
 import { useUiNotification } from '~/composables';
 
 export default {
   name: 'Notification',
   components: {
     SfNotification,
-    SfIcon
+    SfIcon,
+    SfButton
   },
   setup () {
     const { notifications } = useUiNotification();
@@ -53,6 +58,22 @@ export default {
     width: 450px;
   }
 }
+
+@include for-mobile {
+  .sf-button {
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+
+    svg, span{
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
 .sf-notification {
   --notification-padding: var(--spacer-sm) var(--spacer-sm);
   max-width: 100%;
