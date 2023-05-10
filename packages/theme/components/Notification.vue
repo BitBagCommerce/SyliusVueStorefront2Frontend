@@ -42,7 +42,7 @@ export default {
   position: fixed;
   width: 100%;
   left: 0;
-  bottom: 0;
+  top: 0;
   right: 0;
   z-index: 9;
   @include for-desktop {
@@ -57,20 +57,24 @@ export default {
   --notification-padding: var(--spacer-sm) var(--spacer-sm);
   max-width: 100%;
   margin: var(--spacer-xs) auto 0 auto;
-  &:first-child {
-    margin-top: 0;
-  }
   @include for-mobile {
-    --notification-border-radius: 0;
+    --notification-border-radius: 5px;
     --notification-max-width: 100%;
-    --notification-background: var(--c-link);
     --notification-font-size: var(--font-size--sm);
     --notification-font-family: var(--font-family--primary);
     --notification-font-weight: var(--font-weight--normal);
     --notification-padding: var(--spacer-base) var(--spacer-lg);
+    --notification-box-shadow: 0 4px 25px 2px rgba(var(--c-dark-base), 0.1)
   }
   @include for-desktop {
     margin: 0 0 var(--spacer-xs) 0;
+  }
+
+  &:first-child {
+    margin-top: 0;
+    @include for-mobile {
+      --notification-border-radius: 0 0 5px 5px;
+    }
   }
 }
 .slide-fade-move,
@@ -80,8 +84,10 @@ export default {
   bottom: 0;
 }
 .slide-fade-enter {
-  transform: translateY(40px);
+  transform: translateY(-100%);
+
   @include for-desktop {
+    transform: translateY(40px);
     opacity: 0;
   }
 }
