@@ -312,6 +312,11 @@ export default {
 ::v-deep .sf-sidebar__aside {
   --sidebar-z-index: 3;
 }
+::v-deep .sf-sidebar__bottom {
+  @include for-mobile{
+    margin-bottom: 80px;
+  }
+}
 .filters {
   &__title {
     --heading-title-font-size: var(--font-size--xl);
