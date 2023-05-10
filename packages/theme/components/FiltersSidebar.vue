@@ -313,7 +313,7 @@ export default {
   --sidebar-z-index: 3;
 }
 ::v-deep .sf-sidebar__bottom {
-  @include for-mobile{
+  @include for-mobile {
     margin-bottom: 80px;
   }
 }

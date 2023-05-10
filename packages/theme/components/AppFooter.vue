@@ -94,7 +94,7 @@ export default {
 <style lang="scss">
 
 .footer {
-  @include for-mobile{
+  @include for-mobile {
     margin-bottom: 3.75rem;
     padding-bottom: 1rem;
   }
