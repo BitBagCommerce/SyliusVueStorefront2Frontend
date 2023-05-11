@@ -18,10 +18,5 @@ export default async function getCategory(context: Context, params, customQuery?
     variables: categoryList.variables
   });
 
-  const categories = data.taxa.collection.map(cat => {
-    if (cat.children) cat.children = cat.children.collection;
-    return cat;
-  });
-
-  return categories;
+  return data.taxa.collection;
 }

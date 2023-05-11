@@ -18,24 +18,21 @@
 
     <div class="navbar__sort desktop-only">
       <span class="navbar__label">{{ $t('Sort by') }}:</span>
-      <LazyHydrate on-interaction>
-        <SfSelect
-          :value="sortBy.selected"
-          :placeholder="$t('Select sorting')"
-          class="navbar__select"
-          @input="th.changeSorting"
+      <SfSelect
+        :value="sortBy.selected"
+        :placeholder="$t('Select sorting')"
+        class="navbar__select"
+        @input="th.changeSorting"
+      >
+        <SfSelectOption
+          v-for="option in sortBy.options"
+          :key="option.id"
+          :value="option.id"
+          class="sort-by__option"
         >
-          <SfSelectOption
-            v-for="option in sortBy.options"
-            :key="option.id"
-            :value="option.id"
-            class="sort-by__option"
-          >
-            {{ option.value }}
-          </SfSelectOption
-          >
-        </SfSelect>
-      </LazyHydrate>
+          {{ option.value }}
+        </SfSelectOption>
+      </SfSelect>
     </div>
 
     <div class="navbar__counter">
@@ -76,7 +73,7 @@
 </template>
 
 <script>
-import { computed } from '@nuxtjs/composition-api';
+import { computed, onMounted } from '@nuxtjs/composition-api';
 import { useUiHelpers, useUiState } from '~/composables';
 import { useFacet, facetGetters } from '@vue-storefront/sylius';
 import FiltersSidebar from '~/components/FiltersSidebar';
@@ -104,10 +101,14 @@ export default {
   setup() {
     const th = useUiHelpers();
     const { toggleFilterSidebar, isCategoryGridView, changeToCategoryGridView, changeToCategoryListView } = useUiState();
-    const { result } = useFacet();
+    const { result, search } = useFacet();
 
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
+
+    onMounted(async () => {
+      await search(th.getFacetsFromURL());
+    });
 
     return {
       th,

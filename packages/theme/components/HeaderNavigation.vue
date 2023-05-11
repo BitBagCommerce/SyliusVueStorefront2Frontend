@@ -3,7 +3,7 @@
     <SfLoader :class="{ loading }" :loading="loading">
       <div class="sf-header__navigation desktop" v-if='!loading'>
         <SfHeaderNavigationItem
-          v-for="(category, index) in categories"
+          v-for="(category, index) in topLevelCategories"
           :key="index"
           class="nav-item"
           v-e2e="`app-header-url_${category.slug}`"
@@ -21,12 +21,12 @@
             :multiple="false"
           >
             <div
-              v-for="(category, index) in categories"
+              v-for="(category, index) in topLevelCategories"
               :key="index"
               class="nav-item"
             >
               <SfAccordionItem
-                v-if="category.children.length"
+                v-if="categoryGetters.getChildren(category, categories).length"
                 :header="category.name"
               >
                 <template #header>
@@ -55,7 +55,7 @@
                 <template>
                   <SfList class="nav-item__list">
                     <SfListItem
-                      v-for="child in category.children"
+                      v-for="child in categoryGetters.getChildren(category, categories)"
                       :key="child.name"
                       class="nav-item__list-item"
                     >
@@ -92,9 +92,9 @@ import {
   SfCircleIcon,
   SfLoader
 } from '@storefront-ui/vue';
-import { onMounted, onUnmounted, ref } from '@nuxtjs/composition-api';
+import { onMounted, onUnmounted, ref, computed } from '@nuxtjs/composition-api';
 import { useUiState } from '~/composables';
-import { useCategory } from '@vue-storefront/sylius';
+import { useCategory, categoryGetters } from '@vue-storefront/sylius';
 export default {
   name: 'HeaderNavigation',
   components: {
@@ -124,13 +124,13 @@ export default {
       activeAccordionItem.value = item;
     };
 
+    const topLevelCategories = computed(() => categoryGetters.getTopLevelCategories(categories.value));
+
     onMounted(async () => {
       window.addEventListener('resize', () => {
         if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
       });
-      await categoriesListSearch({
-        level: 1
-      });
+      await categoriesListSearch({});
     });
 
     onUnmounted(() => {
@@ -141,6 +141,8 @@ export default {
 
     return {
       categories,
+      categoryGetters,
+      topLevelCategories,
       isMobileMenuOpen,
       toggleMobileMenu,
       toggleAccordionItem,
