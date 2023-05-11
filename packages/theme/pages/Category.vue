@@ -176,6 +176,7 @@
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
+                  :circleIcon="true"
                 />
               </template>
             </SfProductCardHorizontal>

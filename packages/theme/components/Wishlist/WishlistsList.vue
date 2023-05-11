@@ -35,7 +35,7 @@
 
         <div v-if="wishlists.length > 1" class="list__item--buttons">
           <Transition>
-            <div v-if="(toggledConfirm === wishlist.id)" class="buttons__confirm">
+            <div v-if="(toggledConfirm === wishlist.id || isWishlistActionInProgress(wishlist.id))" class="buttons__confirm">
                 <SfLoader v-if="isWishlistActionInProgress(wishlist.id)" class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" />
                 <template v-else>
                   <span class="buttons__confirm--title">{{ $t('Are sure?') }}</span>
@@ -67,7 +67,7 @@
             </div>
 
             <SfButton
-              v-else
+              v-else-if="isAllowedToRemoveWishlists"
               aria-label="Remove wishlist"
               class="sf-button--pure buttons__remove"
               @click="toggledConfirm = wishlist.id"
@@ -95,7 +95,7 @@ import {
   SfBadge,
   SfLoader
 } from '@storefront-ui/vue';
-import { ref } from '@nuxtjs/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 import { useWishlists, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables';
 
@@ -111,15 +111,15 @@ export default {
     SfLoader
   },
   props: ['wishlists'],
-  setup() {
+  setup(props) {
     const { send } = useUiNotification();
     const { removeWishlist, error } = useWishlists();
     const toggledConfirm = ref('');
     const wishlistsWithActionInProgressId = ref([]);
 
-    const isWishlistActionInProgress = (wishlistId) => {
-      return wishlistsWithActionInProgressId.value.includes(wishlistId);
-    };
+    const isAllowedToRemoveWishlists = computed(() => props.wishlists.length - wishlistsWithActionInProgressId.value.length > 1);
+
+    const isWishlistActionInProgress = (wishlistId) => wishlistsWithActionInProgressId.value.includes(wishlistId);
 
     const handleRemoveWishlist = async (wishlistId) => {
       wishlistsWithActionInProgressId.value = [...wishlistsWithActionInProgressId.value, wishlistId];
@@ -143,7 +143,8 @@ export default {
       wishlistGetters,
       toggledConfirm,
       handleRemoveWishlist,
-      isWishlistActionInProgress
+      isWishlistActionInProgress,
+      isAllowedToRemoveWishlists
     };
   }
 };
