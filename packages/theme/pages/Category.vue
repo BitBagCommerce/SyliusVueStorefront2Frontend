@@ -134,7 +134,7 @@
               :wishlistIcon="false"
               :is-in-wishlist="isInWishlist({ product })"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-              @input="productsQuantity[product._id] = $event"
+              @quantity-change="productsQuantity[product._id] = $event"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
             >
               <template #configuration>
@@ -154,12 +154,12 @@
               </template>
               <template #wishlist-icon />
               <template #add-to-cart>
-                <SfButton
+                <AddToCart
+                  :selectedVariant="product.selectedVariant"
+                  :disabled="loading"
+                  @quantity-change="productsQuantity[product._id] = $event"
                   @click="open(product)"
-                  class="products__product-card-horizontal--button"
-                >
-                  {{ $t('Add to cart') }}
-                </SfButton>
+                />
               </template>
             </SfProductCardHorizontal>
           </transition-group>
@@ -220,9 +220,9 @@ import {
   SfBreadcrumbs,
   SfLoader,
   SfColor,
-  SfProperty,
-  SfAddToCart
+  SfProperty
 } from '@storefront-ui/vue';
+import AddToCart from '~/components/AddToCart.vue';
 import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useCart, useWishlist, productGetters, useFacet, facetGetters, wishlistGetters } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
@@ -333,7 +333,7 @@ export default {
     SfHeading,
     SfProperty,
     LazyHydrate,
-    SfAddToCart
+    AddToCart
   }
 };
 </script>

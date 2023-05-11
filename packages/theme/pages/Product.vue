@@ -46,12 +46,7 @@
                 :coverage="1"
               />
               <p>
-                <template v-if="productGetters.isInStock(product.selectedVariant)">
-                  {{ productGetters.getStockForVariant(product.selectedVariant) }}
-                </template>
-                <template v-else>
-                  0
-                </template>
+                {{ productGetters.isInStock(product.selectedVariant) ? productGetters.getStockForVariant(product.selectedVariant) : 0 }}
                 {{$t('in stock')}}
               </p>
             </div>
@@ -100,28 +95,15 @@
               @click="updateFilter({color})"
             />
           </div>
-
-          <template>
-            <SfAddToCart
-              v-e2e="'product_add-to-cart'"
-              :stock="productGetters.getStockForVariant(product.selectedVariant)"
-              :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
-              class="product__add-to-cart"
-              @click="handleAddToCart({ product, quantity: parseInt(qty) })"
-            >
-              <template #quantity-select-input>
-                <QuantitySelector
-                  v-model="qty"
-                  @input="qty = $event"
-                  :qty="1"
-                  :min="1"
-                  :max="productGetters.getQuantityLimit(product.selectedVariant)"
-                  class="sf-collected-product__quantity-selector"
-                  :disabled="loading || (!productGetters.isInStock(product.selectedVariant) && product.selectedVariant.tracked)"
-                />
-              </template>
-            </SfAddToCart>
-          </template>
+          <AddToCart
+            v-e2e="'product_add-to-cart'"
+            class="product__add-to-cart"
+            v-model="qty"
+            :selectedVariant="product.selectedVariant"
+            :disabled="loading"
+            @quantity-change="qty = $event"
+            @click="handleAddToCart({ product, quantity: parseInt(qty) })"
+          />
         </div>
 
         <LazyHydrate when-idle>
@@ -195,7 +177,6 @@ import {
   SfPrice,
   SfRating,
   SfSelect,
-  SfAddToCart,
   SfTabs,
   SfGallery,
   SfIcon,
@@ -208,7 +189,7 @@ import {
   SfButton,
   SfColor
 } from '@storefront-ui/vue';
-
+import AddToCart from '~/components/AddToCart.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
 import { ref, computed, onUpdated } from '@nuxtjs/composition-api';
@@ -364,7 +345,7 @@ export default {
     SfPrice,
     SfRating,
     SfSelect,
-    SfAddToCart,
+    AddToCart,
     SfTabs,
     SfGallery,
     SfIcon,

@@ -124,9 +124,7 @@ export const getProductOptions = (product: Product): any => {
   return options;
 };
 
-export const getProductStockForVariant = (variant): number => {
-  return variant ? (variant as any).onHand - (variant as any).onHold : 0;
-};
+export const getProductStockForVariant = (variant): number => variant ? variant.onHand - variant.onHold : 0;
 
 export const getProductQuantityLimit = (variant) => variant.tracked ? getProductStockForVariant(variant) : 999;
 
