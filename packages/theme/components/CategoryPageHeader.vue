@@ -31,8 +31,7 @@
           class="sort-by__option"
         >
           {{ option.value }}
-        </SfSelectOption
-        >
+        </SfSelectOption>
       </SfSelect>
     </div>
 
