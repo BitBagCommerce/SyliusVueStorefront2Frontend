@@ -17,7 +17,7 @@ const factoryParams = {
     try {
       const data = await Promise.all([
         context.$sylius.api.getCategory(),
-        context.$sylius.api.getProduct(params.input),
+        context.$sylius.api.getMinimalProduct(params.input),
         context.$sylius.api.getProductNotFiltered(params.input),
         context.$sylius.api.getProductAttribute(params.input)
       ]);

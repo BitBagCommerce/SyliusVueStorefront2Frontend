@@ -9,13 +9,6 @@ export const productFragment = `
   description
   metaKeywords
   metaDescription
-  productTaxons {
-    collection {
-      taxon {
-        id
-      }
-    }
-  }
   options {
     edges {
       node {
@@ -45,6 +38,66 @@ export const productFragment = `
       onHand
       enabled
       channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+        collection {
+          channelCode
+          price
+        }
+      }
+      optionValues {
+        edges {
+          node {
+            id
+            code
+            value
+            option {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  attributes {
+    collection {
+      type
+      name
+      stringValue
+      localeCode
+    }
+  }
+  imagesRef: images {
+    collection {
+      path
+    }
+  }
+  enabled
+`;
+
+export const minimalProductFragment = `
+  id
+  _id
+  sku: code
+  name
+  slug
+  averageRating
+  shortDescription
+  productTaxons {
+    collection {
+      taxon {
+        id
+      }
+    }
+  }
+  variants {
+    collection {
+      id
+      code
+      name
+      inStock
+      onHold
+      onHand
+      enabled
+      channelPricings {
         collection {
           channelCode
           price
