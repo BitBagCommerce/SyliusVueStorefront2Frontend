@@ -9,4 +9,5 @@ export const categoryFragment = `
     id
   }
   enabled
+  level
 `;

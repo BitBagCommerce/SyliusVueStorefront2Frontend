@@ -19,66 +19,61 @@
 
     <div class="main section">
       <div class="sidebar desktop-only">
-        <LazyHydrate when-idle>
-          <SfLoader
-            :class="{ 'loading--categories': loading }"
-            :loading="loading"
+        <SfLoader
+          :class="{ 'loading--categories': categoriesLoading }"
+          :loading="categoriesLoading">
+          <SfAccordion
+            v-if='categoryTree.parent'
+            v-e2e="'categories-accordion'"
+            :open="categoryTree.parent.name"
+            :show-chevron="true"
           >
-            <SfAccordion
-              v-e2e="'categories-accordion'"
-              :open="activeCategory"
-              :show-chevron="true"
+            <SfAccordionItem
+              :header="categoryTree.parent.name"
             >
-              <SfAccordionItem
-                v-for="(cat, i) in categoryTree && categoryTree.items"
-                :key="i"
-                :header="cat.label"
-              >
-                <template>
-                  <SfList class="list">
-                    <SfListItem class="list__item">
-                      <SfMenuItem :count="cat.count || ''" :label="cat.label">
-                        <template #label>
-                          <nuxt-link
-                            :to="localePath(th.getCatLink(cat))"
-                            :class="
-                              cat.isCurrent ? 'sidebar--cat-selected' : ''
-                            "
-                          >
-                            All
-                          </nuxt-link>
-                        </template>
-                      </SfMenuItem>
-                    </SfListItem>
-                    <SfListItem
-                      class="list__item"
-                      v-for="(subCat, j) in cat.items"
-                      :key="j"
+              <template>
+                <SfList class="list">
+                  <SfListItem class="list__item">
+                    <SfMenuItem
+                      :count="categoryTree.parent.count"
+                      :label="categoryTree.parent.name"
                     >
-                      <SfMenuItem
-                        :count="subCat.count || ''"
-                        :label="subCat.label"
-                      >
-                        <template #label="{ label }">
-                          <nuxt-link
-                            :to="localePath(th.getCatLink(subCat))"
-                            :class="
-                              subCat.isCurrent ? 'sidebar--cat-selected' : ''
-                            "
-                          >
-                            {{ label }}
-                          </nuxt-link>
-                        </template>
-                      </SfMenuItem>
-                    </SfListItem>
-                  </SfList>
-                </template>
-              </SfAccordionItem>
-            </SfAccordion>
-          </SfLoader>
-        </LazyHydrate>
+                      <template #label>
+                        <nuxt-link
+                          :to="localePath(th.getCatLink(categoryTree.parent))"
+                          :class="categoryTree.parent.isCurrent ? 'sidebar--cat-selected' : ''"
+                        >
+                          All
+                        </nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                  <SfListItem
+                    class="list__item"
+                    v-for="(subCat, j) in categoryTree.children"
+                    :key="j"
+                  >
+                    <SfMenuItem
+                      :count="subCat.count || ''"
+                      :label="subCat.name"
+                    >
+                      <template #label="{ label }">
+                        <nuxt-link
+                          :to="localePath(th.getCatLink(subCat))"
+                          :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
+                        >
+                          {{ label }}
+                        </nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                </SfList>
+              </template>
+            </SfAccordionItem>
+          </SfAccordion>
+        </SfLoader>
       </div>
-      <SfLoader :class="{ loading }" :loading="productsLoading">
+      <SfLoader :class="{ loading: productsLoading }" :loading="productsLoading">
         <div class="products" v-if="!productsLoading">
           <transition-group
             v-if="isCategoryGridView"
@@ -225,7 +220,7 @@
 
           <LazyHydrate on-interaction>
             <SfPagination
-              v-if="!loading"
+              v-if="!productsLoading"
               class="products__pagination desktop-only"
               v-show="pagination.lastPage > 1"
               :current="pagination.page"
@@ -293,11 +288,11 @@ import {
   useCart,
   useWishlists,
   productGetters,
-  useFacet,
-  facetGetters,
+  categoryGetters,
   wishlistGetters,
   useProducts,
-  useAttributes
+  useAttributes,
+  useCategory
 } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -313,7 +308,7 @@ export default {
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart, error: useCartError } = useCart();
-    const { result, search, loading, error } = useFacet();
+    const { categories, loading: categoriesLoading, error } = useCategory('AppHeader:CategoryList');
     const { load: loadAttributes } = useAttributes();
     const { load: loadProducts, result: productsResult, loading: productsLoading } = useProducts();
     const {
@@ -328,27 +323,10 @@ export default {
     const products = computed(() => productsResult.value?.products || []);
     const productsQuantity = ref({});
     const isDropdownVisible = false;
-    const categoryTree = computed(() =>
-      facetGetters.getCategoryTree(result.value)
-    );
-    const breadcrumbs = computed(() =>
-      facetGetters.getBreadcrumbs(result.value)
-    );
+    const activeCategory = computed(() => categories.value?.find(cat => cat.slug === th.getFacetsFromURL()?.categorySlug));
+    const categoryTree = computed(() => categoryGetters.getTree(activeCategory.value, categories.value));
+    const breadcrumbs = computed(() => categoryGetters.getBreadcrumbs(activeCategory.value, categories.value));
     const pagination = computed(() => productsResult.value?.pagination || {});
-    const activeCategory = computed(() => {
-      const items = categoryTree.value.items;
-
-      if (!items || !items.length) {
-        return '';
-      }
-
-      const category = items.find(
-        ({ isCurrent, items }) =>
-          isCurrent || items.find(({ isCurrent }) => isCurrent)
-      );
-
-      return category?.label || items[0].label;
-    });
 
     const initProductsQuantity = async () => {
       await products.value?.forEach((product) => {
@@ -392,7 +370,6 @@ export default {
       const facets = th.getFacetsFromURL();
 
       await Promise.all([
-        search(facets),
         loadAttributes(facets),
         loadProducts(facets)
       ]);
@@ -405,9 +382,10 @@ export default {
       productsLoading,
       products,
       categoryTree,
-      loading,
       productGetters,
       pagination,
+      categories,
+      categoriesLoading,
       activeCategory,
       breadcrumbs,
       handleAddToCart,
