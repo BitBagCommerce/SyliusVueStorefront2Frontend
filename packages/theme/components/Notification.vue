@@ -51,11 +51,12 @@ export default {
   right: 0;
   z-index: 9;
   @include for-desktop {
-    top: 100px;
-    left: auto;
+    top: 25px;
+    left: 50%;
     bottom: auto;
-    right: 5%;
+    right: auto;
     width: 450px;
+    transform: translateX(-50%);
   }
 }
 
@@ -102,7 +103,7 @@ export default {
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.3s;
-  bottom: 0;
+  bottom: auto;
 }
 .slide-fade-enter {
   transform: translateY(-100%);
@@ -113,7 +114,7 @@ export default {
   }
 }
 .slide-fade-leave-to {
-  transform: translateY(-80px);
+  transform: translateY(60px);
   @include for-desktop {
     opacity: 0;
   }

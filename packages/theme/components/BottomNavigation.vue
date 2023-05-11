@@ -7,7 +7,7 @@
       @click="handleHomeClick"
     />
     <SfBottomNavigationItem icon="menu" size="20px" label="Menu" @click="toggleMobileMenu"/>
-    <!-- <SfBottomNavigationItem icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/> -->
+    <SfBottomNavigationItem v-if="isAuthenticated" icon="heart" size="20px" label="Wishlist" @click="toggleWishlistSidebar"/>
     <SfBottomNavigationItem :icon="accountIcon" size="20px" label="Account" @click="handleAccountClick"/>
     <!-- TODO: add logic for label - if on Home then Basket, if on PDC then AddToCart etc. -->
     <SfBottomNavigationItem
@@ -78,7 +78,8 @@ export default {
       cartTotalItems,
       accountIcon,
       handleAccountClick,
-      handleHomeClick
+      handleHomeClick,
+      isAuthenticated
     };
   }
 };

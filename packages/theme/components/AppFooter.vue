@@ -94,14 +94,14 @@ export default {
 <style lang="scss">
 
 .footer {
-  margin-bottom: 3.75rem;
-  @include for-desktop {
-    margin-bottom: 0;
+  @include for-mobile {
+    margin-bottom: 3.75rem;
+    padding-bottom: var(--spacer-sm);
   }
+
   &__socials {
     display: flex;
     justify-content: space-between;
-    margin: 0 auto var(--spacer-lg);
     padding: var(--spacer-base) var(--spacer-xl);
     @include for-desktop {
       justify-content: flex-start;
@@ -109,6 +109,7 @@ export default {
       margin: 0 auto;
     }
   }
+
   &__social-image {
     margin: 0 var(--spacer-2xs) 0 0;
   }
@@ -119,6 +120,7 @@ export default {
     padding-bottom: 0;
     margin-top: var(--spacer-2xl);
   }
+
   &__container {
     margin: var(--spacer-sm);
     @include for-desktop {

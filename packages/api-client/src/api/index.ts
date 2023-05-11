@@ -3,11 +3,13 @@ export { default as getCategory } from './getCategory';
 export {
   getProduct,
   getProductNotFiltered,
-  getProductAttribute
+  getProductAttribute,
+  getMinimalProduct
 } from './getProduct';
 export {
   createCart,
   addToCart,
+  addManyToCart,
   addCouponToCart,
   removeFromCart,
   removeCouponFromCart,
@@ -43,3 +45,12 @@ export {
 export {
   getFilters
 } from './filters';
+export {
+  getWishlists,
+  addItem,
+  removeItem,
+  clearWishlist,
+  createWishlist,
+  editWishlist,
+  removeWishlist
+} from './wishlist';

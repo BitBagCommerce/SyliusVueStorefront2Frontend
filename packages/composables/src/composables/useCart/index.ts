@@ -10,8 +10,7 @@ import type {
   CartItem,
   Product
 } from '@vue-storefront/sylius-api';
-
-const params: UseCartFactoryParams<Cart, CartItem, Product> = {
+const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
   load: async (context: Context) => {
     const apiState = context.$sylius.config.state;
     let cartId = apiState.getCartId();
@@ -40,8 +39,6 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   },
   addItem: async (context: Context, { product, quantity, customQuery }) => {
     const apiState = context.$sylius.config.state;
-    const variant = product as Product;
-    const variantId = variant.selectedVariant.id;
     let cartId = apiState.getCartId();
 
     if (!cartId) {
@@ -51,6 +48,20 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
 
     const token = cartId.replace('/api/v2/shop/orders/', '');
 
+    if (Array.isArray(product)) {
+      const variants = product.map(prod => ({
+        productVariant: prod.selectedVariant.id || `/api/v2/shop/orders/${prod.selectedVariant.code}`,
+        quantity: prod.selectedVariant.quantity
+      }));
+      const cart = await context.$sylius.api.addManyToCart({
+        variants,
+        token
+      }, customQuery);
+
+      return cart;
+    }
+
+    const variantId = product.selectedVariant.id;
     const cart = await context.$sylius.api.addToCart({
       quantity,
       variantId,
@@ -135,6 +146,8 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
     };
   },
   isInCart: (context: Context, { currentCart, product }) => {
+    if (Array.isArray(product)) return;
+
     if (currentCart?.items) {
       const productCheck = currentCart.items.filter(p => product.selectedVariant.code === p.variant.code);
       return productCheck.length > 0;
