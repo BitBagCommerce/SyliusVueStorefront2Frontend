@@ -206,7 +206,7 @@ export default {
     });
     const product = computed(() => products.value.products && productGetters.getFiltered(products.value.products, { master: true, attributes: context.root.$route.query })[0]);
 
-    const options = computed(() => productGetters.getAttributes(products.value?.products, ['color', 'size'])) || [];
+    const options = computed(() => products.value?.products ? productGetters.getAttributes(products.value?.products, ['color', 'size']) : []);
 
     const configuration = computed(() => product?.value ? productGetters.getAttributes(product?.value, ['color', 'size']) : []);
     const categories = computed(() => productGetters.getCategoryIds(product?.value)) || [];
