@@ -225,5 +225,9 @@ export default {
   'Please check your email to verify your account': 'Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen',
   'Thank you for your order!': 'Vielen Dank für Ihren Auftrag!',
   'Cart has been updated': 'Warenkorb wurde aktualisiert',
-  'Select country': 'Land auswählen' 
+  'Select country': 'Land auswählen',
+  'Are sure?': 'Sind sicher?',
+  'Add to wishlist': 'Zur Wunschliste hinzufügen',
+  'Add to cart': 'In den Warenkorb legen',
+  'Add new wishlist': 'Neue Wunschliste hinzufügen',
 };
