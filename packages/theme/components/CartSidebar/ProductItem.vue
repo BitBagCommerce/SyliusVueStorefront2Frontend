@@ -57,26 +57,21 @@
     </div>
     <slot name="remove" v-bind="{ removeHandler }">
       <template :class="{ 'display-none': !hasRemove }">
-        <SfLoader v-if="isRemovingInProgress" class="wishlist-action-loader" :loading="true" />
-        <template v-else>
+        <SfLoader :loading="isRemovingInProgress" class="remove-action-loader" />
+        <template v-if="!isRemovingInProgress">
           <SfCircleIcon
             icon="cross"
             aria-label="Remove"
-            class="
-              sf-circle-icon--small
-              sf-collected-product__remove
-              sf-collected-product__remove--circle-icon
-            "
+            class="sf-circle-icon--small sf-collected-product__remove sf-collected-product__remove--circle-icon"
             @click="removeHandler"
           />
           <SfButton
-            class="
-              sf-button--text
-              sf-collected-product__remove sf-collected-product__remove--text
-            "
+            class="sf-button--text sf-collected-product__remove sf-collected-product__remove--text"
             data-testid="collected-product-desktop-remove"
             @click="removeHandler"
-          >Remove</SfButton>
+          >
+            {{ $t('Remove') }}
+          </SfButton>
         </template>
       </template>
     </slot>
@@ -232,7 +227,7 @@ export default {
   }
 }
 
-.wishlist-action-loader {
+.remove-action-loader {
   position: absolute;
   height: auto;
   bottom: var(--spacer-xs);

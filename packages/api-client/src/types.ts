@@ -110,6 +110,7 @@ export type Cart = {
   orderPromotionTotal: number;
   promotionCoupon: any;
   tokenValue: string;
+  shippingAddress: any;
 };
 
 export interface Storage {

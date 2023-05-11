@@ -2,10 +2,11 @@
   <SfDropdown
     v-if="isAuthenticated"
     :isOpen="isOpen"
-    :class="`dropdown ${circleIcon || icon ? '' : 'no-icon'} ${isOpen ? 'active' : ''}`"
+    class="dropdown"
+    :class="{ 'no-icon': !icon, 'active': isOpen }"
   >
     <template #opener>
-      <template v-if="icon">
+      <template v-if="icon == 'icon'">
         <SfButton
           class="sf-button--pure"
           @click="(isOpen = !isOpen)"
@@ -25,7 +26,7 @@
         </SfButton>
       </template>
 
-      <template v-else-if="circleIcon">
+      <template v-else-if="icon == 'circleIcon'">
         <SfCircleIcon
           v-if="isInAnyWishlist(product)"
           aria-label="Remove filter"
@@ -47,22 +48,22 @@
         @click="(isOpen = !isOpen)"
         class="sf-button"
       >
-        <span>Add to wishlist</span>
+        <span>{{ $t('Add to wishlist') }}</span>
       </SfButton>
     </template>
 
     <SfList class="dropdown__list" v-click-outside="() => isOpen = false">
       <SfListItem
-      v-for="(wishlist, i) in wishlists"
-      :key="'wishlist'+i"
+        v-for="(wishlist, i) in wishlists"
+        :key="'wishlist'+i"
       >
         <SfButton
-        class="sf-button--pure dropdown__list__item"
-        @click="handleWishlistAction(product, wishlist)"
-        :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id), 'danger': isInWishlist(product, wishlist) }"
+          class="sf-button--pure list__item-button"
+          @click="handleWishlistAction(product, wishlist)"
+          :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id), 'danger': isInWishlist(product, wishlist) }"
         >
 
-        <span class="dropdown__list__item__text">
+        <span class="list__item-text">
           {{wishlist.name}}
         </span>
 
@@ -114,13 +115,9 @@ export default {
       type: Boolean,
       default: true
     },
-    circleIcon: {
-      type: Boolean,
-      default: false
-    },
     icon: {
-      type: Boolean,
-      default: false
+      type: String,
+      default: null
     }
   },
   setup(props) {
@@ -213,6 +210,7 @@ export default {
       .sf-overlay {
         background-color: unset;
       }
+
       .sf-dropdown__container {
         position: fixed;
         top: unset;
@@ -223,7 +221,8 @@ export default {
         z-index: 1;
         box-shadow: 0px 0px 16px rgba(29, 31, 34, 0.2);
       }
-      .dropdown__list__item{
+
+      .list__item-button{
         flex-direction: row-reverse;
         justify-content: flex-end;
       }
@@ -235,27 +234,29 @@ export default {
     padding: var(--spacer-sm);
     padding-bottom: 0;
 
-    &__item {
-      width: 100%;
-      padding: var(--spacer-sm);
-      display: flex;
-      gap: var(--spacer-sm);
-      border-bottom: 1px solid var(--c-light);
-      justify-content: space-between;
-      transition-duration: .5s;
+    .list__item {
+      &-button {
+        width: 100%;
+        padding: var(--spacer-sm);
+        display: flex;
+        gap: var(--spacer-sm);
+        border-bottom: 1px solid var(--c-light);
+        justify-content: space-between;
+        transition-duration: .5s;
 
-      &:hover {
-        background-color: var(--c-light);
+        &:hover {
+          background-color: var(--c-light);
+        }
+
+        &.danger:hover {
+          --icon-color: var(--c-danger);
+
+          background-color: var(--c-danger-variant);
+          color: var(--c-danger);
+        }
       }
 
-      &.danger:hover {
-        --icon-color: var(--c-danger);
-
-        background-color: var(--c-danger-variant);
-        color: var(--c-danger);
-      }
-
-      &__text{
+      &-text {
         text-align: left;
       }
     }
@@ -277,6 +278,7 @@ export default {
 .wishlist-action-loader{
   width: 20px;
   flex-shrink: 0;
+
   ::v-deep .sf-loader__overlay{
     background-color: unset;
   }

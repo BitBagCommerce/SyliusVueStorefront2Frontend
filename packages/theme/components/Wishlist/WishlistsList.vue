@@ -5,12 +5,12 @@
         v-for="(wishlist) in wishlists"
         :key="wishlist.id"
         class="list__item"
-        :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id)}"
+        :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id) }"
       >
         <SfButton
           aria-label="back"
           class="sf-button--pure list__item--content"
-          :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id)}"
+          :class="{ 'is-disabled--button': isWishlistActionInProgress(wishlist.id) }"
           type="button"
           @click="$emit('click', wishlist.id)"
         >
@@ -37,8 +37,8 @@
           <Transition>
             <div v-if="(toggledConfirm === wishlist.id || isWishlistActionInProgress(wishlist.id))" class="buttons__confirm">
                 <SfLoader v-if="isWishlistActionInProgress(wishlist.id)" class="wishlist-action-loader" :loading="isWishlistActionInProgress(wishlist.id)" />
-                <template v-else-if="isAllowedToRemoveWishlists">
-                  <span class="buttons__confirm--title">Are sure?</span>
+                <template v-else>
+                  <span class="buttons__confirm--title">{{ $t('Are sure?') }}</span>
 
                   <SfButton
                     aria-label="Confirm wishlist"

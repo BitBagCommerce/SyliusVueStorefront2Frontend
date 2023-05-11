@@ -115,7 +115,7 @@
                 :wishlists="wishlists"
                 :product="product"
                 :visible="isDropdownVisible"
-                :circleIcon="true"
+                :icon="'circleIcon'"
               />
             </div>
           </transition-group>
@@ -168,7 +168,6 @@
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
-                  :circleIcon="false"
                 />
               </template>
               <template #wishlist-icon>
@@ -177,6 +176,7 @@
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
+                  :circleIcon="true"
                 />
               </template>
             </SfProductCardHorizontal>
@@ -368,36 +368,44 @@ export default {
 <style lang="scss" scoped>
 #category {
   box-sizing: border-box;
+
   @include for-desktop {
     max-width: 1240px;
     margin: 0 auto;
   }
 }
+
 .main {
   &.section {
     padding: var(--spacer-xs);
+
     @include for-desktop {
       padding: 0;
     }
   }
 }
+
 .breadcrumbs {
   margin: var(--spacer-base) auto var(--spacer-lg);
 }
+
 .navbar {
   position: relative;
   display: flex;
   border: 1px solid var(--c-light);
   border-width: 0 0 1px 0;
+
   @include for-desktop {
     border-width: 1px 0 1px 0;
   }
+
   &.section {
     padding: var(--spacer-sm);
     @include for-desktop {
       padding: 0;
     }
   }
+
   &__aside {
     display: flex;
     align-items: center;
@@ -407,14 +415,17 @@ export default {
     border: 1px solid var(--c-light);
     border-width: 0 1px 0 0;
   }
+
   &__title {
     --heading-title-font-weight: var(--font-weight--semibold);
     --heading-title-font-size: var(--font-size--xl);
   }
 }
+
 .main {
   display: flex;
 }
+
 .list {
   --menu-item-font-size: var(--font-size--sm);
   &__item {
@@ -426,6 +437,7 @@ export default {
     }
   }
 }
+
 .products {
   box-sizing: border-box;
   flex: 1;
@@ -436,6 +448,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
   }
+
   &__grid {
     justify-content: flex-start;
 
@@ -446,6 +459,7 @@ export default {
       justify-content: center;
     }
   }
+
   &__product-card {
     --product-card-title-font-weight: var(--font-weight--medium);
     --product-card-title-margin: 0 auto;
@@ -658,10 +672,12 @@ export default {
       top: calc(1rem + var(--spacer-sm));
       right: calc(1rem + var(--spacer-sm));
     }
+
     @include for-mobile{
       .wishlist {
         display: flex;
         z-index: 1;
+
         &.active {
           z-index: 2;
         }
@@ -682,22 +698,27 @@ export default {
     }
   }
 }
+
 .product {
   &__property {
     margin: 0.4em 0;
   }
 }
+
 .sidebar {
   flex: 0 0 15%;
   padding: var(--spacer-sm);
   border: 1px solid var(--c-light);
   border-width: 0 1px 0 0;
 }
+
 .loading {
   margin: var(--spacer-3xl) auto;
+
   @include for-desktop {
     margin-top: 6.25rem;
   }
+
   &--categories {
     @include for-desktop {
       margin-top: 3.75rem;

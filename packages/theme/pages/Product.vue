@@ -39,23 +39,23 @@
           <div class="product__rating-and-wishlist">
             <div class="product__rating">
               <SfRating
-              :score="averageRating"
-              :max="5"
+                :score="averageRating"
+                :max="5"
               />
               <a v-if="!!totalReviews" href="#" class="product__count">
                 ({{ totalReviews }})
               </a>
             </div>
             <WishlistDropdown
-                class="product__wishlist"
-                :wishlists="wishlists"
-                :product="product"
-                :visible="true"
-                :icon="true"
+              class="product__wishlist"
+              :wishlists="wishlists"
+              :product="product"
+              :visible="true"
+              :icon="'icon'"
             />
           </div>
         </div>
-        <div>
+        <form @submit.prevent="handleAddToCart({ product, quantity: parseInt(qty) })">
           <p class="product__description desktop-only">
             {{ product.shortDescription }}
           </p>
@@ -95,7 +95,7 @@
             class="product__add-to-cart"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
-        </div>
+        </form>
 
         <LazyHydrate when-idle>
           <SfTabs :open-tab="1" class="product__tabs">
@@ -205,7 +205,7 @@ export default {
 
     const { addItem, loading, error } = useCart();
     const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
-    const { addItemToWishlist, isInWishlist, removeItemFromWishlist, wishlists } = useWishlists();
+    const { addItemToWishlist, isInWishlist, removeItem, wishlists } = useWishlists();
 
     onSSR(async () => {
       await search({ slug, query: context.root.$route.query});
@@ -252,7 +252,7 @@ export default {
     const removeProductFromWishlist = (productItem) => {
       const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlists.value));
       const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
-      removeItemFromWishlist({ product });
+      removeItem({ product });
     };
 
     const updateFilter = (item) => {
