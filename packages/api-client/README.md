@@ -21,7 +21,7 @@ Check the [DEMO](https://vsf-sylius.herokuapp.com/) or [read the documentation](
 Want to contribute? Ping us on `sylius` channel on [our Discord](https://discord.vuestorefront.io)!
 
 ### Requirements:
-- NodeJS v14.17 or later
+- NodeJS ^14.18.0
 
 ## Contributors ✨
 

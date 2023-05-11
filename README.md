@@ -35,7 +35,7 @@ The current integration scope contains:
 
 ### Supported versions
 
-The project requires node in version of `14.x.x` and yarn in version of `1.x.x || >=3.x.x`.
+The project requires node in version of `^14.18.0` and yarn in version of `1.x.x || >=3.x.x`.
 
 ### Installation
 
