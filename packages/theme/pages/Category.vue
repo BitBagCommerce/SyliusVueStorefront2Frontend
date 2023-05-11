@@ -20,7 +20,8 @@
       <div class="sidebar desktop-only">
         <SfLoader
           :class="{ 'loading--categories': categoriesLoading }"
-          :loading="categoriesLoading">
+          :loading="categoriesLoading"
+        >
           <SfAccordion
             v-if='categoryTree.parent'
             v-e2e="'categories-accordion'"

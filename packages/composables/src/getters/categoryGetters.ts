@@ -1,5 +1,4 @@
 import { AgnosticBreadcrumb } from '@vue-storefront/core/lib/src/types';
-
 import { Category } from '@vue-storefront/sylius-api/src/types';
 
 const getTopLevelCategories = (categories: any[]): Category[] => {
