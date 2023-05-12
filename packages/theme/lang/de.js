@@ -272,4 +272,7 @@ export default {
   'Menu': 'Speisekarte',
   'Account': 'Konto',
   'Wishlist': 'Wunschliste',
+  'Are sure?': 'Sind sicher?',
+  'Add to wishlist': 'Zur Wunschliste hinzufügen',
+  'Add new wishlist': 'Neue Wunschliste hinzufügen',
 };

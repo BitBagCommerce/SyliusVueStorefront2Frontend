@@ -3,6 +3,7 @@
     <SfButton
       class="container__lang container__lang--selected"
       @click="openLangModal"
+      data-toggle-btn="ignore"
     >
       <SfImage
         :src="`/icons/langs/${locale}.webp`"
@@ -10,7 +11,7 @@
         width="20"
         :alt="$t('Flag')"
         :placeholder="loader"
-        />
+      />
     </SfButton>
     <SfMegaMenu
       :visible="isLangModalOpen"
@@ -89,16 +90,25 @@ export default {
     const isLangModalOpen = ref(false);
     const availableLocales = computed(() => locales.filter(i => i.code !== locale));
 
-    const openLangModal = () => {
-      isLangModalOpen.value = true;
-      context.emit('click', isLangModalOpen.value);
-      document.body.classList.add('no-scroll');
-    };
+    const closeLangModal = (e) => {
+      if (e?.target?.dataset.toggleBtn)
+        return;
 
-    const closeLangModal = () => {
       isLangModalOpen.value = false;
       context.emit('click', isLangModalOpen.value);
       document.body.classList.remove('no-scroll');
+    };
+
+    const openLangModal = () => {
+      if (isLangModalOpen.value) {
+        closeLangModal();
+
+        return;
+      }
+
+      isLangModalOpen.value = true;
+      context.emit('click', isLangModalOpen.value);
+      document.body.classList.add('no-scroll');
     };
 
     return {
@@ -185,6 +195,16 @@ export default {
     &:hover,
     &--selected {
       opacity: 1;
+    }
+  }
+}
+
+::v-deep  {
+  .sf-image {
+    pointer-events: none !important;
+
+    &--wrapper {
+      pointer-events: none !important;
     }
   }
 }

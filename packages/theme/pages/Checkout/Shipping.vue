@@ -246,10 +246,10 @@ export default {
 
     const { send } = useUiNotification();
     const { $sylius } = useVSFContext();
-    const { load, save, loading, shipping } = useShipping();
+    const { load: loadShipping, save, loading, shipping } = useShipping();
     const { shipping: userShipping, load: loadUserShipping } = useUserShipping();
     const { isAuthenticated, user } = useUser();
-    const { billing } = useBilling();
+    const { billing, load: loadBilling } = useBilling();
 
     const form = ref({
       firstName: '',
@@ -304,7 +304,7 @@ export default {
     });
 
     onSSR(async () => {
-      await load();
+      await Promise.all([loadShipping(), loadBilling()]);
       countries.value = await $sylius.api.getCountries();
     });
 
