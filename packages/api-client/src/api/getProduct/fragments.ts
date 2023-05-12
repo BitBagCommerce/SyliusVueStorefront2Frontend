@@ -118,7 +118,7 @@ export const minimalProductFragment = `
       onHand
       enabled
       tracked
-      channelPricings {
+      channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
         collection {
           channelCode
           price
