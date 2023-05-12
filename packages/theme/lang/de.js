@@ -275,4 +275,5 @@ export default {
   'Are sure?': 'Sind sicher?',
   'Add to wishlist': 'Zur Wunschliste hinzufügen',
   'Add new wishlist': 'Neue Wunschliste hinzufügen',
+  'Change wishlist name': 'Wunschlistenname ändern',
 };

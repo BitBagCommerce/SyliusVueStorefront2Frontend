@@ -277,4 +277,5 @@ export default {
   'Add to wishlist': 'Add to wishlist',
   'Clear': 'Clear',
   'Add new wishlist': 'Add new wishlist',
+  'Change wishlist name': 'Change wishlist name',
 };
