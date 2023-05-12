@@ -60,15 +60,19 @@ export const getCartItemSku = (product: CartLineItem): string => product.sku;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartTotals = (cart: Cart): AgnosticTotals => {
   if (cart) {
-    const subtotal = (cart.total - cart.orderPromotionTotal - cart.shippingTotal) / 100;
-    const total = (cart.total) / 100;
+    const { total: cartTotal, orderPromotionTotal, shippingTotal, shippingAddress } = cart;
+
+    const subtotal = (cartTotal - orderPromotionTotal - shippingTotal) / 100;
+    const total = shippingAddress ? cartTotal / 100 : (cartTotal - shippingTotal) / 100;
+
     return {
-      shipping: cart.shippingTotal / 100,
+      shipping: shippingAddress ? shippingTotal / 100 : 0,
       special: subtotal,
       total,
       subtotal
     };
   }
+
   return {
     shipping: 0,
     total: 0,

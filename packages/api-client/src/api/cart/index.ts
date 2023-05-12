@@ -2,7 +2,7 @@ import {
   applyCouponMutation, addBillingAddressMutation, addShippingAddressMutation,
   createCartMutation, addToCartMutation, clearCartMutation, removeFromCartMutation,
   removeCouponFromCartMutation, updateCartPaymentMutation, updateCartShippingMutation,
-  updateCartQuantityMutation
+  updateCartQuantityMutation, addManyToCartMutation
 } from './mutations';
 import {
   getCartQuery, getPaymentMethodsQuery, getShippingMethodsQuery, getCountriesQuery
@@ -39,6 +39,12 @@ export const addToCart = async (context, defaultVariables, customQuery?: CustomQ
   const queryGql = extendQuery(context, addToCartMutation, defaultVariables, customQuery);
   const { shop_add_itemOrder } = await mutate(context, queryGql);
   return transformCart(context, shop_add_itemOrder.order);
+};
+
+export const addManyToCart = async (context, defaultVariables, customQuery?: CustomQuery) => {
+  const queryGql = extendQuery(context, addManyToCartMutation, defaultVariables, customQuery);
+  const { shop_add_itemsOrder } = await mutate(context, queryGql);
+  return transformCart(context, shop_add_itemsOrder.order);
 };
 
 export const updateCartQuantity = async (context, defaultVariables, customQuery?: CustomQuery) => {

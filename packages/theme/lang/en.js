@@ -225,8 +225,14 @@ export default {
   'Please check your email to verify your account': 'Please check your email to verify your account',
   'Thank you for your order!': 'Thank you for your order!',
   'Cart has been updated': 'Cart has been updated',
+  'Select country': 'Select country',
+  'Are sure?': 'Are sure?',
+  'Remove': 'Remove',
+  'Add to wishlist': 'Add to wishlist',
+  'Add to cart': 'Add to cart',
+  'Clear': 'Clear',
   'Select size': 'Select size',
   'Add to cart': 'Add to cart',
   'Select country': 'Select country',
-  'in stock': 'in stock'
+  'in stock': 'in stock',
 };

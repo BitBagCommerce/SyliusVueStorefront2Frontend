@@ -36,7 +36,13 @@ export type ShippingMethod = Record<string, unknown>;
 
 export type WishlistProduct = Record<string, unknown>;
 
-export type Wishlist = Record<string, unknown>;
+export type Wishlist = {
+  id: string;
+  name: string;
+  items: any[];
+};
+
+export type Wishlists = Wishlist[]
 
 export type ProductsResponse = {
   data: Product[];

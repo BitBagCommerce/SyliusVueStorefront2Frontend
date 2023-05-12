@@ -27,7 +27,8 @@
                 :title="cartGetters.getItemName(product)"
                 :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
-                @click:remove="removeItem({ product })"
+                :isRemovingInProgress="isRemovingInProgress(productGetters.getId(product))"
+                @click:remove="handleRemoveItemFromCart(product)"
                 class="collected-product"
                 :qty="cartGetters.getItemQty(product)"
                 :maxQty="productGetters.getQuantityLimit(product.selectedVariant)"
@@ -118,6 +119,7 @@ import { computed } from '@nuxtjs/composition-api';
 import { useCart, useUser, cartGetters, productGetters } from '@vue-storefront/sylius';
 import { useUiNotification, useUiState } from '~/composables';
 import debounce from 'lodash.debounce';
+import { ref } from '@vue/composition-api';
 
 export default {
   name: 'Cart',
@@ -141,7 +143,22 @@ export default {
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const { send } = useUiNotification();
+    const cartItemRemovingInProgressId = ref([]);
     loadCart();
+
+    const isRemovingInProgress = (productId) => {
+      return cartItemRemovingInProgressId.value.includes(productId);
+    };
+
+    const handleRemoveItemFromCart = async (product) => {
+      const productId = productGetters.getId(product);
+
+      cartItemRemovingInProgressId.value = [...cartItemRemovingInProgressId.value, productId];
+
+      await removeItem({product});
+
+      cartItemRemovingInProgressId.value = cartItemRemovingInProgressId.value.filter((id) => id !== productId);
+    };
 
     const updateQuantity = debounce(async ({ product, quantity }) => {
       await updateItemQty({ product, quantity });
@@ -167,7 +184,9 @@ export default {
       totals,
       totalItems,
       cartGetters,
-      productGetters
+      productGetters,
+      isRemovingInProgress,
+      handleRemoveItemFromCart
     };
   }
 };

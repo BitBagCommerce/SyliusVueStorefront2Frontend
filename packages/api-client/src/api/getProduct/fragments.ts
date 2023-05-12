@@ -9,13 +9,6 @@ export const productFragment = `
   description
   metaKeywords
   metaDescription
-  productTaxons {
-    collection {
-      taxon {
-        id
-      }
-    }
-  }
   options {
     edges {
       node {
@@ -45,7 +38,7 @@ export const productFragment = `
       onHand
       enabled
       tracked
-      channelPricings {
+      channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
         collection {
           channelCode
           price
