@@ -231,5 +231,8 @@ export default {
   'Add to wishlist': 'Add to wishlist',
   'Add to cart': 'Add to cart',
   'Clear': 'Clear',
-  'Add new wishlist': 'Add new wishlist',
+  'Select size': 'Select size',
+  'Add to cart': 'Add to cart',
+  'Select country': 'Select country',
+  'in stock': 'in stock',
 };

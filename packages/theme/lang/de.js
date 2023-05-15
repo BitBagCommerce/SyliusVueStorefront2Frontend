@@ -229,5 +229,8 @@ export default {
   'Are sure?': 'Sind sicher?',
   'Add to wishlist': 'Zur Wunschliste hinzufügen',
   'Add to cart': 'In den Warenkorb legen',
-  'Add new wishlist': 'Neue Wunschliste hinzufügen',
+  'Select size': 'Wähle die Größe aus',
+  'Add to cart': 'In den Warenkorb legen',
+  'Select country': 'Land auswählen',
+  'in stock': 'auf Lager',
 };

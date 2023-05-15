@@ -37,6 +37,7 @@ export const productFragment = `
       onHold
       onHand
       enabled
+      tracked
       channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
         collection {
           channelCode
@@ -88,6 +89,25 @@ export const minimalProductFragment = `
       }
     }
   }
+  options {
+    edges {
+      node {
+        id
+        _id
+        values {
+          edges {
+            node {
+              id
+              code
+              value
+            }
+          }
+        }
+        name
+        code
+      }
+    }
+  }
   variants {
     collection {
       id
@@ -97,7 +117,8 @@ export const minimalProductFragment = `
       onHold
       onHand
       enabled
-      channelPricings {
+      tracked
+      channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
         collection {
           channelCode
           price
