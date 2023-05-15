@@ -1,4 +1,4 @@
-name: "Draft new release"
+name: 'Draft new release'
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   draft-new-release:
-    name: "Draft a new release"
+    name: 'Draft a new release'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
         with:
           head: release/${{ github.event.inputs.version }}
           base: main
-          title: "chore: release ${{ github.event.inputs.version }}"
+          title: 'chore: release ${{ github.event.inputs.version }}'
           reviewers: ${{ github.actor }}
           body: |
             Hey @${{ github.actor }}!

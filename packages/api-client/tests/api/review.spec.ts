@@ -16,13 +16,13 @@ describe('[sylius-api-client] reviews', () => {
           return {
             data: {
               productReviews: {
-                collection: []
-              }
-            }
+                collection: [],
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await getReviews(context, params);
@@ -30,8 +30,7 @@ describe('[sylius-api-client] reviews', () => {
   });
 
   it('adds a review', async () => {
-    const defaultVariables = {
-    };
+    const defaultVariables = {};
 
     const context = {
       config: defaultSettings,
@@ -39,10 +38,10 @@ describe('[sylius-api-client] reviews', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(addReviewMutation);
-          return { };
-        }
+          return {};
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await addReview(context, defaultVariables);

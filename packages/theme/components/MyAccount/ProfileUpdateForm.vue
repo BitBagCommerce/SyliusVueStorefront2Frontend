@@ -2,7 +2,11 @@
   <ValidationObserver v-slot="{ handleSubmit, reset }">
     <form class="form" @submit.prevent="handleSubmit(submitForm(reset))">
       <div class="form__horizontal">
-        <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
+        <ValidationProvider
+          rules="required|min:2"
+          v-slot="{ errors }"
+          class="form__element"
+        >
           <SfInput
             v-model="form.firstName"
             name="firstName"
@@ -12,7 +16,11 @@
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
-        <ValidationProvider rules="required|min:2" v-slot="{ errors }" class="form__element">
+        <ValidationProvider
+          rules="required|min:2"
+          v-slot="{ errors }"
+          class="form__element"
+        >
           <SfInput
             v-model="form.lastName"
             name="lastName"
@@ -24,11 +32,7 @@
         </ValidationProvider>
       </div>
       <div class="form__horizontal">
-        <ValidationProvider
-          name="gender"
-          v-slot="{ errors }"
-          slim
-        >
+        <ValidationProvider name="gender" v-slot="{ errors }" slim>
           <SfSelect
             v-e2e="'gender'"
             v-model="form.gender"
@@ -47,10 +51,13 @@
               {{ genderOption.label }}
             </SfSelectOption>
           </SfSelect>
-
         </ValidationProvider>
 
-        <ValidationProvider rules="required|min:9" v-slot="{ errors }" class="form__element">
+        <ValidationProvider
+          rules="required|min:9"
+          v-slot="{ errors }"
+          class="form__element"
+        >
           <SfInput
             v-model="form.phoneNumber"
             name="phoneNumber"
@@ -81,7 +88,11 @@
         />
       </div>
 
-      <ValidationProvider rules="required|email" v-slot="{ errors }" class="form__element">
+      <ValidationProvider
+        rules="required|email"
+        v-slot="{ errors }"
+        class="form__element"
+      >
         <SfInput
           v-model="form.email"
           type="email"
@@ -93,7 +104,9 @@
           :errorMessage="errors[0]"
         />
       </ValidationProvider>
-      <SfButton type="submit" class="form__button">{{ $t('Update personal data') }}</SfButton>
+      <SfButton type="submit" class="form__button">{{
+        $t('Update personal data')
+      }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
@@ -114,7 +127,7 @@ export default {
     SfSelect,
     SfCheckbox,
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
 
   setup(_, { emit, root }) {
@@ -127,16 +140,16 @@ export default {
       gender: user.value.gender,
       birthday: user.value.birthday,
       phoneNumber: user.value.phoneNumber,
-      subscribedToNewsletter: user.value.subscribedToNewsletter || false
+      subscribedToNewsletter: user.value.subscribedToNewsletter || false,
     });
     const form = ref(resetForm());
     const selectedBirthday = ref('');
     const t = (key) => root.$i18n.t(key);
 
     const genderOptions = [
-      { key: 'u', label: t('Unknown')},
-      { key: 'm', label: t('Male')},
-      { key: 'f', label: t('Female')}
+      { key: 'u', label: t('Unknown') },
+      { key: 'm', label: t('Male') },
+      { key: 'f', label: t('Female') },
     ];
 
     const handleBirthday = (val) => {
@@ -178,41 +191,41 @@ export default {
       handleCheckSubscribedToNewsletter,
       handleBirthday,
       selectedBirthday,
-      genderOptions
+      genderOptions,
     };
-  }
+  },
 };
 </script>
 
-<style lang='scss' scoped>
-  .form {
-    &__element {
-      display: block;
-      margin: 0 0 var(--spacer-lg) 0;
+<style lang="scss" scoped>
+.form {
+  &__element {
+    display: block;
+    margin: 0 0 var(--spacer-lg) 0;
+  }
+  &__button {
+    display: block;
+    width: 100%;
+    @include for-desktop {
+      width: 17.5rem;
     }
-    &__button {
-      display: block;
-      width: 100%;
-      @include for-desktop {
-        width: 17.5rem;
-      }
+  }
+  &__horizontal {
+    @include for-desktop {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
-    &__horizontal {
+    .form__element {
       @include for-desktop {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        flex: 1;
+        margin-right: var(--spacer-2xl);
       }
-      .form__element {
-        @include for-desktop {
-          flex: 1;
-          margin-right: var(--spacer-2xl);
-        }
 
-        &:last-child {
-          margin-right: 0;
-        }
+      &:last-child {
+        margin-right: 0;
       }
     }
   }
+}
 </style>

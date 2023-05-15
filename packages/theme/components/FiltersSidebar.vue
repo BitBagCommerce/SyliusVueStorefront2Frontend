@@ -47,7 +47,7 @@
                 step: 1,
                 margin: 1,
                 tooltips: true,
-                connect: true
+                connect: true,
               }"
               class="filters__range"
               @change="setRange(facet, $event)"
@@ -64,7 +64,7 @@
             start: priceRange,
             range: getMaxPrice(),
             tooltips: true,
-            connect: true
+            connect: true,
           }"
           class="filters__range"
           @change="setPrice"
@@ -89,67 +89,62 @@
             </SfAccordionItem>
           </div>
           <div v-else>
-              <div class="filters__wrapper filters__title sf-heading--left">
-                <SfHeading
-                  :level="4"
-                  :title="facet.label"
-                  :key="`filter-title-${facet.id}`"
-                />
-                <SfCircleIcon
-                  v-if="isRangeSelected(facet)"
-                  icon-size="12px"
-                  :aria-label="$t('Remove filter')"
-                  icon="cross"
-                  class="sf-circle-icon__icon desktop-only"
-                  @click="removeRange(facet)"
-                />
-              </div>
-              <SfRange
-                :config="{
-                  start: getRange(facet),
-                  range: { min: 0, max: 20 },
-                  step: 1,
-                  margin: 1,
-                  tooltips: true,
-                  connect: true
-                }"
-                class="filters__range"
-                @change="setRange(facet, $event)"
+            <div class="filters__wrapper filters__title sf-heading--left">
+              <SfHeading
+                :level="4"
+                :title="facet.label"
+                :key="`filter-title-${facet.id}`"
+              />
+              <SfCircleIcon
+                v-if="isRangeSelected(facet)"
+                icon-size="12px"
+                :aria-label="$t('Remove filter')"
+                icon="cross"
+                class="sf-circle-icon__icon desktop-only"
+                @click="removeRange(facet)"
               />
             </div>
+            <SfRange
+              :config="{
+                start: getRange(facet),
+                range: { min: 0, max: 20 },
+                step: 1,
+                margin: 1,
+                tooltips: true,
+                connect: true,
+              }"
+              class="filters__range"
+              @change="setRange(facet, $event)"
+            />
+          </div>
         </div>
         <SfHeading
-            :level="4"
-            :title="$t('Price')"
-            class="filters__title sf-heading--left"
-          />
-          <SfRange
-            :config="{
-              start: priceRange,
-              range: getMaxPrice(),
-              tooltips: true,
-              connect: true
-            }"
-            class="filters__range"
-            @change="setPrice"
-          />
+          :level="4"
+          :title="$t('Price')"
+          class="filters__title sf-heading--left"
+        />
+        <SfRange
+          :config="{
+            start: priceRange,
+            range: getMaxPrice(),
+            tooltips: true,
+            connect: true,
+          }"
+          class="filters__range"
+          @change="setPrice"
+        />
       </SfAccordion>
       <template #content-bottom>
         <div class="filters__buttons">
-          <SfButton
-            class="sf-button--full-width"
-            @click="applyFilters"
-          >
+          <SfButton class="sf-button--full-width" @click="applyFilters">
             {{ $t('Done') }}
-          </SfButton
-          >
+          </SfButton>
           <SfButton
             class="sf-button--full-width filters__button-clear"
             @click="clearFilters"
           >
             {{ $t('Clear all') }}
-          </SfButton
-          >
+          </SfButton>
         </div>
       </template>
     </SfSidebar>
@@ -165,7 +160,7 @@ import {
   SfAccordion,
   SfColor,
   SfRange,
-  SfCircleIcon
+  SfCircleIcon,
 } from '@storefront-ui/vue';
 
 import { ref, computed, onMounted, watch } from '@nuxtjs/composition-api';
@@ -183,7 +178,7 @@ export default {
     SfColor,
     SfHeading,
     SfRange,
-    SfCircleIcon
+    SfCircleIcon,
   },
   setup(props, context) {
     const { changeFilters, isFacetColor } = useUiHelpers();
@@ -191,22 +186,27 @@ export default {
     const { result } = useFacet();
 
     const facets = computed(() => facetGetters.getGrouped(result.value));
-    const products = computed(() => facetGetters.getProductsNotFiltered(result.value));
+    const products = computed(() =>
+      facetGetters.getProductsNotFiltered(result.value)
+    );
     const selectedFilters = ref({});
     const priceRange = ref([]);
 
     const setSelectedFilters = () => {
       if (!facets.value.length) return;
 
-      selectedFilters.value = facets.value.reduce((prev, curr) => ({
-        ...prev,
-        [curr.id]: curr.options
-          .filter(o => o.selected)
-          .map(o => o.stringValue)
-      }), {});
+      selectedFilters.value = facets.value.reduce(
+        (prev, curr) => ({
+          ...prev,
+          [curr.id]: curr.options
+            .filter((o) => o.selected)
+            .map((o) => o.stringValue),
+        }),
+        {}
+      );
 
       for (const filter in selectedFilters.value) {
-        const find = facets.value.find(f => f.id === filter);
+        const find = facets.value.find((f) => f.id === filter);
 
         if (find?.type === 'integer') {
           Vue.set(selectedFilters.value, filter, find.range || []);
@@ -214,15 +214,20 @@ export default {
       }
     };
 
-    const isFilterSelected = (facet, option) => (selectedFilters.value[facet.id] || []).includes(option.stringValue);
+    const isFilterSelected = (facet, option) =>
+      (selectedFilters.value[facet.id] || []).includes(option.stringValue);
 
     const selectFilter = (facet, option) => {
       if (!selectedFilters.value[facet.id]) {
         Vue.set(selectedFilters.value, facet.id, []);
       }
 
-      if (selectedFilters.value[facet.id].find(f => f === option.stringValue)) {
-        selectedFilters.value[facet.id] = selectedFilters.value[facet.id].filter(f => f !== option.stringValue);
+      if (
+        selectedFilters.value[facet.id].find((f) => f === option.stringValue)
+      ) {
+        selectedFilters.value[facet.id] = selectedFilters.value[
+          facet.id
+        ].filter((f) => f !== option.stringValue);
         return;
       }
 
@@ -232,23 +237,34 @@ export default {
     const getMaxPrice = () => {
       if (!products.value.length) return { min: 0, max: 1 };
 
-      const prices = products.value.map(prod => prod.variants[0].channelPricings[0].price / 100);
+      const prices = products.value.map(
+        (prod) => prod.variants[0].channelPricings[0].price / 100
+      );
 
       return {
         min: Math.min(...prices),
-        max: Math.max(...prices)
+        max: Math.max(...prices),
       };
     };
 
-    const getPrice = () => result.value.input.price?.[0].between.split('..').map(price => price / 100) || Object.values(getMaxPrice());
-    const setPrice = range => priceRange.value = range;
+    const getPrice = () =>
+      result.value.input.price?.[0].between
+        .split('..')
+        .map((price) => price / 100) || Object.values(getMaxPrice());
+    const setPrice = (range) => (priceRange.value = range);
 
-    const isRangeSelected = facet => Boolean(selectedFilters.value[facet.id]?.length);
-    const getRange = facet => isRangeSelected(facet) ? selectedFilters.value[facet.id] : [0, 20];
-    const setRange = (facet, range) => Vue.set(selectedFilters.value, facet.id, range.map(num => parseInt(num)));
-    const removeRange = facet => {
+    const isRangeSelected = (facet) =>
+      Boolean(selectedFilters.value[facet.id]?.length);
+    const getRange = (facet) =>
+      isRangeSelected(facet) ? selectedFilters.value[facet.id] : [0, 20];
+    const setRange = (facet, range) =>
+      Vue.set(
+        selectedFilters.value,
+        facet.id,
+        range.map((num) => parseInt(num))
+      );
+    const removeRange = (facet) => {
       selectedFilters.value[facet.id] = [];
-
     };
 
     const clearFilters = () => {
@@ -293,9 +309,9 @@ export default {
       getRange,
       setRange,
       removeRange,
-      selectedFilters
+      selectedFilters,
     };
-  }
+  },
 };
 </script>
 

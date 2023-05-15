@@ -24,11 +24,23 @@
         <div class="product__price-and-stock">
           <SfPrice
             :regular="$n(productGetters.getPrice(product).regular, 'currency')"
-            :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
+            :special="
+              productGetters.getPrice(product).special &&
+              $n(productGetters.getPrice(product).special, 'currency')
+            "
           />
-          <div v-if="product.selectedVariant.tracked" :class="`stock-info ${productGetters.isInStock(product.selectedVariant) ? '' : 'danger'}`">
+          <div
+            v-if="product.selectedVariant.tracked"
+            :class="`stock-info ${
+              productGetters.isInStock(product.selectedVariant) ? '' : 'danger'
+            }`"
+          >
             <p>
-              {{ productGetters.isInStock(product.selectedVariant) ? productGetters.getStockForVariant(product.selectedVariant) : 0 }}
+              {{
+                productGetters.isInStock(product.selectedVariant)
+                  ? productGetters.getStockForVariant(product.selectedVariant)
+                  : 0
+              }}
               {{ $t('in stock') }}
             </p>
           </div>
@@ -51,7 +63,7 @@
           :key="size.value"
           :value="size.value"
         >
-          {{size.label}}
+          {{ size.label }}
         </SfSelectOption>
       </SfSelect>
     </div>
@@ -78,7 +90,7 @@ import {
   SfImage,
   SfPrice,
   SfSelect,
-  SfAddToCart
+  SfAddToCart,
 } from '@storefront-ui/vue';
 import { ref, watch } from '@nuxtjs/composition-api';
 import QuantitySelector from '~/components/CartSidebar/QuantitySelector.vue';
@@ -94,10 +106,11 @@ export default {
     SfSelect,
     SfAddToCart,
     QuantitySelector,
-    AddToCart
+    AddToCart,
   },
   setup(_, context) {
-    const { product, close, setAttribute, attributes, options, optionKeys } = useVariantSelector();
+    const { product, close, setAttribute, attributes, options, optionKeys } =
+      useVariantSelector();
     const { addItem, loading, error } = useCart();
     const { send } = useUiNotification();
 
@@ -108,7 +121,7 @@ export default {
     const handleAddToCart = async () => {
       await addItem({ product: product.value, quantity: qty.value });
 
-      const cartError = Object.values(error.value).find(err => err !== null);
+      const cartError = Object.values(error.value).find((err) => err !== null);
 
       if (cartError) {
         send({ type: 'danger', message: cartError.message });
@@ -117,17 +130,23 @@ export default {
       }
 
       close();
-      send({ type: 'success', message: t('Product has been added to the cart') });
+      send({
+        type: 'success',
+        message: t('Product has been added to the cart'),
+      });
     };
 
-    watch(() => product.value, () => {
-      qty.value = 1;
+    watch(
+      () => product.value,
+      () => {
+        qty.value = 1;
 
-      if (optionKeys.value.length < 1 && product.value) {
-        handleAddToCart();
-        close();
+        if (optionKeys.value.length < 1 && product.value) {
+          handleAddToCart();
+          close();
+        }
       }
-    });
+    );
 
     return {
       productGetters,
@@ -139,9 +158,9 @@ export default {
       qty,
       setAttribute,
       handleAddToCart,
-      attributes
+      attributes,
     };
-  }
+  },
 };
 </script>
 
@@ -180,17 +199,17 @@ export default {
   }
 }
 
-.stock-info{
+.stock-info {
   display: inline-flex;
   align-items: center;
   padding: 0.1rem 0.5rem;
   background-color: var(--c-light);
   border-radius: 15px;
-  p{
+  p {
     line-height: 1.3;
     margin: 0;
   }
-  &.danger{
+  &.danger {
     background-color: lighten(#d12727, 40);
   }
 }

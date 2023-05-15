@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import {cartFragment} from '../fragments/cart';
+import { cartFragment } from '../fragments/cart';
 
 export const getCartQuery = gql`
   query getCart($cartId: ID!) {
@@ -10,13 +10,8 @@ export const getCartQuery = gql`
 `;
 
 export const getShippingMethodsQuery = gql`
-  query getShippingMethods(
-    $zone: String
-  ) {
-    shippingMethods(
-      enabled: true,
-      zone_members_code: $zone
-    ) {
+  query getShippingMethods($zone: String) {
+    shippingMethods(enabled: true, zone_members_code: $zone) {
       collection {
         code
         calculator
@@ -40,9 +35,7 @@ export const getShippingMethodsQuery = gql`
 
 export const getPaymentMethodsQuery = gql`
   query getPaymentMethods {
-    paymentMethods(
-      enabled: true
-    ) {
+    paymentMethods(enabled: true) {
       collection {
         code
         translations {
@@ -73,4 +66,3 @@ export const getCountriesQuery = gql`
     }
   }
 `;
-

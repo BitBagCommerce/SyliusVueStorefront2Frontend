@@ -1,12 +1,29 @@
 import { defaultSettings } from '../../src/settings';
 import {
-  addToCartMutation, clearCartMutation, createCartMutation, removeFromCartMutation,
-  updateCartQuantityMutation, updateCartPaymentMutation, updateCartShippingMutation
+  addToCartMutation,
+  clearCartMutation,
+  createCartMutation,
+  removeFromCartMutation,
+  updateCartQuantityMutation,
+  updateCartPaymentMutation,
+  updateCartShippingMutation,
 } from '../../src/api/cart/mutations';
-import { getCartQuery, getPaymentMethodsQuery, getShippingMethodsQuery } from '../../src/api/cart/queries';
 import {
-  addToCart, clearCart, createCart, getCart, getPaymentMethods, getShippingMethods,
-  removeFromCart, updateCartQuantity, updateCartPayment, updateCartShipping
+  getCartQuery,
+  getPaymentMethodsQuery,
+  getShippingMethodsQuery,
+} from '../../src/api/cart/queries';
+import {
+  addToCart,
+  clearCart,
+  createCart,
+  getCart,
+  getPaymentMethods,
+  getShippingMethods,
+  removeFromCart,
+  updateCartQuantity,
+  updateCartPayment,
+  updateCartShipping,
 } from '../../src/api/cart';
 
 describe('[sylius-api-client] cart', () => {
@@ -16,21 +33,21 @@ describe('[sylius-api-client] cart', () => {
       client: {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual({
-            locale: defaultSettings.locale
+            locale: defaultSettings.locale,
           });
           expect(mutation).toEqual(createCartMutation);
           return {
             data: {
               cart: {
                 order: {
-                  tokenValue: 'cart-id'
-                }
-              }
-            }
+                  tokenValue: 'cart-id',
+                },
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await createCart(context);
@@ -40,7 +57,7 @@ describe('[sylius-api-client] cart', () => {
   it('adds product to the cart', async () => {
     const defaultVariables = {
       itemId: 'item-id',
-      cartId: 'cart-id'
+      cartId: 'cart-id',
     };
 
     const context = {
@@ -55,14 +72,14 @@ describe('[sylius-api-client] cart', () => {
                 order: {
                   items: { edges: [] },
                   payments: { edges: [] },
-                  shipments: { edges: [] }
-                }
-              }
-            }
+                  shipments: { edges: [] },
+                },
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await addToCart(context, defaultVariables);
@@ -73,7 +90,7 @@ describe('[sylius-api-client] cart', () => {
     const defaultVariables = {
       cartId: 'cart-id',
       locale: defaultSettings.locale,
-      acceptLanguage: defaultSettings.acceptLanguage
+      acceptLanguage: defaultSettings.acceptLanguage,
     };
 
     const context = {
@@ -87,13 +104,13 @@ describe('[sylius-api-client] cart', () => {
               order: {
                 items: { edges: [] },
                 payments: { edges: [] },
-                shipments: { edges: [] }
-              }
-            }
+                shipments: { edges: [] },
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await getCart(context, defaultVariables.cartId);
@@ -118,61 +135,69 @@ describe('[sylius-api-client] cart', () => {
                       collection: [
                         {
                           name: 'Bank transfer',
-                          description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
-                          locale: 'en_US'
+                          description:
+                            'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
+                          locale: 'en_US',
                         },
                         {
                           name: 'Bank transfer',
-                          description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
-                          locale: 'de_DE'
+                          description:
+                            'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
+                          locale: 'de_DE',
                         },
                         {
                           name: 'Bank transfer',
-                          description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
-                          locale: 'fr_FR'
+                          description:
+                            'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
+                          locale: 'fr_FR',
                         },
                         {
                           name: 'Bank transfer',
-                          description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
-                          locale: 'pl_PL'
+                          description:
+                            'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
+                          locale: 'pl_PL',
                         },
                         {
                           name: 'Bank transfer',
-                          description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
-                          locale: 'es_ES'
+                          description:
+                            'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
+                          locale: 'es_ES',
                         },
                         {
                           name: 'Bank transfer',
-                          description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
-                          locale: 'es_MX'
+                          description:
+                            'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
+                          locale: 'es_MX',
                         },
                         {
                           name: 'Bank transfer',
-                          description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
-                          locale: 'pt_PT'
+                          description:
+                            'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
+                          locale: 'pt_PT',
                         },
                         {
                           name: 'Bank transfer',
-                          description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
-                          locale: 'zh_CN'
-                        }
-                      ]
+                          description:
+                            'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
+                          locale: 'zh_CN',
+                        },
+                      ],
                     },
                     channels: {
                       collection: [
                         {
-                          code: 'FASHION_WEB'
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
+                          code: 'FASHION_WEB',
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await getPaymentMethods(context);
@@ -180,7 +205,8 @@ describe('[sylius-api-client] cart', () => {
     expect(result).toContainEqual({
       label: 'Bank transfer',
       value: 'bank_transfer',
-      description: 'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.'
+      description:
+        'Quaerat dolores iste minus accusamus doloribus aspernatur aliquam.',
     });
   });
 
@@ -200,77 +226,86 @@ describe('[sylius-api-client] cart', () => {
                     calculator: 'flat_rate',
                     configuration: {
                       FASHION_WEB: {
-                        amount: 738
-                      }
+                        amount: 738,
+                      },
                     },
                     translations: {
                       collection: [
                         {
                           name: 'UPS',
-                          description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-                          locale: 'en_US'
+                          description:
+                            'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+                          locale: 'en_US',
                         },
                         {
                           name: 'UPS',
-                          description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-                          locale: 'de_DE'
+                          description:
+                            'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+                          locale: 'de_DE',
                         },
                         {
                           name: 'UPS',
-                          description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-                          locale: 'fr_FR'
+                          description:
+                            'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+                          locale: 'fr_FR',
                         },
                         {
                           name: 'UPS',
-                          description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-                          locale: 'pl_PL'
+                          description:
+                            'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+                          locale: 'pl_PL',
                         },
                         {
                           name: 'UPS',
-                          description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-                          locale: 'es_ES'
+                          description:
+                            'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+                          locale: 'es_ES',
                         },
                         {
                           name: 'UPS',
-                          description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-                          locale: 'es_MX'
+                          description:
+                            'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+                          locale: 'es_MX',
                         },
                         {
                           name: 'UPS',
-                          description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-                          locale: 'pt_PT'
+                          description:
+                            'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+                          locale: 'pt_PT',
                         },
                         {
                           name: 'UPS',
-                          description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-                          locale: 'zh_CN'
-                        }
-                      ]
+                          description:
+                            'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+                          locale: 'zh_CN',
+                        },
+                      ],
                     },
                     channels: {
                       collection: [
                         {
-                          code: 'FASHION_WEB'
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
+                          code: 'FASHION_WEB',
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
-    const result = await getShippingMethods(context, { });
+    const result = await getShippingMethods(context, {});
     expect(Array.isArray(result)).toBe(true);
     expect(result).toContainEqual({
       label: 'UPS',
       value: 'ups',
-      description: 'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
-      cost: 7.38
+      description:
+        'Tenetur praesentium quibusdam corrupti nobis id delectus rerum.',
+      cost: 7.38,
     });
   });
 
@@ -278,7 +313,7 @@ describe('[sylius-api-client] cart', () => {
     const defaultVariables = {
       quantity: 1,
       variantId: 'variant-id',
-      cartId: 'cart-id'
+      cartId: 'cart-id',
     };
 
     const context = {
@@ -293,14 +328,14 @@ describe('[sylius-api-client] cart', () => {
                 order: {
                   items: { edges: [] },
                   payments: { edges: [] },
-                  shipments: { edges: [] }
-                }
-              }
-            }
+                  shipments: { edges: [] },
+                },
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await removeFromCart(context, defaultVariables);
@@ -309,7 +344,7 @@ describe('[sylius-api-client] cart', () => {
 
   it('updates cart shipping', async () => {
     const defaultVariables = {
-      cartId: 'cart-id'
+      cartId: 'cart-id',
     };
 
     const context = {
@@ -324,14 +359,14 @@ describe('[sylius-api-client] cart', () => {
                 order: {
                   items: { edges: [] },
                   payments: { edges: [] },
-                  shipments: { edges: [] }
-                }
-              }
-            }
+                  shipments: { edges: [] },
+                },
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await updateCartShipping(context, defaultVariables);
@@ -340,7 +375,7 @@ describe('[sylius-api-client] cart', () => {
 
   it('updates cart payment', async () => {
     const defaultVariables = {
-      cartId: 'cart-id'
+      cartId: 'cart-id',
     };
 
     const context = {
@@ -355,14 +390,14 @@ describe('[sylius-api-client] cart', () => {
                 order: {
                   items: { edges: [] },
                   payments: { edges: [] },
-                  shipments: { edges: [] }
-                }
-              }
-            }
+                  shipments: { edges: [] },
+                },
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await updateCartPayment(context, defaultVariables);
@@ -373,7 +408,7 @@ describe('[sylius-api-client] cart', () => {
     const defaultVariables = {
       quantity: 1,
       itemId: 'item-id',
-      cartId: 'cart-id'
+      cartId: 'cart-id',
     };
 
     const context = {
@@ -388,14 +423,14 @@ describe('[sylius-api-client] cart', () => {
                 order: {
                   items: { edges: [] },
                   payments: { edges: [] },
-                  shipments: { edges: [] }
-                }
-              }
-            }
+                  shipments: { edges: [] },
+                },
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await updateCartQuantity(context, defaultVariables);
@@ -404,7 +439,7 @@ describe('[sylius-api-client] cart', () => {
 
   it('clears cart', async () => {
     const defaultVariables = {
-      cartId: 'cart-id'
+      cartId: 'cart-id',
     };
 
     const context = {
@@ -417,14 +452,14 @@ describe('[sylius-api-client] cart', () => {
             data: {
               deleteOrder: {
                 order: {
-                  tokenValue: defaultVariables.cartId
-                }
-              }
-            }
+                  tokenValue: defaultVariables.cartId,
+                },
+              },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await clearCart(context, defaultVariables);

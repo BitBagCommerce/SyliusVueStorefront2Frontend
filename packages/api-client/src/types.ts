@@ -1,5 +1,8 @@
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
-import { FilterEqualTypeInput, FilterMatchTypeInput } from './api/getCategory/types';
+import {
+  FilterEqualTypeInput,
+  FilterMatchTypeInput,
+} from './api/getCategory/types';
 
 export type ProductAttributeFilterInput = {
   name: FilterMatchTypeInput;
@@ -210,7 +213,7 @@ export type ChannelPricing = {
   id: string;
   price: number;
   originalPrice?: number;
-}
+};
 
 export type WishlistItem = {
   _id: string;
@@ -222,29 +225,29 @@ export type WishlistItem = {
   unitPrice: number;
   images: string[];
   variant: {
-    id
+    id;
     code: string;
     product: {
       name: string;
       images: string[];
-    }
+    };
     channelPricings: ChannelPricing[];
-  }
+  };
   price?: {
     regular: number;
     special: number;
-  }
+  };
   selectedVariant: {
     code: string;
     optionValues: ProductOptionValue[];
     product: {
       options: ProductOption[];
-    }
-  }
+    };
+  };
 };
 
 export type Wishlist = {
   id: string;
   name: string;
-  items: WishlistItem[]
+  items: WishlistItem[];
 };

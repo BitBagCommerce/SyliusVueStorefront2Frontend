@@ -6,29 +6,29 @@
 
 ## Interfaces
 
-|     |
-| --- |
+|                                              |
+| -------------------------------------------- |
 | [ClientConfig](./sylius-api.clientconfig.md) |
-| [Config](./sylius-api.config.md) |
-| [Storage\_2](./sylius-api.storage_2.md) |
+| [Config](./sylius-api.config.md)             |
+| [Storage_2](./sylius-api.storage_2.md)       |
 
 ## Type Aliases
 
-|     |     |     |
-| --- | --- | --- |
-| [BillingAddress](./sylius-api.billingaddress.md) | [OrderItem](./sylius-api.orderitem.md) | [ShippingMethod](./sylius-api.shippingmethod.md) |
-| [Cart](./sylius-api.cart.md) | [PasswordResetResult](./sylius-api.passwordresetresult.md) | [ShippingProvider](./sylius-api.shippingprovider.md) |
-| [CartItem](./sylius-api.cartitem.md) | [Product](./sylius-api.product.md) | [TODO](./sylius-api.todo.md) |
-| [CartLineItem](./sylius-api.cartlineitem.md) | [ProductAttributeFilterInput](./sylius-api.productattributefilterinput.md) | [User](./sylius-api.user.md) |
-| [Category](./sylius-api.category.md) | [ProductFilter](./sylius-api.productfilter.md) | [UserAddressItem](./sylius-api.useraddressitem.md) |
-| [CategoryFilter](./sylius-api.categoryfilter.md) | [ProductInput](./sylius-api.productinput.md) | [UserBillingAddress](./sylius-api.userbillingaddress.md) |
-| [ClientInstance](./sylius-api.clientinstance.md) | [ProductOption](./sylius-api.productoption.md) | [UserBillingAddressItem](./sylius-api.userbillingaddressitem.md) |
-| [ConfigState](./sylius-api.configstate.md) | [ProductOptionValue](./sylius-api.productoptionvalue.md) | [UserBillingAddressSearchCriteria](./sylius-api.userbillingaddresssearchcriteria.md) |
-| [Coupon](./sylius-api.coupon.md) | [ProductVariant](./sylius-api.productvariant.md) | [UserShippingAddress](./sylius-api.usershippingaddress.md) |
-| [Endpoints](./sylius-api.endpoints.md) | [Review](./sylius-api.review.md) | [UserShippingAddressItem](./sylius-api.usershippingaddressitem.md) |
-| [Facet](./sylius-api.facet.md) | [ReviewItem](./sylius-api.reviewitem.md) | [UserShippingAddressSearchCriteria](./sylius-api.usershippingaddresssearchcriteria.md) |
-| [FacetSearchCriteria](./sylius-api.facetsearchcriteria.md) | [Setttings](./sylius-api.setttings.md) | [Wishlist](./sylius-api.wishlist.md) |
-| [Order](./sylius-api.order.md) | [ShippingAddress](./sylius-api.shippingaddress.md) | [WishlistItem](./sylius-api.wishlistitem.md) |
+|                                                            |                                                                            |                                                                                        |
+| ---------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [BillingAddress](./sylius-api.billingaddress.md)           | [OrderItem](./sylius-api.orderitem.md)                                     | [ShippingMethod](./sylius-api.shippingmethod.md)                                       |
+| [Cart](./sylius-api.cart.md)                               | [PasswordResetResult](./sylius-api.passwordresetresult.md)                 | [ShippingProvider](./sylius-api.shippingprovider.md)                                   |
+| [CartItem](./sylius-api.cartitem.md)                       | [Product](./sylius-api.product.md)                                         | [TODO](./sylius-api.todo.md)                                                           |
+| [CartLineItem](./sylius-api.cartlineitem.md)               | [ProductAttributeFilterInput](./sylius-api.productattributefilterinput.md) | [User](./sylius-api.user.md)                                                           |
+| [Category](./sylius-api.category.md)                       | [ProductFilter](./sylius-api.productfilter.md)                             | [UserAddressItem](./sylius-api.useraddressitem.md)                                     |
+| [CategoryFilter](./sylius-api.categoryfilter.md)           | [ProductInput](./sylius-api.productinput.md)                               | [UserBillingAddress](./sylius-api.userbillingaddress.md)                               |
+| [ClientInstance](./sylius-api.clientinstance.md)           | [ProductOption](./sylius-api.productoption.md)                             | [UserBillingAddressItem](./sylius-api.userbillingaddressitem.md)                       |
+| [ConfigState](./sylius-api.configstate.md)                 | [ProductOptionValue](./sylius-api.productoptionvalue.md)                   | [UserBillingAddressSearchCriteria](./sylius-api.userbillingaddresssearchcriteria.md)   |
+| [Coupon](./sylius-api.coupon.md)                           | [ProductVariant](./sylius-api.productvariant.md)                           | [UserShippingAddress](./sylius-api.usershippingaddress.md)                             |
+| [Endpoints](./sylius-api.endpoints.md)                     | [Review](./sylius-api.review.md)                                           | [UserShippingAddressItem](./sylius-api.usershippingaddressitem.md)                     |
+| [Facet](./sylius-api.facet.md)                             | [ReviewItem](./sylius-api.reviewitem.md)                                   | [UserShippingAddressSearchCriteria](./sylius-api.usershippingaddresssearchcriteria.md) |
+| [FacetSearchCriteria](./sylius-api.facetsearchcriteria.md) | [Setttings](./sylius-api.setttings.md)                                     | [Wishlist](./sylius-api.wishlist.md)                                                   |
+| [Order](./sylius-api.order.md)                             | [ShippingAddress](./sylius-api.shippingaddress.md)                         | [WishlistItem](./sylius-api.wishlistitem.md)                                           |
 
 <style>
   thead {

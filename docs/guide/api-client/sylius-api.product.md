@@ -8,28 +8,28 @@
 
 ```typescript
 export declare type Product = {
-    _id?: number;
-    description: string;
-    _categoriesRef: string[];
-    name: string;
-    sku: string;
-    slug: string;
-    images: string[];
-    options: ProductOption[];
-    galleryImages: string[];
-    price: {
-        special: number;
-        regular: number;
+  _id?: number;
+  description: string;
+  _categoriesRef: string[];
+  name: string;
+  sku: string;
+  slug: string;
+  images: string[];
+  options: ProductOption[];
+  galleryImages: string[];
+  price: {
+    special: number;
+    regular: number;
+  };
+  reviews: {
+    paginationInfo: {
+      totalCount: number;
     };
-    reviews: {
-        paginationInfo: {
-            totalCount: number;
-        };
-    };
-    averageRating: number;
-    selectedVariant: ProductVariant | null;
-    variants: ProductVariant[];
+  };
+  averageRating: number;
+  selectedVariant: ProductVariant | null;
+  variants: ProductVariant[];
 };
 ```
-<b>References:</b> [ProductOption](./sylius-api.productoption.md)<!-- -->, [ProductVariant](./sylius-api.productvariant.md)
 
+<b>References:</b> [ProductOption](./sylius-api.productoption.md)<!-- -->, [ProductVariant](./sylius-api.productvariant.md)

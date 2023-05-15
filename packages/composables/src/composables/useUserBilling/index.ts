@@ -1,7 +1,7 @@
 import {
   Context,
   useUserBillingFactory,
-  UseUserBillingFactoryParams
+  UseUserBillingFactoryParams,
 } from '@vue-storefront/core';
 
 const params: UseUserBillingFactoryParams<any, any> = {
@@ -13,8 +13,7 @@ const params: UseUserBillingFactoryParams<any, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, data?) => {
     return await context.$sylius.api.getUserAddresses();
-  }
-
+  },
 };
 
 export const useUserBilling = useUserBillingFactory<any, any>(params);

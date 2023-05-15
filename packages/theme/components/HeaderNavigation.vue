@@ -38,16 +38,20 @@
                     />
 
                     <SfCircleIcon
-                        icon-size="12px"
-                        :aria-label="$t('Show list')"
-                        icon="chevron_right"
-                        :class="`
+                      icon-size="12px"
+                      :aria-label="$t('Show list')"
+                      icon="chevron_right"
+                      :class="`
                           sf-circle-icon__icon
                           nav-item__header-button
-                          ${activeAccordionItem === category.name ? 'active' : ''}
+                          ${
+                            activeAccordionItem === category.name
+                              ? 'active'
+                              : ''
+                          }
                         `"
-                        @click="toggleAccordionItem(category.name)"
-                      />
+                      @click="toggleAccordionItem(category.name)"
+                    />
                   </div>
                 </template>
                 <template>
@@ -57,7 +61,10 @@
                       :key="child.name"
                       class="nav-item__list-item"
                     >
-                      <NuxtLink :to="`/c/${child.slug}`" @click.native="toggleMobileMenu">
+                      <NuxtLink
+                        :to="`/c/${child.slug}`"
+                        @click.native="toggleMobileMenu"
+                      >
                         {{ child.name }}
                       </NuxtLink>
                     </SfListItem>
@@ -88,7 +95,7 @@ import {
   SfModal,
   SfAccordion,
   SfList,
-  SfCircleIcon
+  SfCircleIcon,
 } from '@storefront-ui/vue';
 import { onMounted, onUnmounted, ref } from '@nuxtjs/composition-api';
 import { useUiState } from '~/composables';
@@ -100,20 +107,19 @@ export default {
     SfModal,
     SfAccordion,
     SfList,
-    SfCircleIcon
+    SfCircleIcon,
   },
   props: {
     isMobile: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   setup() {
     const { isMobileMenuOpen, toggleMobileMenu } = useUiState();
-    const {
-      categories,
-      search: categoriesListSearch
-    } = useCategory('AppHeader:CategoryList');
+    const { categories, search: categoriesListSearch } = useCategory(
+      'AppHeader:CategoryList'
+    );
     const activeAccordionItem = ref('');
 
     const toggleAccordionItem = (item) => {
@@ -122,19 +128,21 @@ export default {
 
     onSSR(async () => {
       await categoriesListSearch({
-        level: 1
+        level: 1,
       });
     });
 
     onMounted(() => {
       window.addEventListener('resize', () => {
-        if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
+        if (window.innerWidth > 1024 && isMobileMenuOpen.value)
+          toggleMobileMenu();
       });
     });
 
     onUnmounted(() => {
       window.removeEventListener('resize', () => {
-        if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
+        if (window.innerWidth > 1024 && isMobileMenuOpen.value)
+          toggleMobileMenu();
       });
     });
 
@@ -143,9 +151,9 @@ export default {
       isMobileMenuOpen,
       toggleMobileMenu,
       toggleAccordionItem,
-      activeAccordionItem
+      activeAccordionItem,
     };
-  }
+  },
 };
 </script>
 
@@ -180,7 +188,7 @@ export default {
       margin-bottom: var(--spacer-xs);
 
       .sf-icon-path {
-        transition: transform .3s ease;
+        transition: transform 0.3s ease;
       }
 
       &.active .sf-icon-path {

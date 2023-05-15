@@ -6,8 +6,8 @@
 
 ## API
 
-* `shipping: any` - saved shipping data.
-* `loading: boolean` - a reactive object containing information about loading state of the shipping data.
+- `shipping: any` - saved shipping data.
+- `loading: boolean` - a reactive object containing information about loading state of the shipping data.
 
 ### `load`
 
@@ -17,16 +17,16 @@ Function for fetching shipping data.
 
 Function for saving shipping data. It accepts an object with the following keys:
 
-  * `shippingDetails`
-      * `firstName: string`
-      * `lastName: string`
-      * `street: string`
-      * `city: string`
-      * `state: string`
-      * `countryCode: string`
-      * `postcode: string`
-      * `email: string`
-      * `phoneNumber: string`
+- `shippingDetails`
+  - `firstName: string`
+  - `lastName: string`
+  - `street: string`
+  - `city: string`
+  - `state: string`
+  - `countryCode: string`
+  - `postcode: string`
+  - `email: string`
+  - `phoneNumber: string`
 
 ## Example
 
@@ -35,7 +35,7 @@ import { onSSR } from '@vue-storefront/core';
 import { useShipping } from '@realtainment/sylius';
 
 export default {
-  setup () {
+  setup() {
     const { shipping, load } = useShipping();
 
     onSSR(async () => {
@@ -43,8 +43,8 @@ export default {
     });
 
     return {
-      shipping
-    }
-  }
+      shipping,
+    };
+  },
 };
 ```

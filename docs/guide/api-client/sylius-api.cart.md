@@ -8,13 +8,13 @@
 
 ```typescript
 export declare type Cart = {
-    items: CartLineItem[];
-    total: number;
-    shippingTotal: number;
-    orderPromotionTotal: number;
-    promotionCoupon: any;
-    tokenValue: string;
+  items: CartLineItem[];
+  total: number;
+  shippingTotal: number;
+  orderPromotionTotal: number;
+  promotionCoupon: any;
+  tokenValue: string;
 };
 ```
-<b>References:</b> [CartLineItem](./sylius-api.cartlineitem.md)
 
+<b>References:</b> [CartLineItem](./sylius-api.cartlineitem.md)

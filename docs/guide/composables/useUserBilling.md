@@ -6,32 +6,32 @@
 
 ## API
 
-* `billing: any` - user saved addresses.
-* `loading: boolean` - a reactive object containing information addresses are loading.
+- `billing: any` - user saved addresses.
+- `loading: boolean` - a reactive object containing information addresses are loading.
 
 ### `load`
+
 Function for loading all saved addresses for current user.
 
 ## Getters
 
-* `getAddresses: AddressItem[]`
-* `getDefault: AddressItem`
-* `getTotal: number`
-* `getPostCode: string`
-* `getStreetNumber: string`
-* `getCity: string`
-* `getFirstName: string`
-* `getLastName: string`
-* `getCountry: string`
-* `getPhone: string`
-* `getEmail: string`
-* `getProvince: string`
-* `getCompanyName: string`
-* `getTaxNumber: string`
-* `getId: string`
-* `getApartmentNumber: string | number`
-* `isDefault: boolean`
-
+- `getAddresses: AddressItem[]`
+- `getDefault: AddressItem`
+- `getTotal: number`
+- `getPostCode: string`
+- `getStreetNumber: string`
+- `getCity: string`
+- `getFirstName: string`
+- `getLastName: string`
+- `getCountry: string`
+- `getPhone: string`
+- `getEmail: string`
+- `getProvince: string`
+- `getCompanyName: string`
+- `getTaxNumber: string`
+- `getId: string`
+- `getApartmentNumber: string | number`
+- `isDefault: boolean`
 
 ## Example
 
@@ -41,7 +41,7 @@ import { computed } from '@vue/composition-api';
 import { useUserBilling, userBillingGetters } from '@realtainment/sylius';
 
 export default {
-  setup () {
+  setup() {
     const { billing, load, loading } = useUserBilling();
 
     onSSR(async () => {
@@ -50,8 +50,8 @@ export default {
 
     return {
       billing,
-      userBillingGetters
-    }
-  }
+      userBillingGetters,
+    };
+  },
 };
 ```

@@ -6,7 +6,7 @@ const itemToTree = (category: Category): AgnosticCategoryTree => {
     label: category.name,
     slug: category.slug,
     items: category.items.map(itemToTree),
-    isCurrent: false
+    isCurrent: false,
   };
 };
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -18,6 +18,5 @@ export const getCategoryTree = (category: Category): AgnosticCategoryTree => {
 };
 
 export const categoryGetters: CategoryGetters<Category> = {
-  getTree: getCategoryTree
+  getTree: getCategoryTree,
 };
-

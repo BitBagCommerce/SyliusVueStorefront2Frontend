@@ -1,7 +1,11 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }">
     <form class="form" @submit.prevent="handleSubmit(submitForm(reset))">
-      <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
+      <ValidationProvider
+        rules="required"
+        v-slot="{ errors }"
+        class="form__element"
+      >
         <SfInput
           v-model="form.currentPassword"
           type="password"
@@ -13,7 +17,12 @@
         />
       </ValidationProvider>
       <div class="form__horizontal">
-        <ValidationProvider rules="required" v-slot="{ errors }" vid="password" class="form__element">
+        <ValidationProvider
+          rules="required"
+          v-slot="{ errors }"
+          vid="password"
+          class="form__element"
+        >
           <SfInput
             v-model="form.newPassword"
             type="password"
@@ -24,7 +33,11 @@
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
-        <ValidationProvider rules="required|confirmed:password" v-slot="{ errors }" class="form__element">
+        <ValidationProvider
+          rules="required|confirmed:password"
+          v-slot="{ errors }"
+          class="form__element"
+        >
           <SfInput
             v-model="form.repeatPassword"
             type="password"
@@ -36,7 +49,9 @@
           />
         </ValidationProvider>
       </div>
-      <SfButton type="submit" class="form__button">{{ $t('Update password') }}</SfButton>
+      <SfButton type="submit" class="form__button">{{
+        $t('Update password')
+      }}</SfButton>
     </form>
   </ValidationObserver>
 </template>
@@ -54,7 +69,7 @@ export default {
     SfInput,
     SfButton,
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
 
   setup(_, { emit, root }) {
@@ -64,7 +79,7 @@ export default {
     const resetForm = () => ({
       currentPassword: '',
       newPassword: '',
-      repeatPassword: ''
+      repeatPassword: '',
     });
 
     const form = ref(resetForm());
@@ -89,40 +104,40 @@ export default {
 
     return {
       form,
-      submitForm
+      submitForm,
     };
-  }
+  },
 };
 </script>
 
-<style lang='scss' scoped>
-  .form {
-    &__element {
-      display: block;
-      margin: 0 0 var(--spacer-lg) 0;
+<style lang="scss" scoped>
+.form {
+  &__element {
+    display: block;
+    margin: 0 0 var(--spacer-lg) 0;
+  }
+  &__button {
+    display: block;
+    width: 100%;
+    @include for-desktop {
+      width: 17.5rem;
     }
-    &__button {
-      display: block;
-      width: 100%;
-      @include for-desktop {
-        width: 17.5rem;
-      }
+  }
+  &__horizontal {
+    @include for-desktop {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
     }
-    &__horizontal {
+    .form__element {
       @include for-desktop {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        flex: 1;
+        margin-right: var(--spacer-lg);
       }
-      .form__element {
-        @include for-desktop {
-          flex: 1;
-          margin-right: var(--spacer-lg);
-        }
-        &:last-child {
-          margin-right: 0;
-        }
+      &:last-child {
+        margin-right: 0;
       }
     }
   }
+}
 </style>

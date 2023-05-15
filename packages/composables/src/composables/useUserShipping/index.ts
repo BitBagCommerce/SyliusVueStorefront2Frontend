@@ -1,7 +1,7 @@
 import {
   Context,
   useUserShippingFactory,
-  UseUserShippingFactoryParams
+  UseUserShippingFactoryParams,
 } from '@vue-storefront/core';
 
 const params: UseUserShippingFactoryParams<any, any> = {
@@ -11,15 +11,18 @@ const params: UseUserShippingFactoryParams<any, any> = {
   },
 
   deleteAddress: async (context: Context, { address, customQuery }) => {
-    await context.$sylius.api.deleteUserAddress({
-      address: {
-        id: address.id
-      }
-    }, customQuery);
+    await context.$sylius.api.deleteUserAddress(
+      {
+        address: {
+          id: address.id,
+        },
+      },
+      customQuery
+    );
     return await context.$sylius.api.getUserAddresses();
   },
 
-  updateAddress: async (context: Context, { address, customQuery}) => {
+  updateAddress: async (context: Context, { address, customQuery }) => {
     await context.$sylius.api.updateUserAddress({ address }, customQuery);
     await context.$sylius.api.getUserAddresses();
   },
@@ -28,7 +31,7 @@ const params: UseUserShippingFactoryParams<any, any> = {
   setDefaultAddress: async (context: Context, data?) => {},
   load: async (context: Context) => {
     return await context.$sylius.api.getUserAddresses();
-  }
+  },
 };
 
 export const useUserShipping = useUserShippingFactory<any, any>(params);

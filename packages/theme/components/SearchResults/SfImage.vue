@@ -18,7 +18,7 @@
         placeholder,
         width,
         height,
-        nuxtImgConfig
+        nuxtImgConfig,
       }"
     >
       <img
@@ -57,7 +57,7 @@ export default {
   props: {
     src: {
       type: String,
-      required: true
+      required: true,
     },
     srcsets: {
       type: Array,
@@ -65,45 +65,45 @@ export default {
       validator: (value) =>
         value.length === 0 ||
         value.every((item) => item.resolution && item.src) ||
-        value.every((item) => item.src && item.width)
+        value.every((item) => item.src && item.width),
     },
     alt: {
       type: String,
-      required: true
+      required: true,
     },
     width: {
       type: [Number, String],
       default: null,
-      validator: (value) => !isNaN(value)
+      validator: (value) => !isNaN(value),
     },
     height: {
       type: [Number, String],
       default: null,
-      validator: (value) => !isNaN(value)
+      validator: (value) => !isNaN(value),
     },
     placeholder: {
       type: String,
-      default: imagePlaceholder
+      default: imagePlaceholder,
     },
     loading: {
       type: String,
       default: 'lazy',
-      validator: (value) => ['', 'lazy', 'eager'].includes(value)
+      validator: (value) => ['', 'lazy', 'eager'].includes(value),
     },
     imageTag: {
       type: String,
       default: 'img',
       validator: (value) =>
-        ['', 'img', 'nuxt-img', 'nuxt-picture'].includes(value)
+        ['', 'img', 'nuxt-img', 'nuxt-picture'].includes(value),
     },
     nuxtImgConfig: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data() {
     return {
-      loaded: false
+      loaded: false,
     };
   },
   computed: {
@@ -154,16 +154,16 @@ export default {
     attributes() {
       return this.imageTag === 'img' || this.imageTag === ''
         ? {
-          ...this.$attrs,
-          sizes: this.sizes,
-          srcset: this.srcset
-        }
+            ...this.$attrs,
+            sizes: this.sizes,
+            srcset: this.srcset,
+          }
         : {
-          ...this.$attrs,
-          width: this.width ? this.width : null,
-          height: this.height ? this.height : null,
-          ...this.nuxtImgConfig
-        };
+            ...this.$attrs,
+            width: this.width ? this.width : null,
+            height: this.height ? this.height : null,
+            ...this.nuxtImgConfig,
+          };
     },
     styles() {
       if (
@@ -185,16 +185,16 @@ export default {
       };
       return {
         '--_image-width': sizeHandler(this.width),
-        '--_image-height': sizeHandler(this.height)
+        '--_image-height': sizeHandler(this.height),
       };
-    }
+    },
   },
   methods: {
     onLoad() {
       this.loaded = true;
     },
     formatResolution(resolution) {
-      return (String(resolution)).endsWith('x') ? resolution : `${resolution}x`;
+      return String(resolution).endsWith('x') ? resolution : `${resolution}x`;
     },
     formatDimension(size) {
       if (typeof size === null) return;
@@ -219,12 +219,12 @@ export default {
       return srcset.width
         ? `${Number.parseInt(srcset.width) || ''}w`
         : this.formatResolution(srcset.resolution);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
-@import "~@storefront-ui/shared/styles/components/atoms/SfImage.scss";
+@import '~@storefront-ui/shared/styles/components/atoms/SfImage.scss';
 
 .search .sf-image--placeholder {
   width: 220px;
