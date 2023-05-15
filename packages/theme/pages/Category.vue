@@ -176,7 +176,7 @@
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
-                  :circleIcon="true"
+                  icon="circleIcon"
                 />
               </template>
               <template #add-to-cart>
