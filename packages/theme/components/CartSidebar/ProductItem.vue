@@ -61,7 +61,7 @@
         <template v-if="!isRemovingInProgress">
           <SfCircleIcon
             icon="cross"
-            aria-label="Remove"
+            :aria-label="$t('Remove')"
             class="sf-circle-icon--small sf-collected-product__remove sf-collected-product__remove--circle-icon"
             @click="removeHandler"
           />
@@ -141,7 +141,7 @@ export default {
     },
     minQty: {
       type: Number,
-      default: 0
+      default: 1
     },
     maxQty: {
       type: Number,

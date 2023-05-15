@@ -84,7 +84,7 @@
             tag="div"
             class="products__grid"
           >
-            <div
+          <div
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               @mouseover="isDropdownVisible = true"
@@ -106,8 +106,9 @@
                 :is-added-to-cart="isInCart({ product })"
                 :wishlist-icon="false"
                 :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
+                :addToCartDisabled="(product.selectedVariant.tracked && !productGetters.isInStock(product.selectedVariant) && !productGetters.hasMultipleVariants(product))"
                 class="products__product-card"
-                @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
+                @click:add-to-cart="open(product)"
               />
 
               <WishlistDropdown
@@ -133,7 +134,7 @@
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
               :title="productGetters.getName(product)"
-              :description="productGetters.getDescription(product)"
+              :description="product.shortDescription"
               :image="productGetters.getCoverImage(product)"
               imageHeight="260"
               imageWidth="260"
@@ -143,9 +144,8 @@
               :score-rating="productGetters.getAverageRating(product)"
               :qty="1"
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-              @input="productsQuantity[product._id] = $event"
+              @quantity-change="productsQuantity[product._id] = $event"
               @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
             >
               <template #configuration>
                 <SfProperty
@@ -177,6 +177,14 @@
                   :product="product"
                   :visible="true"
                   :circleIcon="true"
+                />
+              </template>
+              <template #add-to-cart>
+                <AddToCart
+                  :selectedVariant="product.selectedVariant"
+                  :disabled="loading"
+                  @quantity-change="productsQuantity[product._id] = $event"
+                  @click="open(product)"
                 />
               </template>
             </SfProductCardHorizontal>
@@ -238,9 +246,9 @@ import {
   SfBreadcrumbs,
   SfLoader,
   SfColor,
-  SfProperty,
-  SfAddToCart
+  SfProperty
 } from '@storefront-ui/vue';
+import AddToCart from '~/components/AddToCart.vue';
 import { computed, ref, watch } from '@nuxtjs/composition-api';
 import {
   useCart,
@@ -255,6 +263,7 @@ import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
 import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
+import useVariantSelector from '~/composables/useVariantSelector';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -267,6 +276,7 @@ export default {
     const { result, search, loading, error } = useFacet();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist, wishlists } = useWishlists();
     const { send } = useUiNotification();
+    const { open } = useVariantSelector();
 
     const productsQuantity = ref({});
     const isDropdownVisible = false;
@@ -337,7 +347,8 @@ export default {
       isInWishlist,
       isInCart,
       productsQuantity,
-      isDropdownVisible
+      isDropdownVisible,
+      open
     };
   },
   components: {
@@ -359,7 +370,7 @@ export default {
     SfHeading,
     SfProperty,
     LazyHydrate,
-    SfAddToCart,
+    AddToCart,
     WishlistDropdown
   }
 };
@@ -513,6 +524,10 @@ export default {
     @include for-mobile {
       --product-card-horizontal-review-margin: 0;
       --product-card-horizontal-actions-wrapper-margin: var(--spacer-xs) 0 0 0;
+
+      .products__product-card-horizontal--button {
+        --button-width: 100%;
+      }
 
       ::v-deep {
         .sf-image {

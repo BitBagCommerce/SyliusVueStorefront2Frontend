@@ -89,14 +89,14 @@
         <SfCarousel class="carousel" :settings="{ peek: 16, gap: 10, breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } } }">
           <template #prev="{go}">
             <SfArrow
-              aria-label="prev"
+              :aria-label="$t('Previous')"
               class="sf-arrow--left sf-arrow--long"
               @click="go('prev')"
             />
           </template>
           <template #next="{go}">
             <SfArrow
-              aria-label="next"
+              :aria-label="$t('Next')"
               class="sf-arrow--right sf-arrow--long"
               @click="go('next')"
             />
@@ -115,7 +115,7 @@
               isInWishlistIcon=""
               :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
               class="carousel__item__product"
-              @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
+              @click:add-to-cart="open(product)"
             >
               <template #image>
                 <NuxtLink :to="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)">
@@ -162,6 +162,7 @@ import LazyHydrate from 'vue-lazy-hydration';
 import { useFacet, facetGetters, productGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables';
 import loader from '~/static/icons/loader.svg';
+import useVariantSelector from '~/composables/useVariantSelector';
 
 export default {
   name: 'Home',
@@ -188,6 +189,7 @@ export default {
     const { result, search, loading } = useFacet('category/t-shirts');
     const { addItem: addItemToCart, error } = useCart();
     const { send } = useUiNotification();
+    const { open } = useVariantSelector();
     const products = computed(() => facetGetters.getProducts(result.value));
 
     const heroes = [
@@ -306,7 +308,8 @@ export default {
       productGetters,
       loading,
       handleAddToCart,
-      loader
+      loader,
+      open
     };
   }
 };

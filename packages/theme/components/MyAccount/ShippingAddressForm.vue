@@ -169,20 +169,6 @@ const COUNTRIES = [
   { key: 'IT', label: 'Italy' },
   { key: 'PL', label: 'Poland' }
 ];
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-
-extend('oneOf', {
-  ...oneOf,
-  message: 'Invalid country'
-});
 
 export default {
   name: 'ShippingAddressForm',
@@ -215,7 +201,22 @@ export default {
     }
   },
 
-  setup(props, { emit }) {
+  setup(props, { emit, root }) {
+    const t = (key) => root.$i18n.t(key);
+
+    extend('required', {
+      ...required,
+      message: t('This field is required')
+    });
+    extend('min', {
+      ...min,
+      message: t('The field should have at least') + ' {length} ' + t('characters')
+    });
+    extend('oneOf', {
+      ...oneOf,
+      message: t('Invalid country')
+    });
+
     const { send } = useUiNotification();
     const form = reactive({
       id: props.address.id,

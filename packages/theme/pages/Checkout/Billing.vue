@@ -203,24 +203,6 @@ import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { onSSR, useVSFContext } from '@vue-storefront/core';
 import { useUiNotification, useUiState } from '~/composables/';
 
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-extend('digits', {
-  ...digits,
-  message: 'Please provide a valid phone number'
-});
-
-extend('email', {
-  ...email,
-  message: 'Please provide a valid e-mail address'
-});
-
 export default {
   name: 'Billing',
   components: {
@@ -235,6 +217,25 @@ export default {
     UserAddresses: () => import('@/components/Checkout/UserAddresses')
   },
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
+
+    extend('required', {
+      ...required,
+      message: t('This field is required')
+    });
+    extend('min', {
+      ...min,
+      message: t('The field should have at least') + ' {length} ' + t('characters')
+    });
+    extend('digits', {
+      ...digits,
+      message: t('Please provide a valid phone number')
+    });
+    extend('email', {
+      ...email,
+      message: t('Please provide a valid e-mail address')
+    });
+
     const { load, save, billing, error } = useBilling();
     const { toggleLoginModal } = useUiState();
     const { $vsf } = useVSFContext();

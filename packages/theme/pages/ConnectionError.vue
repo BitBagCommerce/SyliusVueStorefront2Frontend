@@ -3,22 +3,22 @@
     <SfImage
       class="image"
       src="/error/error.svg"
-      alt="leaves"
+      :alt="$t('Leaves')"
       height="412"
       width="412"
     />
     <SfHeading
-      :title="'Connection error'"
+      :title="$t('Connection error')"
       :level="1"
-      :description="'We are sorry that you see this page, but we couldn’t connect to the API. Please go back or try again.'"
+      :description="$t('We are sorry that you see this page, but we couldn’t connect to the API. Please go back or try again.')"
       class="heading sf-heading--no-underline"
     />
     <div class="actions">
       <SfButton link="/" class="sf-button--full-width actions__button">
-        Return home
+        {{ $t('Return home') }}
       </SfButton>
       <SfButton class="sf-button--full-width sf-button--text actions__button" @click="router.go(-1)">
-        Back
+        {{ $t('Back') }}
       </SfButton>
     </div>
   </div>
@@ -29,7 +29,7 @@ import { SfButton, SfImage, SfHeading } from '@storefront-ui/vue';
 
 export default {
   name: 'ConnectionError',
-  components: { SfButton, SfImage, SfHeading },
+  components: { SfButton, SfImage, SfHeading }
 };
 </script>
 

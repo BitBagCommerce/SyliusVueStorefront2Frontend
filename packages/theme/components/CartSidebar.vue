@@ -27,11 +27,11 @@
                 :title="cartGetters.getItemName(product)"
                 :regular-price="$n(cartGetters.getItemPrice(product).regular, 'currency')"
                 :special-price="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
-                :stock="99999"
                 :isRemovingInProgress="isRemovingInProgress(productGetters.getId(product))"
                 @click:remove="handleRemoveItemFromCart(product)"
                 class="collected-product"
                 :qty="cartGetters.getItemQty(product)"
+                :maxQty="productGetters.getQuantityLimit(product.selectedVariant)"
                 @input="updateQuantity({ product, quantity: parseInt($event) })"
                 :loading="loading"
               >
@@ -52,7 +52,7 @@
         <div v-else key="empty-cart" class="empty-cart">
           <div class="empty-cart__banner">
             <SfImage
-              alt="Empty bag"
+              :alt="$t('Empty bag')"
               class="empty-cart__image"
               src="/icons/empty-cart.svg"
               height="175"
