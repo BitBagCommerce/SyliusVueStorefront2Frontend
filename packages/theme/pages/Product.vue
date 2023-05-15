@@ -147,8 +147,8 @@
                 :max-rating="5"
                 :rating="reviewGetters.getReviewRating(review)"
                 :char-limit="250"
-                read-more-text="Read more"
-                hide-full-text="Read less"
+                :read-more-text="$t('Read more')"
+                :hide-full-text="$t('Read less')"
                 class="product__review"
               />
             </SfTab>

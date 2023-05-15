@@ -39,7 +39,7 @@
 
                     <SfCircleIcon
                         icon-size="12px"
-                        aria-label="Show list"
+                        :aria-label="$t('Show list')"
                         icon="chevron_right"
                         :class="`
                           sf-circle-icon__icon
@@ -129,14 +129,14 @@ export default {
     onMounted(() => {
       window.addEventListener('resize', () => {
         if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
-      })
+      });
     });
 
     onUnmounted(() => {
       window.removeEventListener('resize', () => {
         if (window.innerWidth > 1024 && isMobileMenuOpen.value) toggleMobileMenu();
-      })
-    })
+      });
+    });
 
     return {
       categories,

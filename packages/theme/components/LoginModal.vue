@@ -212,16 +212,6 @@ import { useUser, useForgotPassword } from '@vue-storefront/sylius';
 import { useUiState, useUiNotification } from '~/composables';
 import { useVSFContext } from '@vue-storefront/core';
 
-extend('email', {
-  ...email,
-  message: 'Invalid email'
-});
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-
 export default {
   name: 'LoginModal',
   components: {
@@ -237,6 +227,16 @@ export default {
   },
   setup(props, context) {
     const t = (key) => context.root.$i18n.t(key);
+
+    extend('required', {
+      ...required,
+      message: t('This field is required')
+    });
+    extend('email', {
+      ...email,
+      message: t('Please provide a valid e-mail address')
+    });
+
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(true);

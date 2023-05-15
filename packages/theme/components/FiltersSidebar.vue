@@ -2,7 +2,7 @@
   <div id="filters">
     <SfSidebar
       :visible="isFilterSidebarOpen"
-      title="Filters"
+      :title="$t('Filters')"
       class="sidebar-filters"
       @close="toggleFilterSidebar"
     >
@@ -34,7 +34,7 @@
               <SfCircleIcon
                 v-if="isRangeSelected(facet)"
                 icon-size="12px"
-                aria-label="Remove filter"
+                :aria-label="$t('Remove filter')"
                 icon="cross"
                 class="sf-circle-icon__icon desktop-only"
                 @click="removeRange(facet)"
@@ -56,7 +56,7 @@
         </div>
         <SfHeading
           :level="4"
-          title="Price"
+          :title="$t('Price')"
           class="filters__title sf-heading--left"
         />
         <SfRange
@@ -98,7 +98,7 @@
                 <SfCircleIcon
                   v-if="isRangeSelected(facet)"
                   icon-size="12px"
-                  aria-label="Remove filter"
+                  :aria-label="$t('Remove filter')"
                   icon="cross"
                   class="sf-circle-icon__icon desktop-only"
                   @click="removeRange(facet)"
@@ -120,7 +120,7 @@
         </div>
         <SfHeading
             :level="4"
-            title="Price"
+            :title="$t('Price')"
             class="filters__title sf-heading--left"
           />
           <SfRange

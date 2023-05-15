@@ -89,14 +89,14 @@
         <SfCarousel class="carousel" :settings="{ peek: 16, gap: 10, breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } } }">
           <template #prev="{go}">
             <SfArrow
-              aria-label="prev"
+              :aria-label="$t('Previous')"
               class="sf-arrow--left sf-arrow--long"
               @click="go('prev')"
             />
           </template>
           <template #next="{go}">
             <SfArrow
-              aria-label="next"
+              :aria-label="$t('Next')"
               class="sf-arrow--right sf-arrow--long"
               @click="go('next')"
             />

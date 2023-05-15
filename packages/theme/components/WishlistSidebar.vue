@@ -169,7 +169,8 @@ export default {
     WishlistForm,
     SfInput
   },
-  setup() {
+  setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
     const { wishlists, createWishlist, clearWishlist, editWishlist, error } = useWishlists();
     const { isAuthenticated } = useUser();
@@ -193,13 +194,13 @@ export default {
     const sidebarTitle = computed(() => {
       switch (currentView.value) {
         case views.list:
-          return 'Select wishlist';
+          return t('Select wishlist');
         case views.items:
-          return currentWishlist.value.name || 'unknown';
+          return currentWishlist.value.name || t('Unknown');
         case views.create:
-          return 'Add new wishlist';
+          return t('Add new wishlist');
         case views.edit:
-          return 'Change wishlist name';
+          return t('Change wishlist name');
       }
     });
 

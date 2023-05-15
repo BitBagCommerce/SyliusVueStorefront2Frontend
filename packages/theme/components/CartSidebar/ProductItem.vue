@@ -61,7 +61,7 @@
         <template v-if="!isRemovingInProgress">
           <SfCircleIcon
             icon="cross"
-            aria-label="Remove"
+            :aria-label="$t('Remove')"
             class="sf-circle-icon--small sf-collected-product__remove sf-collected-product__remove--circle-icon"
             @click="removeHandler"
           />

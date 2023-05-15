@@ -93,6 +93,7 @@ export default {
     ValidationObserver
   },
   setup(props, context) {
+    const t = (key) => context.root.$i18n.t(key);
     const { result, setNew, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
     const passwordMatchError = ref(false);
     const form = ref({
@@ -106,7 +107,7 @@ export default {
     const setNewPassword = async () => {
       passwordMatchError.value = false;
       if (form.value.password !== form.value.repeatPassword) {
-        passwordMatchError.value = 'Passwords do not match';
+        passwordMatchError.value = t('Passwords do not match');
         return;
       }
 

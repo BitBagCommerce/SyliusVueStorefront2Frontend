@@ -1,8 +1,8 @@
 <template>
   <SfTabs :open-tab="1">
-    <SfTab title="My orders">
+    <SfTab :title="$t('My orders')">
       <div v-if="currentOrder">
-        <SfButton class="sf-button--text all-orders" @click="currentOrder = null">All Orders</SfButton>
+        <SfButton class="sf-button--text all-orders" @click="currentOrder = null">{{ $t('All Orders') }}</SfButton>
         <div class="highlighted highlighted--total">
           <SfProperty
             :name="$t('Order ID')"

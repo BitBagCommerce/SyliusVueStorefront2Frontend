@@ -7,7 +7,7 @@
       class="tab-orphan"
     >
       <SfTab
-        :title="isNewAddress ? 'Add the address' : 'Update the address'">
+        :title="isNewAddress ? $t('Add the address') : $t('Update the address')">
         <p class="message">
           {{ $t('Contact details updated') }}
         </p>
@@ -24,7 +24,7 @@
       :open-tab="1"
       key="address-list"
       class="tab-orphan">
-      <SfTab title="My addresses">
+      <SfTab :title="$t('My addresses')">
         <p class="message">
           {{ $t('Manage all the billing/shipping addresses you want (work place, home address...) This way you won"t have to enter the shipping address manually with each order.') }}
         </p>

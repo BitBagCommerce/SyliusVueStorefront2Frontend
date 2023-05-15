@@ -116,22 +116,18 @@ export default {
 
     onUnmounted(() => window.removeEventListener('resize', handleIsMobile));
 
-    return { handleActivePage, activePage };
-  },
+    const breadcrumbs = [
+      {
+        text: t('Home'),
+        link: '#'
+      },
+      {
+        text: t('My Account'),
+        link: '#'
+      }
+    ];
 
-  data() {
-    return {
-      breadcrumbs: [
-        {
-          text: 'Home',
-          link: '#'
-        },
-        {
-          text: 'My Account',
-          link: '#'
-        }
-      ]
-    };
+    return { handleActivePage, activePage, breadcrumbs };
   }
 };
 </script>
