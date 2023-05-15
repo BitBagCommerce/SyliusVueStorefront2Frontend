@@ -19,7 +19,7 @@
             :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
             class="product-card"
             @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-            @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
+            @click:add-to-cart="open(product)"
           />
         </SfCarouselItem>
       </SfCarousel>
@@ -36,6 +36,7 @@ import {
 } from '@storefront-ui/vue';
 import { productGetters, useWishlist, wishlistGetters, useCart } from '@vue-storefront/sylius';
 import { computed } from '@vue/composition-api';
+import useVariantSelector from '~/composables/useVariantSelector';
 
 export default {
   name: 'RelatedProducts',
@@ -53,6 +54,7 @@ export default {
   setup() {
     const { addItem: addItemToCart, isInCart } = useCart();
     const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist, wishlist } = useWishlist();
+    const { open } = useVariantSelector();
     const removeProductFromWishlist = (productItem) => {
       const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlist.value));
       const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
@@ -64,7 +66,8 @@ export default {
       isInWishlist,
       removeProductFromWishlist,
       addItemToCart,
-      isInCart
+      isInCart,
+      open
     };
   }
 };

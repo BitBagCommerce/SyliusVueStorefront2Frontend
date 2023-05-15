@@ -276,4 +276,9 @@ export default {
   'Add to wishlist': 'Zur Wunschliste hinzufügen',
   'Add new wishlist': 'Neue Wunschliste hinzufügen',
   'Change wishlist name': 'Wunschlistenname ändern',
+  'Add to cart': 'In den Warenkorb legen',
+  'Select size': 'Wähle die Größe aus',
+  'Add to cart': 'In den Warenkorb legen',
+  'Select country': 'Land auswählen',
+  'in stock': 'auf Lager',
 };

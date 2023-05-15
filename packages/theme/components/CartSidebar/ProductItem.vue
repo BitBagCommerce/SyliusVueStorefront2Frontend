@@ -141,7 +141,7 @@ export default {
     },
     minQty: {
       type: Number,
-      default: 0
+      default: 1
     },
     maxQty: {
       type: Number,

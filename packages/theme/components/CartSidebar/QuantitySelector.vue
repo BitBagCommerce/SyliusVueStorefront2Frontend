@@ -1,7 +1,7 @@
 <template>
   <div class="quantity" v-click-outside="() => handleCancel()">
-    <SfButton v-if="!isConfirmOpen" class="sf-button--pure quantity__button" @click="handleInput(inputQty - 1, false)">
-      <SfIcon icon="minus" size="1rem" />
+    <SfButton v-if="!isConfirmOpen" class="sf-button--pure quantity__button" :disabled="disabled" @click="handleInput(inputQty - 1, false)">
+      <SfIcon icon="minus" size="1rem" :color="disabled ? 'lightgrey' : ''" />
     </SfButton>
 
     <SfButton v-else class="sf-button--pure quantity__button quantity__button--danger" @click="handleCancel()">
@@ -15,8 +15,8 @@
 
     <SfInput class="sf-input--filled quantity__input" type="number" @input="handleInput($event, true)" :value="inputQty" :disabled="disabled" />
 
-    <SfButton v-if="!isConfirmOpen" class="sf-button--pure quantity__button" @click="handleInput(inputQty + 1, false)">
-      <SfIcon icon="plus" size="1rem" />
+    <SfButton v-if="!isConfirmOpen" class="sf-button--pure quantity__button" :disabled="disabled" @click="handleInput(inputQty + 1, false)">
+      <SfIcon icon="plus" size="1rem" :color="disabled ? 'lightgrey' : ''" />
     </SfButton>
 
     <SfButton v-else class="sf-button--pure quantity__button quantity__button--primary" @click="handleConfirm()">
@@ -48,11 +48,11 @@ export default {
     },
     min: {
       type: Number,
-      default: 0
+      default: 1
     },
     max: {
       type: Number,
-      default: 99
+      default: 999
     },
     disabled: {
       type: Boolean,
@@ -64,28 +64,29 @@ export default {
     SfInput,
     SfIcon
   },
-  emits: ['input'],
   directives: { clickOutside },
   setup(props, { emit }) {
     const inputQty = ref(props.qty);
     const isConfirmOpen = ref(false);
 
     const handleConfirm = () => {
-      emit('input', inputQty.value);
+      emit('quantity-change', inputQty.value);
       isConfirmOpen.value = false;
     };
 
     const handleCancel = () => {
-      inputQty.value = props.qty;
-      isConfirmOpen.value = false;
+      if (isConfirmOpen.value) {
+        inputQty.value = props.qty;
+        isConfirmOpen.value = false;
+      }
     };
 
     const handleInput = (input, isConfirm) => {
       isConfirmOpen.value = isConfirm;
 
-      inputQty.value = input;
+      inputQty.value = Number(input);
 
-      if (input > props.max) inputQty.value = props.max;
+      if (props.max !== null && input > props.max) inputQty.value = props.max;
 
       if (input < props.min) inputQty.value = props.min;
 
@@ -106,28 +107,30 @@ export default {
 <style lang="scss" scoped>
 .quantity {
   display: flex;
+  min-width: 100px;
+  flex-shrink: 1;
 
   &__input {
     --input-padding: .25rem;
     --input-font-size: var(--font-size--xsm);
     text-align: center;
-    z-index: 1000 !important;
+    z-index: 1;
   }
 
   &__button {
     padding: 0 .3rem;
     background-color: var(--c-light);
-    z-index: 0 !important;
+    z-index: 0;
 
     &--primary {
-      color: white !important;
+      color: white;
       background-color: var(--c-primary);
       border-top-right-radius: 5px;
       border-bottom-right-radius: 5px;
     }
 
     &--danger {
-      color: white !important;
+      color: white;
       background-color: var(--c-danger);
       border-top-left-radius: 5px;
       border-bottom-left-radius: 5px;

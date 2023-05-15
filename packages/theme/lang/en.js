@@ -278,4 +278,8 @@ export default {
   'Clear': 'Clear',
   'Add new wishlist': 'Add new wishlist',
   'Change wishlist name': 'Change wishlist name',
+  'Select size': 'Select size',
+  'Add to cart': 'Add to cart',
+  'Select country': 'Select country',
+  'in stock': 'in stock',
 };

@@ -124,6 +124,14 @@ export const getProductOptions = (product: Product): any => {
   return options;
 };
 
+export const getProductStockForVariant = (variant): number => variant ? variant.onHand - variant.onHold : 0;
+
+export const getProductQuantityLimit = (variant) => variant.tracked ? getProductStockForVariant(variant) : 999;
+
+export const isVariantInStock = (variant): boolean => getProductStockForVariant(variant) > 0;
+
+export const productHasMultipleVariants = (product: Product): boolean => product.variants.length > 1;
+
 export const getProductDescription = (product: Product): any => (product as any)?.description || '';
 
 export const getProductCategoryIds = (product: Product): string[] => (product as any)?._categoriesRef || '';
@@ -152,5 +160,9 @@ export const productGetters: ProductGetters<Product, ProductVariantFilters> = {
   getFormattedPrice: getFormattedPrice,
   getTotalReviews: getProductTotalReviews,
   getAverageRating: getProductAverageRating,
-  getOptions: getProductOptions
+  getOptions: getProductOptions,
+  getStockForVariant: getProductStockForVariant,
+  isInStock: isVariantInStock,
+  hasMultipleVariants: productHasMultipleVariants,
+  getQuantityLimit: getProductQuantityLimit
 };
