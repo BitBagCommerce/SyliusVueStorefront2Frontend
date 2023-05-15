@@ -94,13 +94,8 @@ export const getProductsNotFilteredQuery = gql`
 `;
 
 export const getProductsAttributesQuery = gql`
-  query productsAttributesInTaxon(
-    $categorySlug: String,
-    $locale: String
-  ) {
-    products(
-      productTaxons_taxon_translations_slug: $categorySlug,
-    ) {
+  query productsAttributesInTaxon($categorySlug: String, $locale: String) {
+    products(productTaxons_taxon_translations_slug: $categorySlug) {
       collection {
         attributes(localeCode: $locale) {
           collection {

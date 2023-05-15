@@ -10,10 +10,14 @@
       visible
     >
       <template #icon v-if="notification.icon">
-        <SfIcon :icon="notification.icon" color="white"/>
+        <SfIcon :icon="notification.icon" color="white" />
       </template>
       <template #close>
-        <SfButton @click="notification.dismiss" aria-label="Close notification" class="sf-button--pure sf-notification__close">
+        <SfButton
+          @click="notification.dismiss"
+          aria-label="Close notification"
+          class="sf-button--pure sf-notification__close"
+        >
           <SfIcon icon="cross" color="white" />
         </SfButton>
       </template>
@@ -30,15 +34,15 @@ export default {
   components: {
     SfNotification,
     SfIcon,
-    SfButton
+    SfButton,
   },
-  setup () {
+  setup() {
     const { notifications } = useUiNotification();
 
     return {
-      notifications
+      notifications,
     };
-  }
+  },
 };
 </script>
 
@@ -68,7 +72,8 @@ export default {
     width: 40px;
     padding: 10px;
 
-    svg, span{
+    svg,
+    span {
       width: 100%;
       height: 100%;
     }
@@ -86,7 +91,7 @@ export default {
     --notification-font-family: var(--font-family--primary);
     --notification-font-weight: var(--font-weight--normal);
     --notification-padding: var(--spacer-base) var(--spacer-lg);
-    --notification-box-shadow: 0 4px 25px 2px rgba(var(--c-dark-base), 0.1)
+    --notification-box-shadow: 0 4px 25px 2px rgba(var(--c-dark-base), 0.1);
   }
   @include for-desktop {
     margin: 0 0 var(--spacer-xs) 0;

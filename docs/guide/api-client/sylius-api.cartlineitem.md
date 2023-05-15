@@ -8,32 +8,32 @@
 
 ```typescript
 export declare type CartLineItem = {
-    _id: string;
+  _id: string;
+  code: string;
+  sku?: string;
+  name?: string;
+  productName: string;
+  unitPrice: number;
+  qty?: number;
+  quantity: number;
+  images: string[];
+  variant: {
     code: string;
-    sku?: string;
-    name?: string;
-    productName: string;
-    unitPrice: number;
-    qty?: number;
-    quantity: number;
-    images: string[];
-    variant: {
-        code: string;
-        product: {
-            images: string[];
-        };
+    product: {
+      images: string[];
     };
-    price?: {
-        regular: number;
-        special: number;
+  };
+  price?: {
+    regular: number;
+    special: number;
+  };
+  selectedVariant: {
+    optionValues: ProductOptionValue[];
+    product: {
+      options: ProductOption[];
     };
-    selectedVariant: {
-        optionValues: ProductOptionValue[];
-        product: {
-            options: ProductOption[];
-        };
-    };
+  };
 };
 ```
-<b>References:</b> [ProductOptionValue](./sylius-api.productoptionvalue.md)<!-- -->, [ProductOption](./sylius-api.productoption.md)
 
+<b>References:</b> [ProductOptionValue](./sylius-api.productoptionvalue.md)<!-- -->, [ProductOption](./sylius-api.productoption.md)

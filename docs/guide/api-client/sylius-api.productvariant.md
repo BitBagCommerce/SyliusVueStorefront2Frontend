@@ -8,14 +8,14 @@
 
 ```typescript
 export declare type ProductVariant = {
-    id: string;
-    enabled: boolean;
-    price: number;
-    code: string;
-    quantity?: number;
-    channelPricings: any[];
-    optionValues: ProductOptionValue[];
+  id: string;
+  enabled: boolean;
+  price: number;
+  code: string;
+  quantity?: number;
+  channelPricings: any[];
+  optionValues: ProductOptionValue[];
 };
 ```
-<b>References:</b> [ProductOptionValue](./sylius-api.productoptionvalue.md)
 
+<b>References:</b> [ProductOptionValue](./sylius-api.productoptionvalue.md)

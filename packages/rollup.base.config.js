@@ -7,22 +7,20 @@ export function generateBaseConfig(pkg) {
     output: [
       {
         file: pkg.main,
-        format: 'cjs'
+        format: 'cjs',
       },
       {
         file: pkg.module,
-        format: 'es'
-      }
+        format: 'es',
+      },
     ],
-    external: [
-      ...Object.keys(pkg.dependencies || {})
-    ],
+    external: [...Object.keys(pkg.dependencies || {})],
     plugins: [
       typescript({
         // eslint-disable-next-line global-require
-        typescript: require('typescript')
+        typescript: require('typescript'),
       }),
-      terser()
-    ]
+      terser(),
+    ],
   };
 }

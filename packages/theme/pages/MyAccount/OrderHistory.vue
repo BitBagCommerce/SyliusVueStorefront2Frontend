@@ -2,7 +2,11 @@
   <SfTabs :open-tab="1">
     <SfTab :title="$t('My orders')">
       <div v-if="currentOrder">
-        <SfButton class="sf-button--text all-orders" @click="currentOrder = null">{{ $t('All Orders') }}</SfButton>
+        <SfButton
+          class="sf-button--text all-orders"
+          @click="currentOrder = null"
+          >{{ $t('All Orders') }}</SfButton
+        >
         <div class="highlighted highlighted--total">
           <SfProperty
             :name="$t('Order ID')"
@@ -37,18 +41,33 @@
         </div>
         <SfTable class="products">
           <SfTableHeading>
-            <SfTableHeader class="products__name">{{ $t('Product') }}</SfTableHeader>
+            <SfTableHeader class="products__name">{{
+              $t('Product')
+            }}</SfTableHeader>
             <SfTableHeader>{{ $t('Quantity') }}</SfTableHeader>
             <SfTableHeader>{{ $t('Price') }}</SfTableHeader>
           </SfTableHeading>
-          <SfTableRow v-for="(item, i) in orderGetters.getItems(currentOrder)" :key="i">
+          <SfTableRow
+            v-for="(item, i) in orderGetters.getItems(currentOrder)"
+            :key="i"
+          >
             <SfTableData class="products__name">
-              <nuxt-link :to="localePath(`/p/${productGetters.getId(item.variant.product)}/${productGetters.getSlug(item.variant.product)}`)">
-                {{orderGetters.getItemName(item)}}
+              <nuxt-link
+                :to="
+                  localePath(
+                    `/p/${productGetters.getId(
+                      item.variant.product
+                    )}/${productGetters.getSlug(item.variant.product)}`
+                  )
+                "
+              >
+                {{ orderGetters.getItemName(item) }}
               </nuxt-link>
             </SfTableData>
-            <SfTableData>{{orderGetters.getItemQty(item)}}</SfTableData>
-            <SfTableData>{{$n(orderGetters.getItemPrice(item), 'currency')}}</SfTableData>
+            <SfTableData>{{ orderGetters.getItemQty(item) }}</SfTableData>
+            <SfTableData>{{
+              $n(orderGetters.getItemPrice(item), 'currency')
+            }}</SfTableData>
           </SfTableRow>
         </SfTable>
       </div>
@@ -57,8 +76,12 @@
           {{ $t('Details and status orders') }}
         </p>
         <div v-if="orders.length === 0" class="no-orders">
-          <p class="no-orders__title">{{ $t('You currently have no orders') }}</p>
-          <SfButton class="no-orders__button" link="/">{{ $t('Start shopping') }}</SfButton>
+          <p class="no-orders__title">
+            {{ $t('You currently have no orders') }}
+          </p>
+          <SfButton class="no-orders__button" link="/">{{
+            $t('Start shopping')
+          }}</SfButton>
         </div>
         <SfTable v-else class="orders">
           <SfTableHeading>
@@ -73,40 +96,55 @@
             </SfTableHeader>
           </SfTableHeading>
           <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
-            <SfTableData v-e2e="'order-number'">{{ orderGetters.getId(order) }}</SfTableData>
+            <SfTableData v-e2e="'order-number'">{{
+              orderGetters.getId(order)
+            }}</SfTableData>
             <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
-            <SfTableData>{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
+            <SfTableData>{{
+              $n(orderGetters.getPrice(order), 'currency')
+            }}</SfTableData>
             <SfTableData>
-              <span :class="getStatusTextClass(order)">{{ orderGetters.getPaymentStatus(order) }}</span>
+              <span :class="getStatusTextClass(order)">{{
+                orderGetters.getPaymentStatus(order)
+              }}</span>
             </SfTableData>
             <SfTableData>
-              <span :class="getStatusTextClass(order)">{{ orderGetters.getShippingStatus(order) }}</span>
+              <span :class="getStatusTextClass(order)">{{
+                orderGetters.getShippingStatus(order)
+              }}</span>
             </SfTableData>
             <SfTableData class="orders__view orders__element--right">
-              <SfButton class="sf-button--text smartphone-only" @click="currentOrder = order">
+              <SfButton
+                class="sf-button--text smartphone-only"
+                @click="currentOrder = order"
+              >
                 {{ $t('View details') }}
               </SfButton>
-              <SfButton class="sf-button--text desktop-only" @click="currentOrder = order">
+              <SfButton
+                class="sf-button--text desktop-only"
+                @click="currentOrder = order"
+              >
                 {{ $t('View details') }}
               </SfButton>
             </SfTableData>
           </SfTableRow>
         </SfTable>
-        <p v-show="totalOrders > 0">{{ $t('Total orders') }} - {{ totalOrders }}</p>
+        <p v-show="totalOrders > 0">
+          {{ $t('Total orders') }} - {{ totalOrders }}
+        </p>
       </div>
     </SfTab>
   </SfTabs>
 </template>
 
 <script>
-import {
-  SfTabs,
-  SfTable,
-  SfButton,
-  SfProperty
-} from '@storefront-ui/vue';
+import { SfTabs, SfTable, SfButton, SfProperty } from '@storefront-ui/vue';
 import { computed, ref } from '@nuxtjs/composition-api';
-import { useUserOrder, orderGetters, productGetters } from '@vue-storefront/sylius';
+import {
+  useUserOrder,
+  orderGetters,
+  productGetters,
+} from '@vue-storefront/sylius';
 import { AgnosticOrderStatus } from '@vue-storefront/core';
 import { onSSR } from '@vue-storefront/core';
 
@@ -116,7 +154,7 @@ export default {
     SfTabs,
     SfTable,
     SfButton,
-    SfProperty
+    SfProperty,
   },
   setup() {
     const { orders, search } = useUserOrder();
@@ -131,7 +169,7 @@ export default {
       'Order date',
       'Amount',
       'Payment state',
-      'Shipping state'
+      'Shipping state',
     ];
 
     const getStatusTextClass = (order) => {
@@ -159,38 +197,45 @@ export default {
     };
 
     const downloadOrders = async () => {
-      downloadFile(new Blob([JSON.stringify(orders.value)], {type: 'application/json'}), 'orders.json');
+      downloadFile(
+        new Blob([JSON.stringify(orders.value)], { type: 'application/json' }),
+        'orders.json'
+      );
     };
 
     const downloadOrder = async (order) => {
-      downloadFile(new Blob([JSON.stringify(order)], {type: 'application/json'}), 'order ' + orderGetters.getId(order) + '.json');
+      downloadFile(
+        new Blob([JSON.stringify(order)], { type: 'application/json' }),
+        'order ' + orderGetters.getId(order) + '.json'
+      );
     };
 
     return {
       tableHeaders,
-      orders: computed(() => orders ? orders.value.results : []),
+      orders: computed(() => (orders ? orders.value.results : [])),
       totalOrders: computed(() => orderGetters.getOrdersTotal(orders.value)),
       getStatusTextClass,
       orderGetters,
       productGetters,
       downloadOrder,
       downloadOrders,
-      currentOrder
+      currentOrder,
     };
-  }
+  },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .no-orders {
   &__title {
     margin: 0 0 var(--spacer-lg) 0;
-    font: var(--font-weight--normal) var(--font-size--base) / 1.6 var(--font-family--primary);
+    font: var(--font-weight--normal) var(--font-size--base) / 1.6
+      var(--font-family--primary);
   }
   &__button {
     --button-width: 100%;
     @include for-desktop {
-      --button-width: 17,5rem;
+      --button-width: 17, 5rem;
     }
   }
 }
@@ -212,7 +257,8 @@ export default {
 }
 .message {
   margin: 0 0 var(--spacer-xl) 0;
-  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--primary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6
+    var(--font-family--primary);
   &__link {
     color: var(--c-primary);
     font-weight: var(--font-weight--medium);
@@ -280,5 +326,4 @@ export default {
     --property-value-font-weight: var(--font-weight--semibold);
   }
 }
-
 </style>

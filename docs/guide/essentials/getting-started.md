@@ -18,14 +18,16 @@ SYLIUS_API_ENDPOINT=http://localhost:8000/api/v2/graphql # end point to your gra
 SYLIUS_CHANNEL_CODE=FASHION_WEB # sylius chanel, this integration can only operate on one
 SYLIUS_THUMBNAIL_ENDPOINT=http://localhost:8000/media/cache/sylius_shop_product_thumbnail # endpoint to your thumbnail images
 SYLIUS_REGULAR_IMAGE_ENDPOINT=http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail # endpoint to your full scale images
-SYLIUS_PAYMENT_GATEWAY_HOST=http://localhost:8000 # redirect URL to which user will be redirected on payment 
+SYLIUS_PAYMENT_GATEWAY_HOST=http://localhost:8000 # redirect URL to which user will be redirected on payment
 SYLIUS_DEFAULT_LOCALE=en_US # default sylius locale code
 ```
+
 3. Build the project with `yarn build`
 4. Run the server in the development environment with `yarn dev`, or in the production environment with `yarn start`
 
 ## Additional configuration
-Most of the additional configuration can be done inside of `packages/theme/nuxt.config.js`, for more information go to [Nuxt docs](https://nuxtjs.org/docs/directory-structure/nuxt-config#nuxtconfigjs). It is advised to use separate `.js` files for bigger configs, for example: 
+
+Most of the additional configuration can be done inside of `packages/theme/nuxt.config.js`, for more information go to [Nuxt docs](https://nuxtjs.org/docs/directory-structure/nuxt-config#nuxtconfigjs). It is advised to use separate `.js` files for bigger configs, for example:
 
 ```js
 // packages/theme/themeConfig.js
@@ -35,22 +37,22 @@ export default {
       link: '/',
       image: {
         mobile: '/homepage/bannerB.webp',
-        desktop: '/homepage/bannerF.webp'
-      }
+        desktop: '/homepage/bannerF.webp',
+      },
     },
     bannerB: {
       link: '/',
-      image: '/homepage/bannerE.webp'
+      image: '/homepage/bannerE.webp',
     },
     bannerC: {
       link: '/',
-      image: '/homepage/bannerC.webp'
+      image: '/homepage/bannerC.webp',
     },
     bannerD: {
       link: '/',
-      image: '/homepage/bannerG.webp'
-    }
-  }
+      image: '/homepage/bannerG.webp',
+    },
+  },
 };
 ```
 
@@ -61,7 +63,7 @@ import theme from './themeConfig';
 export default {
   // ...
   publicRuntimeConfig: {
-    theme
-  }
-}
+    theme,
+  },
+};
 ```

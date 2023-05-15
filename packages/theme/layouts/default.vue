@@ -7,7 +7,7 @@
     <AppHeader />
 
     <div id="layout">
-      <nuxt :key="route.fullPath"/>
+      <nuxt :key="route.fullPath" />
 
       <BottomNavigation />
       <CartSidebar />
@@ -34,7 +34,12 @@ import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 import { onSSR } from '@vue-storefront/core';
 import { useRoute, watch } from '@nuxtjs/composition-api';
-import { useCart, useStore, useUser, useWishlists } from '@vue-storefront/sylius';
+import {
+  useCart,
+  useStore,
+  useUser,
+  useWishlists,
+} from '@vue-storefront/sylius';
 import VariantSelector from '~/components/VariantSelector.vue';
 
 export default {
@@ -50,12 +55,10 @@ export default {
     WishlistSidebar,
     LoginModal,
     Notification,
-    VariantSelector
+    VariantSelector,
   },
 
-  middleware: [
-    'is-connected'
-  ],
+  middleware: ['is-connected'],
 
   setup() {
     const route = useRoute();
@@ -65,28 +68,27 @@ export default {
     const { load: loadWishlists } = useWishlists();
 
     onSSR(async () => {
-      await Promise.all([
-        loadStores(),
-        loadUser(),
-        loadCart()
-      ]);
+      await Promise.all([loadStores(), loadUser(), loadCart()]);
 
       if (isAuthenticated.value) await loadWishlists();
     });
 
-    watch(() => isAuthenticated.value, async () => {
-      if (isAuthenticated.value) await loadWishlists();
-    });
+    watch(
+      () => isAuthenticated.value,
+      async () => {
+        if (isAuthenticated.value) await loadWishlists();
+      }
+    );
 
     return {
-      route
+      route,
     };
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/vue/styles";
+@import '~@storefront-ui/vue/styles';
 
 #layout {
   box-sizing: border-box;

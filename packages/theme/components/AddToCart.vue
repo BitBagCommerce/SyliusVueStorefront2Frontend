@@ -22,9 +22,7 @@
   </div>
 </template>
 <script>
-import {
-  SfButton
-} from '@storefront-ui/vue';
+import { SfButton } from '@storefront-ui/vue';
 import QuantitySelector from './CartSidebar/QuantitySelector.vue';
 import { productGetters } from '@vue-storefront/sylius';
 import { computed } from '@nuxtjs/composition-api';
@@ -33,30 +31,35 @@ export default {
   name: 'AddToCart',
   components: {
     SfButton,
-    QuantitySelector
+    QuantitySelector,
   },
   props: {
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     qty: {
       type: Number,
-      default: 1
+      default: 1,
     },
     selectedVariant: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   setup(props) {
-    const disabledOrOutOfStock = computed(() => props.disabled || (props.selectedVariant.tracked && !productGetters.isInStock(props.selectedVariant)));
+    const disabledOrOutOfStock = computed(
+      () =>
+        props.disabled ||
+        (props.selectedVariant.tracked &&
+          !productGetters.isInStock(props.selectedVariant))
+    );
 
     return {
       productGetters,
-      disabledOrOutOfStock
+      disabledOrOutOfStock,
     };
-  }
+  },
 };
 </script>
 <style lang="scss">

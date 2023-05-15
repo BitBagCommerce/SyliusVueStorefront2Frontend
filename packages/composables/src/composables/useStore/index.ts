@@ -14,5 +14,5 @@ export const useStore = useStoreFactory<Store>({
   change(context: Context, params) {
     // console.log('Mocked: useStore.change');
     return Promise.resolve({});
-  }
+  },
 });

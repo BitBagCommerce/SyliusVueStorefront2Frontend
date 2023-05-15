@@ -1,3 +1,3 @@
 module.exports = {
-  modulePathIgnorePatterns: ['tests/e2e/']
+  modulePathIgnorePatterns: ['tests/e2e/'],
 };

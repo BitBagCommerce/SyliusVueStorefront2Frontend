@@ -82,10 +82,7 @@
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
-        <ValidationProvider
-          name="state"
-          slim
-        >
+        <ValidationProvider name="state" slim>
           <SfInput
             v-e2e="'billing-state'"
             v-model="form.state"
@@ -194,10 +191,15 @@ import {
   SfButton,
   SfSelect,
   SfRadio,
-  SfCheckbox
+  SfCheckbox,
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
-import { useBilling, useUser, useUserBilling, userBillingGetters } from '@vue-storefront/sylius';
+import {
+  useBilling,
+  useUser,
+  useUserBilling,
+  userBillingGetters,
+} from '@vue-storefront/sylius';
 import { required, min, digits, email } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { onSSR, useVSFContext } from '@vue-storefront/core';
@@ -214,26 +216,27 @@ export default {
     SfCheckbox,
     ValidationProvider,
     ValidationObserver,
-    UserAddresses: () => import('@/components/Checkout/UserAddresses')
+    UserAddresses: () => import('@/components/Checkout/UserAddresses'),
   },
   setup(props, context) {
     const t = (key) => context.root.$i18n.t(key);
 
     extend('required', {
       ...required,
-      message: t('This field is required')
+      message: t('This field is required'),
     });
     extend('min', {
       ...min,
-      message: t('The field should have at least') + ' {length} ' + t('characters')
+      message:
+        t('The field should have at least') + ' {length} ' + t('characters'),
     });
     extend('digits', {
       ...digits,
-      message: t('Please provide a valid phone number')
+      message: t('Please provide a valid phone number'),
     });
     extend('email', {
       ...email,
-      message: t('Please provide a valid e-mail address')
+      message: t('Please provide a valid e-mail address'),
     });
 
     const { load, save, billing, error } = useBilling();
@@ -253,7 +256,7 @@ export default {
       countryCode: null,
       postcode: '',
       email: null,
-      phoneNumber: null
+      phoneNumber: null,
     });
 
     const handleFormSubmit = async () => {
@@ -261,13 +264,16 @@ export default {
       const errors = Object.keys(error.value);
       let hasErrors = false;
       if (errors.length) {
-        errors.forEach(errorKey => {
+        errors.forEach((errorKey) => {
           if (error.value[errorKey]?.graphQLErrors?.length) {
             const e = error.value[errorKey].graphQLErrors[0];
-            send({ type: 'danger', message: e.debugMessage});
+            send({ type: 'danger', message: e.debugMessage });
             hasErrors = true;
 
-            if (e.debugMessage === 'Provided email address belongs to another user, please log in to complete order.') {
+            if (
+              e.debugMessage ===
+              'Provided email address belongs to another user, please log in to complete order.'
+            ) {
               hasErrors = 'email_exists_error';
             }
           }
@@ -277,13 +283,15 @@ export default {
       if (hasErrors === 'email_exists_error') toggleLoginModal();
 
       if (!hasErrors)
-        context.root.$router.push(context.root.localePath({ name: 'shipping' }));
+        context.root.$router.push(
+          context.root.localePath({ name: 'shipping' })
+        );
     };
 
     const handleSetCurrentAddress = (address) => {
       form.value = {
         ...form.value,
-        ...address
+        ...address,
       };
     };
 
@@ -307,7 +315,7 @@ export default {
       countries.value = await $vsf.$sylius.api.getCountries();
       form.value = {
         ...form.value,
-        ...billing.value
+        ...billing.value,
       };
       if (isAuthenticated.value) {
         form.value.email = user.value.email ?? null;
@@ -326,9 +334,9 @@ export default {
       canAddNewAddress,
       userBilling,
       userBillingGetters,
-      user
+      user,
     };
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -379,7 +387,8 @@ export default {
       display: flex;
     }
   }
-  &__action-button, &__back-button {
+  &__action-button,
+  &__back-button {
     --button-width: 100%;
     @include for-desktop {
       --button-width: auto;
@@ -393,7 +402,7 @@ export default {
         text-align: left;
       }
     }
-     &--add-address {
+    &--add-address {
       width: 100%;
       margin: 0;
       @include for-desktop {
@@ -405,7 +414,7 @@ export default {
   &__back-button {
     margin: var(--spacer-xl) 0 var(--spacer-sm);
     &:hover {
-      color:  white;
+      color: white;
     }
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;

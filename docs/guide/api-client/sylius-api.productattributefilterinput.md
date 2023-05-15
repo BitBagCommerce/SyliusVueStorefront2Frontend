@@ -8,8 +8,8 @@
 
 ```typescript
 export declare type ProductAttributeFilterInput = {
-    name: FilterMatchTypeInput;
-    sku: FilterEqualTypeInput;
-    url_key: FilterEqualTypeInput;
+  name: FilterMatchTypeInput;
+  sku: FilterEqualTypeInput;
+  url_key: FilterEqualTypeInput;
 };
 ```

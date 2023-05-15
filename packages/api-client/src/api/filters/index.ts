@@ -5,10 +5,25 @@ import { query, extendQuery } from '../helpers';
 
 type FilterVariables = {
   taxon: string;
-}
+};
 
-export const getFilters = async (context, variables: FilterVariables, customQuery?: CustomQuery) => {
-  const queryGql = extendQuery(context, getFiltersQuery, variables, customQuery);
-  const { filters } = await query(context, gql`${queryGql.query}`, queryGql.variables);
+export const getFilters = async (
+  context,
+  variables: FilterVariables,
+  customQuery?: CustomQuery
+) => {
+  const queryGql = extendQuery(
+    context,
+    getFiltersQuery,
+    variables,
+    customQuery
+  );
+  const { filters } = await query(
+    context,
+    gql`
+      ${queryGql.query}
+    `,
+    queryGql.variables
+  );
   return filters;
 };

@@ -8,9 +8,7 @@
       class="sidebar sf-sidebar--right"
     >
       <template #bar>
-        <div class="desktop-only">
-          &nbsp;
-        </div>
+        <div class="desktop-only">&nbsp;</div>
       </template>
 
       <template #title>
@@ -29,7 +27,7 @@
           </SfButton>
 
           <div class="heading__wrapper--center">
-            <SfHeading :level="3" :title="sidebarTitle"/>
+            <SfHeading :level="3" :title="sidebarTitle" />
 
             <SfButton @click="toggleEditView" class="sf-button--pure">
               <SfIcon icon="more" size="0.875rem" />
@@ -60,7 +58,7 @@
             aria-label="Wishlist sidebar close button"
             @click="toggleWishlistSidebar"
           >
-            <SfIcon icon="cross" size="14px" color="gray-primary"/>
+            <SfIcon icon="cross" size="14px" color="gray-primary" />
           </SfButton>
         </div>
       </template>
@@ -80,7 +78,7 @@
         />
 
         <WishlistForm
-          v-else-if="(currentView === views.create || currentView === views.edit)"
+          v-else-if="currentView === views.create || currentView === views.edit"
           :isEdit="currentView === views.edit"
           :wishlistId="currentWishlistId"
           :isFormActionInProgress="isFormActionInProgress"
@@ -92,7 +90,7 @@
 
       <template #content-bottom>
         <SfButton
-          v-if="(currentView === views.list)"
+          v-if="currentView === views.list"
           aria-label="back"
           class="add-wishlist"
           type="button"
@@ -103,7 +101,7 @@
           <span>{{ $t('Add new wishlist') }}</span>
         </SfButton>
 
-        <div v-else-if="(currentView === views.items)" class="bottom">
+        <div v-else-if="currentView === views.items" class="bottom">
           <SfButton
             aria-label="back"
             class="bottom__button"
@@ -119,7 +117,10 @@
             class="color-danger bottom__button"
             type="button"
             @click="handleClearWishlist(currentWishlistId)"
-            :disabled="wishlistGetters.getTotalItems(currentWishlist) === 0 || isFormActionInProgress"
+            :disabled="
+              wishlistGetters.getTotalItems(currentWishlist) === 0 ||
+              isFormActionInProgress
+            "
           >
             {{ $t('Clear') }}
           </SfButton>
@@ -141,10 +142,15 @@ import {
   SfImage,
   SfList,
   SfCircleIcon,
-  SfInput
+  SfInput,
 } from '@storefront-ui/vue';
 import { computed, ref, watch } from '@nuxtjs/composition-api';
-import { useWishlists, useUser, useCart, wishlistGetters } from '@vue-storefront/sylius';
+import {
+  useWishlists,
+  useUser,
+  useCart,
+  wishlistGetters,
+} from '@vue-storefront/sylius';
 import { useUiState } from '~/composables';
 import WishlistsList from '~/components/Wishlist/WishlistsList.vue';
 import WishlistItems from './Wishlist/WishlistItems.vue';
@@ -167,12 +173,13 @@ export default {
     WishlistsList,
     WishlistItems,
     WishlistForm,
-    SfInput
+    SfInput,
   },
   setup(props, context) {
     const t = (key) => context.root.$i18n.t(key);
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
-    const { wishlists, createWishlist, clearWishlist, editWishlist, error } = useWishlists();
+    const { wishlists, createWishlist, clearWishlist, editWishlist, error } =
+      useWishlists();
     const { isAuthenticated } = useUser();
     const { addItem, error: useCartError } = useCart();
     const { send } = useUiNotification();
@@ -181,7 +188,7 @@ export default {
       list: 'list',
       items: 'items',
       create: 'create',
-      edit: 'edit'
+      edit: 'edit',
     };
 
     const isEditOpen = ref(false);
@@ -190,7 +197,11 @@ export default {
     const selectedProducts = ref([]);
     const isFormActionInProgress = ref(false);
 
-    const currentWishlist = computed(() => wishlistGetters.getWishlist(currentWishlistId.value, wishlists.value) || {});
+    const currentWishlist = computed(
+      () =>
+        wishlistGetters.getWishlist(currentWishlistId.value, wishlists.value) ||
+        {}
+    );
     const sidebarTitle = computed(() => {
       switch (currentView.value) {
         case views.list:
@@ -272,7 +283,9 @@ export default {
       await addItem({ product: selectedProducts.value, quantity: 1 });
       isFormActionInProgress.value = false;
 
-      const cartError = Object.values(useCartError.value).find(err => err !== null);
+      const cartError = Object.values(useCartError.value).find(
+        (err) => err !== null
+      );
 
       if (cartError) {
         send({ type: 'danger', message: cartError.message });
@@ -283,9 +296,15 @@ export default {
       send({ type: 'success', message: 'Product has been added to the cart' });
     };
 
-    watch(() => isWishlistSidebarOpen.value, () => toggleListView());
+    watch(
+      () => isWishlistSidebarOpen.value,
+      () => toggleListView()
+    );
 
-    watch(() => currentWishlistId.value, () => selectedProducts.value = []);
+    watch(
+      () => currentWishlistId.value,
+      () => (selectedProducts.value = [])
+    );
 
     return {
       isAuthenticated,
@@ -308,9 +327,9 @@ export default {
       handleClearWishlist,
       isEditOpen,
       handleAddToCart,
-      isFormActionInProgress
+      isFormActionInProgress,
     };
-  }
+  },
 };
 </script>
 
@@ -318,7 +337,8 @@ export default {
 .sidebar {
   --sidebar-z-index: 3;
   --overlay-z-index: 3;
-  --sidebar-top-padding: var(--spacer-sm) var(--spacer-base) 0 var(--spacer-base);
+  --sidebar-top-padding: var(--spacer-sm) var(--spacer-base) 0
+    var(--spacer-base);
   --sidebar-bottom-padding: var(--spacer-base);
   --sidebar-content-padding: var(--spacer-lg) var(--spacer-base);
 }

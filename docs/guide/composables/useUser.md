@@ -6,14 +6,13 @@
 
 ## API
 
-* `user: User | null` - user object.
-* `loading: boolean` - a reactive object containing information whether user object is loading.
-* `isAuthenticated: boolean ` - a reactive object containing information whether current user is authenticated.
-* `error: UseUserErrors ` - a map of errors per method
+- `user: User | null` - user object.
+- `loading: boolean` - a reactive object containing information whether user object is loading.
+- `isAuthenticated: boolean ` - a reactive object containing information whether current user is authenticated.
+- `error: UseUserErrors ` - a map of errors per method
 
 [User](../api-client/sylius-api.user.md)
 [UseUserErrors](https://docs.vuestorefront.io/v2/reference/api/core.useusererrors.html)
-
 
 ### `load`
 
@@ -23,8 +22,8 @@ Function for loading the current user.
 
 Function for logging in user. It accepts an object with the following keys:
 
-  * `username: string`
-  * `password: string`
+- `username: string`
+- `password: string`
 
 ### `logOut`
 
@@ -34,40 +33,38 @@ Function for logging out current user.
 
 Function for registering a new user. It accepts an object with the following keys:
 
-  * `email: string`
-  * `password: string`
-  * `firstName: string`
-  * `lastName: string`
+- `email: string`
+- `password: string`
+- `firstName: string`
+- `lastName: string`
 
 ### `updateUser`
 
 Function for updating user information. It accepts an object with the following keys:
 
-  * `user`
-      * `firstName: string`
-      * `lastName: string`
-      * `email: string`
-      * `gender: string`
-      * `birthday: string`
-      * `phoneNumber: string`
-      * `subscribedToNewsletter: boolean`
+- `user`
+  - `firstName: string`
+  - `lastName: string`
+  - `email: string`
+  - `gender: string`
+  - `birthday: string`
+  - `phoneNumber: string`
+  - `subscribedToNewsletter: boolean`
 
 ### `changePassword`
 
 Function for changing current users password. It accepts an object with the following keys:
 
-  * `currentUser: any`
-  * `currentPassword: string`
-  * `newPassword: string`
-
+- `currentUser: any`
+- `currentPassword: string`
+- `newPassword: string`
 
 ## Getters
 
-* `getFirstName: string`
-* `getLastName: string`
-* `getFullName: string`
-* `getEmailAddress: string`
-
+- `getFirstName: string`
+- `getLastName: string`
+- `getFullName: string`
+- `getEmailAddress: string`
 
 ## Example
 
@@ -77,7 +74,7 @@ import { computed } from '@vue/composition-api';
 import { useUser, userGetters } from '@realtainment/sylius';
 
 export default {
-  setup () {
+  setup() {
     const { user, load, loading } = useUser();
 
     onSSR(async () => {
@@ -86,8 +83,8 @@ export default {
 
     return {
       user,
-      userGetters
-    }
-  }
+      userGetters,
+    };
+  },
 };
 ```

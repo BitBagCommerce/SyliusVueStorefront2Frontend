@@ -2,7 +2,7 @@
   <div>
     <SfHeader
       class="sf-header--has-mobile-search"
-      :class="{'header-on-top': isSearchOpen || isLangModalOpen}"
+      :class="{ 'header-on-top': isSearchOpen || isLangModalOpen }"
       :isNavVisible="isMobileMenuOpen"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
@@ -21,8 +21,7 @@
       <template #navigation>
         <HeaderNavigation />
       </template>
-      <template #aside>
-      </template>
+      <template #aside> </template>
       <template #header-icons>
         <div class="sf-header__icons">
           <SfButton
@@ -30,37 +29,27 @@
             class="sf-button--pure sf-header__action"
             @click="handleAccountClick"
           >
-            <SfIcon
-              :icon="accountIcon"
-              size="1.25rem"
-            />
+            <SfIcon :icon="accountIcon" size="1.25rem" />
           </SfButton>
           <SfButton
             class="sf-button--pure sf-header__action"
             @click="toggleWishlistSidebar"
             v-if="isAuthenticated"
           >
-            <SfIcon
-              class="sf-header__icon"
-              icon="heart"
-              size="1.25rem"
-            />
+            <SfIcon class="sf-header__icon" icon="heart" size="1.25rem" />
           </SfButton>
           <SfButton
             v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
             @click="toggleCartSidebar"
           >
-            <SfIcon
-              class="sf-header__icon"
-              icon="empty_cart"
-              size="1.25rem"
-            />
+            <SfIcon class="sf-header__icon" icon="empty_cart" size="1.25rem" />
             <SfBadge
               v-if="cartTotalItems > 0"
               key="cart_badge"
               class="sf-badge--number cart-badge"
-            >{{cartTotalItems}}</SfBadge>
+              >{{ cartTotalItems }}</SfBadge
+            >
           </SfButton>
         </div>
       </template>
@@ -91,7 +80,9 @@
               <SfButton
                 v-else
                 class="sf-search-bar__button sf-button--pure"
-                @click="isSearchOpen ? isSearchOpen = false : isSearchOpen = true"
+                @click="
+                  isSearchOpen ? (isSearchOpen = false) : (isSearchOpen = true)
+                "
               >
                 <span class="sf-search-bar__icon">
                   <SfIcon color="var(--c-text)" size="20px" icon="search" />
@@ -99,7 +90,10 @@
               </SfButton>
             </template>
           </SfSearchBar>
-          <LocaleSelector @click="setIsLangModalOpen" class="smartphone-only sf-header__search--locale" />
+          <LocaleSelector
+            @click="setIsLangModalOpen"
+            class="smartphone-only sf-header__search--locale"
+          />
         </div>
       </template>
     </SfHeader>
@@ -115,9 +109,23 @@
 </template>
 
 <script>
-import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay } from '@storefront-ui/vue';
+import {
+  SfHeader,
+  SfImage,
+  SfIcon,
+  SfButton,
+  SfBadge,
+  SfSearchBar,
+  SfOverlay,
+} from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-import { useCart, useUser, cartGetters, useProduct, useCategory } from '@vue-storefront/sylius';
+import {
+  useCart,
+  useUser,
+  cartGetters,
+  useProduct,
+  useCategory,
+} from '@vue-storefront/sylius';
 import { computed, ref, watch } from '@nuxtjs/composition-api';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
@@ -138,13 +146,20 @@ export default {
     SfSearchBar,
     SearchResults,
     SfOverlay,
-    HeaderNavigation
+    HeaderNavigation,
   },
   directives: { clickOutside },
   setup(props, { root }) {
-    const { search: searchProducts, products: searchProductsResults } = useProduct('AppHeader');
-    const { search: searchCategories, categories: searchCategoriesResults } = useCategory('AppHeader');
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal, isMobileMenuOpen } = useUiState();
+    const { search: searchProducts, products: searchProductsResults } =
+      useProduct('AppHeader');
+    const { search: searchCategories, categories: searchCategoriesResults } =
+      useCategory('AppHeader');
+    const {
+      toggleCartSidebar,
+      toggleWishlistSidebar,
+      toggleLoginModal,
+      isMobileMenuOpen,
+    } = useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated, load: loadUser } = useUser();
     const { cart } = useCart();
@@ -160,7 +175,9 @@ export default {
       return count ? count.toString() : null;
     });
 
-    const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
+    const accountIcon = computed(() =>
+      isAuthenticated.value ? 'profile_fill' : 'profile'
+    );
 
     loadUser();
 
@@ -194,12 +211,12 @@ export default {
 
       await Promise.all([
         searchProducts({ search: term.value }),
-        searchCategories({ categoryName: term.value })
+        searchCategories({ categoryName: term.value }),
       ]);
 
       result.value = {
         products: searchProductsResults.value.products,
-        categories: searchCategoriesResults.value
+        categories: searchCategoriesResults.value,
       };
     }, 1000);
 
@@ -208,14 +225,20 @@ export default {
       return searchBarRef.value.$el.children[0].focus();
     };
 
-    const setIsLangModalOpen = (val) => isLangModalOpen.value = val;
+    const setIsLangModalOpen = (val) => (isLangModalOpen.value = val);
 
-    watch(() => term.value, (newVal, oldVal) => {
-      const shouldSearchBeOpened = (term.value.length > 0) && ((!oldVal && newVal) || (newVal.length !== oldVal.length && isSearchOpen.value === false));
-      if (shouldSearchBeOpened) {
-        isSearchOpen.value = true;
+    watch(
+      () => term.value,
+      (newVal, oldVal) => {
+        const shouldSearchBeOpened =
+          term.value.length > 0 &&
+          ((!oldVal && newVal) ||
+            (newVal.length !== oldVal.length && isSearchOpen.value === false));
+        if (shouldSearchBeOpened) {
+          isSearchOpen.value = true;
+        }
       }
-    });
+    );
 
     const removeSearchResults = () => {
       result.value = null;
@@ -242,9 +265,9 @@ export default {
       isLangModalOpen,
       setIsLangModalOpen,
       loader,
-      isAuthenticated
+      isAuthenticated,
     };
-  }
+  },
 };
 </script>
 
@@ -290,7 +313,7 @@ export default {
   left: 40%;
 }
 
-::v-deep .sf-modal__container{
+::v-deep .sf-modal__container {
   z-index: 3;
 }
 </style>

@@ -1,9 +1,13 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }" class="wishlist-form">
-    <form @submit.prevent="handleSubmit(submitForm(reset))" >
+    <form @submit.prevent="handleSubmit(submitForm(reset))">
       <SfCircleIcon icon="heart_fill" class="is-disabled--button" />
 
-      <ValidationProvider rules="required" v-slot="{ errors }" vid="wishlistName">
+      <ValidationProvider
+        rules="required"
+        v-slot="{ errors }"
+        vid="wishlistName"
+      >
         <SfInput
           v-model="wishlistName"
           label="Wishlist name"
@@ -37,15 +41,8 @@
 </template>
 
 <script>
-import {
-  SfInput,
-  SfButton,
-  SfCircleIcon
-} from '@storefront-ui/vue';
-import {
-  ValidationProvider,
-  ValidationObserver
-} from 'vee-validate';
+import { SfInput, SfButton, SfCircleIcon } from '@storefront-ui/vue';
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import { ref } from '@nuxtjs/composition-api';
 
 export default {
@@ -55,21 +52,21 @@ export default {
     SfButton,
     SfCircleIcon,
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
   props: {
     wishlistId: {
       type: String,
-      default: {}
+      default: {},
     },
     isEdit: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isFormActionInProgress: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const wishlistName = ref('');
@@ -88,9 +85,9 @@ export default {
 
     return {
       wishlistName,
-      submitForm
+      submitForm,
     };
-  }
+  },
 };
 </script>
 

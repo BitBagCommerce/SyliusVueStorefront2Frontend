@@ -1,4 +1,9 @@
-import { Context, useFacetFactory, FacetSearchResult, Logger } from '@vue-storefront/core';
+import {
+  Context,
+  useFacetFactory,
+  FacetSearchResult,
+  Logger,
+} from '@vue-storefront/core';
 const factoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   search: async (context: Context, params: FacetSearchResult<any>) => {
@@ -11,7 +16,7 @@ const factoryParams = {
     let pagination = {
       totalCount: 0,
       lastPage: 0,
-      itemsPerPage: 0
+      itemsPerPage: 0,
     };
 
     try {
@@ -19,28 +24,38 @@ const factoryParams = {
         context.$sylius.api.getCategory(),
         context.$sylius.api.getMinimalProduct(params.input),
         context.$sylius.api.getProductNotFiltered(params.input),
-        context.$sylius.api.getProductAttribute(params.input)
+        context.$sylius.api.getProductAttribute(params.input),
       ]);
 
-      const foundCategory = data[0].filter(cat => cat.children.some(child => child.slug === params.input.categorySlug));
-      categories = foundCategory.length ? foundCategory : data[0].filter(cat => cat.slug === params.input.categorySlug);
+      const foundCategory = data[0].filter((cat) =>
+        cat.children.some((child) => child.slug === params.input.categorySlug)
+      );
+      categories = foundCategory.length
+        ? foundCategory
+        : data[0].filter((cat) => cat.slug === params.input.categorySlug);
       categoriesFlat = categories.reduce((acc, curr) => {
         return acc.concat(curr.children);
       }, categories);
-      category = categoriesFlat.find(cat => cat.slug === params.input.categorySlug);
+      category = categoriesFlat.find(
+        (cat) => cat.slug === params.input.categorySlug
+      );
 
-      const { products: loadedProducts, pagination: loadedPagination } = data[1];
+      const { products: loadedProducts, pagination: loadedPagination } =
+        data[1];
       products = loadedProducts;
       pagination = loadedPagination;
 
       productsNotFiltered = data[2].products;
 
       attributes = data[3];
-      attributes.forEach(attr => {
+      attributes.forEach((attr) => {
         if (attr.type === 'text') {
-          attr.options = attr.options.map(option => ({
+          attr.options = attr.options.map((option) => ({
             ...option,
-            selected: params.input.attributes[option.code]?.includes(option.stringValue) || false
+            selected:
+              params.input.attributes[option.code]?.includes(
+                option.stringValue
+              ) || false,
           }));
 
           return;
@@ -76,12 +91,12 @@ const factoryParams = {
         { type: 'sort', id: 'price-highest', value: 'Price: highest' },
         { type: 'sort', id: 'price-lowest', value: 'Price: lowest' },
         { type: 'sort', id: 'rating-highest', value: 'Rating: highest' },
-        { type: 'sort', id: 'rating-lowest', value: 'Rating: lowest' }
+        { type: 'sort', id: 'rating-lowest', value: 'Rating: lowest' },
       ],
       perPageOptions: [10, 20, 50],
-      itemsPerPage: pagination.itemsPerPage
+      itemsPerPage: pagination.itemsPerPage,
     };
-  }
+  },
 };
 
 export const useFacet = useFacetFactory<any>(factoryParams);

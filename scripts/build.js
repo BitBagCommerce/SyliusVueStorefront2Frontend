@@ -12,9 +12,7 @@ function cwdResolve(name) {
 const pkg = require(cwdResolve('package.json'));
 
 esbuild.build({
-  entryPoints: [
-    cwdResolve(argv.file)
-  ],
+  entryPoints: [cwdResolve(argv.file)],
   outdir: 'lib',
   format: 'cjs',
   bundle: true,
@@ -26,6 +24,6 @@ esbuild.build({
   logLevel: 'warning',
   external: [
     ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {})
-  ]
+    ...Object.keys(pkg.peerDependencies || {}),
+  ],
 });

@@ -7,7 +7,9 @@
     />
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
-        <SfTableHeader class="table__header table__image">{{ $t('Item') }}</SfTableHeader>
+        <SfTableHeader class="table__header table__image">{{
+          $t('Item')
+        }}</SfTableHeader>
         <SfTableHeader
           v-for="tableHeader in tableHeaders"
           :key="tableHeader"
@@ -23,25 +25,40 @@
         class="table__row"
       >
         <SfTableData class="table__image">
-          <SfImage height="82" width="82" :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
+          <SfImage
+            height="82"
+            width="82"
+            :src="cartGetters.getItemImage(product)"
+            :alt="cartGetters.getItemName(product)"
+          />
         </SfTableData>
         <SfTableData class="table__data table__description table__data">
-          <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
+          <div class="product-title">
+            {{ cartGetters.getItemName(product) }}
+          </div>
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
           <div class="product-attributes">
             <SfProperty
-              v-for="(attribute, key) in cartGetters.getItemAttributes(product, ['color', 'size'])"
+              v-for="(attribute, key) in cartGetters.getItemAttributes(
+                product,
+                ['color', 'size']
+              )"
               :key="key"
               :name="key"
               :value="attribute"
             />
           </div>
         </SfTableData>
-        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData class="table__data">{{
+          cartGetters.getItemQty(product)
+        }}</SfTableData>
         <SfTableData class="table__data price">
           <SfPrice
             :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
-            :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
+            :special="
+              cartGetters.getItemPrice(product).special &&
+              $n(cartGetters.getItemPrice(product).special, 'currency')
+            "
             class="product-price"
           />
         </SfTableData>
@@ -52,7 +69,12 @@
         <div class="summary__total">
           <SfProperty
             :name="$t('Subtotal')"
-            :value="$n(totals.special > 0 ? totals.special : totals.subtotal, 'currency')"
+            :value="
+              $n(
+                totals.special > 0 ? totals.special : totals.subtotal,
+                'currency'
+              )
+            "
             class="sf-property--full-width property"
           />
         </div>
@@ -73,7 +95,7 @@
           class="sf-property--full-width sf-property--large summary__property-total"
         />
 
-        <VsfPaymentProvider @status="isPaymentReady = true"/>
+        <VsfPaymentProvider @status="isPaymentReady = true" />
 
         <div class="summary__action">
           <SfButton
@@ -109,11 +131,22 @@ import {
   SfPrice,
   SfProperty,
   SfAccordion,
-  SfLink
+  SfLink,
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
-import { ref, computed, watch, useRouter, onMounted } from '@nuxtjs/composition-api';
-import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
+import {
+  ref,
+  computed,
+  watch,
+  useRouter,
+  onMounted,
+} from '@nuxtjs/composition-api';
+import {
+  useMakeOrder,
+  useCart,
+  cartGetters,
+  orderGetters,
+} from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 
 export default {
@@ -130,7 +163,8 @@ export default {
     SfProperty,
     SfAccordion,
     SfLink,
-    VsfPaymentProvider: () => import('~/components/Checkout/VsfPaymentProvider')
+    VsfPaymentProvider: () =>
+      import('~/components/Checkout/VsfPaymentProvider'),
   },
   setup(props, context) {
     const { cart, load, setCart } = useCart();
@@ -152,7 +186,7 @@ export default {
     const processOrder = async () => {
       await make();
 
-      const cartError = Object.values(error.value).find(err => err !== null);
+      const cartError = Object.values(error.value).find((err) => err !== null);
 
       if (cartError) {
         send({ type: 'danger', message: cartError.message });
@@ -169,14 +203,18 @@ export default {
       for (const localeIndex in locales) {
         if (locales[localeIndex].code === locale) {
           redirected = true;
-          const redirectHost = context.root.context.$config.theme.payment.redirectHost;
+          const redirectHost =
+            context.root.context.$config.theme.payment.redirectHost;
           window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
           setCart(null);
         }
       }
 
       if (!redirected) {
-        const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
+        const thankYouPath = {
+          name: 'thank-you',
+          query: { order: orderGetters.getId(order.value) },
+        };
         context.root.$router.push(context.root.localePath(thankYouPath));
       }
     };
@@ -196,15 +234,11 @@ export default {
       loading,
       products,
       totals: computed(() => cartGetters.getTotals(cart.value)),
-      tableHeaders: [
-        t('Description'),
-        t('Quantity'),
-        t('Amount')
-      ],
+      tableHeaders: [t('Description'), t('Quantity'), t('Amount')],
       cartGetters,
-      processOrder
+      processOrder,
     };
-  }
+  },
 };
 </script>
 
@@ -282,9 +316,9 @@ export default {
       margin: 0 var(--spacer-xl) 0 0;
       width: auto;
     }
-    color:  var(--c-white);
+    color: var(--c-white);
     &:hover {
-      color:  var(--c-white);
+      color: var(--c-white);
     }
   }
   &__property-total {

@@ -53,8 +53,9 @@
         </div>
       </div>
     </section>
-    <SfButton link="/" class="back-button button-size">{{ $t('Go back to shop') }}</SfButton
-    >
+    <SfButton link="/" class="back-button button-size">{{
+      $t('Go back to shop')
+    }}</SfButton>
   </div>
 </template>
 
@@ -66,7 +67,7 @@ export default {
   components: {
     SfHeading,
     SfButton,
-    SfCallToAction
+    SfCallToAction,
   },
   setup(props, context) {
     context.emit('changeStep', 4);
@@ -75,15 +76,15 @@ export default {
       name: 'Divante Headquarter',
       street: 'St. Dmowskiego 17, 53-534',
       city: 'Wroclaw, Poland',
-      email: 'demo@vuestorefront.io'
+      email: 'demo@vuestorefront.io',
     });
     const orderNumber = computed(() => context.root.$route.query.order);
 
     return {
       companyDetails,
-      orderNumber
+      orderNumber,
     };
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

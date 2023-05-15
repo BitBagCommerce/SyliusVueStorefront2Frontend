@@ -2,7 +2,7 @@
 import {
   Context,
   useWishlistFactory,
-  UseWishlistFactoryParams
+  UseWishlistFactoryParams,
 } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { Wishlist, WishlistProduct, Product } from '../../types';
@@ -38,7 +38,11 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
   isInWishlist: (context: Context, { currentWishlist }) => {
     console.log('Mocked: isInWishlist');
     return false;
-  }
+  },
 };
 
-export const useWishlist = useWishlistFactory<Wishlist, WishlistProduct, Product>(params);
+export const useWishlist = useWishlistFactory<
+  Wishlist,
+  WishlistProduct,
+  Product
+>(params);

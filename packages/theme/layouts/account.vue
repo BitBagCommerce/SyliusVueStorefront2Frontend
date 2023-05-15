@@ -1,7 +1,7 @@
 <template>
   <div>
     <TopBar class="desktop-only" />
-    <div id="layout" >
+    <div id="layout">
       <AppHeader />
       <nuxt />
       <BottomNavigation />
@@ -26,17 +26,15 @@ export default {
     AppHeader,
     BottomNavigation,
     CartSidebar,
-    LoginModal
+    LoginModal,
   },
 
-  middleware: [
-    'is-connected'
-  ]
+  middleware: ['is-connected'],
 };
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/vue/styles";
+@import '~@storefront-ui/vue/styles';
 
 body {
   padding: 0;

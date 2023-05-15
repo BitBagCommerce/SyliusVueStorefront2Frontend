@@ -9,20 +9,22 @@ describe('[sylius-api-client] createOrder', () => {
       client: {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual({
-            locale: defaultSettings.locale
+            locale: defaultSettings.locale,
           });
           expect(mutation).toEqual(createOrderMutation);
           return {
             data: {
-              shop_completeOrder: { order: {}}
-            }
+              shop_completeOrder: { order: {} },
+            },
           };
-        }
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
-    const result = await createOrder(context, { locale: defaultSettings.locale });
-    expect(result).toStrictEqual({ });
+    const result = await createOrder(context, {
+      locale: defaultSettings.locale,
+    });
+    expect(result).toStrictEqual({});
   });
 });

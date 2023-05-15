@@ -7,11 +7,10 @@ module.exports = {
         locale: process.env.SYLIUS_DEFAULT_LOCALE,
         imagePaths: {
           thumbnail: process.env.SYLIUS_THUMBNAIL_ENDPOINT,
-          regular: process.env.SYLIUS_REGULAR_IMAGE_ENDPOINT
+          regular: process.env.SYLIUS_REGULAR_IMAGE_ENDPOINT,
         },
-        customHeaders: {}
-      }
-    }
-  }
+        customHeaders: {},
+      },
+    },
+  },
 };
-

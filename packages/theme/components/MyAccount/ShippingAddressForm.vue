@@ -7,21 +7,21 @@
     >
       <div class="form__horizontal">
         <ValidationProvider
-        name="firstName"
-        rules="required|min:2"
-        v-slot="{ errors }"
-        slim
-      >
-        <SfInput
-          v-e2e="'billing-firstName'"
-          v-model="form.firstName"
-          :label="$t('First name')"
           name="firstName"
-          class="form__element form__element--half"
-          required
-          :valid="!errors[0]"
-          :errorMessage="errors[0]"
-        />
+          rules="required|min:2"
+          v-slot="{ errors }"
+          slim
+        >
+          <SfInput
+            v-e2e="'billing-firstName'"
+            v-model="form.firstName"
+            :label="$t('First name')"
+            name="firstName"
+            class="form__element form__element--half"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
         </ValidationProvider>
         <ValidationProvider
           name="lastName"
@@ -152,12 +152,7 @@
 </template>
 
 <script>
-import {
-  SfInput,
-  SfButton,
-  SfSelect,
-  SfCheckbox
-} from '@storefront-ui/vue';
+import { SfInput, SfButton, SfSelect, SfCheckbox } from '@storefront-ui/vue';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { reactive } from '@nuxtjs/composition-api';
@@ -167,7 +162,7 @@ const COUNTRIES = [
   { key: 'US', label: 'United States' },
   { key: 'UK', label: 'United Kingdom' },
   { key: 'IT', label: 'Italy' },
-  { key: 'PL', label: 'Poland' }
+  { key: 'PL', label: 'Poland' },
 ];
 
 export default {
@@ -179,7 +174,7 @@ export default {
     SfSelect,
     SfCheckbox,
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
 
   props: {
@@ -192,13 +187,13 @@ export default {
         city: '',
         postcode: '',
         countryCode: '',
-        phoneNumber: ''
-      })
+        phoneNumber: '',
+      }),
     },
     isNew: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
 
   setup(props, { emit, root }) {
@@ -206,15 +201,16 @@ export default {
 
     extend('required', {
       ...required,
-      message: t('This field is required')
+      message: t('This field is required'),
     });
     extend('min', {
       ...min,
-      message: t('The field should have at least') + ' {length} ' + t('characters')
+      message:
+        t('The field should have at least') + ' {length} ' + t('characters'),
     });
     extend('oneOf', {
       ...oneOf,
-      message: t('Invalid country')
+      message: t('Invalid country'),
     });
 
     const { send } = useUiNotification();
@@ -226,7 +222,7 @@ export default {
       city: props.address.city,
       postcode: props.address.postcode,
       countryCode: props.address.countryCode,
-      phoneNumber: props.address.phoneNumber
+      phoneNumber: props.address.phoneNumber,
     });
 
     const submitForm = () => {
@@ -237,20 +233,20 @@ export default {
         },
         onError: (msg) => {
           send({ type: 'danger', message: msg });
-        }
+        },
       });
     };
 
     return {
       form,
       submitForm,
-      countries: COUNTRIES
+      countries: COUNTRIES,
     };
-  }
+  },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .form {
   &__element {
     display: block;
