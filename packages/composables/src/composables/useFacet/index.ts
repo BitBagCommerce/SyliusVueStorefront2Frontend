@@ -1,7 +1,14 @@
-import { Context, useFacetFactory, FacetSearchResult, Logger } from '@vue-storefront/core';
+import { useFacetFactory, FacetSearchResult, Logger } from '@vue-storefront/core';
+import type { Context } from '@vue-storefront/sylius-api/src/types';
+
 const factoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  search: async (context: Context, params: FacetSearchResult<any>) => {
+  search: async (
+    context: Context,
+    params: FacetSearchResult<any> & {
+      input: { categorySlug: string };
+    }
+  ) => {
     let products = [];
     let productsNotFiltered = [];
     let attributes = [];

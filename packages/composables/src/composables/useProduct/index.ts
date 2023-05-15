@@ -1,11 +1,12 @@
 import {
-  Context,
   useProductFactory,
   ProductsSearchParams,
   UseProductFactoryParams,
   Logger
 } from '@vue-storefront/core';
-import { ProductsResponse } from '../../types';
+import type { Context } from '@vue-storefront/sylius-api/src/types';
+import { ProductsResponse } from 'composables/src/types';
+
 const params: UseProductFactoryParams<ProductsResponse, any> = {
   productsSearch: async (context: Context, params: ProductsSearchParams): Promise<ProductsResponse> => {
     const { customQuery, ...searchParams } = params;

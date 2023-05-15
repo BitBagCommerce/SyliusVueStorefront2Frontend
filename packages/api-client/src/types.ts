@@ -1,6 +1,41 @@
 import { Context as _Context } from '@vue-storefront/core';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
 import { FilterEqualTypeInput, FilterMatchTypeInput } from './api/getCategory/types';
+import { transformCart, transformCartItems } from './api/helpers';
+// we can approximate the final type of api by taking all the exports from `./api/index.ts`, and transforming the type of these exports accordingly
+import type * as api from './api/index';
+
+// generic type representing raw functions exported from api
+type ApiFunction<TArgs extends unknown[], TReturn> = (context: _Context, ...args: TArgs) => Promise<TReturn>
+
+// error type returned/thrown by api functions
+// ? seams to cose some issues if used as return type of ApiFunctionWithContext, for it to work properly it may be required to overview our current error handling in this project
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type GraphQlError = { graphQLErrors?: { debugMessage: string }[] };
+
+// transformed api function without context parameter, this is a form in which api functions will be accessible inside of context
+type ApiFunctionWithContext<TFunction> = TFunction extends ApiFunction<infer TArgs, infer TReturn>
+  ? (...args: TArgs) => Promise<TReturn>
+  : never;
+
+// generic which will give us our final type of api object from passed api functions
+type ApiDefinitions<TFunctions extends { [key: string]: unknown }> = {
+  [TKey in keyof TFunctions]: ApiFunctionWithContext<TFunctions[TKey]>;
+};
+
+// final api type based on exports from api
+export type Api = ApiDefinitions<typeof api>;
+
+// approximated context type
+// TODO: add types to other context properties if possible
+export type Context = {
+  $sylius: {
+    api: Api;
+    client;
+    config;
+  };
+  [key: string]: any;
+}
 
 export type ProductAttributeFilterInput = {
   name: FilterMatchTypeInput;
@@ -104,14 +139,7 @@ export type CartLineItem = {
     };
   };
 };
-export type Cart = {
-  items: CartLineItem[];
-  total: number;
-  shippingTotal: number;
-  orderPromotionTotal: number;
-  promotionCoupon: any;
-  tokenValue: string;
-};
+export type Cart = ReturnType<typeof transformCart>;
 
 export interface Storage {
   set: (name: string, value: any) => void;
@@ -155,9 +183,19 @@ export type Setttings = TODO;
 
 export type Endpoints = TODO;
 
-export type BillingAddress = TODO;
+export type BillingAddress = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  countryCode: string;
+  street: string;
+  city: string;
+  postcode: string;
+  phoneNumber?: string;
+  state?: string
+};
 
-export type CartItem = TODO;
+export type CartItem = ReturnType<typeof transformCartItems>[number];
 
 export type Coupon = TODO;
 
@@ -173,9 +211,9 @@ export type PasswordResetResult = TODO;
 
 export type ProductFilter = TODO;
 
-export type Review = TODO;
+export type Review = Awaited<ReturnType<Context['$sylius']['api']['getReviews']>>;
 
-export type ReviewItem = TODO;
+export type ReviewItem = Review[number];
 
 export type User = TODO;
 
@@ -193,11 +231,12 @@ export type UserAddressItem = {
   id: string;
   firstName: string;
   lastName: string;
-  postcode: string;
   street: string;
   city: string;
+  postcode: string;
   countryCode: string;
-  phoneNumber: string;
+  phoneNumber?: string;
+  state?: string;
 };
 
 export type UserShippingAddressSearchCriteria = TODO;
@@ -208,34 +247,3 @@ export type ShippingProvider = TODO;
 
 export type WishlistItem = TODO;
 
-// we can approximate the final type of api by taking all the exports from `./api/index.ts`, and transforming the type of these exports accordingly
-import * as api from './api/index';
-
-// generic type representing raw functions exported from api
-type ApiFunction<TArgs extends unknown[], TReturn> = (context: _Context, ...args: TArgs) => Promise<TReturn>
-
-// error type returned/thrown by api functions
-type GraphQlError = { graphQLErrors?: { debugMessage: string }[] };
-
-// transformed api function without context parameter, this is a form in which api functions will be accessible inside of context
-type ApiFunctionWithContext<TFunction> = TFunction extends ApiFunction<infer TArgs, infer TReturn>
-  ? (...args: TArgs) => Promise<TReturn & GraphQlError>
-  : never;
-
-// generic which will give us our final type of api object from passed api functions
-type ApiDefinitions<TFunctions extends { [key: string]: unknown }> = {
-  [TKey in keyof TFunctions]: ApiFunctionWithContext<TFunctions[TKey]>;
-};
-
-// final api type based on exports from api
-export type Api = ApiDefinitions<typeof api>;
-
-// approximated context type
-// TODO: add types to other context properties if possible
-export type Context = {
-  $sylius: {
-    api: Api;
-    client;
-    config;
-  }
-}

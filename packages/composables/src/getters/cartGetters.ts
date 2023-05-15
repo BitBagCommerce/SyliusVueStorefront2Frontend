@@ -21,6 +21,7 @@ export const getCartItems = (cart: Cart): CartLineItem[] => {
       });
     });
   }
+
   return items;
 };
 
@@ -69,6 +70,7 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
       subtotal
     };
   }
+
   return {
     shipping: 0,
     total: 0,
@@ -87,6 +89,7 @@ export const getCartTotalItems = (cart: Cart): number => {
   if (cart?.items) {
     return cart.items.reduce((prev, curr) => prev + curr.quantity, 0);
   }
+
   return 0;
 };
 
@@ -103,10 +106,12 @@ export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
       name: cart.promotionCoupon.promotion.name,
       code: cart.promotionCoupon.code,
       value: Math.abs(cart.orderPromotionTotal) / 100,
-      description: cart.promotionCoupon.description
+      description: cart.promotionCoupon.promotion.description
     };
+
     return [promotion];
   }
+
   return [];
 };
 

@@ -1,10 +1,20 @@
-import {ProductsSearchParams} from '@vue-storefront/core';
+import { ProductsSearchParams } from '@vue-storefront/core';
+import type { Context } from '@vue-storefront/sylius-api/src/types';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 
-export type Address = Record<string, unknown>;
+export type Address = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  countryCode: string;
+  street: string;
+  city: string;
+  postcode: string;
+  phoneNumber: string;
+};
 
-export type Category = Record<string, unknown>;
+export type Category = Awaited<ReturnType<Context['$sylius']['api']['getCategory']>>;
 
 export type User = {
   firstName?: string;
@@ -22,10 +32,6 @@ export type Cart = {
 
 export type Coupon = Record<string, unknown>;
 
-export type Order = Record<string, unknown>;
-
-export type OrderItem = Record<string, unknown>;
-
 export type Product = Record<string, unknown>;
 
 export type Review = Record<string, unknown>;
@@ -38,17 +44,18 @@ export type WishlistProduct = Record<string, unknown>;
 
 export type Wishlist = Record<string, unknown>;
 
-export type ProductsResponse = {
-  data: Product[];
-  total: number;
-};
+export type ProductsResponse = Awaited<ReturnType<Context['$sylius']['api']['getProduct']>>
 
 export type OrderSearchParams = Record<string, any>;
 
 export type OrdersResponse = {
-  results: any[];
+  results: Awaited<ReturnType<Context['$sylius']['api']['getUserOrders']>>;
   total: number;
 };
+
+export type Order = OrdersResponse['results'][number];
+
+export type OrderItem = Order['items'][number];
 
 export type TODO = any;
 
@@ -60,14 +67,32 @@ export type UseFacetSearchParams = TODO;
 
 export type UseProductSearchParams = ProductsSearchParams;
 
-export type UseReviewSearchParams = TODO;
+export type UseReviewSearchParams = {
+  productId?: string;
+};
 
-export type UseReviewAddParams = TODO;
+export type UseReviewAddParams = Parameters<Context['$sylius']['api']['addReview']>[0]['review'] & { productId: number };
 
 export type UseShippingAddParams = TODO;
 
-export type UseUserUpdateParams = TODO;
+export type UseUserUpdateParams = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  gender?: string;
+  birthday?: string;
+  phoneNumber?: string;
+  subscribedToNewsletter?: boolean
+};
 
-export type UseUserRegisterParams = TODO;
+export type UseUserRegisterParams = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
 
 export type useUserOrderSearchParams = TODO;
+
+export type useUserShippingAddress = Awaited<ReturnType<Context['$sylius']['api']['getUserAddresses']>>;
+export type useUserShippingAddressItem = Parameters<Context['$sylius']['api']['updateUserAddress']>[0]['address'];

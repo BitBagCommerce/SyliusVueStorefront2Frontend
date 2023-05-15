@@ -1,13 +1,16 @@
 import {
-  Context,
   useBillingFactory,
   UseBillingParams
 } from '@vue-storefront/core';
-import type { BillingAddress } from '@vue-storefront/sylius-api';
+import type {
+  BillingAddress,
+  Context
+} from '@vue-storefront/sylius-api/src/types';
 import type {
   UseBillingAddParams as AddParams
 } from '../../types';
 import { useCart } from '../useCart';
+
 const params: UseBillingParams<BillingAddress, AddParams> = {
   provide() {
     return {
@@ -42,7 +45,7 @@ const params: UseBillingParams<BillingAddress, AddParams> = {
     };
     const addAddressResponse = await context.$sylius.api.addAddress({ addAddressInput });
 
-    if (addAddressResponse.graphQLErrors) throw addAddressResponse;
+    if ((addAddressResponse as any).graphQLErrors) throw addAddressResponse;
 
     return addAddressResponse.billingAddress;
   }

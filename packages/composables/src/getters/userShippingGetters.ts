@@ -1,12 +1,12 @@
 import { UserShippingGetters } from '@vue-storefront/core';
-import type {
-  UserShippingAddress as Address,
-  UserAddressItem as AddressItem,
-  UserShippingAddressSearchCriteria
-} from '@vue-storefront/sylius-api';
+import type { UserShippingAddressSearchCriteria } from '@vue-storefront/sylius-api/src/types';
+import {
+  useUserShippingAddress as Address,
+  useUserShippingAddressItem as AddressItem
+} from 'composables/src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getAddresses(shipping, criteria?: UserShippingAddressSearchCriteria): AddressItem[] {
+function getAddresses(shipping: Address, criteria?: UserShippingAddressSearchCriteria): AddressItem[] {
   if (!criteria || !Object.keys(criteria).length) {
     return shipping;
   }

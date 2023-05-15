@@ -1,14 +1,14 @@
 /* istanbul ignore file */
-
 import {
-  Context,
   Logger,
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
-import { User } from '../../types';
+import { User, UseUserRegisterParams, UseUserUpdateParams } from '../../types';
 import { useCart } from '../useCart';
-const params: UseUserFactoryParams<User, any, any> = {
+import type { Context } from '@vue-storefront/sylius-api/src/types';
+
+const params: UseUserFactoryParams<User, UseUserUpdateParams, UseUserRegisterParams> = {
   provide() {
     return {
       cart: useCart()
@@ -100,7 +100,7 @@ const params: UseUserFactoryParams<User, any, any> = {
         }
       });
 
-      if (loginUserResponse.graphQLErrors !== undefined) {
+      if ((loginUserResponse as any).graphQLErrors !== undefined) {
         throw {
           message: 'Can\'t authenticate with provided username/password.'
         };
@@ -129,7 +129,7 @@ const params: UseUserFactoryParams<User, any, any> = {
         confirmNewPassword: newPassword
       }
     }, customQuery);
-    const errors = updatePassword.graphQLErrors?.[0];
+    const errors = (updatePassword as any).graphQLErrors?.[0];
 
     if (!errors) {
       await params.logOut(context, { currentUser });

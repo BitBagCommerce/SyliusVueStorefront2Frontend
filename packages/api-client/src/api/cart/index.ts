@@ -14,6 +14,7 @@ import {
 import { getCartQuery, getPaymentMethodsQuery, getShippingMethodsQuery, getCountriesQuery } from './queries';
 import { CustomQuery, Context } from '@vue-storefront/core';
 import { mutate, query, extendQuery, transformCart, VariablesHelper } from '../helpers';
+import { AddBillingAddressMutation, AddShippingAddressMutation } from 'api-client/__generated__/graphql';
 
 export const createCart = async (context: Context, customQuery?: CustomQuery) => {
   const { locale } = context.config;
@@ -111,19 +112,45 @@ export const clearCart = async (
   return deleteOrder.order;
 };
 
+// TODO: rewrite this function to work better with typescript
 export const addAddress = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof addShippingAddressMutation> & VariablesHelper<typeof addBillingAddressMutation>,
+  defaultVariables: {
+    addAddressInput: {
+      orderTokenValue?: string;
+      email: string;
+      billingAddress?: {
+        firstName: string;
+        lastName: string;
+        countryCode: string;
+        street: string;
+        city: string;
+        postcode: string;
+        phoneNumber: string;
+      };
+      shippingAddress?: {
+        firstName: string;
+        lastName: string;
+        countryCode: string;
+        street: string;
+        city: string;
+        postcode: string;
+        phoneNumber: string;
+      }
+    }
+  },
   customQuery?: CustomQuery
-) => {
+): Promise<AddShippingAddressMutation['shop_add_shipping_addressOrder']['order'] & AddBillingAddressMutation['shop_add_billing_addressOrder']['order']> => {
   if (defaultVariables.addAddressInput?.shippingAddress) {
-    const queryGql = extendQuery(context, addShippingAddressMutation, defaultVariables, customQuery);
+    // TODO: remove any
+    const queryGql = extendQuery(context, addShippingAddressMutation, defaultVariables as any, customQuery);
     const data = await mutate(context, queryGql);
 
     return data.shop_add_shipping_addressOrder.order;
   }
 
-  const queryGql = extendQuery(context, addBillingAddressMutation, defaultVariables, customQuery);
+  // TODO: remove any
+  const queryGql = extendQuery(context, addBillingAddressMutation, defaultVariables as any, customQuery);
   const data = await mutate(context, queryGql);
 
   return data.shop_add_billing_addressOrder.order;

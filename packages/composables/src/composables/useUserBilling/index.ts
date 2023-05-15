@@ -1,14 +1,14 @@
 import {
-  Context,
   useUserBillingFactory,
   UseUserBillingFactoryParams
 } from '@vue-storefront/core';
+import type { Context, UserAddressItem } from '@vue-storefront/sylius-api/src/types';
 
-const params: UseUserBillingFactoryParams<any, any> = {
-  addAddress: async () => {},
-  deleteAddress: async () => {},
-  updateAddress: async () => {},
-  setDefaultAddress: async () => {},
+const params: UseUserBillingFactoryParams<UserAddressItem[], any> = {
+  addAddress: async () => ({} as any),
+  deleteAddress: async () => ({} as any),
+  updateAddress: async () => ({} as any),
+  setDefaultAddress: async () => ({} as any),
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, data?) => {

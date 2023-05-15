@@ -47,7 +47,11 @@ export async function getProduct(
 
     return {
       products: [],
-      pagination: {}
+      pagination: {
+        totalCount: 0,
+        lastPage: 0,
+        itemsPerPage: 0
+      }
     };
   }
 }

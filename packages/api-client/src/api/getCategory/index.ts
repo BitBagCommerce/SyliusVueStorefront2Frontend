@@ -4,7 +4,7 @@ import { extendQuery, query, VariablesHelper } from '../helpers';
 
 export default async function getCategory(
   context: Context,
-  params: VariablesHelper<typeof BaseQuery>,
+  params?: VariablesHelper<typeof BaseQuery>,
   customQuery?: CustomQuery
 ) {
   const { query: queryGql, variables } = extendQuery(context, BaseQuery, params, customQuery);
