@@ -4,13 +4,23 @@
       <template #left>
         <SfButton class="sf-button--text">
           <p>
-            <SfButton class="topbar__button sf-button--text" :link="bitbagLink" target="_blank">{{ $t('Sylius integration powered by BitBag') }}</SfButton>
+            <SfButton
+              class="topbar__button sf-button--text"
+              :link="bitbagLink"
+              target="_blank"
+              >{{ $t('Sylius integration powered by BitBag') }}</SfButton
+            >
           </p>
         </SfButton>
       </template>
       <template #center>
         <p>{{ $t('The source code available on') }}</p>
-        <SfButton class="topbar__button sf-button--text" :link="githubLink" target="_blank">{{ $t('GitHub') }}</SfButton>
+        <SfButton
+          class="topbar__button sf-button--text"
+          :link="githubLink"
+          target="_blank"
+          >{{ $t('GitHub') }}</SfButton
+        >
       </template>
       <template #right>
         <LocaleSelector @click="toggleOverlay" />
@@ -30,26 +40,26 @@ export default {
     SfTopBar,
     SfButton,
     LocaleSelector,
-    SfOverlay
+    SfOverlay,
   },
   data() {
     return {
-      githubLink: 'https://github.com/BitBagCommerce/SyliusVueStorefrontFrontend',
-      bitbagLink: 'https://bitbag.io'
+      githubLink:
+        'https://github.com/BitBagCommerce/SyliusVueStorefrontFrontend',
+      bitbagLink: 'https://bitbag.io',
     };
   },
   setup() {
     const isOverlayOpen = ref(false);
 
-    const toggleOverlay = (val) => isOverlayOpen.value = val;
+    const toggleOverlay = (val) => (isOverlayOpen.value = val);
 
     return {
       isOverlayOpen,
-      toggleOverlay
+      toggleOverlay,
     };
-  }
+  },
 };
-
 </script>
 
 <style lang="scss" scoped>

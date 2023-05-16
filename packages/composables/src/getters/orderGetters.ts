@@ -6,7 +6,11 @@ import { Order, OrderItem } from '../types';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getDate = (order: any): string => {
   if (order?.createdAt) {
-    const parsedDate = parseDate(order.createdAt, 'yyyy-MM-dd HH:mm:ss', new Date());
+    const parsedDate = parseDate(
+      order.createdAt,
+      'yyyy-MM-dd HH:mm:ss',
+      new Date()
+    );
     return formatDate(parsedDate, 'dd.MM.yyyy');
   }
   return '-';
@@ -28,7 +32,8 @@ export const getPaymentStatus = (order: any): string => {
   }
 };
 export const getShippingStatus = (order: any): string => order.shippingState;
-export const getShippingTotal = (order: any): number => order.shippingTotal / 100;
+export const getShippingTotal = (order: any): number =>
+  order.shippingTotal / 100;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getPrice = (order: any): number | null => order.total / 100;
@@ -70,5 +75,5 @@ export const orderGetters: UserOrderGetters<Order, OrderItem> = {
   getItemPrice,
   getFormattedPrice,
   getOrdersTotal,
-  getTokenValue
+  getTokenValue,
 };

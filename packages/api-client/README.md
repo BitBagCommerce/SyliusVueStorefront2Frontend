@@ -6,21 +6,23 @@
 # Vue Storefront 2 integration with Sylius
 
 Check the [DEMO](https://vsf-sylius.herokuapp.com/) or [read the documentation](https://vsf-sylius-docs.herokuapp.com/).
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## How to start if you want to try out the integration
 
- - install the awesome [Sylius GraphQL plugin](https://packagist.org/packages/bitbag/graphql-plugin) made by our friends from BitBag
- - change your GraphQL endpoint & image paths in `packages/sylius/theme/middleware.config.js`
- - build integration packages: `yarn build:sylius`
- - start developing: `yarn dev:sylius`
+- install the awesome [Sylius GraphQL plugin](https://packagist.org/packages/bitbag/graphql-plugin) made by our friends from BitBag
+- change your GraphQL endpoint & image paths in `packages/sylius/theme/middleware.config.js`
+- build integration packages: `yarn build:sylius`
+- start developing: `yarn dev:sylius`
 
 ## How to start if you want to contribute?
 
 Want to contribute? Ping us on `sylius` channel on [our Discord](https://discord.vuestorefront.io)!
 
 ### Requirements:
+
 - NodeJS v14.17 or later
 
 ## Contributors ✨

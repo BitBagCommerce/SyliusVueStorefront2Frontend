@@ -32,16 +32,47 @@
           />
         </div>
         <div class="product__price-and-rating">
-          <SfPrice
-            :regular="$n(productGetters.getPrice(product).regular, 'currency')"
-            :special="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
-          />
+          <div class="product__price-and-stock">
+            <SfPrice
+              :regular="
+                $n(productGetters.getPrice(product).regular, 'currency')
+              "
+              :special="
+                productGetters.getPrice(product).special &&
+                $n(productGetters.getPrice(product).special, 'currency')
+              "
+            />
+            <div
+              v-if="product.selectedVariant.tracked"
+              class="stock-info"
+              :class="{
+                danger: !productGetters.isInStock(product.selectedVariant),
+              }"
+            >
+              <SfIcon
+                icon="store"
+                size="sm"
+                :color="
+                  productGetters.isInStock(product.selectedVariant)
+                    ? 'green-primary'
+                    : 'red-primary'
+                "
+                viewBox="0 0 24 24"
+                :coverage="1"
+              />
+              <p>
+                {{
+                  productGetters.isInStock(product.selectedVariant)
+                    ? productGetters.getStockForVariant(product.selectedVariant)
+                    : 0
+                }}
+                {{ $t('in stock') }}
+              </p>
+            </div>
+          </div>
           <div class="product__rating-and-wishlist">
             <div class="product__rating">
-              <SfRating
-                :score="averageRating"
-                :max="5"
-              />
+              <SfRating :score="averageRating" :max="5" />
               <a v-if="!!totalReviews" href="#" class="product__count">
                 ({{ totalReviews }})
               </a>
@@ -55,7 +86,11 @@
             />
           </div>
         </div>
-        <form @submit.prevent="handleAddToCart({ product, quantity: parseInt(qty) })">
+        <form
+          @submit.prevent="
+            handleAddToCart({ product, quantity: parseInt(qty) })
+          "
+        >
           <p class="product__description desktop-only">
             {{ product.shortDescription }}
           </p>
@@ -63,7 +98,7 @@
             v-for="(item, key) in Object.keys(options)"
             :key="key"
             :value="configuration[item]"
-            @input="value => updateFilter({ value, filter: item })"
+            @input="(value) => updateFilter({ value, filter: item })"
             :label="options[item].label"
             class="sf-select--underlined product__select-size"
             :required="true"
@@ -73,26 +108,30 @@
               :key="size.value"
               :value="size.value"
             >
-              {{size.label}}
+              {{ size.label }}
             </SfSelectOption>
           </SfSelect>
 
-          <div v-if="options.color && options.color.length > 1" class="product__colors desktop-only">
+          <div
+            v-if="options.color && options.color.length > 1"
+            class="product__colors desktop-only"
+          >
             <p class="product__color-label">{{ $t('Color') }}:</p>
             <SfColor
               v-for="(color, i) in options.color"
               :key="i"
               :color="color.value"
               class="product__color"
-              @click="updateFilter({color})"
+              @click="updateFilter({ color })"
             />
           </div>
-          <SfAddToCart
+          <AddToCart
             v-e2e="'product_add-to-cart'"
-            :stock="product.selectedVariant.onHand"
-            v-model="qty"
-            :disabled="loading || !product.selectedVariant.inStock"
             class="product__add-to-cart"
+            v-model="qty"
+            :selectedVariant="product.selectedVariant"
+            :disabled="loading"
+            @quantity-change="qty = $event"
             @click="handleAddToCart({ product, quantity: parseInt(qty) })"
           />
         </form>
@@ -101,7 +140,7 @@
           <SfTabs :open-tab="1" class="product__tabs">
             <SfTab :title="$t('Description')" key="description">
               <div class="product__description">
-                  {{ product.description }}
+                {{ product.description }}
               </div>
               <SfProperty
                 v-for="(property, i) in properties"
@@ -131,8 +170,8 @@
                 :max-rating="5"
                 :rating="reviewGetters.getReviewRating(review)"
                 :char-limit="250"
-                read-more-text="Read more"
-                hide-full-text="Read less"
+                :read-more-text="$t('Read more')"
+                :hide-full-text="$t('Read less')"
                 class="product__review"
               />
             </SfTab>
@@ -158,7 +197,6 @@
     <LazyHydrate when-visible>
       <MobileStoreBanner />
     </LazyHydrate>
-
   </div>
 </template>
 <script>
@@ -168,7 +206,6 @@ import {
   SfPrice,
   SfRating,
   SfSelect,
-  SfAddToCart,
   SfTabs,
   SfGallery,
   SfIcon,
@@ -179,18 +216,28 @@ import {
   SfReview,
   SfBreadcrumbs,
   SfButton,
-  SfColor
+  SfColor,
 } from '@storefront-ui/vue';
-
+import AddToCart from '~/components/AddToCart.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import AddReviewForm from '~/components/Product/AddReviewForm.vue';
 import { ref, computed, onUpdated } from '@nuxtjs/composition-api';
-import { useProduct, useCart, productGetters, useReview, reviewGetters, useUser, useWishlists, wishlistGetters } from '@vue-storefront/sylius';
+import {
+  useProduct,
+  useCart,
+  productGetters,
+  useReview,
+  reviewGetters,
+  useUser,
+  useWishlists,
+  wishlistGetters,
+} from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
 import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
+import QuantitySelector from '~/components/CartSidebar/QuantitySelector.vue';
 
 export default {
   name: 'Product',
@@ -204,41 +251,70 @@ export default {
     const { send } = useUiNotification();
 
     const { addItem, loading, error } = useCart();
-    const { reviews: productReviews, search: searchReviews, addReview } = useReview('productReviews');
-    const { addItemToWishlist, isInWishlist, removeItem, wishlists } = useWishlists();
+    const {
+      reviews: productReviews,
+      search: searchReviews,
+      addReview,
+    } = useReview('productReviews');
+    const { addItemToWishlist, isInWishlist, removeItem, wishlists } =
+      useWishlists();
 
     onSSR(async () => {
-      await search({ slug, query: context.root.$route.query});
+      await search({ slug, query: context.root.$route.query });
       await searchReviews({ productId: id });
     });
-    const product = computed(() => products.value.products && productGetters.getFiltered(products.value.products, { master: true, attributes: context.root.$route.query })[0]);
+    const product = computed(
+      () =>
+        products.value.products &&
+        productGetters.getFiltered(products.value.products, {
+          master: true,
+          attributes: context.root.$route.query,
+        })[0]
+    );
 
-    const options = computed(() => productGetters.getAttributes(products.value?.products, ['color', 'size'])) || [];
+    const options =
+      computed(() =>
+        productGetters.getAttributes(products.value?.products, [
+          'color',
+          'size',
+        ])
+      ) || [];
 
-    const configuration = computed(() => product?.value ? productGetters.getAttributes(product?.value, ['color', 'size']) : []);
-    const categories = computed(() => productGetters.getCategoryIds(product?.value)) || [];
+    const configuration = computed(() =>
+      product?.value
+        ? productGetters.getAttributes(product?.value, ['color', 'size'])
+        : []
+    );
+    const categories =
+      computed(() => productGetters.getCategoryIds(product?.value)) || [];
 
-    const reviews = computed(() => {
-      return productReviews?.value ? reviewGetters.getItems(productReviews?.value) : [];
-    });
-    const totalReviewsCount = computed(() => {
-      return productReviews?.value ? reviewGetters.getTotalReviews(productReviews.value) : 0;
-    });
+    const reviews = computed(() =>
+      productReviews?.value ? reviewGetters.getItems(productReviews?.value) : []
+    );
+    const totalReviewsCount = computed(() =>
+      productReviews?.value
+        ? reviewGetters.getTotalReviews(productReviews.value)
+        : 0
+    );
 
     // TODO: Breadcrumbs are temporary disabled because productGetters return undefined. We have a mocks in data
     // const breadcrumbs = computed(() => productGetters.getBreadcrumbs ? productGetters.getBreadcrumbs(product.value) : props.fallbackBreadcrumbs);
 
-    const productGallery = computed(() => product?.value && productGetters.getGallery(product?.value).map(img => ({
-      mobile: { url: img.small },
-      desktop: { url: img.normal },
-      big: { url: img.small },
-      alt: product?.value?.name
-    })));
+    const productGallery = computed(
+      () =>
+        product?.value &&
+        productGetters.getGallery(product?.value).map((img) => ({
+          mobile: { url: img.small },
+          desktop: { url: img.normal },
+          big: { url: img.small },
+          alt: product?.value?.name,
+        }))
+    );
 
     const handleAddToCart = async (params) => {
       await addItem(params);
 
-      const cartError = Object.values(error.value).find(err => err !== null);
+      const cartError = Object.values(error.value).find((err) => err !== null);
 
       if (cartError) {
         send({ type: 'danger', message: cartError.message });
@@ -246,12 +322,19 @@ export default {
         return;
       }
 
-      send({ type: 'success', message: t('Product has been added to the cart') });
+      send({
+        type: 'success',
+        message: t('Product has been added to the cart'),
+      });
     };
 
     const removeProductFromWishlist = (productItem) => {
-      const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlists.value));
-      const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
+      const productsInWhishlist = computed(() =>
+        wishlistGetters.getItems(wishlists.value)
+      );
+      const product = productsInWhishlist.value.find(
+        (wishlistProduct) => wishlistProduct.variant.sku === productItem.sku
+      );
       removeItem({ product });
     };
 
@@ -263,7 +346,7 @@ export default {
 
           return {
             ...prev,
-            ...record
+            ...record,
           };
         }, {});
 
@@ -271,8 +354,8 @@ export default {
           path: context.root.$route.path,
           query: {
             ...configuration.value,
-            ...filterObj
-          }
+            ...filterObj,
+          },
         });
 
         return;
@@ -285,11 +368,11 @@ export default {
         path: context.root.$route.path,
         query: {
           ...configuration.value,
-          ...filterObj
-        }
+          ...filterObj,
+        },
       });
     };
-    const handleReviewSubmit = async ({form, onComplete, onError}) => {
+    const handleReviewSubmit = async ({ form, onComplete, onError }) => {
       try {
         form.value.productId = parseInt(id);
         await addReview(form.value);
@@ -300,10 +383,12 @@ export default {
     };
 
     const properties = computed(() => {
-      return product.value?.attributes?.map(item => ({
-        value: item.stringValue,
-        name: item.name
-      })) || [];
+      return (
+        product.value?.attributes?.map((item) => ({
+          value: item.stringValue,
+          name: item.name,
+        })) || []
+      );
     });
 
     onUpdated(() => {
@@ -311,9 +396,10 @@ export default {
         !Object.keys(context.root.$route.query).length &&
         Object.keys(options.value).length
       ) {
-        const filter = Object
-          .keys(options.value)
-          .map(key => ({ value: options.value[key].value[0].value, filter: key }));
+        const filter = Object.keys(options.value).map((key) => ({
+          value: options.value[key].value[0].value,
+          filter: key,
+        }));
 
         updateFilter(filter);
       }
@@ -328,7 +414,9 @@ export default {
       reviews,
       reviewGetters,
       price: computed(() => productGetters.getPrice(product.value)),
-      averageRating: computed(() => productGetters.getAverageRating(product.value)),
+      averageRating: computed(() =>
+        productGetters.getAverageRating(product.value)
+      ),
       totalReviews: totalReviewsCount,
       options,
       qty,
@@ -341,7 +429,7 @@ export default {
       wishlists,
       addItemToWishlist,
       removeProductFromWishlist,
-      isInWishlist
+      isInWishlist,
     };
   },
   components: {
@@ -352,7 +440,7 @@ export default {
     SfPrice,
     SfRating,
     SfSelect,
-    SfAddToCart,
+    AddToCart,
     SfTabs,
     SfGallery,
     SfIcon,
@@ -366,14 +454,15 @@ export default {
     MobileStoreBanner,
     LazyHydrate,
     AddReviewForm,
-    WishlistDropdown
+    WishlistDropdown,
+    QuantitySelector,
   },
   data() {
     return {
       detailsIsActive: false,
-      breadcrumbs: []
+      breadcrumbs: [],
     };
-  }
+  },
 };
 </script>
 
@@ -429,7 +518,7 @@ export default {
     justify-content: flex-end;
     margin: var(--spacer-xs) 0 var(--spacer-xs);
   }
-  &__rating-and-wishlist{
+  &__rating-and-wishlist {
     display: flex;
     align-items: center;
     flex-direction: row-reverse;
@@ -444,7 +533,7 @@ export default {
       right: 0;
       left: auto;
       max-width: 320px;
-      width: max-content
+      width: max-content;
     }
   }
   &__count {
@@ -494,6 +583,11 @@ export default {
   }
   &__add-to-cart {
     margin: var(--spacer-base) var(--spacer-sm) 0;
+    gap: 1.5rem;
+    flex-direction: column;
+    @media screen and (min-width: 300px) {
+      flex-direction: row;
+    }
     @include for-desktop {
       margin-top: var(--spacer-2xl);
     }
@@ -581,6 +675,25 @@ export default {
   }
   100% {
     transform: translate3d(0, 0, 0);
+  }
+}
+
+.product__price-and-stock {
+  display: flex;
+  align-items: center;
+  gap: var(--spacer-xs);
+}
+.stock-info {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.55rem 0.25rem 0.3rem;
+  background-color: var(--c-light);
+  border-radius: 15px;
+  p {
+    margin: 0;
+  }
+  &.danger {
+    background-color: lighten(#d12727, 40);
   }
 }
 </style>

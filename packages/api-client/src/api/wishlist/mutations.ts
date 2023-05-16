@@ -80,12 +80,8 @@ export const editWishlistMutation = gql`
 `;
 
 export const removeWishlistMutation = gql`
-  mutation removeWishlist(
-    $id: ID!
-  ) {
-    deleteWishlist(input: {
-      id: $id
-    }) {
+  mutation removeWishlist($id: ID!) {
+    deleteWishlist(input: { id: $id }) {
       wishlist {
         id
       }

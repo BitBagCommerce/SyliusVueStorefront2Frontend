@@ -1,4 +1,3 @@
-
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <SfHeading
@@ -91,10 +90,7 @@
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
-        <ValidationProvider
-          name="state"
-          slim
-        >
+        <ValidationProvider name="state" slim>
           <SfInput
             v-e2e="'billing-state'"
             v-model="form.state"
@@ -189,7 +185,7 @@
         v-if="isFormSubmitted"
         :shipping-methods="shippingMethods"
         @submit="$router.push(localePath({ name: 'payment' }))"
-        @cancel="isFormSubmitted = false;"
+        @cancel="isFormSubmitted = false"
       />
     </form>
   </ValidationObserver>
@@ -201,27 +197,20 @@ import {
   SfInput,
   SfButton,
   SfSelect,
-  SfCheckbox
+  SfCheckbox,
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
-import { useBilling, useShipping, useUserShipping, userShippingGetters, useUser } from '@vue-storefront/sylius';
+import {
+  useBilling,
+  useShipping,
+  useUserShipping,
+  userShippingGetters,
+  useUser,
+} from '@vue-storefront/sylius';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { onSSR, useVSFContext } from '@vue-storefront/core';
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-extend('digits', {
-  ...digits,
-  message: 'Please provide a valid phone number'
-});
 
 export default {
   name: 'Shipping',
@@ -234,10 +223,26 @@ export default {
     ValidationProvider,
     ValidationObserver,
     UserAddresses: () => import('@/components/Checkout/UserAddresses'),
-    VsfShippingProvider: () => import('~/components/Checkout/VsfShippingProvider')
+    VsfShippingProvider: () =>
+      import('~/components/Checkout/VsfShippingProvider'),
   },
-  setup (_, { root }) {
+  setup(_, { root }) {
     const t = (key) => root.$i18n.t(key);
+
+    extend('required', {
+      ...required,
+      message: t('This field is required'),
+    });
+    extend('min', {
+      ...min,
+      message:
+        t('The field should have at least') + ' {length} ' + t('characters'),
+    });
+    extend('digits', {
+      ...digits,
+      message: t('Please provide a valid phone number'),
+    });
+
     const isFormSubmitted = ref(false);
     const sameAsBilling = ref(false);
     const countries = ref([]);
@@ -246,7 +251,8 @@ export default {
     const { send } = useUiNotification();
     const { $sylius } = useVSFContext();
     const { load: loadShipping, save, loading, shipping } = useShipping();
-    const { shipping: userShipping, load: loadUserShipping } = useUserShipping();
+    const { shipping: userShipping, load: loadUserShipping } =
+      useUserShipping();
     const { isAuthenticated, user } = useUser();
     const { billing, load: loadBilling } = useBilling();
 
@@ -259,14 +265,14 @@ export default {
       countryCode: '',
       postcode: '',
       email: null,
-      phoneNumber: null
+      phoneNumber: null,
     });
 
     const handleFormSubmit = async () => {
       await save({ shippingDetails: form.value });
 
       shippingMethods.value = await $sylius.api.getShippingMethods({
-        zone: form.value.countryCode
+        zone: form.value.countryCode,
       });
 
       if (shippingMethods.value.length) {
@@ -274,7 +280,12 @@ export default {
         return;
       }
 
-      send({ type: 'danger', message: t('No shipping methods are available for selected country. Please choose a different country.')});
+      send({
+        type: 'danger',
+        message: t(
+          'No shipping methods are available for selected country. Please choose a different country.'
+        ),
+      });
     };
 
     const handleCheckSameAddress = async () => {
@@ -282,7 +293,7 @@ export default {
       if (sameAsBilling.value) {
         form.value = {
           ...form.value,
-          ...billing.value
+          ...billing.value,
         };
       }
     };
@@ -290,7 +301,7 @@ export default {
     const handleSetCurrentAddress = (address) => {
       form.value = {
         ...form.value,
-        ...address
+        ...address,
       };
     };
 
@@ -331,9 +342,9 @@ export default {
       hasSavedShippingAddress,
       handleSetCurrentAddress,
       handleFormSubmit,
-      handleCheckSameAddress
+      handleCheckSameAddress,
     };
-  }
+  },
 };
 </script>
 
@@ -399,7 +410,7 @@ export default {
   &__back-button {
     margin: var(--spacer-xl) 0 var(--spacer-sm);
     &:hover {
-      color:  var(--c-white);
+      color: var(--c-white);
     }
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;

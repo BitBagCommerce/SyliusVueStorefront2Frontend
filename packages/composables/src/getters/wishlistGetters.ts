@@ -2,12 +2,12 @@ import {
   WishlistGetters,
   AgnosticAttribute,
   AgnosticPrice,
-  AgnosticTotals
+  AgnosticTotals,
 } from '@vue-storefront/core';
 import type { Wishlist, WishlistItem } from '@vue-storefront/sylius-api';
 
 const getWishlist = (id: string, wishlists: Wishlist[]) => {
-  const wishlist = wishlists.find(wishlist => wishlist.id === id) || {};
+  const wishlist = wishlists.find((wishlist) => wishlist.id === id) || {};
 
   return wishlist;
 };
@@ -27,9 +27,9 @@ const getItems = (wishlist: Wishlist): WishlistItem[] => {
         images: item.variant.product.images,
         price: {
           regular: item.variant.channelPricings[0].price / 100,
-          special: 0
+          special: 0,
         },
-        selectedVariant: item.variant
+        selectedVariant: item.variant,
       });
     });
   }
@@ -41,7 +41,7 @@ const getItems = (wishlist: Wishlist): WishlistItem[] => {
 function getTotals(wishlist: Wishlist): AgnosticTotals {
   return {
     total: 10,
-    subtotal: 10
+    subtotal: 10,
   };
 }
 
@@ -49,16 +49,22 @@ function getTotals(wishlist: Wishlist): AgnosticTotals {
 const getItemName = (item: any): string => item.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getItemImage = (item: WishlistItem): string => item.images[0].replace(/\/media\/image/, '');
+const getItemImage = (item: WishlistItem): string =>
+  item.images[0].replace(/\/media\/image/, '');
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getItemPrice = (item: WishlistItem): AgnosticPrice => item.price;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getItemAttributes = (item: WishlistItem, filters?: string[]): Record<string, AgnosticAttribute | string> => {
+const getItemAttributes = (
+  item: WishlistItem,
+  filters?: string[]
+): Record<string, AgnosticAttribute | string> => {
   const attributes = {};
   item.selectedVariant.optionValues.forEach((optionValue) => {
-    const selectedOption = item.selectedVariant.product.options.find(option => option.id === optionValue.option.id);
+    const selectedOption = item.selectedVariant.product.options.find(
+      (option) => option.id === optionValue.option.id
+    );
     if (selectedOption) {
       attributes[selectedOption.name] = optionValue.value;
     }
@@ -88,5 +94,5 @@ export const wishlistGetters: WishlistGetters<Wishlist, WishlistItem> = {
   getItemAttributes,
   getItemSku,
   getTotalItems,
-  getFormattedPrice
+  getFormattedPrice,
 };

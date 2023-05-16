@@ -8,15 +8,15 @@
 
 ```typescript
 export declare type ConfigState = {
-    getCartId(): string;
-    setCartId(id: string): void;
-    getCustomerToken(): string;
-    setCustomerToken(token: string): void;
-    getCustomerRefreshToken(): string;
-    setCustomerRefreshToken(token: string): void;
-    getCustomerId(): string;
-    setCustomerId(id: string): void;
-    getStore(): string;
-    setStore(id: string): void;
+  getCartId(): string;
+  setCartId(id: string): void;
+  getCustomerToken(): string;
+  setCustomerToken(token: string): void;
+  getCustomerRefreshToken(): string;
+  setCustomerRefreshToken(token: string): void;
+  getCustomerId(): string;
+  setCustomerId(id: string): void;
+  getStore(): string;
+  setStore(id: string): void;
 };
 ```

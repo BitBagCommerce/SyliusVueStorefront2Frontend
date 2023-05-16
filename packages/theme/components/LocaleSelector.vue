@@ -9,7 +9,7 @@
         :src="`/icons/langs/${locale}.webp`"
         height="20"
         width="20"
-        alt="Flag"
+        :alt="$t('Flag')"
         :placeholder="loader"
       />
     </SfButton>
@@ -19,7 +19,7 @@
       class="mega-menu"
     >
       <h4 class="mega-menu__header">
-        Choose a language
+        {{ $t('Choose a language') }}
       </h4>
       <SfList class="mega-menu__list">
         <SfListItem
@@ -38,7 +38,7 @@
                   :src="`/icons/langs/${lang.code}.webp`"
                   height="20"
                   width="20"
-                  alt="Flag"
+                  :alt="$t('Flag')"
                   :placeholder="loader"
                   class="language__flag"
                 />
@@ -66,7 +66,7 @@ import {
   SfBottomModal,
   SfCharacteristic,
   SfMegaMenu,
-  SfOverlay
+  SfOverlay,
 } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
@@ -81,18 +81,19 @@ export default {
     SfBottomModal,
     SfCharacteristic,
     SfMegaMenu,
-    SfOverlay
+    SfOverlay,
   },
   emits: ['click'],
   directives: { clickOutside },
   setup(props, context) {
     const { locales, locale } = context.root.$i18n;
     const isLangModalOpen = ref(false);
-    const availableLocales = computed(() => locales.filter(i => i.code !== locale));
+    const availableLocales = computed(() =>
+      locales.filter((i) => i.code !== locale)
+    );
 
     const closeLangModal = (e) => {
-      if (e?.target?.dataset.toggleBtn)
-        return;
+      if (e?.target?.dataset.toggleBtn) return;
 
       isLangModalOpen.value = false;
       context.emit('click', isLangModalOpen.value);
@@ -117,9 +118,9 @@ export default {
       isLangModalOpen,
       openLangModal,
       closeLangModal,
-      loader
+      loader,
     };
-  }
+  },
 };
 </script>
 
@@ -146,7 +147,8 @@ export default {
     ::v-deep .sf-mega-menu {
       height: 100%;
 
-      &__content, &__menu {
+      &__content,
+      &__menu {
         height: 100%;
       }
     }
@@ -199,7 +201,7 @@ export default {
   }
 }
 
-::v-deep  {
+::v-deep {
   .sf-image {
     pointer-events: none !important;
 

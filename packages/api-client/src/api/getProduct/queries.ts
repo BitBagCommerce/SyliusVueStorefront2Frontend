@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { productFragment } from './fragments';
+import { minimalProductFragment, productFragment } from './fragments';
 
 export const BaseQuery = gql`
   query getProducts(
@@ -38,6 +38,43 @@ export const BaseQuery = gql`
   }
 `;
 
+export const getMinimalProductsQuery = gql`
+  query getProducts(
+    $slug: String,
+    $categorySlug: String,
+    $orderBy: [ProductFilter_order],
+    $averageRating: [ProductFilter_averageRating],
+    $price: [ProductFilter_variants_channelPricings_price],
+    $attributes: Iterable,
+    $itemsPerPage: Int,
+    $page: Int,
+    $search: String,
+    $channelsCode: String,
+  ) {
+    products(
+      translations_name: $search,
+      translations_slug: $slug,
+      productTaxons_taxon_translations_slug: $categorySlug,
+      order: $orderBy,
+      averageRating: $averageRating,
+      variants_channelPricings_price: $price,
+      attributes: $attributes,
+      page: $page,
+      itemsPerPage: $itemsPerPage,
+      channels_code: $channelsCode,
+    ) {
+      collection {
+        ${minimalProductFragment}
+      }
+      paginationInfo {
+        itemsPerPage
+        lastPage
+        totalCount
+      }
+    }
+  }
+`;
+
 export const getProductsNotFilteredQuery = gql`
   query getProductsNotFiltered(
     $slug: String,
@@ -57,13 +94,8 @@ export const getProductsNotFilteredQuery = gql`
 `;
 
 export const getProductsAttributesQuery = gql`
-  query productsAttributesInTaxon(
-    $categorySlug: String,
-    $locale: String
-  ) {
-    products(
-      productTaxons_taxon_translations_slug: $categorySlug,
-    ) {
+  query productsAttributesInTaxon($categorySlug: String, $locale: String) {
+    products(productTaxons_taxon_translations_slug: $categorySlug) {
       collection {
         attributes(localeCode: $locale) {
           collection {

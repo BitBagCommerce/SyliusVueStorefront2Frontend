@@ -80,6 +80,7 @@
     "yarn": "1.x.x||>=3.x.x"
   },
   "dependencies": {
-    "concurrently": "^7.3.0"
+    "concurrently": "^7.3.0",
+    "prettier": "^2.8.8"
   }
 }

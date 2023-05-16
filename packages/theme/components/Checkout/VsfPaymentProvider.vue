@@ -12,7 +12,7 @@
       :label="method.label"
       :value="method.value"
       :description="method.description"
-      :selected ="selectedMethod"
+      :selected="selectedMethod"
       name="shippingMethod"
       class="form__radio shipping"
       @input="selectMethod(method.value)"
@@ -35,7 +35,7 @@ export default {
   components: {
     SfButton,
     SfRadio,
-    SfHeading
+    SfHeading,
   },
 
   setup(props, { emit }) {
@@ -49,7 +49,7 @@ export default {
       const paymentMethod = {
         orderTokenValue: cart.value.tokenValue,
         paymentMethodCode: code,
-        paymentId: String(cart.value.payments._id)
+        paymentId: String(cart.value.payments._id),
       };
       $sylius.api.updateCartPayment({ paymentMethod });
     };
@@ -61,7 +61,9 @@ export default {
     };
 
     onMounted(async () => {
-      selectedMethod.value = cart.value.payments ? cart.value.payments.method.code : null;
+      selectedMethod.value = cart.value.payments
+        ? cart.value.payments.method.code
+        : null;
       if (selectedMethod.value) {
         emit('status');
         updatePayment(selectedMethod.value);
@@ -72,9 +74,9 @@ export default {
     return {
       paymentMethods,
       selectedMethod,
-      selectMethod
+      selectMethod,
     };
-  }
+  },
 };
 </script>
 

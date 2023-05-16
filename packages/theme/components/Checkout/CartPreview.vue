@@ -16,7 +16,11 @@
       <SfProperty
         :name="$t('Subtotal')"
         :value="$n(totals.subtotal, 'currency')"
-        :class="['sf-property--full-width', 'sf-property--large property', { discounted: hasSpecialPrice }]"
+        :class="[
+          'sf-property--full-width',
+          'sf-property--large property',
+          { discounted: hasSpecialPrice },
+        ]"
       />
       <SfProperty
         v-for="discount in discounts"
@@ -26,18 +30,19 @@
         class="sf-property--full-width sf-property--large property"
       >
         <template #value="{ props }">
-          <span class="sf-property__value" style="text-align: right;">
+          <span class="sf-property__value" style="text-align: right">
             {{ props.value }}
             <a
               href="#"
               @click.prevent="handleCouponRemoval(discount)"
               class="text-primary"
-              style="font-size: 12px;font-weight: normal;"
-            >Remove</a>
+              style="font-size: 12px; font-weight: normal"
+              >Remove</a
+            >
           </span>
         </template>
       </SfProperty>
-     <SfProperty
+      <SfProperty
         v-if="hasSpecialPrice"
         :value="$n(totals.special, 'currency')"
         class="sf-property--full-width sf-property--small property special-price"
@@ -61,7 +66,9 @@
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
       />
-      <SfButton type="submit" class="promo-code__button">{{ $t('Apply') }}</SfButton>
+      <SfButton type="submit" class="promo-code__button">{{
+        $t('Apply')
+      }}</SfButton>
     </form>
     <div class="highlighted">
       <SfCharacteristic
@@ -83,7 +90,7 @@ import {
   SfProperty,
   SfCharacteristic,
   SfInput,
-  SfCircleIcon
+  SfCircleIcon,
 } from '@storefront-ui/vue';
 import { onSSR } from '@vue-storefront/core';
 import { computed, ref } from '@nuxtjs/composition-api';
@@ -99,10 +106,18 @@ export default {
     SfProperty,
     SfCharacteristic,
     SfInput,
-    SfCircleIcon
+    SfCircleIcon,
   },
-  setup (_, context) {
-    const { cart, removeItem, updateItemQty, applyCoupon, load, removeCoupon, error } = useCart();
+  setup(_, context) {
+    const {
+      cart,
+      removeItem,
+      updateItemQty,
+      applyCoupon,
+      load,
+      removeCoupon,
+      error,
+    } = useCart();
     const { send } = useUiNotification();
     const t = (key) => context.root.$i18n.t(key);
 
@@ -118,7 +133,7 @@ export default {
     const submitCouponForm = async () => {
       await applyCoupon({ couponCode: promoCode.value });
       const errorKeys = Object.keys(error.value);
-      errorKeys.forEach(errorKey => {
+      errorKeys.forEach((errorKey) => {
         if (error.value[errorKey] && error.value[errorKey]?.message) {
           send({ type: 'danger', message: error.value[errorKey].message });
         }
@@ -127,7 +142,7 @@ export default {
 
     const handleCouponRemoval = async (coupon) => {
       await removeCoupon({
-        couponCode: coupon.code
+        couponCode: coupon.code,
       });
     };
 
@@ -153,24 +168,29 @@ export default {
         {
           title: t('Safety'),
           description: t('It carefully packaged with a personal touch'),
-          icon: 'safety'
+          icon: 'safety',
         },
         {
           title: t('Easy shipping'),
-          description:
-            t('You’ll receive dispatch confirmation and an arrival date'),
-          icon: 'shipping'
+          description: t(
+            'You’ll receive dispatch confirmation and an arrival date'
+          ),
+          icon: 'shipping',
         },
         {
           title: t('Changed your mind?'),
           description: t('Rest assured, we offer free returns within 30 days'),
-          icon: 'return'
-        }
+          icon: 'return',
+        },
       ],
-      hasSpecialPrice: computed(() => totals.value.special > 0 && totals.value.special < totals.value.subtotal),
-      hasShipping: computed(() => totals.value.shipping > 0)
+      hasSpecialPrice: computed(
+        () =>
+          totals.value.special > 0 &&
+          totals.value.special < totals.value.subtotal
+      ),
+      hasShipping: computed(() => totals.value.shipping > 0),
     };
-  }
+  },
 };
 </script>
 
@@ -234,5 +254,4 @@ export default {
     display: none;
   }
 }
-
 </style>

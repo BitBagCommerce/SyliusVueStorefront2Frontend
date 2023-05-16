@@ -3,7 +3,8 @@ export { default as getCategory } from './getCategory';
 export {
   getProduct,
   getProductNotFiltered,
-  getProductAttribute
+  getProductAttribute,
+  getMinimalProduct,
 } from './getProduct';
 export {
   createCart,
@@ -20,7 +21,7 @@ export {
   addAddress,
   getPaymentMethods,
   getShippingMethods,
-  getCountries
+  getCountries,
 } from './cart';
 export {
   loginUser,
@@ -35,15 +36,10 @@ export {
   updateUserPassword,
   resetUserPassword,
   triggerResetUserPassword,
-  deleteUserAddress
+  deleteUserAddress,
 } from './user';
-export {
-  getReviews,
-  addReview
-} from './review';
-export {
-  getFilters
-} from './filters';
+export { getReviews, addReview } from './review';
+export { getFilters } from './filters';
 export {
   getWishlists,
   addItem,
@@ -51,5 +47,5 @@ export {
   clearWishlist,
   createWishlist,
   editWishlist,
-  removeWishlist
+  removeWishlist,
 } from './wishlist';

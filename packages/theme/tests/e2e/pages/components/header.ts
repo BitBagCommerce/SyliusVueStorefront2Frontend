@@ -12,12 +12,12 @@ class Header {
   get category() {
     return {
       women: () => el('app-header-url_women'),
-      men: () => el('app-header-url_men')
+      men: () => el('app-header-url_men'),
     };
   }
 
   openCart(): Cypress.Chainable {
-    const click = $el => $el.click();
+    const click = ($el) => $el.click();
     return this.cart.pipe(click).should(() => {
       expect(Cypress.$('[data-e2e="sidebar-cart"]')).to.exist;
     });

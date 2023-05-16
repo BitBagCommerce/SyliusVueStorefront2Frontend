@@ -1,5 +1,5 @@
 name: Deploy PR Preview on Storefrontcloud
-on: 
+on:
   pull_request:
     types: [opened, synchronize]
 jobs:
@@ -11,7 +11,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: '12.x'
       - name: Build and publish docker image
         # uses: elgohr/Publish-Docker-Github-Action@master
         # 3.04 is hardcoded as a workaround for https://github.com/elgohr/Publish-Docker-Github-Action/issues/134
@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.CLOUD_USERNAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
           dockerfile: dev/docker/Dockerfile
-          buildoptions: "--compress"
+          buildoptions: '--compress'
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -31,15 +31,15 @@ jobs:
         name: Create GitHub deployment
         id: deployment
         with:
-          token: "${{ github.token }}"
+          token: '${{ github.token }}'
           environment: preview
           initial_status: in_progress
       - name: Deploy on Storefrontcloud.io
         id: deploy
         uses: storefrontcloud/storefrontcloud-preview-deploy@0.1.0
         with:
-          token: "${{ github.token }}"
-          namespace: "vsf-next-demo"
+          token: '${{ github.token }}'
+          namespace: 'vsf-next-demo'
           username: ${{ secrets.CLOUD_USERNAME }}
           password: ${{ secrets.CLOUD_PASSWORD }}
       - name: Comment PR
@@ -47,22 +47,22 @@ jobs:
         uses: storefrontcloud/storefrontcloud-comment-pr-preview-deploy@master
         with:
           preview_url: '${{ steps.deploy.outputs.preview_url }}'
-          token: "${{ github.token }}"
+          token: '${{ github.token }}'
           namespace: 'vsf-next-demo'
       - name: Update deployment status (success)
         if: success()
         uses: chrnorm/deployment-status@releases/v1
         with:
-          token: "${{ github.token }}"
+          token: '${{ github.token }}'
           target_url: ${{ steps.deploy.outputs.preview_url }}
-          state: "success"
+          state: 'success'
           description: Congratulations! The deploy is done.
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
       - name: Update deployment status (failure)
         if: failure()
         uses: chrnorm/deployment-status@releases/v1
         with:
-          token: "${{ github.token }}"
+          token: '${{ github.token }}'
           description: Unfortunately, the instance hasn't been updated.
-          state: "failure"
+          state: 'failure'
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}

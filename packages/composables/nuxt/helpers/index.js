@@ -1,4 +1,7 @@
-export const mapConfigToSetupObject = ({ moduleOptions, additionalProperties = {} }) => ({
+export const mapConfigToSetupObject = ({
+  moduleOptions,
+  additionalProperties = {},
+}) => ({
   ...moduleOptions,
-  ...additionalProperties
+  ...additionalProperties,
 });
