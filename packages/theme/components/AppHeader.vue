@@ -61,8 +61,9 @@
             :aria-label="$t('Search')"
             class="sf-header__search--bar"
             :value="term"
-            @input="handleSearch"
-            @keydown.enter="handleSearch($event)"
+            :disabled="isSearchDisabled"
+            @input="term = $event"
+            @keydown.enter="handleSearch(), isSearchDisabled = true"
             @focus="openSearch"
             @blur="isSearchFocus = false"
             @keydown.esc="closeSearch"
@@ -166,6 +167,7 @@ export default {
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const isSearchFocus = ref(false);
+    const isSearchDisabled = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
     const isLangModalOpen = ref(false);
@@ -202,22 +204,17 @@ export default {
       isSearchOpen.value = false;
     }, 100);
 
-    const handleSearch = debounce(async (paramValue) => {
-      if (!paramValue.target) {
-        term.value = paramValue;
-      } else {
-        term.value = paramValue.target.value;
-      }
-
+    const handleSearch = debounce(async () => {
       await Promise.all([
-        searchProducts({ search: term.value }),
-        searchCategories({ categoryName: term.value }),
+        searchProducts({ search: term.value.trim() }),
+        searchCategories({ categoryName: term.value.trim() })
       ]);
 
       result.value = {
         products: searchProductsResults.value.products,
         categories: searchCategoriesResults.value,
       };
+      isSearchDisabled.value = false;
     }, 1000);
 
     const closeOrFocusSearchBar = () => {
@@ -227,18 +224,13 @@ export default {
 
     const setIsLangModalOpen = (val) => (isLangModalOpen.value = val);
 
-    watch(
-      () => term.value,
-      (newVal, oldVal) => {
-        const shouldSearchBeOpened =
-          term.value.length > 0 &&
-          ((!oldVal && newVal) ||
-            (newVal.length !== oldVal.length && isSearchOpen.value === false));
-        if (shouldSearchBeOpened) {
-          isSearchOpen.value = true;
-        }
-      }
-    );
+    watch(() => term.value, (newVal, oldVal) => {
+      const shouldSearchBeOpened =
+        (term.value.length > 0) && ((!oldVal && newVal) || (newVal.length !== oldVal.length && isSearchOpen.value === false));
+
+      if (shouldSearchBeOpened) isSearchOpen.value = true;
+      if (isSearchOpen.value) handleSearch();
+    });
 
     const removeSearchResults = () => {
       result.value = null;
@@ -254,6 +246,7 @@ export default {
       term,
       isSearchOpen,
       isSearchFocus,
+      isSearchDisabled,
       openSearch,
       closeSearch,
       handleSearch,
