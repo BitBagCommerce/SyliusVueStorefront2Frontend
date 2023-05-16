@@ -6,7 +6,7 @@ import {
 } from '@vue-storefront/core';
 import { User, UseUserRegisterParams, UseUserUpdateParams } from '../../types';
 import { useCart } from '../useCart';
-import type { Context } from '@vue-storefront/sylius-api/src/types';
+import type { Context } from '@vue-storefront/sylius-api';
 
 const params: UseUserFactoryParams<User, UseUserUpdateParams, UseUserRegisterParams> = {
   provide() {

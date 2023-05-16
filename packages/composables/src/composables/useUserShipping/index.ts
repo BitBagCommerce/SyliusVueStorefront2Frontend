@@ -2,7 +2,7 @@ import {
   useUserShippingFactory,
   UseUserShippingFactoryParams
 } from '@vue-storefront/core';
-import type { Context } from '@vue-storefront/sylius-api/src/types';
+import type { Context } from '@vue-storefront/sylius-api';
 import { useUserShippingAddress, useUserShippingAddressItem } from 'composables/src/types';
 
 const params: UseUserShippingFactoryParams<useUserShippingAddress, useUserShippingAddressItem> = {

@@ -5,7 +5,7 @@ import {
 import type {
   Context,
   Review
-} from '@vue-storefront/sylius-api/src/types';
+} from '@vue-storefront/sylius-api';
 import {
   UseReviewAddParams,
   UseReviewSearchParams

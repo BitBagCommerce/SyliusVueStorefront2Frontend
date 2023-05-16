@@ -3,7 +3,7 @@ import {
   useCategoryFactory,
   UseCategoryFactoryParams
 } from '@vue-storefront/core';
-import { Context } from '@vue-storefront/sylius-api/src/types';
+import { Context } from '@vue-storefront/sylius-api';
 import { Category } from 'composables/src/types';
 
 // TODO: add better typing after category list changes

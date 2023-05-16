@@ -2,7 +2,7 @@ import {
   useUserBillingFactory,
   UseUserBillingFactoryParams
 } from '@vue-storefront/core';
-import type { Context, UserAddressItem } from '@vue-storefront/sylius-api/src/types';
+import type { Context, UserAddressItem } from '@vue-storefront/sylius-api';
 
 const params: UseUserBillingFactoryParams<UserAddressItem[], any> = {
   addAddress: async () => ({} as any),

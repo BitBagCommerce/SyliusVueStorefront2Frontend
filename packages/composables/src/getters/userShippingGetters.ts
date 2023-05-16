@@ -1,5 +1,5 @@
 import { UserShippingGetters } from '@vue-storefront/core';
-import type { UserShippingAddressSearchCriteria } from '@vue-storefront/sylius-api/src/types';
+import type { UserShippingAddressSearchCriteria } from '@vue-storefront/sylius-api';
 import {
   useUserShippingAddress as Address,
   useUserShippingAddressItem as AddressItem

@@ -1,5 +1,5 @@
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
-import { Category } from '@vue-storefront/sylius-api/src/types';
+import { Category } from '@vue-storefront/sylius-api';
 
 // TODO: add better typing after category list changes
 const itemToTree = (category: Category): AgnosticCategoryTree => {

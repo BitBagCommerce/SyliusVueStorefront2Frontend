@@ -9,7 +9,7 @@ import type {
   CartItem,
   Product,
   Context
-} from '@vue-storefront/sylius-api/src/types';
+} from '@vue-storefront/sylius-api';
 
 const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   load: async (context: Context) => {

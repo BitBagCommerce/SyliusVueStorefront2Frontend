@@ -4,7 +4,7 @@ import {
   UseProductFactoryParams,
   Logger
 } from '@vue-storefront/core';
-import type { Context } from '@vue-storefront/sylius-api/src/types';
+import type { Context } from '@vue-storefront/sylius-api';
 import { ProductsResponse } from 'composables/src/types';
 
 const params: UseProductFactoryParams<ProductsResponse, any> = {

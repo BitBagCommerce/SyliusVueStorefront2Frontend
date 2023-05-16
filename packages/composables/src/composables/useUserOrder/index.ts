@@ -5,7 +5,7 @@ import {
   UseUserOrderFactoryParams
 } from '@vue-storefront/core';
 import { OrdersResponse, OrderSearchParams } from '../../types';
-import type { Context } from '@vue-storefront/sylius-api/src/types';
+import type { Context } from '@vue-storefront/sylius-api';
 
 const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

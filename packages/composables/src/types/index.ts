@@ -1,5 +1,5 @@
 import { ProductsSearchParams } from '@vue-storefront/core';
-import type { Context } from '@vue-storefront/sylius-api/src/types';
+import type { Context } from '@vue-storefront/sylius-api';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 

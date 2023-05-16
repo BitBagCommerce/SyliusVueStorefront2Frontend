@@ -5,7 +5,7 @@ import {
 import type {
   BillingAddress,
   Context
-} from '@vue-storefront/sylius-api/src/types';
+} from '@vue-storefront/sylius-api';
 import type {
   UseBillingAddParams as AddParams
 } from '../../types';

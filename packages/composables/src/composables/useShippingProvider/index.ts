@@ -1,7 +1,7 @@
 import { useShippingProviderFactory, UseShippingProviderParams } from '@vue-storefront/core';
 import { Shipping, ShippingMethod } from '../../types';
 import { useCart } from '../useCart';
-import type { Context } from '@vue-storefront/sylius-api/src/types';
+import type { Context } from '@vue-storefront/sylius-api';
 
 const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
   provide() {
