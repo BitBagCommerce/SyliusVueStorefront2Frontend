@@ -37,27 +37,31 @@ import { useUser, userGetters } from '@vue-storefront/sylius';
 
 extend('email', {
   ...email,
-  message: 'Invalid email'
+  message: 'Invalid email',
 });
 
 extend('required', {
   ...required,
-  message: 'This field is required'
+  message: 'This field is required',
 });
 
 extend('min', {
   ...min,
-  message: 'The field should have at least {length} characters'
+  message: 'The field should have at least {length} characters',
 });
 
 extend('password', {
-  validate: value => String(value).length >= 8 && String(value).match(/[A-Za-z]/gi) && String(value).match(/[0-9]/gi),
-  message: 'Password must have at least 8 characters including one letter and a number'
+  validate: (value) =>
+    String(value).length >= 8 &&
+    String(value).match(/[A-Za-z]/gi) &&
+    String(value).match(/[0-9]/gi),
+  message:
+    'Password must have at least 8 characters including one letter and a number',
 });
 
 extend('confirmed', {
   ...confirmed,
-  message: 'Passwords don\'t match'
+  message: "Passwords don't match",
 });
 
 export default {
@@ -68,7 +72,7 @@ export default {
     SfInput,
     SfButton,
     ProfileUpdateForm,
-    PasswordResetForm
+    PasswordResetForm,
   },
 
   setup() {
@@ -77,12 +81,16 @@ export default {
 
     const formHandler = async (fn, onComplete, onError) => {
       const data = await fn();
-      const userError = Object.values(error.value).find(err => err !== null);
+      const userError = Object.values(error.value).find((err) => err !== null);
 
       if (userError) {
-        const formattedStrings = userError.message.replace(/currentPassword: |newPassword: /g, '').split('\n');
+        const formattedStrings = userError.message
+          .replace(/currentPassword: |newPassword: /g, '')
+          .split('\n');
 
-        formattedStrings.forEach((str, i) => setTimeout(() => onError(str), 200 * i));
+        formattedStrings.forEach((str, i) =>
+          setTimeout(() => onError(str), 200 * i)
+        );
 
         return;
       }
@@ -90,19 +98,29 @@ export default {
       onComplete(data);
     };
 
-    const updatePersonalData = ({ form, onComplete, onError }) => formHandler(() => updateUser({ user: form.value }), onComplete, onError);
-    const updatePassword = ({ form, onComplete, onError }) => formHandler(() => changePassword({ current: form.value.currentPassword, new: form.value.newPassword }), onComplete, onError);
+    const updatePersonalData = ({ form, onComplete, onError }) =>
+      formHandler(() => updateUser({ user: form.value }), onComplete, onError);
+    const updatePassword = ({ form, onComplete, onError }) =>
+      formHandler(
+        () =>
+          changePassword({
+            current: form.value.currentPassword,
+            new: form.value.newPassword,
+          }),
+        onComplete,
+        onError
+      );
 
     return {
       updatePersonalData,
       updatePassword,
-      currentEmail
+      currentEmail,
     };
-  }
+  },
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .message,
 .notice {
   font-family: var(--font-family--primary);
@@ -119,5 +137,4 @@ export default {
   margin: var(--spacer-lg) 0 0 0;
   font-size: var(--font-size--sm);
 }
-
 </style>

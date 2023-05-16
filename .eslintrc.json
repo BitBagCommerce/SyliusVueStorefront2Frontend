@@ -26,6 +26,8 @@
     "Intl": true
   },
   "rules": {
+    "vue/custom-event-name-casing": ["error", "kebab-case"],
+    "no-duplicate-imports": 2,
     "eqeqeq": 2,
     "no-use-before-define": [
       2,
@@ -42,7 +44,7 @@
     "array-bracket-spacing": 2,
     "space-in-parens": 2,
     "no-trailing-spaces": 2,
-    "comma-dangle": 2,
+    "comma-dangle": 0,
     "comma-style": 2,
     "space-infix-ops": 2,
     "keyword-spacing": 2,

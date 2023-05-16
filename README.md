@@ -8,19 +8,20 @@ The current repository is an actively developed fork of [vuestorefront-community
 
 ---
 
-At BitBag we do believe in open source. However, we are able to do it just because of our awesome clients, who are kind enough to share some parts of our work with the community. Therefore, if you feel like there is a possibility for us to work  together, feel free to reach out. You will find out more about our professional services, technologies, and contact details at [https://bitbag.io/](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=vsf2).
+At BitBag we do believe in open source. However, we are able to do it just because of our awesome clients, who are kind enough to share some parts of our work with the community. Therefore, if you feel like there is a possibility for us to work together, feel free to reach out. You will find out more about our professional services, technologies, and contact details at [https://bitbag.io/](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=vsf2).
 
 Like what we do? Want to join us? Check out our job listings on our [career page](https://bitbag.io/career/?utm_source=github&utm_medium=referral&utm_campaign=career). Not familiar with Symfony & Sylius yet, but still want to start with us? Join our [academy](https://bitbag.io/pl/akademia?utm_source=github&utm_medium=url&utm_campaign=akademia)!
 
 ## Table of Content
 
-* [Overview](#overview)
-  * [Supported versions](#supported-versions)
-  * [Installation](#installation)
-* [Support](#we-are-here-to-help)
-* [About us](#about-us)
-* [License](#license)
-* [Contact](#contact)
+- [Overview](#overview)
+  - [Supported versions](#supported-versions)
+  - [Installation](#installation)
+  - [Demo](https://vsf2-demo.bitbag.io/)
+- [Support](#we-are-here-to-help)
+- [About us](#about-us)
+- [License](#license)
+- [Contact](#contact)
 
 ## Overview
 
@@ -46,16 +47,22 @@ You can run the Vue Storefront 2 integration by running a few steps inside root 
 4. To run application in development mode, please run `yarn dev` command.
 5. To run application in production mode, please run `yarn start` command.
 
+If you want to run our docs page yourself, do the following:
+
+1. Run `yarn docs:install` in the root directory to install docs dependencies.
+2. To run the docs page in development mode use `yarn docs:dev`.
+3. If you want to build a docs page run `yarn docs:build`.
+
 #### Internationalization
 
 By default, the integration supports `en_US` and `de_DE` locales. To have more locales, you have to enable them in Sylius Channel configuration (in admin panel).
 After this, please edit the `packages/theme/i18nConfig.js` file (the `locales` section).
 
 ## We are here to help
+
 This **open-source plugin was developed to help the Sylius community**. If you have any additional questions, would like help with installing or configuring the plugin or need any assistance with your Sylius project - let us know!
 
 [![](https://bitbag.io/wp-content/uploads/2020/10/button-contact.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=vsf2)
-
 
 # About us
 
@@ -65,12 +72,14 @@ We build **unforgettable**, consistent digital customer journeys on top of the *
 Our team is fluent in **Polish, English, German and, French**. That is why our cooperation with clients from all over the world is smooth.
 
 **Some numbers from BitBag regarding Sylius:**
+
 - 50+ **experts** including consultants, UI/UX designers, Sylius trained front-end and back-end developers,
 - 120+ projects **delivered** on top of Sylius,
 - 25+ **countries** of BitBag’s customers,
 - 4+ **years** in the Sylius ecosystem.
 
 **Our services:**
+
 - Business audit/Consulting in the field of **strategy** development,
 - Data/shop **migration**,
 - Headless **eCommerce**,
@@ -88,7 +97,7 @@ Our team is fluent in **Polish, English, German and, French**. That is why our c
 
 This integration's source code is completely free and released under the terms of the MIT license.
 
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen.)
+[//]: # "These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen."
 
 ## Contact
 

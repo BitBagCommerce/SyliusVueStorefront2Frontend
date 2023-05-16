@@ -9,7 +9,7 @@ export const defaultSettings = {
     customerCookieName: 'vsf-customer',
     customerRefreshCookieName: 'vsf-customer-token',
     customerIdCookieName: 'vsf-customer-id',
-    storeCookieName: 'vsf-store'
+    storeCookieName: 'vsf-store',
   },
   state: {
     getCartId: () => '',
@@ -21,6 +21,6 @@ export const defaultSettings = {
     getCustomerId: () => '',
     setCustomerId: () => {},
     getStore: () => '',
-    setStore: () => {}
-  }
+    setStore: () => {},
+  },
 };

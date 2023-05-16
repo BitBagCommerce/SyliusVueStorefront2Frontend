@@ -25,12 +25,8 @@ export const getUserAddressesQuery = gql`
 `;
 
 export const getUserOrdersQuery = gql`
-  query getCustomerOrders(
-    $id: ID!
-  ) {
-    customer (
-      id: $id
-    ) {
+  query getCustomerOrders($id: ID!) {
+    customer(id: $id) {
       orders {
         edges {
           node {
@@ -75,4 +71,3 @@ export const getUserOrdersQuery = gql`
     }
   }
 `;
-

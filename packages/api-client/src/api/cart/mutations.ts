@@ -3,12 +3,8 @@ import { addressFragment } from '../fragments/address';
 import { cartFragment } from '../fragments/cart';
 
 export const createCartMutation = gql`
-  mutation createCart(
-    $locale: String
-  ) {
-    cart: shop_postOrder(input: {
-      localeCode: $locale
-    }) {
+  mutation createCart($locale: String) {
+    cart: shop_postOrder(input: { localeCode: $locale }) {
       order {
         tokenValue
       }
@@ -34,6 +30,22 @@ export const addToCartMutation = gql`
   }
 `;
 
+export const addManyToCartMutation = gql`
+  mutation addManyToCart(
+    $token: String!,
+    $variants: Iterable!
+  ) {
+    shop_add_itemsOrder(input: {
+      orderTokenValue: $token
+      cartItems: $variants
+    }) {
+      order {
+        ${cartFragment}
+      }
+    }
+  }
+`;
+
 export const removeFromCartMutation = gql`
   mutation removeFromCart(
     $cartId: String!,
@@ -51,12 +63,8 @@ export const removeFromCartMutation = gql`
 `;
 
 export const clearCartMutation = gql`
-  mutation deleteCart(
-    $cartId: String!
-  ) {
-    deleteOrder(input: {
-      id: $cartId
-    }) {
+  mutation deleteCart($cartId: String!) {
+    deleteOrder(input: { id: $cartId }) {
       order {
         tokenValue
       }

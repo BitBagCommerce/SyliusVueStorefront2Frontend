@@ -3,14 +3,12 @@
 
 module.exports = {
   transform: {
-    '^.+\\.[jt]s$': 'ts-jest'
+    '^.+\\.[jt]s$': 'ts-jest',
   },
   coverageDirectory: './coverage/',
   coverageReporters: ['html', 'lcov', 'text'],
-  collectCoverageFrom: [
-    'src/**/*.ts'
-  ],
+  collectCoverageFrom: ['src/**/*.ts'],
   moduleFileExtensions: ['ts', 'js', 'json'],
   watchPathIgnorePatterns: ['**/node_modules'],
-  testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)']
+  testMatch: ['<rootDir>/**/__tests__/**/*spec.[jt]s?(x)'],
 };

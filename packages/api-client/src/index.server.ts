@@ -7,17 +7,19 @@ import * as api from './api';
 import ApolloClient from 'apollo-client';
 import i18n from '../../theme/i18nConfig';
 
-const onCreate = (settings: Config): { config: Config, client: ClientInstance} => {
+const onCreate = (
+  settings: Config
+): { config: Config; client: ClientInstance } => {
   const config = {
     ...defaultSettings,
     ...settings,
-    state: settings.state || defaultSettings.state
+    state: settings.state || defaultSettings.state,
   };
 
   if (settings.client) {
     return {
       client: settings.client,
-      config
+      config,
     };
   }
 
@@ -25,9 +27,9 @@ const onCreate = (settings: Config): { config: Config, client: ClientInstance} =
     return {
       client: new ApolloClient({
         cache: new InMemoryCache(),
-        ...settings.customOptions
+        ...settings.customOptions,
       }),
-      config
+      config,
     };
   }
 
@@ -36,12 +38,12 @@ const onCreate = (settings: Config): { config: Config, client: ClientInstance} =
   const client = apolloClientFactory({
     link: apolloLink,
     cache: new InMemoryCache(),
-    ...settings.customOptions
+    ...settings.customOptions,
   });
 
   return {
     config,
-    client
+    client,
   };
 };
 
@@ -49,12 +51,24 @@ const tokenExtension: ApiClientExtension = {
   name: 'tokenExtension',
   hooks: (req, res) => ({
     beforeCreate: ({ configuration }) => {
-      const localeCookieName = configuration.cookies?.localeCookieName || defaultSettings.cookies.localeCookieName;
-      const cartCookieName = configuration.cookies?.cartCookieName || defaultSettings.cookies.cartCookieName;
-      const customerCookieName = configuration.cookies?.customerCookieName || defaultSettings.cookies.customerCookieName;
-      const customerRefreshCookieName = configuration.cookies?.customerRefreshCookieName || defaultSettings.cookies.customerRefreshCookieName;
-      const customerIdCookieName = configuration.cookies?.customerIdCookieName || defaultSettings.cookies.customerIdCookieName;
-      const storeCookieName = configuration.cookies?.storeCookieName || defaultSettings.cookies.storeCookieName;
+      const localeCookieName =
+        configuration.cookies?.localeCookieName ||
+        defaultSettings.cookies.localeCookieName;
+      const cartCookieName =
+        configuration.cookies?.cartCookieName ||
+        defaultSettings.cookies.cartCookieName;
+      const customerCookieName =
+        configuration.cookies?.customerCookieName ||
+        defaultSettings.cookies.customerCookieName;
+      const customerRefreshCookieName =
+        configuration.cookies?.customerRefreshCookieName ||
+        defaultSettings.cookies.customerRefreshCookieName;
+      const customerIdCookieName =
+        configuration.cookies?.customerIdCookieName ||
+        defaultSettings.cookies.customerIdCookieName;
+      const storeCookieName =
+        configuration.cookies?.storeCookieName ||
+        defaultSettings.cookies.storeCookieName;
 
       const locale = req.cookies[localeCookieName];
 
@@ -108,19 +122,17 @@ const tokenExtension: ApiClientExtension = {
               return;
             }
             res.cookie(storeCookieName, JSON.stringify(id));
-          }
-        }
+          },
+        },
       };
-    }
-  })
+    },
+  }),
 };
 
 const { createApiClient } = apiClientFactory<any, any>({
   onCreate,
   api,
-  extensions: [tokenExtension]
+  extensions: [tokenExtension],
 });
 
-export {
-  createApiClient
-};
+export { createApiClient };

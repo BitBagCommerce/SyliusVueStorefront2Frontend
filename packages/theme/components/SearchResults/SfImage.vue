@@ -18,14 +18,14 @@
         placeholder,
         width,
         height,
-        nuxtImgConfig
+        nuxtImgConfig,
       }"
     >
       <img
         :class="{ 'display-none': isPlaceholderVisible }"
         class="sf-image--placeholder"
         :src="placeholder"
-        alt="Placeholder"
+        :alt="$t('Placeholder')"
         :width="width || nuxtImgConfig.width"
         :height="height || nuxtImgConfig.height"
         v-on="$listeners"
@@ -50,10 +50,10 @@
   </span>
 </template>
 <script>
-import imagePlaceholder from "@storefront-ui/shared/images/product_placeholder.svg";
+import imagePlaceholder from '@storefront-ui/shared/images/product_placeholder.svg';
 
 export default {
-  name: "SfImage",
+  name: 'SfImage',
   props: {
     src: {
       type: String,
@@ -87,14 +87,14 @@ export default {
     },
     loading: {
       type: String,
-      default: "lazy",
-      validator: (value) => ["", "lazy", "eager"].includes(value),
+      default: 'lazy',
+      validator: (value) => ['', 'lazy', 'eager'].includes(value),
     },
     imageTag: {
       type: String,
-      default: "img",
+      default: 'img',
       validator: (value) =>
-        ["", "img", "nuxt-img", "nuxt-picture"].includes(value),
+        ['', 'img', 'nuxt-img', 'nuxt-picture'].includes(value),
     },
     nuxtImgConfig: {
       type: Object,
@@ -122,7 +122,7 @@ export default {
       return this.sortedSrcsets.reduce(
         (str, set) =>
           `${this.prefix(str)}${set.src} ${this.srcsetDescriptor(set)}`,
-        ""
+        ''
       );
     },
     sizes() {
@@ -135,57 +135,57 @@ export default {
           `${this.prefix(str)}${this.formatBreakpoint(
             set.breakpoint
           )}${this.formatDimension(set.width)}`,
-        ""
+        ''
       );
     },
     classes() {
       if (this.loaded) {
-        return "sf-image sf-image-loaded";
+        return 'sf-image sf-image-loaded';
       } else {
-        return "sf-image";
+        return 'sf-image';
       }
     },
     imageComponentTag() {
-      return !this.$nuxt ? "img" : this.imageTag || "img";
+      return !this.$nuxt ? 'img' : this.imageTag || 'img';
     },
     isPlaceholderVisible() {
       return this.loaded || (!this.loaded && !this.placeholder);
     },
     attributes() {
-      return this.imageTag === "img" || this.imageTag === ""
+      return this.imageTag === 'img' || this.imageTag === ''
         ? {
-          ...this.$attrs,
-          sizes: this.sizes,
-          srcset: this.srcset,
-        }
+            ...this.$attrs,
+            sizes: this.sizes,
+            srcset: this.srcset,
+          }
         : {
-          ...this.$attrs,
-          width: this.width ? this.width : null,
-          height: this.height ? this.height : null,
-          ...this.nuxtImgConfig,
-        };
+            ...this.$attrs,
+            width: this.width ? this.width : null,
+            height: this.height ? this.height : null,
+            ...this.nuxtImgConfig,
+          };
     },
     styles() {
       if (
         !this.width &&
         !this.srcset &&
-        (this.imageTag === "img" || this.imageTag === "")
+        (this.imageTag === 'img' || this.imageTag === '')
       ) {
-        console.error(`Missing required prop width.`);
+        console.error('Missing required prop width.');
       }
       if (
         !this.height &&
         !this.srcset &&
-        (this.imageTag === "img" || this.imageTag === "")
+        (this.imageTag === 'img' || this.imageTag === '')
       ) {
-        console.error(`Missing required prop height.`);
+        console.error('Missing required prop height.');
       }
       const sizeHandler = (size) => {
         return size === null ? null : `${size}px`;
       };
       return {
-        "--_image-width": sizeHandler(this.width),
-        "--_image-height": sizeHandler(this.height),
+        '--_image-width': sizeHandler(this.width),
+        '--_image-height': sizeHandler(this.height),
       };
     },
   },
@@ -194,14 +194,14 @@ export default {
       this.loaded = true;
     },
     formatResolution(resolution) {
-      return ("" + resolution).endsWith("x") ? resolution : `${resolution}x`;
+      return String(resolution).endsWith('x') ? resolution : `${resolution}x`;
     },
     formatDimension(size) {
       if (typeof size === null) return;
       if (
-        ["%"].includes(`${size}`.slice(-1)) ||
-        ["rem"].includes(`${size}`.slice(-3)) ||
-        ["em", "px", "vw", "vh"].includes(`${size}`.slice(-2)) ||
+        ['%'].includes(`${size}`.slice(-1)) ||
+        ['rem'].includes(`${size}`.slice(-3)) ||
+        ['em', 'px', 'vw', 'vh'].includes(`${size}`.slice(-2)) ||
         !parseInt(size, 10)
       ) {
         return size;
@@ -210,21 +210,21 @@ export default {
       }
     },
     formatBreakpoint(breakpoint) {
-      return breakpoint ? `(max-width: ${breakpoint}px) ` : "";
+      return breakpoint ? `(max-width: ${breakpoint}px) ` : '';
     },
     prefix(str) {
-      return str ? `${str}, ` : "";
+      return str ? `${str}, ` : '';
     },
     srcsetDescriptor(srcset) {
       return srcset.width
-        ? `${Number.parseInt(srcset.width) || ""}w`
+        ? `${Number.parseInt(srcset.width) || ''}w`
         : this.formatResolution(srcset.resolution);
     },
   },
 };
 </script>
 <style lang="scss">
-@import "~@storefront-ui/shared/styles/components/atoms/SfImage.scss";
+@import '~@storefront-ui/shared/styles/components/atoms/SfImage.scss';
 
 .search .sf-image--placeholder {
   width: 220px;

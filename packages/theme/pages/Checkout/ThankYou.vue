@@ -19,7 +19,7 @@
     <section class="section">
       <div class="order">
         <SfHeading
-          title="Your Purchase"
+          :title="$t('Your Purchase')"
           class="order__heading heading sf-heading--left"
           :level="3"
         />
@@ -30,7 +30,7 @@
           <SfHeading
             :level="6"
             class="heading sf-heading--left sf-heading--no-underline"
-            title="Primary contacts for any questions"
+            :title="$t('Primary contacts for any questions')"
           ></SfHeading>
           <div class="contact">
             <p class="contact__name">{{ companyDetails.name }}</p>
@@ -43,7 +43,7 @@
       <div class="additional-info">
         <div>
           <SfHeading
-            title="Your Account"
+            :title="$t('Your Account')"
             class="heading sf-heading--left"
             :level="3"
           />
@@ -53,8 +53,9 @@
         </div>
       </div>
     </section>
-    <SfButton link="/" class="back-button button-size">{{ $t('Go back to shop') }}</SfButton
-    >
+    <SfButton link="/" class="back-button button-size">{{
+      $t('Go back to shop')
+    }}</SfButton>
   </div>
 </template>
 
@@ -66,7 +67,7 @@ export default {
   components: {
     SfHeading,
     SfButton,
-    SfCallToAction
+    SfCallToAction,
   },
   setup(props, context) {
     context.emit('changeStep', 4);
@@ -75,15 +76,15 @@ export default {
       name: 'Divante Headquarter',
       street: 'St. Dmowskiego 17, 53-534',
       city: 'Wroclaw, Poland',
-      email: 'demo@vuestorefront.io'
+      email: 'demo@vuestorefront.io',
     });
     const orderNumber = computed(() => context.root.$route.query.order);
 
     return {
       companyDetails,
-      orderNumber
+      orderNumber,
     };
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

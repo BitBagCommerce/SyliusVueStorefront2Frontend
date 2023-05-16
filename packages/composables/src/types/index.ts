@@ -1,4 +1,4 @@
-import {ProductsSearchParams} from '@vue-storefront/core';
+import { ProductsSearchParams } from '@vue-storefront/core';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 
@@ -18,7 +18,7 @@ export type CartItem = Record<string, unknown>;
 export type Cart = {
   totals: number;
   items: CartItem[];
-}
+};
 
 export type Coupon = Record<string, unknown>;
 
@@ -36,7 +36,13 @@ export type ShippingMethod = Record<string, unknown>;
 
 export type WishlistProduct = Record<string, unknown>;
 
-export type Wishlist = Record<string, unknown>;
+export type Wishlist = {
+  id: string;
+  name: string;
+  items: any[];
+};
+
+export type Wishlists = Wishlist[];
 
 export type ProductsResponse = {
   data: Product[];

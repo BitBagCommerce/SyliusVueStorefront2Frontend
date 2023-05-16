@@ -10,5 +10,4 @@ describe('[sylius-api-client] setup', () => {
   it('creates instance for direct connection', () => {
     createApiClient({ api: 'api-config' } as any);
   });
-
 });

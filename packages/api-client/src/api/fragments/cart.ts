@@ -44,7 +44,10 @@ export const cartFragment = `
       node {
         _id
         variant {
+          id
           code
+          onHand
+          onHold
           optionValues {
             edges {
               node {
