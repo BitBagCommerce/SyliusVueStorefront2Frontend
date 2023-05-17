@@ -197,6 +197,7 @@ export default {
       return String(resolution).endsWith('x') ? resolution : `${resolution}x`;
     },
     formatDimension(size) {
+      // eslint-disable-next-line valid-typeof
       if (typeof size === null) return;
       if (
         ['%'].includes(`${size}`.slice(-1)) ||
