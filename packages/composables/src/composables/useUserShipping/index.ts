@@ -3,7 +3,7 @@ import {
   UseUserShippingFactoryParams
 } from '@vue-storefront/core';
 import type { Context } from '@vue-storefront/sylius-api';
-import { useUserShippingAddress, useUserShippingAddressItem } from 'composables/src/types';
+import { useUserShippingAddress, useUserShippingAddressItem } from '../../types';
 
 const params: UseUserShippingFactoryParams<useUserShippingAddress, useUserShippingAddressItem> = {
   addAddress: async (context: Context, { address, customQuery }) => {

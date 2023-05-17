@@ -9,7 +9,7 @@ import type {
 import {
   UseReviewAddParams,
   UseReviewSearchParams
-} from 'composables/src/types';
+} from '../../types';
 
 const params: UseReviewFactoryParams<Review, UseReviewSearchParams, UseReviewAddParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

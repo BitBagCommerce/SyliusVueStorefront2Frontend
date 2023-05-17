@@ -14,7 +14,7 @@ export type Address = {
   phoneNumber: string;
 };
 
-export type Category = Awaited<ReturnType<Context['$sylius']['api']['getCategory']>>;
+export type Category = Awaited<ReturnType<Context['$sylius']['api']['getCategory']>>[number];
 
 export type User = {
   firstName?: string;
@@ -71,7 +71,15 @@ export type UseReviewSearchParams = {
   productId?: string;
 };
 
-export type UseReviewAddParams = Parameters<Context['$sylius']['api']['addReview']>[0]['review'] & { productId: number };
+export type UseReviewAddParams = {
+  author: string;
+  clientMutationId?: string;
+  comment: string;
+  rating: number;
+  productId?: number;
+  reviewSubject: string;
+  title: string;
+};
 
 export type UseShippingAddParams = TODO;
 
@@ -95,4 +103,16 @@ export type UseUserRegisterParams = {
 export type useUserOrderSearchParams = TODO;
 
 export type useUserShippingAddress = Awaited<ReturnType<Context['$sylius']['api']['getUserAddresses']>>;
-export type useUserShippingAddressItem = Parameters<Context['$sylius']['api']['updateUserAddress']>[0]['address'];
+export type useUserShippingAddressItem = {
+  city?: string;
+  clientMutationId?: string;
+  company?: string;
+  countryCode?: string;
+  firstName?: string;
+  id: string;
+  lastName?: string;
+  phoneNumber?: string;
+  postcode?: string;
+  provinceName?: string;
+  street?: string;
+};
