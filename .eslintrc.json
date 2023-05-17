@@ -88,13 +88,6 @@
         "allowArrowFunctions": true
       }
     ],
-    "indent": [
-      2,
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
     "line-comment-position": 2,
     "linebreak-style": 2,
     "lines-around-comment": 2,
