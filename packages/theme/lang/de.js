@@ -130,9 +130,9 @@ export default {
   Cancel: 'Abbrechen',
   'See all': 'Alle anzeigen',
   'See all results': 'Alle Ergebnisse anzeigen',
-  'You haven’t searched for items yet':
+  "You haven't searched for items yet":
     'Sie haben noch nicht nach Artikeln gesucht.',
-  'Let’s start now – we’ll help you': 'Fangen wir jetzt an - wir helfen Ihnen.',
+  "Let's start now - we'll help you": 'Fangen wir jetzt an - wir helfen Ihnen.',
   'Search results': 'Suchergebnisse',
   'Product suggestions': 'Produktvorschläge',
   'Search for items': 'Nach Artikeln suchen',
@@ -204,7 +204,7 @@ export default {
   'It carefully packaged with a personal touch':
     'Es sorgfältig verpackt mit einer persönlichen Note',
   'Easy shipping': 'Einfacher Versand',
-  'You’ll receive dispatch confirmation and an arrival date':
+  "You'll receive dispatch confirmation and an arrival date":
     'Sie erhalten eine Versandbestätigung und ein Ankunftsdatum',
   'Changed your mind?': 'Ihre Meinung geändert?',
   'Rest assured, we offer free returns within 30 days':

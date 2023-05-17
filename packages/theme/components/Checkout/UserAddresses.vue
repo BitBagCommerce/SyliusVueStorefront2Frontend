@@ -58,7 +58,7 @@ export default {
         { id: addressId }
       );
       if (!selectedAddress || !selectedAddress.length) return;
-      emit('setCurrentAddress', selectedAddress[0]);
+      emit('set-current-address', selectedAddress[0]);
     };
     return {
       billingAddresses: props.addressGetters.getAddresses(props.addresses),

@@ -39,7 +39,7 @@ export default {
   Done: 'Done',
   'Clear all': 'Clear all',
   Empty:
-    'Looks like you haven’t added any items to the bag yet. Start shopping to fill it in.',
+    "Looks like you haven't added any items to the bag yet. Start shopping to fill it in.",
   'Help & FAQs': 'Help & FAQs',
   Download: 'Download our application.',
   'Find out more': 'Find out more',
@@ -127,8 +127,8 @@ export default {
   Cancel: 'Cancel',
   'See all': 'See all',
   'See all results': 'See all results',
-  'You haven’t searched for items yet': 'You haven’t searched for items yet.',
-  'Let’s start now – we’ll help you': 'Let’s start now – we’ll help you.',
+  "You haven't searched for items yet": "You haven't searched for items yet.",
+  "Let's start now - we'll help you": "Let's start now - we'll help you.",
   'Search results': 'Search results',
   'Product suggestions': 'Product suggestions',
   'Search for items': 'Search for items',
@@ -147,9 +147,9 @@ export default {
   'Reset Password': 'Reset Password',
   'Save Password': 'Save Password',
   'Back to home': 'Back to home',
-  'Forgot Password': 'If you can’t remember your password, you can reset it.',
+  'Forgot Password': "If you can't remember your password, you can reset it.",
   'Thank You Inbox':
-    'If the message is not arriving in your inbox, try another email address you might’ve used to register.',
+    "If the message is not arriving in your inbox, try another email address you might've used to register.",
   'Sign in': 'Sign in',
   Register: 'Register',
   'Password Changed':
@@ -184,7 +184,7 @@ export default {
   'My Cart': 'My Cart',
   'Your cart is empty': 'Your cart is empty',
   'Empty cart desc':
-    'Looks like you haven’t added any items to the bag yet. Start shopping to fill it in.',
+    "Looks like you haven't added any items to the bag yet. Start shopping to fill it in.",
   Billing: 'Billing',
   'First name': 'First name',
   'Last name': 'Last name',
@@ -199,8 +199,8 @@ export default {
   'It carefully packaged with a personal touch':
     'It carefully packaged with a personal touch',
   'Easy shipping': 'Easy shipping',
-  'You’ll receive dispatch confirmation and an arrival date':
-    'You’ll receive dispatch confirmation and an arrival date',
+  "You'll receive dispatch confirmation and an arrival date":
+    "You'll receive dispatch confirmation and an arrival date",
   'Changed your mind?': 'Changed your mind?',
   'Rest assured, we offer free returns within 30 days':
     'Rest assured, we offer free returns within 30 days',

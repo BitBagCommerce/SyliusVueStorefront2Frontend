@@ -29,7 +29,7 @@
         </SfButton>
 
         <SfButton
-          @click="$emit('click:cancel')"
+          @click="$emit('cancel')"
           class="color-secondary wishlist-form__buttons--button"
           :class="{ 'is-disabled--button': isFormActionInProgress }"
         >
@@ -73,13 +73,13 @@ export default {
 
     const submitForm = (resetFn) => {
       if (props.isEdit) {
-        emit('click:edit', props.wishlistId, wishlistName.value);
+        emit('edit', props.wishlistId, wishlistName.value);
         resetFn();
 
         return;
       }
 
-      emit('click:create', wishlistName.value);
+      emit('create', wishlistName.value);
       resetFn();
     };
 

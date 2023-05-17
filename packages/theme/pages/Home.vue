@@ -184,11 +184,16 @@ import {
   SfLoader,
 } from '@storefront-ui/vue';
 import { computed, useContext } from '@nuxtjs/composition-api';
-import { useCart, useCategory } from '@vue-storefront/sylius';
+import {
+  useCart,
+  useCategory,
+  useFacet,
+  facetGetters,
+  productGetters,
+} from '@vue-storefront/sylius';
 import { onSSR } from '@vue-storefront/core';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
-import { useFacet, facetGetters, productGetters } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables';
 import loader from '~/static/icons/loader.svg';
 import useVariantSelector from '~/composables/useVariantSelector';

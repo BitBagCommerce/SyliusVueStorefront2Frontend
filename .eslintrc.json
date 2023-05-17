@@ -88,13 +88,6 @@
         "allowArrowFunctions": true
       }
     ],
-    "indent": [
-      2,
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
     "line-comment-position": 2,
     "linebreak-style": 2,
     "lines-around-comment": 2,
@@ -112,7 +105,6 @@
     ],
     "operator-linebreak": 2,
     "quote-props": [2, "as-needed"],
-    "quotes": [2, "single"],
     "semi": 2,
     "semi-spacing": 2,
     "one-var": [2, "never"],
