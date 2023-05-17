@@ -35,7 +35,7 @@
                 :isRemovingInProgress="
                   isRemovingInProgress(productGetters.getId(product))
                 "
-                @click:remove="handleRemoveItemFromCart(product)"
+                @remove="handleRemoveItemFromCart(product)"
                 class="collected-product"
                 :qty="cartGetters.getItemQty(product)"
                 :maxQty="

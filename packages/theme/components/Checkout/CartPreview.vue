@@ -173,7 +173,7 @@ export default {
         {
           title: t('Easy shipping'),
           description: t(
-            'You’ll receive dispatch confirmation and an arrival date'
+            "You'll receive dispatch confirmation and an arrival date"
           ),
           icon: 'shipping',
         },

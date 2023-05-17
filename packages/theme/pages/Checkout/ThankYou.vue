@@ -62,7 +62,6 @@
 <script>
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
-import { useMakeOrder } from '@vue-storefront/sylius';
 export default {
   components: {
     SfHeading,
@@ -70,8 +69,7 @@ export default {
     SfCallToAction,
   },
   setup(props, context) {
-    context.emit('changeStep', 4);
-    const { order } = useMakeOrder();
+    context.emit('change-step', 4);
     const companyDetails = ref({
       name: 'Divante Headquarter',
       street: 'St. Dmowskiego 17, 53-534',

@@ -25,7 +25,7 @@
           image-width="180"
           image-height="200"
           :isRemovingInProgress="isRemovingInProgress(product.id)"
-          @click:remove="handleRemoveItemFromWishlist(product.id, wishlistId)"
+          @remove="handleRemoveItemFromWishlist(product.id, wishlistId)"
           class="collected-product"
         >
           <template #configuration>

@@ -63,7 +63,7 @@
             :value="term"
             :disabled="isSearchDisabled"
             @input="term = $event"
-            @keydown.enter="handleSearch(), isSearchDisabled = true"
+            @keydown.enter="handleSearch(), (isSearchDisabled = true)"
             @focus="openSearch"
             @blur="isSearchFocus = false"
             @keydown.esc="closeSearch"
@@ -119,7 +119,7 @@ import {
   SfSearchBar,
   SfOverlay,
 } from '@storefront-ui/vue';
-import { useUiState } from '~/composables';
+import { useUiState, useUiHelpers } from '~/composables';
 import {
   useCart,
   useUser,
@@ -128,7 +128,6 @@ import {
   useCategory,
 } from '@vue-storefront/sylius';
 import { computed, ref, watch } from '@nuxtjs/composition-api';
-import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
 import HeaderNavigation from './HeaderNavigation';
@@ -207,7 +206,7 @@ export default {
     const handleSearch = debounce(async () => {
       await Promise.all([
         searchProducts({ search: term.value.trim() }),
-        searchCategories({ categoryName: term.value.trim() })
+        searchCategories({ categoryName: term.value.trim() }),
       ]);
 
       result.value = {
@@ -224,13 +223,18 @@ export default {
 
     const setIsLangModalOpen = (val) => (isLangModalOpen.value = val);
 
-    watch(() => term.value, (newVal, oldVal) => {
-      const shouldSearchBeOpened =
-        (term.value.length > 0) && ((!oldVal && newVal) || (newVal.length !== oldVal.length && isSearchOpen.value === false));
+    watch(
+      () => term.value,
+      (newVal, oldVal) => {
+        const shouldSearchBeOpened =
+          term.value.length > 0 &&
+          ((!oldVal && newVal) ||
+            (newVal.length !== oldVal.length && isSearchOpen.value === false));
 
-      if (shouldSearchBeOpened) isSearchOpen.value = true;
-      if (isSearchOpen.value) handleSearch();
-    });
+        if (shouldSearchBeOpened) isSearchOpen.value = true;
+        if (isSearchOpen.value) handleSearch();
+      }
+    );
 
     const removeSearchResults = () => {
       result.value = null;

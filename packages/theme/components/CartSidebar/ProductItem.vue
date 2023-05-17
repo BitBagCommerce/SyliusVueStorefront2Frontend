@@ -195,10 +195,10 @@ export default {
   },
   methods: {
     removeHandler() {
-      this.$emit('click:remove');
+      this.$emit('remove');
     },
     actionsHandler() {
-      this.$emit('click:actions');
+      this.$emit('actions');
     },
   },
 };

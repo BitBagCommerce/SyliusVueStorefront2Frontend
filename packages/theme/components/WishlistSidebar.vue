@@ -82,9 +82,9 @@
           :isEdit="currentView === views.edit"
           :wishlistId="currentWishlistId"
           :isFormActionInProgress="isFormActionInProgress"
-          @click:create="handleCreateWishlist"
-          @click:edit="handleEditWishlist"
-          @click:cancel="toggleListView"
+          @create="handleCreateWishlist"
+          @edit="handleEditWishlist"
+          @cancel="toggleListView"
         />
       </transition>
 
@@ -151,11 +151,10 @@ import {
   useCart,
   wishlistGetters,
 } from '@vue-storefront/sylius';
-import { useUiState } from '~/composables';
+import { useUiState, useUiNotification } from '~/composables';
 import WishlistsList from '~/components/Wishlist/WishlistsList.vue';
 import WishlistItems from './Wishlist/WishlistItems.vue';
 import WishlistForm from './Wishlist/WishlistForm.vue';
-import { useUiNotification } from '~/composables';
 
 export default {
   name: 'Wishlist',
