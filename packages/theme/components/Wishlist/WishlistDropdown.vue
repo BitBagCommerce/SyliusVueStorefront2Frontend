@@ -7,7 +7,7 @@
   >
     <template #opener>
       <template v-if="icon == 'icon'">
-        <SfButton class="sf-button--pure" @click="isOpen = !isOpen">
+        <SfButton class="sf-button--pure ignore-click" @click="isOpen = !isOpen" data-toggle-btn="ignore">
           <SfIcon
             v-if="isInAnyWishlist(product)"
             class="sf-header__icon"
@@ -23,24 +23,26 @@
           v-if="isInAnyWishlist(product)"
           aria-label="Remove filter"
           icon="heart_fill"
-          class="sf-circle-icon__icon color-danger"
+          class="sf-circle-icon__icon color-danger ignore-click"
           @click="isOpen = !isOpen"
+          data-toggle-btn="ignore"
         />
         <SfCircleIcon
           v-else
           aria-label="Remove filter"
           icon="heart"
-          class="sf-circle-icon__icon color-danger"
+          class="sf-circle-icon__icon color-danger ignore-click"
           @click="isOpen = !isOpen"
+          data-toggle-btn="ignore"
         />
       </template>
 
-      <SfButton v-else @click="isOpen = !isOpen" class="sf-button">
+      <SfButton v-else @click="isOpen = !isOpen" class="sf-button ignore-click" data-toggle-btn="ignore">
         <span>{{ $t('Add to wishlist') }}</span>
       </SfButton>
     </template>
 
-    <SfList class="dropdown__list" v-click-outside="() => (isOpen = false)">
+    <SfList class="dropdown__list" v-click-outside="(e) => handleClickOutside(e)">
       <SfListItem v-for="(wishlist, i) in wishlists" :key="'wishlist' + i">
         <SfButton
           class="sf-button--pure list__item-button"
@@ -125,6 +127,10 @@ export default {
       );
     };
 
+    const test = (e) => {
+      console.log('e', e);
+    };
+
     const isWishlistActionInProgress = (wishlistId) => {
       return wishlistsWithActionInProgressId.value.includes(wishlistId);
     };
@@ -170,7 +176,13 @@ export default {
         wishlistsWithActionInProgressId.value.filter((id) => id !== wishlistId);
     };
 
-    // autamatically close dropdown on products grid view, when mouse leaves item
+    const handleClickOutside = (e) => {
+      if (e?.target?.dataset.toggleBtn) return;
+
+      isOpen.value = false;
+    };
+
+    // automatically close dropdown on products grid view, when mouse leaves item
     watch(
       () => props.visible,
       (newVal) => {
@@ -185,6 +197,8 @@ export default {
       isWishlistActionInProgress,
       handleWishlistAction,
       isAuthenticated,
+      test,
+      handleClickOutside
     };
   },
 };
@@ -285,5 +299,9 @@ export default {
   ::v-deep .sf-loader__overlay {
     background-color: unset;
   }
+}
+
+.ignore-click * {
+  pointer-events: none;
 }
 </style>
