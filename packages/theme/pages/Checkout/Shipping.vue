@@ -314,7 +314,11 @@ export default {
     });
 
     onSSR(async () => {
-      await Promise.all([loadShipping(), loadBilling()]);
+      if (billing.value) {
+        await loadShipping();
+      } else {
+        await Promise.all([loadShipping(), loadBilling()]);
+      }
       countries.value = await $sylius.api.getCountries();
     });
 
