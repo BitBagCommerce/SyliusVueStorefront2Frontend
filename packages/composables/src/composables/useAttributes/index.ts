@@ -15,6 +15,9 @@ export const useAttributes = () => {
 
       const response = await context.$sylius.api.getProductAttribute(params);
 
+      if (Object.keys(response).length === 0)
+        return;
+
       response.forEach(attr => {
         if (attr.type === 'text') {
           attr.options = attr.options.map(option => ({
@@ -36,10 +39,10 @@ export const useAttributes = () => {
       });
 
       attributes.value = response;
-    } catch (error) {
+    } catch (err) {
       attributes.value = [];
-      error.value.load = error;
-      Logger.error(`${composableName}/load`, error);
+      error.value.load = err;
+      Logger.error(`${composableName}/load`, err);
     } finally {
       loading.value = false;
     }

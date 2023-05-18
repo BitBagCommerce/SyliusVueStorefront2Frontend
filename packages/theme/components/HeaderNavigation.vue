@@ -3,7 +3,7 @@
     <SfLoader :class="{ loading }" :loading="loading">
       <div class="sf-header__navigation desktop" v-if='!loading'>
         <SfHeaderNavigationItem
-          v-for="(category, index) in topLevelCategories"
+          v-for="(category, index) in allCategories"
           :key="index"
           class="nav-item"
           v-e2e="`app-header-url_${category.slug}`"
@@ -13,77 +13,17 @@
       </div>
     </SfLoader>
     <SfModal class="smartphone-only" :visible="isMobileMenuOpen">
+      <template #modal-bar>
+        <SfBar
+          class="sf-modal__bar smartphone-only"
+          :close="true"
+          :title="$t('Menu')"
+          @click:close="toggleMobileMenu"
+        />
+      </template>
       <SfHeaderNavigationItem>
         <template #mobile-navigation-item>
-          <SfAccordion
-            class="smartphone-only"
-            :open="activeAccordionItem"
-            :multiple="false"
-          >
-            <div
-              v-for="(category, index) in topLevelCategories"
-              :key="index"
-              class="nav-item"
-            >
-              <SfAccordionItem
-                v-if="categoryGetters.getChildren(category, categories).length"
-                :header="category.name"
-              >
-                <template #header>
-                  <div class="nav-item__header">
-                    <SfMenuItem
-                      :label="category.name"
-                      class="sf-header-navigation-item__menu-item nav-item__header-title"
-                      icon=""
-                      :link="localePath(`/c/${category.slug}`)"
-                      @click.native="toggleMobileMenu"
-                    />
-
-                    <SfCircleIcon
-                      icon-size="12px"
-                      :aria-label="$t('Show list')"
-                      icon="chevron_right"
-                      :class="`
-                          sf-circle-icon__icon
-                          nav-item__header-button
-                          ${
-                            activeAccordionItem === category.name
-                              ? 'active'
-                              : ''
-                          }
-                        `"
-                      @click="toggleAccordionItem(category.name)"
-                    />
-                  </div>
-                </template>
-                <template>
-                  <SfList class="nav-item__list">
-                    <SfListItem
-                      v-for="child in categoryGetters.getChildren(category, categories)"
-                      :key="child.name"
-                      class="nav-item__list-item"
-                    >
-                      <NuxtLink
-                        :to="`/c/${child.slug}`"
-                        @click.native="toggleMobileMenu"
-                      >
-                        {{ child.name }}
-                      </NuxtLink>
-                    </SfListItem>
-                  </SfList>
-                </template>
-              </SfAccordionItem>
-
-              <SfMenuItem
-                v-else
-                :label="category.name"
-                class="sf-header-navigation-item__menu-item"
-                icon=""
-                :link="localePath(`/c/${category.slug}`)"
-                @click.native="toggleMobileMenu"
-              />
-            </div>
-          </SfAccordion>
+          <MobileCategoryItem :categories='allCategories' />
         </template>
       </SfHeaderNavigationItem>
     </SfModal>
@@ -98,10 +38,12 @@ import {
   SfList,
   SfCircleIcon,
   SfLoader,
+  SfBar,
 } from '@storefront-ui/vue';
-import { onMounted, onUnmounted, ref, computed } from '@nuxtjs/composition-api';
+import { onMounted, onUnmounted, computed } from '@nuxtjs/composition-api';
 import { useUiState } from '~/composables';
 import { useCategory, categoryGetters } from '@vue-storefront/sylius';
+import MobileCategoryItem from './MobileCategoryItems.vue';
 export default {
   name: 'HeaderNavigation',
   components: {
@@ -111,6 +53,8 @@ export default {
     SfList,
     SfCircleIcon,
     SfLoader,
+    SfBar,
+    MobileCategoryItem,
   },
   props: {
     isMobile: {
@@ -125,13 +69,7 @@ export default {
       search: categoriesListSearch,
       loading
     } = useCategory('AppHeader:CategoryList');
-    const activeAccordionItem = ref('');
-
-    const toggleAccordionItem = (item) => {
-      activeAccordionItem.value = item;
-    };
-
-    const topLevelCategories = computed(() => categoryGetters.getTopLevelCategories(categories.value));
+    const allCategories = computed(() => categoryGetters.getChildren(null, categories.value));
 
     onMounted(async () => {
       window.addEventListener('resize', () => {
@@ -151,11 +89,9 @@ export default {
     return {
       categories,
       categoryGetters,
-      topLevelCategories,
+      allCategories,
       isMobileMenuOpen,
       toggleMobileMenu,
-      toggleAccordionItem,
-      activeAccordionItem,
       loading,
     };
   },
@@ -175,43 +111,7 @@ export default {
   }
 }
 
-.nav-item {
-  white-space: nowrap;
-  padding: var(--spacer-sm) 0;
-  border-bottom: 1px solid var(--c-light);
-
-  &__header {
-    padding: 0 var(--spacer-sm);
-    display: flex;
-
-    &-title {
-      flex-grow: 1;
-      padding: 0;
-    }
-
-    &-button {
-      margin-bottom: var(--spacer-xs);
-
-      .sf-icon-path {
-        transition: transform 0.3s ease;
-      }
-
-      &.active .sf-icon-path {
-        transform: rotate(90deg);
-      }
-    }
-  }
-
-  &__list-item {
-    padding: var(--spacer-xs) var(--spacer-sm);
-  }
-}
-
 .sf-modal {
-  ::v-deep &__bar {
-    display: none;
-  }
-
   ::v-deep &__content {
     padding: var(--modal-content-padding, var(--spacer-base) 0);
   }

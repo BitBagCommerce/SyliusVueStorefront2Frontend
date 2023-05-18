@@ -305,7 +305,7 @@ export default {
   'Your Account': 'Dein Konto',
   'My orders': 'Meine Bestellungen',
   Cart: 'Wagen',
-  Menu: 'Speisekarte',
+  Menu: 'Menu',
   Account: 'Konto',
   Wishlist: 'Wunschliste',
   'Are sure?': 'Sind sicher?',
@@ -317,4 +317,5 @@ export default {
   'Add to cart': 'In den Warenkorb legen',
   'Select country': 'Land auswählen',
   'in stock': 'auf Lager',
+  All: 'Alle',
 };
