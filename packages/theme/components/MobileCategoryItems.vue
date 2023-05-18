@@ -5,8 +5,8 @@
     :multiple="false"
   >
     <div
-      v-for="(category, index) in categories"
-      :key="index"
+      v-for="category in categories"
+      :key="category.id"
       class="nav-item"
     >
       <SfAccordionItem
@@ -26,10 +26,8 @@
               icon-size="12px"
               aria-label="Show list"
               icon="chevron_right"
-              :class="`
-                nav-item__header-button
-                ${activeAccordionItem === category.name ? 'active' : ''}
-              `"
+              class='nav-item__header-button'
+              :class="{ active: activeAccordionItem === category.name }"
               @click="toggleAccordionItem(category.name)"
             />
           </div>
@@ -58,7 +56,6 @@ import {
   SfIcon
 } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-const { toggleMobileMenu } = useUiState();
 export default {
   name: 'MobileCategoryItems',
   components: {
@@ -72,6 +69,7 @@ export default {
     }
   },
   setup() {
+    const { toggleMobileMenu } = useUiState();
     const activeAccordionItem = ref('');
 
     const toggleAccordionItem = (item) => {
