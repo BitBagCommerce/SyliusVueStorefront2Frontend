@@ -127,10 +127,6 @@ export default {
       );
     };
 
-    const test = (e) => {
-      console.log('e', e);
-    };
-
     const isWishlistActionInProgress = (wishlistId) => {
       return wishlistsWithActionInProgressId.value.includes(wishlistId);
     };
@@ -197,7 +193,6 @@ export default {
       isWishlistActionInProgress,
       handleWishlistAction,
       isAuthenticated,
-      test,
       handleClickOutside
     };
   },
