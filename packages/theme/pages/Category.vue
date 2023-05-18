@@ -6,12 +6,16 @@
     />
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
-        <LazyHydrate never>
+        <SfLoader
+          :class="{ 'loading--categories': categoriesLoading }"
+          :loading="categoriesLoading"
+        >
           <SfHeading
             :level="3"
-            :title="$t('Categories')"
-            class="navbar__title" />
-        </LazyHydrate>
+            :title="categoryTree.parent ? categoryTree.parent.name : $t('All')"
+            class="navbar__title"
+          />
+        </SfLoader>
       </div>
       <CategoryPageHeader :pagination="pagination"/>
     </div>
@@ -23,25 +27,26 @@
           :loading="categoriesLoading"
         >
           <SfAccordion
-            v-if='categoryTree.parent'
+            v-if='categoryTree.children'
             v-e2e="'categories-accordion'"
-            :open="categoryTree.parent.name"
             :show-chevron="true"
           >
             <SfAccordionItem
-              :header="categoryTree.parent.name"
+              v-for="(child, index) in categoryTree.children"
+              :key="index"
+              :header="child.name"
             >
               <template>
                 <SfList class="list">
                   <SfListItem class="list__item">
                     <SfMenuItem
-                      :count="categoryTree.parent.count"
-                      :label="categoryTree.parent.name"
+                      :count="child.count"
+                      :label="child.name"
                     >
                       <template #label>
                         <nuxt-link
-                          :to="localePath(th.getCatLink(categoryTree.parent))"
-                          :class="categoryTree.parent.isCurrent ? 'sidebar--cat-selected' : ''"
+                          :to="localePath(th.getCatLink(child))"
+                          :class="child.isCurrent ? 'sidebar--cat-selected' : ''"
                         >
                           All
                         </nuxt-link>
@@ -50,7 +55,7 @@
                   </SfListItem>
                   <SfListItem
                     class="list__item"
-                    v-for="(subCat, j) in categoryTree.children"
+                    v-for="(subCat, j) in child.children"
                     :key="j"
                   >
                     <SfMenuItem

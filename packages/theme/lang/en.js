@@ -225,5 +225,7 @@ export default {
   'Please check your email to verify your account': 'Please check your email to verify your account',
   'Thank you for your order!': 'Thank you for your order!',
   'Cart has been updated': 'Cart has been updated',
-  'Select country': 'Select country' 
+  'Select country': 'Select country' ,
+  'All': 'All',
+  'Menu': 'Menu'
 };

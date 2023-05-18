@@ -7,8 +7,18 @@ const getTopLevelCategories = (categories: any[]): Category[] => {
 
 const getChildren = (category: any, categories: any[]): Category[] => {
   return category
-    ? categories.filter(cat => cat.parent.id === category.id)
-    : categories.filter(cat => cat.level === 1);
+    ? categories.filter(cat => cat.parent.id === category.id).map((cat) => {
+      return {
+        ...cat,
+        children: getChildren(cat, categories)
+      };
+    })
+    : categories.filter(cat => cat.level === 1).map((cat) => {
+      return {
+        ...cat,
+        children: getChildren(cat, categories)
+      };
+    });
 };
 
 const getParent = (category: any, categories: any[]) => {
@@ -19,10 +29,16 @@ const getParent = (category: any, categories: any[]) => {
 };
 
 const getTree = (current: Category, categories: Category[]) => {
-  if (!current || !categories)
+  if (!categories)
     return {
       parent: null,
       children: null
+    };
+
+  if (!current)
+    return {
+      parent: null,
+      children: getChildren(null, categories)
     };
 
   const children = getChildren(current, categories);
