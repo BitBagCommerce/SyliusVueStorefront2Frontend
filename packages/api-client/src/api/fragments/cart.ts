@@ -75,6 +75,13 @@ export const cartFragment = `
               }
             }
           }
+          channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+            collection {
+              channelCode
+              price
+              originalPrice
+            }
+          }
         }
         unitPrice
         total
