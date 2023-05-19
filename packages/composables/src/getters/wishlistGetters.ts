@@ -26,8 +26,8 @@ const getItems = (wishlist: Wishlist): WishlistItem[] => {
         sku: item.variant.code,
         images: item.variant.product.images,
         price: {
-          regular: item.variant.channelPricings[0].price / 100,
-          special: 0,
+          regular: item.variant.channelPricings[0].originalPrice,
+          special: item.variant.channelPricings[0].price,
         },
         selectedVariant: item.variant,
       });
@@ -53,7 +53,14 @@ const getItemImage = (item: WishlistItem): string =>
   item.images[0].replace(/\/media\/image/, '');
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getItemPrice = (item: WishlistItem): AgnosticPrice => item.price;
+const getItemPrice = (item: WishlistItem): AgnosticPrice => {
+  const { special = 0, regular = 0 } = item?.price || {};
+
+  return {
+    regular: regular ? regular / 100 : special / 100,
+    special: regular && regular !== special ? special / 100 : 0,
+  };
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getItemAttributes = (
