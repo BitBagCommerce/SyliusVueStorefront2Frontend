@@ -4,191 +4,196 @@
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
-    <div class="product">
-      <LazyHydrate when-idle>
-        <SfGallery
-          v-if="productGallery"
-          :images="productGallery"
-          imageWidth="550"
-          imageHeight="412"
-          thumbWidth="260"
-          thumbHeight="260"
-          class="product__gallery"
-        />
-      </LazyHydrate>
 
-      <div class="product__info" v-if="product">
-        <div class="product__header">
-          <SfHeading
-            :title="productGetters.getName(product)"
-            :level="3"
-            class="sf-heading--no-underline sf-heading--left"
-          />
-          <SfIcon
-            icon="drag"
-            size="xxl"
-            color="var(--c-text-disabled)"
-            class="product__drag-icon smartphone-only"
-          />
-        </div>
-        <div class="product__price-and-rating">
-          <div class="product__price-and-stock">
-            <SfPrice
-              :regular="
-                $n(productGetters.getPrice(product).regular, 'currency')
-              "
-              :special="
-                productGetters.getPrice(product).special &&
-                $n(productGetters.getPrice(product).special, 'currency')
-              "
-            />
-            <div
-              v-if="product.selectedVariant.tracked"
-              class="stock-info"
-              :class="{
-                danger: !productGetters.isInStock(product.selectedVariant),
-              }"
-            >
-              <SfIcon
-                icon="store"
-                size="sm"
-                :color="
-                  productGetters.isInStock(product.selectedVariant)
-                    ? 'green-primary'
-                    : 'red-primary'
-                "
-                viewBox="0 0 24 24"
-                :coverage="1"
-              />
-              <p>
-                {{
-                  productGetters.isInStock(product.selectedVariant)
-                    ? productGetters.getStockForVariant(product.selectedVariant)
-                    : 0
-                }}
-                {{ $t('in stock') }}
-              </p>
-            </div>
-          </div>
-          <div class="product__rating-and-wishlist">
-            <div class="product__rating">
-              <SfRating :score="averageRating" :max="5" />
-              <a v-if="!!totalReviews" href="#" class="product__count">
-                ({{ totalReviews }})
-              </a>
-            </div>
-            <WishlistDropdown
-              class="product__wishlist"
-              :wishlists="wishlists"
-              :product="product"
-              :visible="true"
-              :icon="'icon'"
-            />
-          </div>
-        </div>
-        <form
-          @submit.prevent="
-            handleAddToCart({ product, quantity: parseInt(qty) })
-          "
-        >
-          <p class="product__description desktop-only">
-            {{ product.shortDescription }}
-          </p>
-          <SfSelect
-            v-for="(item, key) in Object.keys(options)"
-            :key="key"
-            :value="configuration[item]"
-            @input="(value) => updateFilter({ value, filter: item })"
-            :label="options[item].label"
-            class="sf-select--underlined product__select-size"
-            :required="true"
-          >
-            <SfSelectOption
-              v-for="size in options[item].value"
-              :key="size.value"
-              :value="size.value"
-            >
-              {{ size.label }}
-            </SfSelectOption>
-          </SfSelect>
-
-          <div
-            v-if="options.color && options.color.length > 1"
-            class="product__colors desktop-only"
-          >
-            <p class="product__color-label">{{ $t('Color') }}:</p>
-            <SfColor
-              v-for="(color, i) in options.color"
-              :key="i"
-              :color="color.value"
-              class="product__color"
-              @click="updateFilter({ color })"
-            />
-          </div>
-          <AddToCart
-            v-e2e="'product_add-to-cart'"
-            class="product__add-to-cart"
-            v-model="qty"
-            :selectedVariant="product.selectedVariant"
-            :disabled="loading"
-            @quantity-change="qty = $event"
-            @click="handleAddToCart({ product, quantity: parseInt(qty) })"
-          />
-        </form>
-
+    <SfLoader :loading="loadingProduct" :class="{ loading: loadingProduct }">
+      <div class="product">
         <LazyHydrate when-idle>
-          <SfTabs :open-tab="1" class="product__tabs">
-            <SfTab :title="$t('Description')" key="description">
-              <div class="product__description">
-                {{ product.description }}
-              </div>
-              <SfProperty
-                v-for="(property, i) in properties"
-                :key="i"
-                :name="property.name"
-                :value="property.value"
-                class="product__property"
-              >
-                <template v-if="property.name === 'Category'" #value>
-                  <SfButton class="product__property__button sf-button--text">
-                    {{ property.value }}
-                  </SfButton>
-                </template>
-              </SfProperty>
-            </SfTab>
-            <SfTab
-              v-if="Array.isArray(reviews) && reviews.length"
-              :title="$t('Read reviews')"
-              key="read_reviews"
-            >
-              <SfReview
-                v-for="review in reviews"
-                :key="reviewGetters.getReviewId(review)"
-                :author="reviewGetters.getReviewAuthor(review)"
-                :date="reviewGetters.getReviewDate(review)"
-                :message="reviewGetters.getReviewMessage(review)"
-                :max-rating="5"
-                :rating="reviewGetters.getReviewRating(review)"
-                :char-limit="250"
-                :read-more-text="$t('Read more')"
-                :hide-full-text="$t('Read less')"
-                class="product__review"
-              />
-            </SfTab>
-            <SfTab
-              v-if="isAuthenticated"
-              :title="$t('Add review')"
-              key="add_review"
-            >
-              <add-review-form
-                :product-id="product.id"
-                @submit="handleReviewSubmit"
-              />
-            </SfTab>
-          </SfTabs>
+          <SfGallery
+            v-if="productGallery"
+            :images="productGallery"
+            imageWidth="550"
+            imageHeight="412"
+            thumbWidth="260"
+            thumbHeight="260"
+            class="product__gallery"
+          />
         </LazyHydrate>
+
+        <div class="product__info" v-if="product">
+          <div class="product__header">
+            <SfHeading
+              :title="productGetters.getName(product)"
+              :level="3"
+              class="sf-heading--no-underline sf-heading--left"
+            />
+            <SfIcon
+              icon="drag"
+              size="xxl"
+              color="var(--c-text-disabled)"
+              class="product__drag-icon smartphone-only"
+            />
+          </div>
+          <div class="product__price-and-rating">
+            <div class="product__price-and-stock">
+              <SfPrice
+                :regular="
+                  $n(productGetters.getPrice(product).regular, 'currency')
+                "
+                :special="
+                  productGetters.getPrice(product).special &&
+                  $n(productGetters.getPrice(product).special, 'currency')
+                "
+              />
+              <div
+                v-if="product.selectedVariant.tracked"
+                class="stock-info"
+                :class="{
+                  danger: !productGetters.isInStock(product.selectedVariant),
+                }"
+              >
+                <SfIcon
+                  icon="store"
+                  size="sm"
+                  :color="
+                    productGetters.isInStock(product.selectedVariant)
+                      ? 'green-primary'
+                      : 'red-primary'
+                  "
+                  viewBox="0 0 24 24"
+                  :coverage="1"
+                />
+                <p>
+                  {{
+                    productGetters.isInStock(product.selectedVariant)
+                      ? productGetters.getStockForVariant(
+                          product.selectedVariant
+                        )
+                      : 0
+                  }}
+                  {{ $t('in stock') }}
+                </p>
+              </div>
+            </div>
+            <div class="product__rating-and-wishlist">
+              <div class="product__rating">
+                <SfRating :score="averageRating" :max="5" />
+                <a v-if="!!totalReviews" href="#" class="product__count">
+                  ({{ totalReviews }})
+                </a>
+              </div>
+              <WishlistDropdown
+                class="product__wishlist"
+                :wishlists="wishlists"
+                :product="product"
+                :visible="true"
+                :icon="'icon'"
+              />
+            </div>
+          </div>
+          <form
+            @submit.prevent="
+              handleAddToCart({ product, quantity: parseInt(qty) })
+            "
+          >
+            <p class="product__description desktop-only">
+              {{ product.shortDescription }}
+            </p>
+            <SfSelect
+              v-for="(item, key) in Object.keys(options)"
+              :key="key"
+              :value="configuration[item]"
+              @input="(value) => updateFilter({ value, filter: item })"
+              :label="options[item].label"
+              class="sf-select--underlined product__select-size"
+              :required="true"
+            >
+              <SfSelectOption
+                v-for="size in options[item].value"
+                :key="size.value"
+                :value="size.value"
+              >
+                {{ size.label }}
+              </SfSelectOption>
+            </SfSelect>
+
+            <div
+              v-if="options.color && options.color.length > 1"
+              class="product__colors desktop-only"
+            >
+              <p class="product__color-label">{{ $t('Color') }}:</p>
+              <SfColor
+                v-for="(color, i) in options.color"
+                :key="i"
+                :color="color.value"
+                class="product__color"
+                @click="updateFilter({ color })"
+              />
+            </div>
+            <AddToCart
+              v-e2e="'product_add-to-cart'"
+              class="product__add-to-cart"
+              v-model="qty"
+              :selectedVariant="product.selectedVariant"
+              :disabled="loading"
+              @quantity-change="qty = $event"
+              @click="handleAddToCart({ product, quantity: parseInt(qty) })"
+            />
+          </form>
+
+          <LazyHydrate when-idle>
+            <SfTabs :open-tab="1" class="product__tabs">
+              <SfTab :title="$t('Description')" key="description">
+                <div class="product__description">
+                  {{ product.description }}
+                </div>
+                <SfProperty
+                  v-for="(property, i) in properties"
+                  :key="i"
+                  :name="property.name"
+                  :value="property.value"
+                  class="product__property"
+                >
+                  <template v-if="property.name === 'Category'" #value>
+                    <SfButton class="product__property__button sf-button--text">
+                      {{ property.value }}
+                    </SfButton>
+                  </template>
+                </SfProperty>
+              </SfTab>
+              <SfTab
+                v-if="Array.isArray(reviews) && reviews.length"
+                :title="$t('Read reviews')"
+                key="read_reviews"
+              >
+                <SfReview
+                  v-for="review in reviews"
+                  :key="reviewGetters.getReviewId(review)"
+                  :author="reviewGetters.getReviewAuthor(review)"
+                  :date="reviewGetters.getReviewDate(review)"
+                  :message="reviewGetters.getReviewMessage(review)"
+                  :max-rating="5"
+                  :rating="reviewGetters.getReviewRating(review)"
+                  :char-limit="250"
+                  :read-more-text="$t('Read more')"
+                  :hide-full-text="$t('Read less')"
+                  class="product__review"
+                />
+              </SfTab>
+              <SfTab
+                v-if="isAuthenticated"
+                :title="$t('Add review')"
+                key="add_review"
+              >
+                <add-review-form
+                  :product-id="product.id"
+                  @submit="handleReviewSubmit"
+                />
+              </SfTab>
+            </SfTabs>
+          </LazyHydrate>
+        </div>
       </div>
-    </div>
+    </SfLoader>
 
     <LazyHydrate when-visible>
       <InstagramFeed />
@@ -217,6 +222,7 @@ import {
   SfBreadcrumbs,
   SfButton,
   SfColor,
+  SfLoader,
 } from '@storefront-ui/vue';
 import AddToCart from '~/components/AddToCart.vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
@@ -247,7 +253,11 @@ export default {
     const qty = ref(1);
     const { id, slug } = context.root.$route.params;
     const { isAuthenticated } = useUser();
-    const { products, search } = useProduct('products');
+    const {
+      products,
+      loading: loadingProduct,
+      search,
+    } = useProduct('products');
     const { send } = useUiNotification();
 
     const { addItem, loading, error } = useCart();
@@ -430,6 +440,7 @@ export default {
       addItemToWishlist,
       removeProductFromWishlist,
       isInWishlist,
+      loadingProduct,
     };
   },
   components: {
@@ -456,6 +467,7 @@ export default {
     AddReviewForm,
     WishlistDropdown,
     QuantitySelector,
+    SfLoader,
   },
   data() {
     return {
@@ -695,5 +707,9 @@ export default {
   &.danger {
     background-color: lighten(#d12727, 40);
   }
+}
+
+.loading {
+  height: 5rem;
 }
 </style>
