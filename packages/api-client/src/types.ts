@@ -21,6 +21,13 @@ export type ProductInput = {
   orderBy?: any;
 };
 
+export type ChannelPricing = {
+  id?: string;
+  price: number;
+  originalPrice?: number;
+  channelCode?: string;
+};
+
 export type ProductOptionValue = {
   id: string;
   code: string;
@@ -94,6 +101,7 @@ export type CartLineItem = {
     product: {
       images: string[];
     };
+    channelPricings: ChannelPricing[];
   };
   price?: {
     regular: number;
@@ -208,12 +216,6 @@ export type UserShippingAddressSearchCriteria = TODO;
 export type ShippingAddress = TODO;
 
 export type ShippingProvider = TODO;
-
-export type ChannelPricing = {
-  id: string;
-  price: number;
-  originalPrice?: number;
-};
 
 export type WishlistItem = {
   _id: string;

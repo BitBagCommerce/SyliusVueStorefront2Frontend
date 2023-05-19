@@ -19,8 +19,8 @@ export const getCartItems = (cart: Cart): CartLineItem[] => {
         sku: item.variant.code,
         images: item.variant.product.images,
         price: {
-          regular: (item.variant as any).channelPricings[0].originalPrice,
-          special: (item.variant as any).channelPricings[0].price,
+          regular: item.variant.channelPricings[0].originalPrice,
+          special: item.variant.channelPricings[0].price,
         },
         selectedVariant: item.variant,
         qty: item.quantity,
