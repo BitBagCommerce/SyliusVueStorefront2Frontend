@@ -107,7 +107,7 @@
           </SfButton>
           <SfButton
             v-e2e="'make-an-order'"
-            :disabled="loading || !isPaymentReady"
+            :disabled="isRedirecting || !isPaymentReady || !products.length"
             class="summary__action-button"
             @click="processOrder"
           >
@@ -184,6 +184,7 @@ export default {
     });
 
     const processOrder = async () => {
+      isRedirecting.value = true;
       await make();
 
       const cartError = Object.values(error.value).find((err) => err !== null);
@@ -198,7 +199,6 @@ export default {
       const { locales, locale } = context.root.$i18n;
 
       let redirected = false;
-      isRedirecting.value = true;
 
       for (const localeIndex in locales) {
         if (locales[localeIndex].code === locale) {
@@ -231,6 +231,7 @@ export default {
 
     return {
       isPaymentReady,
+      isRedirecting,
       loading,
       products,
       totals: computed(() => cartGetters.getTotals(cart.value)),
