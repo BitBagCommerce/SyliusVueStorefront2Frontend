@@ -193,7 +193,6 @@ export default {
     };
 
     const updateQuantity = debounce(async ({ product, quantity }) => {
-      console.log('updateQuantity', product, quantity);
       await updateItemQty({ product, quantity });
 
       const cartError = Object.values(error.value).find((err) => err !== null);
