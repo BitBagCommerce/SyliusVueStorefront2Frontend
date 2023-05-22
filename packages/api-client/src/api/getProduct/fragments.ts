@@ -42,6 +42,7 @@ export const productFragment = `
         collection {
           channelCode
           price
+          originalPrice
         }
       }
       optionValues {
@@ -122,6 +123,7 @@ export const minimalProductFragment = `
         collection {
           channelCode
           price
+          originalPrice
         }
       }
       optionValues {
