@@ -86,7 +86,10 @@
           <div v-if="totalItems">
             <SfProperty
               :name="$t('Subtotal')"
-              class="sf-property--full-width sf-property--large my-cart__total-price"
+              class="
+                sf-property--full-width sf-property--large
+                my-cart__total-price
+              "
             >
               <template #value>
                 <SfPrice
@@ -195,10 +198,10 @@ export default {
     const updateQuantity = debounce(async ({ product, quantity }) => {
       await updateItemQty({ product, quantity });
 
-      const cartError = Object.values(error.value).find((err) => err !== null);
+      const { updateItemQty: updateError } = error.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: t(cartError.message) });
+      if (updateError) {
+        send({ type: 'danger', message: t(updateError.message) });
       } else {
         send({ type: 'info', message: t('Your cart has been updated') });
       }

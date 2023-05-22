@@ -92,7 +92,10 @@
         <SfProperty
           :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
-          class="sf-property--full-width sf-property--large summary__property-total"
+          class="
+            sf-property--full-width sf-property--large
+            summary__property-total
+          "
         />
 
         <VsfPaymentProvider @status="isPaymentReady = true" />
@@ -186,10 +189,10 @@ export default {
     const processOrder = async () => {
       await make();
 
-      const cartError = Object.values(error.value).find((err) => err !== null);
+      const { make: makeError } = error.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: cartError.message });
+      if (makeError) {
+        send({ type: 'danger', message: makeError.message });
 
         return;
       }
