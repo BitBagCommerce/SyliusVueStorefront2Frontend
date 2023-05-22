@@ -64,7 +64,7 @@
             <SfRange
               :config="{
                 start: priceRange,
-                range: getMaxPrice(),
+                range: maxPrice,
                 tooltips: true,
                 connect: true,
               }"
@@ -128,7 +128,7 @@
             <SfRange
               :config="{
                 start: priceRange,
-                range: getMaxPrice(),
+                range: maxPrice,
                 tooltips: true,
                 connect: true,
               }"
@@ -189,15 +189,16 @@ export default {
   setup(props, context) {
     const route = useRoute();
 
-    const { changeFilters, isFacetColor } = useUiHelpers();
+    const { changeFilters, isFacetColor, getFacetsFromURL } = useUiHelpers();
     const { toggleFilterSidebar, isFilterSidebarOpen } = useUiState();
     const { attributes, loading } = useAttributes();
-    const { productsNotFiltered } = useProductsNotFiltered();
+    const { productsNotFiltered, load } = useProductsNotFiltered();
 
     const facets = computed(() => attributes.value);
     const products = computed(() => productsNotFiltered.value);
     const selectedFilters = ref({});
     const priceRange = ref([]);
+    const maxPrice = ref({ min: 0, max: 1 });
 
     const setSelectedFilters = () => {
       if (!facets.value.length) return;
@@ -241,21 +242,21 @@ export default {
       selectedFilters.value[facet.id].push(option.stringValue);
     };
 
-    const getMaxPrice = () => {
-      if (!products.value?.length) return { min: 0, max: 1 };
+    const setMaxPrice = (products) => {
+      if (!products?.length) return { min: 0, max: 1 };
 
-      const prices = products.value.map(
+      const prices = products.map(
         (prod) => prod.variants[0].channelPricings[0].price / 100
       );
 
-      return {
+      maxPrice.value = {
         min: Math.min(...prices),
         max: Math.max(...prices),
       };
     };
 
     const getPrice = () =>
-      route.value.query?.priceRange?.split('..')?.map(price => price / 100) || Object.values(getMaxPrice());
+      route.value.query?.priceRange?.split('..')?.map(price => price / 100) || Object.values(maxPrice.value);
     const setPrice = range => priceRange.value = range;
 
     const isRangeSelected = (facet) =>
@@ -274,7 +275,7 @@ export default {
 
     const clearFilters = () => {
       selectedFilters.value = {};
-      priceRange.value = Object.values(getMaxPrice());
+      priceRange.value = Object.values(maxPrice.value);
 
       toggleFilterSidebar();
       changeFilters(selectedFilters.value, priceRange.value);
@@ -287,14 +288,20 @@ export default {
 
     if (attributes.value) setSelectedFilters();
 
-    onMounted(() => {
+    onMounted(async () => {
       context.root.$scrollTo(context.root.$el, 2000);
+      await load(getFacetsFromURL());
       setPrice(getPrice());
     });
 
     watch(() => attributes.value, () => {
       setPrice(getPrice());
       setSelectedFilters();
+    });
+
+    watch(() => products.value, (newVal) => {
+      setMaxPrice(newVal.products);
+      setPrice(getPrice());
     });
 
     return {
@@ -309,7 +316,7 @@ export default {
       applyFilters,
       priceRange,
       getPrice,
-      getMaxPrice,
+      maxPrice,
       setPrice,
       isRangeSelected,
       getRange,
