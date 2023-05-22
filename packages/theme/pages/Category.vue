@@ -197,7 +197,10 @@
               </template>
               <template #actions>
                 <WishlistDropdown
-                  class="desktop-only products__product-card-horizontal--wishlist-button"
+                  class="
+                    desktop-only
+                    products__product-card-horizontal--wishlist-button
+                  "
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
@@ -359,12 +362,10 @@ export default {
     const handleAddToCart = async (params) => {
       await addItemToCart(params);
 
-      const cartError = Object.values(useCartError.value).find(
-        (err) => err !== null
-      );
+      const { addItem: addItemError } = useCartError.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: cartError.message });
+      if (addItemError) {
+        send({ type: 'danger', message: addItemError.message });
 
         return;
       }

@@ -282,17 +282,18 @@ export default {
       await addItem({ product: selectedProducts.value, quantity: 1 });
       isFormActionInProgress.value = false;
 
-      const cartError = Object.values(useCartError.value).find(
-        (err) => err !== null
-      );
+      const { addItem: addItemError } = useCartError.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: cartError.message });
+      if (addItemError) {
+        send({ type: 'danger', message: addItemError.message });
 
         return;
       }
 
-      send({ type: 'success', message: 'Product has been added to the cart' });
+      send({
+        type: 'success',
+        message: t('Product has been added to the cart'),
+      });
     };
 
     watch(
