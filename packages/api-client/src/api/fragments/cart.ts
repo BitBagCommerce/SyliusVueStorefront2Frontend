@@ -48,6 +48,7 @@ export const cartFragment = `
           code
           onHand
           onHold
+          tracked
           optionValues {
             edges {
               node {
