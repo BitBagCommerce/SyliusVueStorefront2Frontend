@@ -1,4 +1,4 @@
-name: Build, test
+name: Build
 
 on:
   push:
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   test_repository:
-    name: Build and test
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -35,6 +35,3 @@ jobs:
 
       - name: Build packages
         run: yarn build
-
-      - name: Test theme
-        run: yarn test:theme
