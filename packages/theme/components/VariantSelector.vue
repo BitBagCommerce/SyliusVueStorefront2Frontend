@@ -121,15 +121,14 @@ export default {
     const handleAddToCart = async () => {
       await addItem({ product: product.value, quantity: qty.value });
 
-      const cartError = Object.values(error.value).find((err) => err !== null);
+      const { addItem: addItemError } = error.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: cartError.message });
+      if (addItemError) {
+        send({ type: 'danger', message: addItemError.message });
 
         return;
       }
 
-      close();
       send({
         type: 'success',
         message: t('Product has been added to the cart'),

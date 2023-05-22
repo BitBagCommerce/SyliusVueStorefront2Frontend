@@ -13,7 +13,10 @@
         >
           <SfMegaMenuColumn
             :title="$t('Categories')"
-            class="sf-mega-menu-column--pined-content-on-mobile search__categories"
+            class="
+              sf-mega-menu-column--pined-content-on-mobile
+              search__categories
+            "
           >
             <template #title="{ title }">
               <SfHeading :title="title" :level="4" class="search__header" />
@@ -209,10 +212,10 @@ export default {
     const handleAddToCart = async (params) => {
       await addItemToCart(params);
 
-      const cartError = Object.values(error.value).find((err) => err !== null);
+      const { addItem: addItemError } = error.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: cartError.message });
+      if (addItemError) {
+        send({ type: 'danger', message: addItemError.message });
 
         return;
       }
