@@ -4,20 +4,16 @@
     :open="activeAccordionItem"
     :multiple="false"
   >
-    <div
-      v-for="category in categories"
-      :key="category.id"
-      class="nav-item"
-    >
-      <SfAccordionItem
-        v-if="category.children.length"
-        :header="category.name"
-      >
+    <div v-for="category in categories" :key="category.id" class="nav-item">
+      <SfAccordionItem v-if="category.children.length" :header="category.name">
         <template #header>
           <div class="nav-item__header">
             <SfMenuItem
               :label="category.name"
-              class="sf-header-navigation-item__menu-item nav-item__header-title"
+              class="
+                sf-header-navigation-item__menu-item
+                nav-item__header-title
+              "
               icon=""
               :link="localePath(`/c/${category.slug}`)"
               @click.native="toggleMobileMenu"
@@ -26,14 +22,14 @@
               icon-size="12px"
               aria-label="Show list"
               icon="chevron_right"
-              class='nav-item__header-button'
+              class="nav-item__header-button"
               :class="{ active: activeAccordionItem === category.name }"
               @click="toggleAccordionItem(category.name)"
             />
           </div>
         </template>
         <template>
-          <MobileCategoryItems :categories='category.children' />
+          <MobileCategoryItems :categories="category.children" />
         </template>
       </SfAccordionItem>
       <SfMenuItem
@@ -50,23 +46,19 @@
 
 <script>
 import { ref } from '@nuxtjs/composition-api';
-import {
-  SfMenuItem,
-  SfAccordion,
-  SfIcon
-} from '@storefront-ui/vue';
+import { SfMenuItem, SfAccordion, SfIcon } from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
 export default {
   name: 'MobileCategoryItems',
   components: {
     SfMenuItem,
     SfAccordion,
-    SfIcon
+    SfIcon,
   },
   props: {
     categories: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   setup() {
     const { toggleMobileMenu } = useUiState();
@@ -79,13 +71,13 @@ export default {
     return {
       activeAccordionItem,
       toggleAccordionItem,
-      toggleMobileMenu
+      toggleMobileMenu,
     };
-  }
+  },
 };
 </script>
 
-<style lang='scss'>
+<style lang="scss">
 .nav-item {
   white-space: nowrap;
   padding: var(--spacer-sm) 0;
@@ -103,7 +95,7 @@ export default {
       margin-bottom: var(--spacer-xs);
 
       .sf-icon-path {
-        transition: transform .3s ease;
+        transition: transform 0.3s ease;
       }
 
       &.active .sf-icon-path {

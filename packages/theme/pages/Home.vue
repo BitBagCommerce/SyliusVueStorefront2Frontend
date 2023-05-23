@@ -97,7 +97,7 @@
             breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } },
           }"
         >
-          <template #prev="{go}">
+          <template #prev="{ go }">
             <SfArrow
               :aria-label="$t('Previous')"
               class="sf-arrow--left sf-arrow--long"
@@ -185,7 +185,12 @@ import {
 } from '@storefront-ui/vue';
 import { computed, useContext, onMounted } from '@nuxtjs/composition-api';
 
-import { useCart, useCategory, useProducts, productGetters } from '@vue-storefront/sylius';
+import {
+  useCart,
+  useCategory,
+  useProducts,
+  productGetters,
+} from '@vue-storefront/sylius';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';

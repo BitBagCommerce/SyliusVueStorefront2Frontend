@@ -26,6 +26,6 @@ export const useProducts = () => {
     result: computed(() => products.value),
     loading: computed(() => loading.value),
     error: computed(() => error.value),
-    load
+    load,
   };
 };

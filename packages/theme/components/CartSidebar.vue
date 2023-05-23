@@ -84,7 +84,10 @@
           <div v-if="totalItems">
             <SfProperty
               :name="$t('Subtotal')"
-              class="sf-property--full-width sf-property--large my-cart__total-price"
+              class="
+                sf-property--full-width sf-property--large
+                my-cart__total-price
+              "
             >
               <template #value>
                 <SfPrice
@@ -158,13 +161,7 @@ export default {
   setup(props, context) {
     const t = (key) => context.root.$i18n.t(key);
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const {
-      cart,
-      removeItem,
-      updateItemQty,
-      loading,
-      error,
-    } = useCart();
+    const { cart, removeItem, updateItemQty, loading, error } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));

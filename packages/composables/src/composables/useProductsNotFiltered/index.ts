@@ -12,7 +12,8 @@ export const useProductsNotFiltered = () => {
   const load = async (params) => {
     try {
       loading.value = true;
-      productsNotFiltered.value = await context.$sylius.api.getProductNotFiltered(params);
+      productsNotFiltered.value =
+        await context.$sylius.api.getProductNotFiltered(params);
     } catch (error) {
       productsNotFiltered.value = [];
       error.value.load = error;
@@ -26,6 +27,6 @@ export const useProductsNotFiltered = () => {
     productsNotFiltered: computed(() => productsNotFiltered.value),
     loading: computed(() => loading.value),
     error: computed(() => error.value),
-    load
+    load,
   };
 };

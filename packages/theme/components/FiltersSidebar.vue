@@ -168,7 +168,13 @@ import {
   SfLoader,
 } from '@storefront-ui/vue';
 
-import { ref, computed, onMounted, watch, useRoute } from '@nuxtjs/composition-api';
+import {
+  ref,
+  computed,
+  onMounted,
+  watch,
+  useRoute,
+} from '@nuxtjs/composition-api';
 import { useAttributes, useProductsNotFiltered } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState } from '~/composables';
 import Vue from 'vue';
@@ -256,8 +262,9 @@ export default {
     };
 
     const getPrice = () =>
-      route.value.query?.priceRange?.split('..')?.map(price => price / 100) || Object.values(maxPrice.value);
-    const setPrice = range => priceRange.value = range;
+      route.value.query?.priceRange?.split('..')?.map((price) => price / 100) ||
+      Object.values(maxPrice.value);
+    const setPrice = (range) => (priceRange.value = range);
 
     const isRangeSelected = (facet) =>
       Boolean(selectedFilters.value[facet.id]?.length);
@@ -294,15 +301,21 @@ export default {
       setPrice(getPrice());
     });
 
-    watch(() => attributes.value, () => {
-      setPrice(getPrice());
-      setSelectedFilters();
-    });
+    watch(
+      () => attributes.value,
+      () => {
+        setPrice(getPrice());
+        setSelectedFilters();
+      }
+    );
 
-    watch(() => products.value, (newVal) => {
-      setMaxPrice(newVal.products);
-      setPrice(getPrice());
-    });
+    watch(
+      () => products.value,
+      (newVal) => {
+        setMaxPrice(newVal.products);
+        setPrice(getPrice());
+      }
+    );
 
     return {
       facets,

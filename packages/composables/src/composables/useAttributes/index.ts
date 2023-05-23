@@ -15,14 +15,15 @@ export const useAttributes = () => {
 
       const response = await context.$sylius.api.getProductAttribute(params);
 
-      if (Object.keys(response).length === 0)
-        return;
+      if (Object.keys(response).length === 0) return;
 
-      response.forEach(attr => {
+      response.forEach((attr) => {
         if (attr.type === 'text') {
-          attr.options = attr.options.map(option => ({
+          attr.options = attr.options.map((option) => ({
             ...option,
-            selected: params.attributes[option.code]?.includes(option.stringValue) || false
+            selected:
+              params.attributes[option.code]?.includes(option.stringValue) ||
+              false,
           }));
 
           return;
@@ -52,6 +53,6 @@ export const useAttributes = () => {
     attributes: computed(() => attributes.value),
     loading: computed(() => loading.value),
     error: computed(() => error.value),
-    load
+    load,
   };
 };

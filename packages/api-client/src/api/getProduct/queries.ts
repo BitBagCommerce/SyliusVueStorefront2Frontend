@@ -113,10 +113,8 @@ export const getProductsAttributesQuery = gql`
 
 export const getFirstProductIdQuery = gql`
   query getFirstProduct {
-    products(
-      itemsPerPage: 1
-    ) {
-      collection{
+    products(itemsPerPage: 1) {
+      collection {
         id
       }
     }

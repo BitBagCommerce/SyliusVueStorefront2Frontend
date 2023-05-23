@@ -13,7 +13,10 @@
         >
           <SfMegaMenuColumn
             :title="$t('Categories')"
-            class="sf-mega-menu-column--pined-content-on-mobile search__categories"
+            class="
+              sf-mega-menu-column--pined-content-on-mobile
+              search__categories
+            "
           >
             <template #title="{ title }">
               <SfHeading :title="title" :level="4" class="search__header" />

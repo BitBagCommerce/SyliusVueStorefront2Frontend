@@ -312,7 +312,7 @@ export async function getFirstProductId(context, params): Promise<any> {
     const { data } = await context.client.query({
       query: getFirstProductIdQuery,
       variables: params,
-      fetchPolicy: 'no-cache'
+      fetchPolicy: 'no-cache',
     });
 
     return data.products.collection;

@@ -93,7 +93,10 @@
         <SfProperty
           :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
-          class="sf-property--full-width sf-property--large summary__property-total"
+          class="
+            sf-property--full-width sf-property--large
+            summary__property-total
+          "
         />
 
         <VsfPaymentProvider @status="isPaymentReady = true" />

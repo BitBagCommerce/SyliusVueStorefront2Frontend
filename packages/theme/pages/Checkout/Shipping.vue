@@ -114,7 +114,10 @@
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="form__element form__element--half form__select sf-select--underlined"
+            class="
+              form__element form__element--half form__select
+              sf-select--underlined
+            "
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -257,8 +260,11 @@ export default {
     const { send } = useUiNotification();
     const { $sylius } = useVSFContext();
     const { load: loadShipping, save, loading, shipping } = useShipping();
-    const { shipping: userShipping, load: loadUserShipping, loading: shippingLoading } =
-      useUserShipping();
+    const {
+      shipping: userShipping,
+      load: loadUserShipping,
+      loading: shippingLoading,
+    } = useUserShipping();
     const { isAuthenticated, user } = useUser();
     const { billing, load: loadBilling } = useBilling();
 

@@ -72,7 +72,12 @@
           <hr class="light-line login-register-separator" />
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
           <SfButton
-            class="register-today-button sf-button--full-width form__button color-light"
+            class="
+              register-today-button
+              sf-button--full-width
+              form__button
+              color-light
+            "
             @click="setIsLoginValue(false)"
           >
             {{ $t('Register today') }}

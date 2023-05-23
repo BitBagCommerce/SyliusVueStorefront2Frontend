@@ -36,9 +36,13 @@
     </div>
 
     <div class="navbar__counter">
-      <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
+      <span class="navbar__label desktop-only"
+        >{{ $t('Products found') }}:
+      </span>
       <span class="desktop-only">{{ pagination.totalCount }}</span>
-      <span class="navbar__label smartphone-only">{{ pagination.totalCount }} {{ $t('Items') }}</span>
+      <span class="navbar__label smartphone-only"
+        >{{ pagination.totalCount }} {{ $t('Items') }}</span
+      >
     </div>
 
     <div class="navbar__view">
@@ -67,7 +71,7 @@
       />
     </div>
     <LazyHydrate when-idle>
-      <FiltersSidebar @close="toggleFilterSidebar"/>
+      <FiltersSidebar @close="toggleFilterSidebar" />
     </LazyHydrate>
   </div>
 </template>
@@ -77,11 +81,7 @@ import { computed, onMounted } from '@nuxtjs/composition-api';
 import { useUiHelpers, useUiState } from '~/composables';
 import { useFacet, facetGetters } from '@vue-storefront/sylius';
 import FiltersSidebar from '~/components/FiltersSidebar';
-import {
-  SfButton,
-  SfIcon,
-  SfSelect
-} from '@storefront-ui/vue';
+import { SfButton, SfIcon, SfSelect } from '@storefront-ui/vue';
 import LazyHydrate from 'vue-lazy-hydration';
 
 export default {
@@ -91,20 +91,27 @@ export default {
     SfIcon,
     SfSelect,
     LazyHydrate,
-    FiltersSidebar
+    FiltersSidebar,
   },
   props: {
     pagination: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   setup() {
     const th = useUiHelpers();
-    const { toggleFilterSidebar, isCategoryGridView, changeToCategoryGridView, changeToCategoryListView } = useUiState();
+    const {
+      toggleFilterSidebar,
+      isCategoryGridView,
+      changeToCategoryGridView,
+      changeToCategoryListView,
+    } = useUiState();
     const { result, search } = useFacet();
 
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
-    const facets = computed(() => facetGetters.getGrouped(result.value, ['color', 'size']));
+    const facets = computed(() =>
+      facetGetters.getGrouped(result.value, ['color', 'size'])
+    );
 
     onMounted(async () => {
       await search(th.getFacetsFromURL());
@@ -117,9 +124,9 @@ export default {
       toggleFilterSidebar,
       isCategoryGridView,
       changeToCategoryGridView,
-      changeToCategoryListView
+      changeToCategoryListView,
     };
-  }
+  },
 };
 </script>
 
@@ -234,7 +241,7 @@ export default {
     &-label {
       margin: 0 var(--spacer-sm) 0 0;
       font: var(--font-weight--normal) var(--font-size--base) / 1.6
-      var(--font-family--secondary);
+        var(--font-family--secondary);
       text-decoration: none;
       color: var(--c-link);
     }

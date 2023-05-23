@@ -76,10 +76,14 @@
           {{ $t('Details and status orders') }}
         </p>
         <SfLoader :class="{ loading }" :loading="loading">
-          <div v-if='!loading'>
+          <div v-if="!loading">
             <div v-if="orders.length === 0" class="no-orders">
-              <p class="no-orders__title">{{ $t('You currently have no orders') }}</p>
-              <SfButton class="no-orders__button" link="/">{{ $t('Start shopping') }}</SfButton>
+              <p class="no-orders__title">
+                {{ $t('You currently have no orders') }}
+              </p>
+              <SfButton class="no-orders__button" link="/">{{
+                $t('Start shopping')
+              }}</SfButton>
             </div>
             <SfTable v-else class="orders">
               <SfTableHeading>
@@ -90,30 +94,51 @@
                   {{ tableHeader }}
                 </SfTableHeader>
                 <SfTableHeader class="orders__element--right">
-                  <span class="orders__view-details">{{ $t('View details') }}</span>
+                  <span class="orders__view-details">{{
+                    $t('View details')
+                  }}</span>
                 </SfTableHeader>
               </SfTableHeading>
-              <SfTableRow v-for="order in orders" :key="orderGetters.getId(order)">
-                <SfTableData v-e2e="'order-number'">{{ orderGetters.getId(order) }}</SfTableData>
+              <SfTableRow
+                v-for="order in orders"
+                :key="orderGetters.getId(order)"
+              >
+                <SfTableData v-e2e="'order-number'">{{
+                  orderGetters.getId(order)
+                }}</SfTableData>
                 <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>
-                <SfTableData>{{ $n(orderGetters.getPrice(order), 'currency') }}</SfTableData>
+                <SfTableData>{{
+                  $n(orderGetters.getPrice(order), 'currency')
+                }}</SfTableData>
                 <SfTableData>
-                  <span :class="getStatusTextClass(order)">{{ orderGetters.getPaymentStatus(order) }}</span>
+                  <span :class="getStatusTextClass(order)">{{
+                    orderGetters.getPaymentStatus(order)
+                  }}</span>
                 </SfTableData>
                 <SfTableData>
-                  <span :class="getStatusTextClass(order)">{{ orderGetters.getShippingStatus(order) }}</span>
+                  <span :class="getStatusTextClass(order)">{{
+                    orderGetters.getShippingStatus(order)
+                  }}</span>
                 </SfTableData>
                 <SfTableData class="orders__view orders__element--right">
-                  <SfButton class="sf-button--text smartphone-only" @click="currentOrder = order">
+                  <SfButton
+                    class="sf-button--text smartphone-only"
+                    @click="currentOrder = order"
+                  >
                     {{ $t('View details') }}
                   </SfButton>
-                  <SfButton class="sf-button--text desktop-only" @click="currentOrder = order">
+                  <SfButton
+                    class="sf-button--text desktop-only"
+                    @click="currentOrder = order"
+                  >
                     {{ $t('View details') }}
                   </SfButton>
                 </SfTableData>
               </SfTableRow>
             </SfTable>
-            <p v-show="totalOrders > 0">{{ $t('Total orders') }} - {{ totalOrders }}</p>
+            <p v-show="totalOrders > 0">
+              {{ $t('Total orders') }} - {{ totalOrders }}
+            </p>
           </div>
         </SfLoader>
       </div>

@@ -27,7 +27,7 @@
           :loading="categoriesLoading"
         >
           <SfAccordion
-            v-if='categoryTree.children'
+            v-if="categoryTree.children"
             v-e2e="'categories-accordion'"
             :show-chevron="true"
           >
@@ -39,14 +39,13 @@
               <template>
                 <SfList class="list">
                   <SfListItem class="list__item">
-                    <SfMenuItem
-                      :count="child.count"
-                      :label="child.name"
-                    >
+                    <SfMenuItem :count="child.count" :label="child.name">
                       <template #label>
                         <nuxt-link
                           :to="localePath(th.getCatLink(child))"
-                          :class="child.isCurrent ? 'sidebar--cat-selected' : ''"
+                          :class="
+                            child.isCurrent ? 'sidebar--cat-selected' : ''
+                          "
                         >
                           All
                         </nuxt-link>
@@ -65,7 +64,9 @@
                       <template #label="{ label }">
                         <nuxt-link
                           :to="localePath(th.getCatLink(subCat))"
-                          :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
+                          :class="
+                            subCat.isCurrent ? 'sidebar--cat-selected' : ''
+                          "
                         >
                           {{ label }}
                         </nuxt-link>
@@ -78,7 +79,10 @@
           </SfAccordion>
         </SfLoader>
       </div>
-      <SfLoader :class="{ loading: productsLoading }" :loading="productsLoading">
+      <SfLoader
+        :class="{ loading: productsLoading }"
+        :loading="productsLoading"
+      >
         <div class="products" v-if="!productsLoading">
           <transition-group
             v-if="isCategoryGridView"
@@ -197,7 +201,10 @@
               </template>
               <template #actions>
                 <WishlistDropdown
-                  class="desktop-only products__product-card-horizontal--wishlist-button"
+                  class="
+                    desktop-only
+                    products__product-card-horizontal--wishlist-button
+                  "
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
@@ -234,10 +241,7 @@
             />
           </LazyHydrate>
 
-          <div
-            v-show="pagination.lastPage > 1"
-            class="products__show-on-page"
-          >
+          <div v-show="pagination.lastPage > 1" class="products__show-on-page">
             <span class="products__show-on-page__label">{{
               $t('Show on page')
             }}</span>
@@ -297,7 +301,7 @@ import {
   wishlistGetters,
   useProducts,
   useAttributes,
-  useCategory
+  useCategory,
 } from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -313,9 +317,17 @@ export default {
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart, error: useCartError } = useCart();
-    const { categories, loading: categoriesLoading, error } = useCategory('AppHeader:CategoryList');
+    const {
+      categories,
+      loading: categoriesLoading,
+      error,
+    } = useCategory('AppHeader:CategoryList');
     const { load: loadAttributes } = useAttributes();
-    const { load: loadProducts, result: productsResult, loading: productsLoading } = useProducts();
+    const {
+      load: loadProducts,
+      result: productsResult,
+      loading: productsLoading,
+    } = useProducts();
     const {
       addItem: addItemToWishlist,
       isInWishlist,
@@ -328,9 +340,17 @@ export default {
     const products = computed(() => productsResult.value?.products || []);
     const productsQuantity = ref({});
     const isDropdownVisible = false;
-    const activeCategory = computed(() => categories.value?.find(cat => cat.slug === th.getFacetsFromURL()?.categorySlug));
-    const categoryTree = computed(() => categoryGetters.getTree(activeCategory.value, categories.value));
-    const breadcrumbs = computed(() => categoryGetters.getBreadcrumbs(activeCategory.value, categories.value));
+    const activeCategory = computed(() =>
+      categories.value?.find(
+        (cat) => cat.slug === th.getFacetsFromURL()?.categorySlug
+      )
+    );
+    const categoryTree = computed(() =>
+      categoryGetters.getTree(activeCategory.value, categories.value)
+    );
+    const breadcrumbs = computed(() =>
+      categoryGetters.getBreadcrumbs(activeCategory.value, categories.value)
+    );
     const pagination = computed(() => productsResult.value?.pagination || {});
 
     const initProductsQuantity = async () => {
@@ -374,10 +394,7 @@ export default {
     onMounted(async () => {
       const facets = th.getFacetsFromURL();
 
-      await Promise.all([
-        loadAttributes(facets),
-        loadProducts(facets)
-      ]);
+      await Promise.all([loadAttributes(facets), loadProducts(facets)]);
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
     });
 

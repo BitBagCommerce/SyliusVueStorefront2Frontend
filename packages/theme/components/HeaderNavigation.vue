@@ -1,7 +1,7 @@
 <template>
   <div>
     <SfLoader :class="{ loading }" :loading="loading">
-      <div class="sf-header__navigation desktop" v-if='!loading'>
+      <div class="sf-header__navigation desktop" v-if="!loading">
         <SfHeaderNavigationItem
           v-for="(category, index) in allCategories"
           :key="index"
@@ -23,7 +23,7 @@
       </template>
       <SfHeaderNavigationItem>
         <template #mobile-navigation-item>
-          <MobileCategoryItem :categories='allCategories' />
+          <MobileCategoryItem :categories="allCategories" />
         </template>
       </SfHeaderNavigationItem>
     </SfModal>
@@ -67,9 +67,11 @@ export default {
     const {
       categories,
       search: categoriesListSearch,
-      loading
+      loading,
     } = useCategory('AppHeader:CategoryList');
-    const allCategories = computed(() => categoryGetters.getChildren(null, categories.value));
+    const allCategories = computed(() =>
+      categoryGetters.getChildren(null, categories.value)
+    );
 
     onMounted(async () => {
       window.addEventListener('resize', () => {

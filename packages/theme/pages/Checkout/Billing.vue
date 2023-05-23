@@ -106,7 +106,10 @@
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="form__element form__element--half form__select sf-select--underlined"
+            class="
+              form__element form__element--half form__select
+              sf-select--underlined
+            "
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -249,7 +252,11 @@ export default {
     const { toggleLoginModal } = useUiState();
     const { $vsf } = useVSFContext();
     const { isAuthenticated, user } = useUser();
-    const { billing: userBilling, load: loadUserBilling, loading } = useUserBilling();
+    const {
+      billing: userBilling,
+      load: loadUserBilling,
+      loading,
+    } = useUserBilling();
     const { send } = useUiNotification();
     const canAddNewAddress = ref(true);
     const countries = ref([]);

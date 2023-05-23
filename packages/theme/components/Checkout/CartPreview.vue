@@ -32,21 +32,26 @@
             class="sf-property--full-width sf-property--large property"
           >
             <template #value="{ props }">
-              <span class="sf-property__value" style="text-align: right;">
+              <span class="sf-property__value" style="text-align: right">
                 {{ props.value }}
                 <a
                   href="#"
                   @click.prevent="handleCouponRemoval(discount)"
                   class="text-primary"
-                  style="font-size: 12px;font-weight: normal;"
-                >Remove</a>
+                  style="font-size: 12px; font-weight: normal"
+                  >Remove</a
+                >
               </span>
             </template>
           </SfProperty>
-         <SfProperty
+          <SfProperty
             v-if="hasSpecialPrice"
             :value="$n(totals.special, 'currency')"
-            class="sf-property--full-width sf-property--small property special-price"
+            class="
+              sf-property--full-width sf-property--small
+              property
+              special-price
+            "
           />
           <SfProperty
             v-if="hasShipping"

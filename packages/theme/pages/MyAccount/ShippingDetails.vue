@@ -67,9 +67,7 @@
             </transition-group>
           </div>
         </SfLoader>
-        <SfButton
-          class="action-button"
-          @click="changeAddress()">
+        <SfButton class="action-button" @click="changeAddress()">
           {{ $t('Add new address') }}
         </SfButton>
       </SfTab>
@@ -77,12 +75,7 @@
   </transition>
 </template>
 <script>
-import {
-  SfTabs,
-  SfButton,
-  SfIcon,
-  SfLoader,
-} from '@storefront-ui/vue';
+import { SfTabs, SfButton, SfIcon, SfLoader } from '@storefront-ui/vue';
 import UserAddress from '~/components/UserAddress';
 import ShippingAddressForm from '~/components/MyAccount/ShippingAddressForm';
 import { useUserShipping, userShippingGetters } from '@vue-storefront/sylius';
