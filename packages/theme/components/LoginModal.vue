@@ -245,7 +245,11 @@ import {
 } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
-import { useUser, useForgotPassword } from '@vue-storefront/sylius';
+import {
+  useUser,
+  useForgotPassword,
+  useWishlists,
+} from '@vue-storefront/sylius';
 import { useUiState, useUiNotification } from '~/composables';
 import { useVSFContext } from '@vue-storefront/core';
 
@@ -284,6 +288,7 @@ export default {
     const createAccount = ref(false);
     const rememberMe = ref(false);
     const { register, login, logout, loading, error: userError } = useUser();
+    const { load: loadWishlists } = useWishlists();
     const {
       request,
       error: forgotPasswordError,
@@ -372,6 +377,7 @@ export default {
         setIsLoginValue(false);
       }
 
+      await loadWishlists();
       send({ type: 'info', message: t('Login successful') });
       $router.push('/my-account');
 
