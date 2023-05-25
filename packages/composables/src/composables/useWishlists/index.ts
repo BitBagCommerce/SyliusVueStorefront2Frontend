@@ -74,8 +74,7 @@ export const useWishlists = () => {
   };
 
   const load = async () => {
-    await update(async () => {
-    }, 'load');
+    await update(async () => {}, 'load');
   };
 
   const addItem = async (itemId: string, wishlistId: string) => {
