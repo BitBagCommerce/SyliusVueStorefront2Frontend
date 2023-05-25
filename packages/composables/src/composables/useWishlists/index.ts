@@ -26,15 +26,13 @@ export const useWishlists = () => {
     wishlists.value = [];
   };
 
-  const update = async (fn: () => Promise<any>, name: string) => {
+  const update = async (fn: () => Promise<void>, name: string) => {
     try {
       loading.value = true;
 
-      let response = await fn();
+      await fn();
 
-      if (!response) {
-        response = await context.$sylius.api.getWishlists();
-      }
+      const response = await context.$sylius.api.getWishlists();
 
       if (response?.graphQLErrors) {
         handleError(response, name);
@@ -77,12 +75,6 @@ export const useWishlists = () => {
 
   const load = async () => {
     await update(async () => {
-      const result = await context.$sylius.api.getWishlists();
-
-      if (Array.isArray(result) && !result.length)
-        await context.$sylius.api.createWishlist('Wishlist');
-
-      return result;
     }, 'load');
   };
 
