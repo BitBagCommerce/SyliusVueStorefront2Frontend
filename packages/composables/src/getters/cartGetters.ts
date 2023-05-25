@@ -19,14 +19,15 @@ export const getCartItems = (cart: Cart): CartLineItem[] => {
         sku: item.variant.code,
         images: item.variant.product.images,
         price: {
-          regular: item.unitPrice / 100,
-          special: 0,
+          regular: item.variant.channelPricings[0].originalPrice,
+          special: item.variant.channelPricings[0].price,
         },
         selectedVariant: item.variant,
         qty: item.quantity,
       });
     });
   }
+
   return items;
 };
 
@@ -39,9 +40,11 @@ export const getCartItemImage = (product: CartLineItem): string =>
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemPrice = (product: CartLineItem): AgnosticPrice => {
+  const { special = 0, regular = 0 } = product?.price || {};
+
   return {
-    regular: product.price.regular,
-    special: product.price.special,
+    regular: regular ? regular / 100 : special / 100,
+    special: regular && regular !== special ? special / 100 : 0,
   };
 };
 

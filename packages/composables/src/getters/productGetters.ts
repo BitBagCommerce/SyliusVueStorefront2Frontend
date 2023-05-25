@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   AgnosticMediaGalleryItem,
   AgnosticAttribute,
@@ -19,11 +20,11 @@ export const getProductSlug = (product: Product): string => product.slug;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: Product): AgnosticPrice => {
-  let price = product?.selectedVariant?.channelPricings[0].price;
-  if (price) price /= 100;
+  const { price = 0, originalPrice = 0 } = product?.selectedVariant?.channelPricings[0] || {};
+
   return {
-    regular: price || 0,
-    special: 0,
+    regular: originalPrice ? originalPrice / 100 : price / 100,
+    special: originalPrice && originalPrice !== price ? price / 100 : 0,
   };
 };
 
