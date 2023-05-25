@@ -149,6 +149,7 @@
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
+            :disabled="isAuthenticated"
           />
         </ValidationProvider>
         <ValidationProvider
