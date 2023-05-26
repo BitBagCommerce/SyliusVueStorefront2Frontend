@@ -133,6 +133,7 @@ export default {
         type: 'success',
         message: t('Product has been added to the cart'),
       });
+      close();
     };
 
     watch(
