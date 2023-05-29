@@ -8,7 +8,7 @@ const getTopLevelCategories = (categories: any[]): Category[] => {
 const getChildren = (category: any, categories: any[]): Category[] => {
   return category
     ? categories
-        .filter((cat) => cat.parent.id === category.id)
+        .filter((cat) => cat.parent?.id === category.id)
         .map((cat) => {
           return {
             ...cat,
