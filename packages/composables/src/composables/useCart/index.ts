@@ -26,12 +26,15 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
       // empty response means cart token is no longer valid
       if (cartResponse && Object.keys(cartResponse).length === 0) {
         cartId = await createCart();
+        return await context.$sylius.api.getCart(cartId);
       }
+
+      return cartResponse;
     } catch (e) {
       Logger.error(e);
     }
 
-    return await context.$sylius.api.getCart(cartId);
+    return null;
   },
   addItem: async (context: Context, { product, quantity, customQuery }) => {
     const apiState = context.$sylius.config.state;

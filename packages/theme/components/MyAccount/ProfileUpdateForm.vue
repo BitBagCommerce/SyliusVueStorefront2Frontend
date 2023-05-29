@@ -38,7 +38,10 @@
             v-model="form.gender"
             :label="$t('Gender')"
             name="gender"
-            class="form__element form__element--half form__select sf-select--underlined"
+            class="
+              form__element form__element--half form__select
+              sf-select--underlined
+            "
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"

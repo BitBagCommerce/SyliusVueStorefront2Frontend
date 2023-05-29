@@ -61,7 +61,7 @@ export default {
     };
 
     onMounted(async () => {
-      selectedMethod.value = cart.value.payments
+      selectedMethod.value = cart.value?.payments
         ? cart.value.payments.method.code
         : null;
       if (selectedMethod.value) {

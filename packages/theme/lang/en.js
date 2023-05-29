@@ -309,4 +309,5 @@ export default {
   'Add to cart': 'Add to cart',
   'Select country': 'Select country',
   'in stock': 'in stock',
+  All: 'All',
 };
