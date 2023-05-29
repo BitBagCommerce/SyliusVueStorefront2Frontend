@@ -212,10 +212,10 @@ export default {
     const handleAddToCart = async (params) => {
       await addItemToCart(params);
 
-      const cartError = Object.values(error.value).find((err) => err !== null);
+      const { addItem: addItemError } = error.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: cartError.message });
+      if (addItemError) {
+        send({ type: 'danger', message: addItemError.message });
 
         return;
       }

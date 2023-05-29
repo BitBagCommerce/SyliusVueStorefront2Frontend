@@ -48,6 +48,7 @@ export const cartFragment = `
           code
           onHand
           onHold
+          tracked
           optionValues {
             edges {
               node {
@@ -73,6 +74,13 @@ export const cartFragment = `
                   code
                 }
               }
+            }
+          }
+          channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+            collection {
+              channelCode
+              price
+              originalPrice
             }
           }
         }

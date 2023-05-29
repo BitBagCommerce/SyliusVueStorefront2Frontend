@@ -242,7 +242,7 @@ export default {
   display: flex;
   align-items: flex-start;
   &__button {
-    --button-width: 6.3125rem;
+    --button-width: min-content;
     --button-height: var(--spacer-lg);
   }
   &__input {

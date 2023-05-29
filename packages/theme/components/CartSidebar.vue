@@ -41,7 +41,9 @@
                 :maxQty="
                   productGetters.getQuantityLimit(product.selectedVariant)
                 "
-                @input="updateQuantity({ product, quantity: parseInt($event) })"
+                @quantity-change="
+                  updateQuantity({ product, quantity: parseInt($event) })
+                "
                 :loading="loading"
               >
                 <template #configuration>
@@ -131,7 +133,6 @@ import {
   SfProperty,
   SfPrice,
   SfImage,
-  SfQuantitySelector,
 } from '@storefront-ui/vue';
 import ProductItem from '~/components/CartSidebar/ProductItem';
 import { computed } from '@nuxtjs/composition-api';
@@ -155,7 +156,6 @@ export default {
     SfProperty,
     SfPrice,
     SfImage,
-    SfQuantitySelector,
     ProductItem,
   },
   setup(props, context) {
@@ -190,10 +190,10 @@ export default {
     const updateQuantity = debounce(async ({ product, quantity }) => {
       await updateItemQty({ product, quantity });
 
-      const cartError = Object.values(error.value).find((err) => err !== null);
+      const { updateItemQty: updateError } = error.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: t(cartError.message) });
+      if (updateError) {
+        send({ type: 'danger', message: t(updateError.message) });
       } else {
         send({ type: 'info', message: t('Your cart has been updated') });
       }

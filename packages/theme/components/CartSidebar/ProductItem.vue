@@ -47,7 +47,7 @@
             :min="minQty"
             :max="maxQty"
             class="sf-collected-product__quantity-selector"
-            @input="$emit('input', $event)"
+            @quantity-change="$emit('quantity-change', $event)"
             :disabled="loading"
           />
         </div>
@@ -92,7 +92,6 @@ import {
   SfImage,
   SfCircleIcon,
   SfButton,
-  SfQuantitySelector,
   SfLink,
   SfProperty,
   SfLoader,
@@ -109,7 +108,6 @@ export default {
     SfImage,
     SfCircleIcon,
     SfPrice,
-    SfQuantitySelector,
     SfLink,
     SfProperty,
     QuantitySelector,
@@ -153,7 +151,7 @@ export default {
     },
     maxQty: {
       type: Number,
-      default: 99,
+      default: 999,
     },
     link: {
       type: [String, Object],

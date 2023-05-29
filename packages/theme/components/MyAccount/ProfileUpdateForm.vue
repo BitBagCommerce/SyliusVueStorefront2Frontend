@@ -57,7 +57,7 @@
         </ValidationProvider>
 
         <ValidationProvider
-          rules="required|min:9"
+          rules="required|digits:9"
           v-slot="{ errors }"
           class="form__element"
         >
@@ -116,11 +116,13 @@
 
 <script>
 import { ref, onMounted } from '@nuxtjs/composition-api';
-import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
+import { digits } from 'vee-validate/dist/rules';
 import { useUser, userGetters } from '@vue-storefront/sylius';
 import { SfInput, SfButton, SfSelect, SfCheckbox } from '@storefront-ui/vue';
 import { useUiNotification } from '~/composables/';
 import { parse as parseDate, format as formatDate } from 'date-fns';
+
 export default {
   name: 'ProfileUpdateForm',
 
@@ -148,6 +150,11 @@ export default {
     const form = ref(resetForm());
     const selectedBirthday = ref('');
     const t = (key) => root.$i18n.t(key);
+
+    extend('digits', {
+      ...digits,
+      message: t('Please provide a valid phone number'),
+    });
 
     const genderOptions = [
       { key: 'u', label: t('Unknown') },

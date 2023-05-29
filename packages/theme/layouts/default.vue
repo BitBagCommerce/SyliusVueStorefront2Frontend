@@ -148,4 +148,15 @@ h4 {
   line-height: 1.6;
   margin: 0;
 }
+
+.sf-input:not(.sf-input--filled) {
+  input {
+    padding-left: 1%;
+  }
+
+  .sf-input__label {
+    top: 60%;
+    left: 1%;
+  }
+}
 </style>
