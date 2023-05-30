@@ -25,6 +25,13 @@ const getChildren = (category: any, categories: any[]): Category[] => {
         });
 };
 
+const hasChildren = (category: any, categories: any[]): boolean => {
+  if (category === undefined || categories === undefined) {
+    return false;
+  }
+  return categories.some((cat) => cat.parent?.id === category.id);
+};
+
 const getParent = (category: any, categories: any[]) => {
   if (!category) return categories.find((cat) => cat.level === 1);
 
@@ -82,6 +89,7 @@ const getBreadcrumbs = (
 
 export const categoryGetters = {
   getChildren,
+  hasChildren,
   getParent,
   getTopLevelCategories,
   getTree,
