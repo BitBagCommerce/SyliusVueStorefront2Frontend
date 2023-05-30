@@ -1,4 +1,3 @@
-
 import { useRoute, useRouter } from '@nuxtjs/composition-api';
 
 const nonFilters = ['page', 'sort', 'phrase', 'itemsPerPage'];
@@ -8,20 +7,20 @@ const reduceFilters = (query) => (prev, curr) => {
 
   return {
     ...prev,
-    [curr]: makeArray ? query[curr] : [query[curr]]
+    [curr]: makeArray ? query[curr] : [query[curr]],
   };
 };
 
 const getFiltersDataFromUrl = (query, onlyFilters) => {
   return Object.keys(query)
-    .filter(f => onlyFilters ? !nonFilters.includes(f) : nonFilters.includes(f))
+    .filter((f) =>
+      onlyFilters ? !nonFilters.includes(f) : nonFilters.includes(f)
+    )
     .reduce(reduceFilters(query), {});
 };
 
 const getQueryParameter = (item): string => {
-  return Array.isArray(item)
-    ? item[0]
-    : item;
+  return Array.isArray(item) ? item[0] : item;
 };
 
 const useUiHelpers = () => {
@@ -33,8 +32,10 @@ const useUiHelpers = () => {
     const getOrderBy = (sort: string | string[]) => {
       if (sort === 'name-desc') return [{ translations_name: 'DESC' }];
       if (sort === 'name-asc') return [{ translations_name: 'ASC' }];
-      if (sort === 'price-highest') return [{ variants_channelPricings_price: 'DESC' }];
-      if (sort === 'price-lowest') return [{ variants_channelPricings_price: 'ASC' }];
+      if (sort === 'price-highest')
+        return [{ variants_channelPricings_price: 'DESC' }];
+      if (sort === 'price-lowest')
+        return [{ variants_channelPricings_price: 'ASC' }];
       if (sort === 'rating-highest') return [{ averageRating: 'DESC' }];
       if (sort === 'rating-lowest') return [{ averageRating: 'ASC' }];
 
@@ -52,13 +53,13 @@ const useUiHelpers = () => {
       let attributes = {};
 
       if (Array.isArray(filters)) {
-        const textFilters = filters.map(filter => filter.split(':'));
+        const textFilters = filters.map((filter) => filter.split(':'));
 
-        textFilters.forEach(filter => {
+        textFilters.forEach((filter) => {
           if (attributes?.[filter[0]]) {
             attributes = {
               ...attributes,
-              [filter[0]]: [...attributes[filter[0]], filter[1]]
+              [filter[0]]: [...attributes[filter[0]], filter[1]],
             };
 
             return;
@@ -66,7 +67,7 @@ const useUiHelpers = () => {
 
           attributes = {
             ...attributes,
-            [filter[0]]: [filter[1]]
+            [filter[0]]: [filter[1]],
           };
         });
       }
@@ -79,11 +80,14 @@ const useUiHelpers = () => {
       page: parseInt(getQueryParameter(query.page)) || 1,
       phrase: query.phrase,
       orderBy: getOrderBy(query.sort),
-      averageRating: (query.sort === 'rating-highest' || query.sort === 'rating-lowest') ? [{ between: '1..5' }] : null,
+      averageRating:
+        query.sort === 'rating-highest' || query.sort === 'rating-lowest'
+          ? [{ between: '1..5' }]
+          : null,
       price: getPriceRange(query.priceRange),
       attributes: getAttributes(query.filters),
       itemsPerPage: parseInt(getQueryParameter(query.itemsPerPage)) || 10,
-      channelsCode: process.env.SYLIUS_CHANNEL_CODE
+      channelsCode: process.env.SYLIUS_CHANNEL_CODE,
     } as any;
   };
 
@@ -102,15 +106,17 @@ const useUiHelpers = () => {
     const options = [];
 
     for (const filter in filters) {
-      filters[filter].forEach(option => options.push(`${filter}:${option}`));
+      filters[filter].forEach((option) => options.push(`${filter}:${option}`));
     }
 
     router.push({
       query: {
         ...query,
-        priceRange: `${(priceRange[0] * 100).toFixed(0)}..${(priceRange[1] * 100).toFixed(0)}`,
-        filters: options
-      }
+        priceRange: `${(priceRange[0] * 100).toFixed(0)}..${(
+          priceRange[1] * 100
+        ).toFixed(0)}`,
+        filters: options,
+      },
     });
   };
 
@@ -119,8 +125,8 @@ const useUiHelpers = () => {
     router.push({
       query: {
         ...getFiltersDataFromUrl(query, false),
-        itemsPerPage
-      }
+        itemsPerPage,
+      },
     });
   };
 
@@ -129,8 +135,8 @@ const useUiHelpers = () => {
     router.push({
       query: {
         ...getFiltersDataFromUrl(query, false),
-        phrase: term || undefined
-      }
+        phrase: term || undefined,
+      },
     });
   };
 
@@ -161,7 +167,7 @@ const useUiHelpers = () => {
     setTermForUrl,
     isFacetColor,
     isFacetCheckbox,
-    getSearchTermFromUrl
+    getSearchTermFromUrl,
   };
 };
 

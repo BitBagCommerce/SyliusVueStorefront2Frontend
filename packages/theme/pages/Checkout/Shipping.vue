@@ -1,4 +1,3 @@
-
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <SfHeading
@@ -16,12 +15,16 @@
       class="form__element"
     />
     <form @submit.prevent="handleSubmit(handleFormSubmit)">
-      <UserAddresses
-        v-if="isAuthenticated && hasSavedShippingAddress"
-        :addresses="userShipping"
-        :addressGetters="userShippingGetters"
-        @setCurrentAddress="handleSetCurrentAddress"
-      />
+      <SfLoader :loading="shippingLoading">
+        <div v-if="!shippingLoading">
+          <UserAddresses
+            v-if="isAuthenticated && hasSavedShippingAddress"
+            :addresses="userShipping"
+            :addressGetters="userShippingGetters"
+            @setCurrentAddress="handleSetCurrentAddress"
+          />
+        </div>
+      </SfLoader>
       <div class="form">
         <ValidationProvider
           name="firstName"
@@ -91,10 +94,7 @@
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
-        <ValidationProvider
-          name="state"
-          slim
-        >
+        <ValidationProvider name="state" slim>
           <SfInput
             v-e2e="'billing-state'"
             v-model="form.state"
@@ -114,7 +114,10 @@
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="form__element form__element--half form__select sf-select--underlined"
+            class="
+              form__element form__element--half form__select
+              sf-select--underlined
+            "
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -189,7 +192,7 @@
         v-if="isFormSubmitted"
         :shipping-methods="shippingMethods"
         @submit="$router.push(localePath({ name: 'payment' }))"
-        @cancel="isFormSubmitted = false;"
+        @cancel="isFormSubmitted = false"
       />
     </form>
   </ValidationObserver>
@@ -201,27 +204,21 @@ import {
   SfInput,
   SfButton,
   SfSelect,
-  SfCheckbox
+  SfCheckbox,
+  SfLoader,
 } from '@storefront-ui/vue';
 import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
-import { useBilling, useShipping, useUserShipping, userShippingGetters, useUser } from '@vue-storefront/sylius';
+import {
+  useBilling,
+  useShipping,
+  useUserShipping,
+  userShippingGetters,
+  useUser,
+} from '@vue-storefront/sylius';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { onSSR, useVSFContext } from '@vue-storefront/core';
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
-extend('min', {
-  ...min,
-  message: 'The field should have at least {length} characters'
-});
-extend('digits', {
-  ...digits,
-  message: 'Please provide a valid phone number'
-});
+import { useVSFContext } from '@vue-storefront/core';
 
 export default {
   name: 'Shipping',
@@ -231,13 +228,30 @@ export default {
     SfButton,
     SfSelect,
     SfCheckbox,
+    SfLoader,
     ValidationProvider,
     ValidationObserver,
     UserAddresses: () => import('@/components/Checkout/UserAddresses'),
-    VsfShippingProvider: () => import('~/components/Checkout/VsfShippingProvider')
+    VsfShippingProvider: () =>
+      import('~/components/Checkout/VsfShippingProvider'),
   },
-  setup (_, { root }) {
+  setup(_, { root }) {
     const t = (key) => root.$i18n.t(key);
+
+    extend('required', {
+      ...required,
+      message: t('This field is required'),
+    });
+    extend('min', {
+      ...min,
+      message:
+        t('The field should have at least') + ' {length} ' + t('characters'),
+    });
+    extend('digits', {
+      ...digits,
+      message: t('Please provide a valid phone number'),
+    });
+
     const isFormSubmitted = ref(false);
     const sameAsBilling = ref(false);
     const countries = ref([]);
@@ -245,10 +259,14 @@ export default {
 
     const { send } = useUiNotification();
     const { $sylius } = useVSFContext();
-    const { load, save, loading, shipping } = useShipping();
-    const { shipping: userShipping, load: loadUserShipping } = useUserShipping();
+    const { load: loadShipping, save, loading, shipping } = useShipping();
+    const {
+      shipping: userShipping,
+      load: loadUserShipping,
+      loading: shippingLoading,
+    } = useUserShipping();
     const { isAuthenticated, user } = useUser();
-    const { billing } = useBilling();
+    const { billing, load: loadBilling } = useBilling();
 
     const form = ref({
       firstName: '',
@@ -259,14 +277,14 @@ export default {
       countryCode: '',
       postcode: '',
       email: null,
-      phoneNumber: null
+      phoneNumber: null,
     });
 
     const handleFormSubmit = async () => {
       await save({ shippingDetails: form.value });
 
       shippingMethods.value = await $sylius.api.getShippingMethods({
-        zone: form.value.countryCode
+        zone: form.value.countryCode,
       });
 
       if (shippingMethods.value.length) {
@@ -274,7 +292,12 @@ export default {
         return;
       }
 
-      send({ type: 'danger', message: t('No shipping methods are available for selected country. Please choose a different country.')});
+      send({
+        type: 'danger',
+        message: t(
+          'No shipping methods are available for selected country. Please choose a different country.'
+        ),
+      });
     };
 
     const handleCheckSameAddress = async () => {
@@ -282,7 +305,7 @@ export default {
       if (sameAsBilling.value) {
         form.value = {
           ...form.value,
-          ...billing.value
+          ...billing.value,
         };
       }
     };
@@ -290,7 +313,7 @@ export default {
     const handleSetCurrentAddress = (address) => {
       form.value = {
         ...form.value,
-        ...address
+        ...address,
       };
     };
 
@@ -303,11 +326,16 @@ export default {
     });
 
     onSSR(async () => {
-      await load();
+      if (billing.value) {
+        await loadShipping();
+      } else {
+        await Promise.all([loadShipping(), loadBilling()]);
+      }
       countries.value = await $sylius.api.getCountries();
     });
 
     onMounted(async () => {
+      await Promise.all([loadShipping(), loadBilling()]);
       if (!countries.value.length) {
         countries.value = await $sylius.api.getCountries();
       }
@@ -323,6 +351,7 @@ export default {
       isFormSubmitted,
       isAuthenticated,
       sameAsBilling,
+      shippingLoading,
       form,
       shippingMethods,
       userShipping,
@@ -331,9 +360,9 @@ export default {
       hasSavedShippingAddress,
       handleSetCurrentAddress,
       handleFormSubmit,
-      handleCheckSameAddress
+      handleCheckSameAddress,
     };
-  }
+  },
 };
 </script>
 
@@ -399,7 +428,7 @@ export default {
   &__back-button {
     margin: var(--spacer-xl) 0 var(--spacer-sm);
     &:hover {
-      color:  var(--c-white);
+      color: var(--c-white);
     }
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;

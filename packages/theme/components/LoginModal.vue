@@ -19,7 +19,7 @@
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
           <form class="form" @submit.prevent="handleSubmit(handleLogin)">
             <div v-show="error.login" class="login-error">
-              <SfAlert :message="error.login" type="danger"/>
+              <SfAlert :message="error.login" type="danger" />
             </div>
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
@@ -51,7 +51,8 @@
               :label="$t('Remember me')"
               class="form__element checkbox remember-me-checkbox"
             />
-            <SfButton v-e2e="'login-modal-submit'"
+            <SfButton
+              v-e2e="'login-modal-submit'"
               type="submit"
               class="sf-button--full-width form__button"
               :disabled="loading"
@@ -62,15 +63,23 @@
             </SfButton>
           </form>
         </ValidationObserver>
-<!--        <div class="action">-->
-<!--          <SfButton class="sf-button&#45;&#45;text" @click="setIsForgottenValue(true)">-->
-<!--            {{ $t('Forgotten password?') }}-->
-<!--          </SfButton>-->
-<!--        </div>-->
+        <!--        <div class="action">-->
+        <!--          <SfButton class="sf-button&#45;&#45;text" @click="setIsForgottenValue(true)">-->
+        <!--            {{ $t('Forgotten password?') }}-->
+        <!--          </SfButton>-->
+        <!--        </div>-->
         <div class="bottom">
           <hr class="light-line login-register-separator" />
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
-          <SfButton class="register-today-button sf-button--full-width form__button color-light" @click="setIsLoginValue(false)">
+          <SfButton
+            class="
+              register-today-button
+              sf-button--full-width
+              form__button
+              color-light
+            "
+            @click="setIsLoginValue(false)"
+          >
             {{ $t('Register today') }}
           </SfButton>
         </div>
@@ -99,7 +108,10 @@
               class="sf-button--full-width form__button"
               :disabled="forgotPasswordLoading"
             >
-              <SfLoader :class="{ loader: forgotPasswordLoading }" :loading="forgotPasswordLoading">
+              <SfLoader
+                :class="{ loader: forgotPasswordLoading }"
+                :loading="forgotPasswordLoading"
+              >
                 <div>{{ $t('Reset Password') }}</div>
               </SfLoader>
             </SfButton>
@@ -107,21 +119,31 @@
         </ValidationObserver>
       </div>
       <div v-else-if="isThankYouAfterForgotten" class="thank-you">
-        <i18n tag="p" class="thank-you__paragraph" path="forgotPasswordConfirmation">
+        <i18n
+          tag="p"
+          class="thank-you__paragraph"
+          path="forgotPasswordConfirmation"
+        >
           <span class="thank-you__paragraph--bold">{{ userEmail }}</span>
         </i18n>
         <p class="thank-you__paragraph">{{ $t('Thank You Inbox') }}</p>
       </div>
       <div v-else-if="isVerifyUser" class="form">
-          <p class="verify__paragraph">{{ $t('Please check your email to verify your account') }}</p>
+        <p class="verify__paragraph">
+          {{ $t('Please check your email to verify your account') }}
+        </p>
 
-          <SfButton type="submit" class="verify__button" @click="closeModal()">
-            {{ $t('Go back') }}
-          </SfButton>
+        <SfButton type="submit" class="verify__button" @click="closeModal()">
+          {{ $t('Go back') }}
+        </SfButton>
       </div>
       <div v-else class="form">
         <ValidationObserver v-slot="{ handleSubmit }" key="sign-up">
-          <form class="form" @submit.prevent="handleSubmit(handleRegister)" autocomplete="off">
+          <form
+            class="form"
+            @submit.prevent="handleSubmit(handleRegister)"
+            autocomplete="off"
+          >
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
                 v-e2e="'login-modal-email'"
@@ -167,7 +189,10 @@
                 class="form__element"
               />
             </ValidationProvider>
-            <ValidationProvider :rules="{ required: { allowFalse: false } }" v-slot="{ errors }">
+            <ValidationProvider
+              :rules="{ required: { allowFalse: false } }"
+              v-slot="{ errors }"
+            >
               <SfCheckbox
                 v-e2e="'login-modal-create-account'"
                 v-model="createAccount"
@@ -195,7 +220,11 @@
         </ValidationObserver>
         <div class="action">
           {{ $t('or') }}
-          <SfButton v-e2e="'login-modal-login-to-your-account'" class="sf-button--text" @click="setIsLoginValue(true)">
+          <SfButton
+            v-e2e="'login-modal-login-to-your-account'"
+            class="sf-button--text"
+            @click="setIsLoginValue(true)"
+          >
             {{ $t('login in to your account') }}
           </SfButton>
         </div>
@@ -205,22 +234,24 @@
 </template>
 <script>
 import { ref, watch, reactive, computed } from '@nuxtjs/composition-api';
-import { SfModal, SfInput, SfButton, SfCheckbox, SfLoader, SfAlert, SfBar } from '@storefront-ui/vue';
+import {
+  SfModal,
+  SfInput,
+  SfButton,
+  SfCheckbox,
+  SfLoader,
+  SfAlert,
+  SfBar,
+} from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
-import { useUser, useForgotPassword } from '@vue-storefront/sylius';
+import {
+  useUser,
+  useForgotPassword,
+  useWishlists,
+} from '@vue-storefront/sylius';
 import { useUiState, useUiNotification } from '~/composables';
 import { useVSFContext } from '@vue-storefront/core';
-
-extend('email', {
-  ...email,
-  message: 'Invalid email'
-});
-
-extend('required', {
-  ...required,
-  message: 'This field is required'
-});
 
 export default {
   name: 'LoginModal',
@@ -233,10 +264,20 @@ export default {
     SfAlert,
     ValidationProvider,
     ValidationObserver,
-    SfBar
+    SfBar,
   },
   setup(props, context) {
     const t = (key) => context.root.$i18n.t(key);
+
+    extend('required', {
+      ...required,
+      message: t('This field is required'),
+    });
+    extend('email', {
+      ...email,
+      message: t('Please provide a valid e-mail address'),
+    });
+
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
     const form = ref({});
     const isLogin = ref(true);
@@ -247,14 +288,19 @@ export default {
     const createAccount = ref(false);
     const rememberMe = ref(false);
     const { register, login, logout, loading, error: userError } = useUser();
-    const { request, error: forgotPasswordError, loading: forgotPasswordLoading } = useForgotPassword();
+    const { load: loadWishlists } = useWishlists();
+    const {
+      request,
+      error: forgotPasswordError,
+      loading: forgotPasswordLoading,
+    } = useForgotPassword();
     const { $router } = context.root;
     const { send } = useUiNotification();
     const { $sylius } = useVSFContext();
 
     const error = reactive({
       login: null,
-      register: null
+      register: null,
     });
 
     const resetErrorValues = () => {
@@ -306,9 +352,9 @@ export default {
         error.login = userError.value.login?.message;
         error.register = userError.value.register?.message;
 
-        if (error.login === t('Can\'t authenticate, user not verified')) {
+        if (error.login === t("Can't authenticate, user not verified")) {
           setIsVerifyUser(true);
-        } else if (error.login === 'Can\'t authenticate, user not verified') {
+        } else if (error.login === "Can't authenticate, user not verified") {
           setIsVerifyUser(true);
         }
 
@@ -318,7 +364,9 @@ export default {
       if (fn === register) {
         send({ type: 'info', message: t('Your account has been registered') });
 
-        await login({user: {username: form.value.email, password: form.value.password }});
+        await login({
+          user: { username: form.value.email, password: form.value.password },
+        });
         if ($sylius?.config?.state?.getCustomerToken() === undefined) {
           setIsVerifyUser(true);
           await logout();
@@ -329,6 +377,7 @@ export default {
         setIsLoginValue(false);
       }
 
+      await loadWishlists();
       send({ type: 'info', message: t('Login successful') });
       $router.push('/my-account');
 
@@ -377,14 +426,13 @@ export default {
       closeModal,
       isThankYouAfterForgotten,
       userEmail,
-      barTitle
+      barTitle,
     };
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .modal {
   --modal-index: 3;
   --overlay-z-index: 3;
@@ -400,7 +448,8 @@ export default {
   align-items: center;
   justify-content: center;
   margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
-  font: var(--font-weight--light) var(--font-size--base) / 1.6 var(--font-family--secondary);
+  font: var(--font-weight--light) var(--font-size--base) / 1.6
+    var(--font-family--secondary);
   & > * {
     margin: 0 0 0 var(--spacer-xs);
   }

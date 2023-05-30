@@ -18,26 +18,9 @@ export const BaseQuery = gql(`
         description
         parent {
           id
-          name
-          slug
         }
         enabled
-        children {
-          collection {
-            id
-            code
-            name
-            position
-            slug
-            description
-            parent {
-              id
-              name
-              slug
-            }
-            enabled
-          }
-        }
+        level
       }
     }
   }

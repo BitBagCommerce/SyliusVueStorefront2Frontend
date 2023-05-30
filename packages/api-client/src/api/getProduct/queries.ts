@@ -71,10 +71,124 @@ export const BaseQuery = gql(`
             onHold
             onHand
             enabled
-            channelPricings {
+            channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
               collection {
                 channelCode
                 price
+              }
+            }
+            optionValues {
+              edges {
+                node {
+                  id
+                  code
+                  value
+                  option {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+        attributes {
+          collection {
+            type
+            name
+            stringValue
+            localeCode
+          }
+        }
+        imagesRef: images {
+          collection {
+            path
+          }
+        }
+        enabled
+      }
+      paginationInfo {
+        itemsPerPage
+        lastPage
+        totalCount
+      }
+    }
+  }
+`);
+
+export const getMinimalProductsQuery = gql(`
+  query getMinimalProducts(
+    $slug: String,
+    $categorySlug: String,
+    $orderBy: [ProductFilter_order],
+    $averageRating: [ProductFilter_averageRating],
+    $price: [ProductFilter_variants_channelPricings_price],
+    $attributes: Iterable,
+    $itemsPerPage: Int,
+    $page: Int,
+    $search: String,
+    $channelsCode: String,
+  ) {
+    products(
+      translations_name: $search,
+      translations_slug: $slug,
+      productTaxons_taxon_translations_slug: $categorySlug,
+      order: $orderBy,
+      averageRating: $averageRating,
+      variants_channelPricings_price: $price,
+      attributes: $attributes,
+      page: $page,
+      itemsPerPage: $itemsPerPage,
+      channels_code: $channelsCode,
+    ) {
+      collection {
+        id
+        _id
+        sku: code
+        name
+        slug
+        averageRating
+        shortDescription
+        productTaxons {
+          collection {
+            taxon {
+              id
+            }
+          }
+        }
+        options {
+          edges {
+            node {
+              id
+              _id
+              values {
+                edges {
+                  node {
+                    id
+                    code
+                    value
+                  }
+                }
+              }
+              name
+              code
+            }
+          }
+        }
+        variants {
+          collection {
+            id
+            code
+            name
+            inStock
+            onHold
+            onHand
+            enabled
+            tracked
+            channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+              collection {
+                channelCode
+                price
+                originalPrice
               }
             }
             optionValues {
@@ -137,13 +251,6 @@ export const getProductsNotFilteredQuery = gql(`
         description
         metaKeywords
         metaDescription
-        productTaxons {
-          collection {
-            taxon {
-              id
-            }
-          }
-        }
         options {
           edges {
             node {
@@ -172,10 +279,12 @@ export const getProductsNotFilteredQuery = gql(`
             onHold
             onHand
             enabled
-            channelPricings {
+            tracked
+            channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
               collection {
                 channelCode
                 price
+                originalPrice
               }
             }
             optionValues {
@@ -212,13 +321,8 @@ export const getProductsNotFilteredQuery = gql(`
 `);
 
 export const getProductsAttributesQuery = gql(`
-  query productsAttributesInTaxon(
-    $categorySlug: String,
-    $locale: String
-  ) {
-    products(
-      productTaxons_taxon_translations_slug: $categorySlug,
-    ) {
+  query productsAttributesInTaxon($categorySlug: String, $locale: String) {
+    products(productTaxons_taxon_translations_slug: $categorySlug) {
       collection {
         attributes(localeCode: $locale) {
           collection {
@@ -229,6 +333,16 @@ export const getProductsAttributesQuery = gql(`
             type
           }
         }
+      }
+    }
+  }
+`);
+
+export const getFirstProductIdQuery = gql(`
+  query getFirstProduct {
+    products(itemsPerPage: 1) {
+      collection {
+        id
       }
     }
   }

@@ -1,0 +1,12 @@
+**/node_modules/**/*
+**/lib/*
+**/GraphQL.ts
+!**/.vuepress/**/*
+packages/boilerplate/composables/nuxt/plugin.js
+packages/commercetools/composables/nuxt/plugin.js
+packages/core/cache/nuxt/plugin.js
+.github/
+**/__generated__/**/*
+**/.nuxt/**/*
+**/_theme/**/*
+**/api-client/server/**/*

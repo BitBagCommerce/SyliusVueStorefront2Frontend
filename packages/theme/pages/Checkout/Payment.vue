@@ -7,7 +7,9 @@
     />
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
-        <SfTableHeader class="table__header table__image">{{ $t('Item') }}</SfTableHeader>
+        <SfTableHeader class="table__header table__image">{{
+          $t('Item')
+        }}</SfTableHeader>
         <SfTableHeader
           v-for="tableHeader in tableHeaders"
           :key="tableHeader"
@@ -17,31 +19,47 @@
           {{ tableHeader }}
         </SfTableHeader>
       </SfTableHeading>
+      <SfLoader :class="{ loading: cartLoading }" :loading="cartLoading" />
       <SfTableRow
         v-for="(product, index) in products"
         :key="index"
         class="table__row"
       >
         <SfTableData class="table__image">
-          <SfImage height="82" width="82" :src="cartGetters.getItemImage(product)" :alt="cartGetters.getItemName(product)" />
+          <SfImage
+            height="82"
+            width="82"
+            :src="cartGetters.getItemImage(product)"
+            :alt="cartGetters.getItemName(product)"
+          />
         </SfTableData>
         <SfTableData class="table__data table__description table__data">
-          <div class="product-title">{{ cartGetters.getItemName(product) }}</div>
+          <div class="product-title">
+            {{ cartGetters.getItemName(product) }}
+          </div>
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
           <div class="product-attributes">
             <SfProperty
-              v-for="(attribute, key) in cartGetters.getItemAttributes(product, ['color', 'size'])"
+              v-for="(attribute, key) in cartGetters.getItemAttributes(
+                product,
+                ['color', 'size']
+              )"
               :key="key"
               :name="key"
               :value="attribute"
             />
           </div>
         </SfTableData>
-        <SfTableData class="table__data">{{ cartGetters.getItemQty(product) }}</SfTableData>
+        <SfTableData class="table__data">{{
+          cartGetters.getItemQty(product)
+        }}</SfTableData>
         <SfTableData class="table__data price">
           <SfPrice
             :regular="$n(cartGetters.getItemPrice(product).regular, 'currency')"
-            :special="cartGetters.getItemPrice(product).special && $n(cartGetters.getItemPrice(product).special, 'currency')"
+            :special="
+              cartGetters.getItemPrice(product).special &&
+              $n(cartGetters.getItemPrice(product).special, 'currency')
+            "
             class="product-price"
           />
         </SfTableData>
@@ -52,7 +70,12 @@
         <div class="summary__total">
           <SfProperty
             :name="$t('Subtotal')"
-            :value="$n(totals.special > 0 ? totals.special : totals.subtotal, 'currency')"
+            :value="
+              $n(
+                totals.special > 0 ? totals.special : totals.subtotal,
+                'currency'
+              )
+            "
             class="sf-property--full-width property"
           />
         </div>
@@ -70,10 +93,15 @@
         <SfProperty
           :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
-          class="sf-property--full-width sf-property--large summary__property-total"
+          class="
+            sf-property--full-width sf-property--large
+            summary__property-total
+          "
         />
 
-        <VsfPaymentProvider @status="isPaymentReady = true"/>
+        <VsfPaymentProvider @status="isPaymentReady = true" />
+
+        <SfLoader :class="{ loading: cartLoading }" :loading="cartLoading" />
 
         <div class="summary__action">
           <SfButton
@@ -85,7 +113,7 @@
           </SfButton>
           <SfButton
             v-e2e="'make-an-order'"
-            :disabled="loading || !isPaymentReady"
+            :disabled="isRedirecting || !isPaymentReady || !products.length"
             class="summary__action-button"
             @click="processOrder"
           >
@@ -109,11 +137,22 @@ import {
   SfPrice,
   SfProperty,
   SfAccordion,
-  SfLink
+  SfLink,
+  SfLoader,
 } from '@storefront-ui/vue';
-import { onSSR } from '@vue-storefront/core';
-import { ref, computed, watch, useRouter, onMounted } from '@nuxtjs/composition-api';
-import { useMakeOrder, useCart, cartGetters, orderGetters } from '@vue-storefront/sylius';
+import {
+  ref,
+  computed,
+  watch,
+  useRouter,
+  onMounted,
+} from '@nuxtjs/composition-api';
+import {
+  useMakeOrder,
+  useCart,
+  cartGetters,
+  orderGetters,
+} from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 
 export default {
@@ -130,10 +169,12 @@ export default {
     SfProperty,
     SfAccordion,
     SfLink,
-    VsfPaymentProvider: () => import('~/components/Checkout/VsfPaymentProvider')
+    SfLoader,
+    VsfPaymentProvider: () =>
+      import('~/components/Checkout/VsfPaymentProvider'),
   },
   setup(props, context) {
-    const { cart, load, setCart } = useCart();
+    const { cart, load, setCart, loading: cartLoading } = useCart();
     const tokenValue = cartGetters.getCartTokenValue(cart.value);
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
@@ -145,17 +186,14 @@ export default {
     const isRedirecting = ref(false);
     const isPaymentReady = ref(false);
 
-    onSSR(async () => {
-      await load();
-    });
-
     const processOrder = async () => {
+      isRedirecting.value = true;
       await make();
 
-      const cartError = Object.values(error.value).find(err => err !== null);
+      const { make: makeError } = error.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: cartError.message });
+      if (makeError) {
+        send({ type: 'danger', message: makeError.message });
 
         return;
       }
@@ -164,47 +202,50 @@ export default {
       const { locales, locale } = context.root.$i18n;
 
       let redirected = false;
-      isRedirecting.value = true;
 
       for (const localeIndex in locales) {
         if (locales[localeIndex].code === locale) {
           redirected = true;
-          const redirectHost = context.root.context.$config.theme.payment.redirectHost;
+          const redirectHost =
+            context.root.context.$config.theme.payment.redirectHost;
           window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
           setCart(null);
         }
       }
 
       if (!redirected) {
-        const thankYouPath = { name: 'thank-you', query: { order: orderGetters.getId(order.value) }};
+        const thankYouPath = {
+          name: 'thank-you',
+          query: { order: orderGetters.getId(order.value) },
+        };
         context.root.$router.push(context.root.localePath(thankYouPath));
       }
     };
 
     const redirectToHome = () => {
-      if (!products.value.length && !isRedirecting.value) {
+      if (!products.value?.length && !isRedirecting.value) {
         router.push({ path: router.app.localePath('/') });
       }
     };
 
-    watch(() => products.value, redirectToHome);
+    watch([cartLoading, products], redirectToHome);
 
-    onMounted(redirectToHome);
+    onMounted(async () => {
+      await load();
+    });
 
     return {
       isPaymentReady,
+      isRedirecting,
       loading,
+      cartLoading,
       products,
       totals: computed(() => cartGetters.getTotals(cart.value)),
-      tableHeaders: [
-        t('Description'),
-        t('Quantity'),
-        t('Amount')
-      ],
+      tableHeaders: [t('Description'), t('Quantity'), t('Amount')],
       cartGetters,
-      processOrder
+      processOrder,
     };
-  }
+  },
 };
 </script>
 
@@ -282,9 +323,9 @@ export default {
       margin: 0 var(--spacer-xl) 0 0;
       width: auto;
     }
-    color:  var(--c-white);
+    color: var(--c-white);
     &:hover {
-      color:  var(--c-white);
+      color: var(--c-white);
     }
   }
   &__property-total {
@@ -319,5 +360,8 @@ export default {
   &__label {
     font-weight: var(--font-weight--normal);
   }
+}
+.loading {
+  height: var(--spacer-2xl);
 }
 </style>

@@ -49,7 +49,7 @@ export const refreshLoginTokenMutation = gql(`
       shopUserToken {
         token
         refreshToken
-        user{
+        user {
           id
           username
           customer {
@@ -86,9 +86,7 @@ export const updatePasswordMutation = gql(`
   mutation changeCustomerPassword(
     $customerPassword: shop_password_updateCustomerInput!
   ) {
-    shop_password_updateCustomer(
-      input: $customerPassword
-    ) {
+    shop_password_updateCustomer(input: $customerPassword) {
       clientMutationId
     }
   }
@@ -154,9 +152,7 @@ export const triggerResetPasswordMutation = gql(`
   mutation resetPasswordMailTrigger(
       $customerPassword: shop_send_reset_password_emailCustomerInput!
   ) {
-    shop_send_reset_password_emailCustomer(
-      input: $customerPassword
-    ) {
+    shop_send_reset_password_emailCustomer(input: $customerPassword) {
       customer {
         email
       }
@@ -168,9 +164,7 @@ export const resetPasswordMutation = gql(`
   mutation resetPasswordMail(
     $customerPassword: shop_reset_passwordCustomerInput!
   ) {
-    shop_reset_passwordCustomer(
-      input: $customerPassword
-    ) {
+    shop_reset_passwordCustomer(input: $customerPassword) {
       customer {
         email
       }

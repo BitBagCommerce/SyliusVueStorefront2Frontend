@@ -3,14 +3,15 @@
     <SfButton
       class="container__lang container__lang--selected"
       @click="openLangModal"
+      data-toggle-btn="ignore"
     >
       <SfImage
         :src="`/icons/langs/${locale}.webp`"
         height="20"
         width="20"
-        alt="Flag"
+        :alt="$t('Flag')"
         :placeholder="loader"
-        />
+      />
     </SfButton>
     <SfMegaMenu
       :visible="isLangModalOpen"
@@ -18,7 +19,7 @@
       class="mega-menu"
     >
       <h4 class="mega-menu__header">
-        Choose a language
+        {{ $t('Choose a language') }}
       </h4>
       <SfList class="mega-menu__list">
         <SfListItem
@@ -37,7 +38,7 @@
                   :src="`/icons/langs/${lang.code}.webp`"
                   height="20"
                   width="20"
-                  alt="Flag"
+                  :alt="$t('Flag')"
                   :placeholder="loader"
                   class="language__flag"
                 />
@@ -65,7 +66,7 @@ import {
   SfBottomModal,
   SfCharacteristic,
   SfMegaMenu,
-  SfOverlay
+  SfOverlay,
 } from '@storefront-ui/vue';
 import { ref, computed } from '@nuxtjs/composition-api';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
@@ -80,25 +81,35 @@ export default {
     SfBottomModal,
     SfCharacteristic,
     SfMegaMenu,
-    SfOverlay
+    SfOverlay,
   },
   emits: ['click'],
   directives: { clickOutside },
   setup(props, context) {
     const { locales, locale } = context.root.$i18n;
     const isLangModalOpen = ref(false);
-    const availableLocales = computed(() => locales.filter(i => i.code !== locale));
+    const availableLocales = computed(() =>
+      locales.filter((i) => i.code !== locale)
+    );
 
-    const openLangModal = () => {
-      isLangModalOpen.value = true;
-      context.emit('click', isLangModalOpen.value);
-      document.body.classList.add('no-scroll');
-    };
+    const closeLangModal = (e) => {
+      if (e?.target?.dataset.toggleBtn) return;
 
-    const closeLangModal = () => {
       isLangModalOpen.value = false;
       context.emit('click', isLangModalOpen.value);
       document.body.classList.remove('no-scroll');
+    };
+
+    const openLangModal = () => {
+      if (isLangModalOpen.value) {
+        closeLangModal();
+
+        return;
+      }
+
+      isLangModalOpen.value = true;
+      context.emit('click', isLangModalOpen.value);
+      document.body.classList.add('no-scroll');
     };
 
     return {
@@ -107,9 +118,9 @@ export default {
       isLangModalOpen,
       openLangModal,
       closeLangModal,
-      loader
+      loader,
     };
-  }
+  },
 };
 </script>
 
@@ -136,7 +147,8 @@ export default {
     ::v-deep .sf-mega-menu {
       height: 100%;
 
-      &__content, &__menu {
+      &__content,
+      &__menu {
         height: 100%;
       }
     }
@@ -185,6 +197,16 @@ export default {
     &:hover,
     &--selected {
       opacity: 1;
+    }
+  }
+}
+
+::v-deep {
+  .sf-image {
+    pointer-events: none !important;
+
+    &--wrapper {
+      pointer-events: none !important;
     }
   }
 }

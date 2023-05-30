@@ -5,23 +5,16 @@
         <SfSteps
           v-if="!isThankYou"
           :active="currentStepIndex"
-          :class="{ 'checkout__steps': true }"
+          :class="{ checkout__steps: true }"
           @change="handleStepClick"
         >
-          <SfStep
-            v-for="(step, key) in STEPS"
-            :key="key"
-            :name="$t(step)"
-          >
+          <SfStep v-for="(step, key) in STEPS" :key="key" :name="$t(step)">
             <nuxt-child />
           </SfStep>
         </SfSteps>
         <nuxt-child v-else />
       </div>
-      <div
-        v-if="!isThankYou"
-        class="checkout__aside desktop-only"
-      >
+      <div v-if="!isThankYou" class="checkout__aside desktop-only">
         <transition name="fade">
           <CartPreview key="order-summary" />
         </transition>
@@ -30,16 +23,15 @@
   </div>
 </template>
 <script>
-
 import { SfSteps, SfButton } from '@storefront-ui/vue';
 import CartPreview from '~/components/Checkout/CartPreview';
 import { useCart, cartGetters } from '@vue-storefront/sylius';
-import { computed, onMounted, useRouter, watch } from '@nuxtjs/composition-api';
+import { computed, useRouter, watch } from '@nuxtjs/composition-api';
 
 const STEPS = {
   billing: 'Billing',
   shipping: 'Shipping',
-  payment: 'Payment'
+  payment: 'Payment',
 };
 
 export default {
@@ -47,15 +39,19 @@ export default {
   components: {
     SfButton,
     SfSteps,
-    CartPreview
+    CartPreview,
   },
   setup(props, context) {
-    const { cart } = useCart();
+    const { cart, loading: cartLoading } = useCart();
     const router = useRouter();
 
-    const currentStep = computed(() => context.root.$route.path.split('/').pop());
+    const currentStep = computed(() =>
+      context.root.$route.path.split('/').pop()
+    );
     const products = computed(() => cartGetters.getItems(cart.value));
-    const currentStepIndex = computed(() => Object.keys(STEPS).findIndex(s => s === currentStep.value));
+    const currentStepIndex = computed(() =>
+      Object.keys(STEPS).findIndex((s) => s === currentStep.value)
+    );
     const isThankYou = computed(() => currentStep.value === 'thank-you');
 
     const handleStepClick = (stepIndex) => {
@@ -64,23 +60,25 @@ export default {
     };
 
     const redirectToHome = () => {
-      if (!products.value?.length && !isThankYou.value && currentStep.value !== 'payment') {
+      if (
+        !products.value?.length &&
+        !isThankYou.value &&
+        currentStep.value !== 'payment'
+      ) {
         router.push({ path: router.app.localePath('/') });
       }
     };
 
-    watch(() => products.value, redirectToHome);
-
-    onMounted(redirectToHome);
+    watch([cartLoading, products], redirectToHome);
 
     return {
       handleStepClick,
       STEPS,
       currentStepIndex,
       isThankYou,
-      currentStep
+      currentStep,
     };
-  }
+  },
 };
 </script>
 
@@ -119,5 +117,4 @@ export default {
     }
   }
 }
-
 </style>

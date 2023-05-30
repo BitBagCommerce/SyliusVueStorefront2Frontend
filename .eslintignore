@@ -6,3 +6,7 @@
 packages/boilerplate/composables/nuxt/plugin.js
 packages/commercetools/composables/nuxt/plugin.js
 packages/core/cache/nuxt/plugin.js
+**/__generated__/**/*
+**/.nuxt/**/*
+**/_theme/**/*
+**/api-client/server/**/*

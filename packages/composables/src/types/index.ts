@@ -14,7 +14,9 @@ export type Address = {
   phoneNumber: string;
 };
 
-export type Category = Awaited<ReturnType<Context['$sylius']['api']['getCategory']>>[number];
+export type Category = Awaited<
+  ReturnType<Context['$sylius']['api']['getCategory']>
+>[number];
 
 export type User = {
   firstName?: string;
@@ -28,7 +30,7 @@ export type CartItem = Record<string, unknown>;
 export type Cart = {
   totals: number;
   items: CartItem[];
-}
+};
 
 export type Coupon = Record<string, unknown>;
 
@@ -42,9 +44,17 @@ export type ShippingMethod = Record<string, unknown>;
 
 export type WishlistProduct = Record<string, unknown>;
 
-export type Wishlist = Record<string, unknown>;
+export type Wishlist = {
+  id: string;
+  name: string;
+  items: any[];
+};
 
-export type ProductsResponse = Awaited<ReturnType<Context['$sylius']['api']['getProduct']>>
+export type Wishlists = Wishlist[];
+
+export type ProductsResponse = Awaited<
+  ReturnType<Context['$sylius']['api']['getProduct']>
+>;
 
 export type OrderSearchParams = Record<string, any>;
 
@@ -90,7 +100,7 @@ export type UseUserUpdateParams = {
   gender?: string;
   birthday?: string;
   phoneNumber?: string;
-  subscribedToNewsletter?: boolean
+  subscribedToNewsletter?: boolean;
 };
 
 export type UseUserRegisterParams = {
@@ -102,7 +112,9 @@ export type UseUserRegisterParams = {
 
 export type useUserOrderSearchParams = TODO;
 
-export type useUserShippingAddress = Awaited<ReturnType<Context['$sylius']['api']['getUserAddresses']>>;
+export type useUserShippingAddress = Awaited<
+  ReturnType<Context['$sylius']['api']['getUserAddresses']>
+>;
 export type useUserShippingAddressItem = {
   city?: string;
   clientMutationId?: string;

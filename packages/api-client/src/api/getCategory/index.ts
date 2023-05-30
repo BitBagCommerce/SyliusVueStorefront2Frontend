@@ -7,13 +7,13 @@ export default async function getCategory(
   params?: VariablesHelper<typeof BaseQuery>,
   customQuery?: CustomQuery
 ) {
-  const { query: queryGql, variables } = extendQuery(context, BaseQuery, params, customQuery);
+  const { query: queryGql, variables } = extendQuery(
+    context,
+    BaseQuery,
+    params,
+    customQuery
+  );
   const data = await query(context, queryGql, variables);
 
-  const categories = data.taxa.collection?.map((cat) => ({
-    ...cat,
-    children: cat.children?.collection
-  }));
-
-  return categories;
+  return data.taxa.collection;
 }

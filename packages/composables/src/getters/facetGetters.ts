@@ -5,7 +5,7 @@ import {
   AgnosticPagination,
   AgnosticSort,
   AgnosticBreadcrumb,
-  AgnosticFacet
+  AgnosticFacet,
 } from '@vue-storefront/core';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,7 +17,10 @@ const getAll = (searchData, criteria?: string[]): AgnosticFacet[] => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getGrouped = (searchData, criteria?: string[]): AgnosticGroupedFacet[] => {
+const getGrouped = (
+  searchData,
+  criteria?: string[]
+): AgnosticGroupedFacet[] => {
   if (!searchData.data) {
     return [];
   }
@@ -28,7 +31,7 @@ const getGrouped = (searchData, criteria?: string[]): AgnosticGroupedFacet[] => 
 const getSortOptions = (searchData): AgnosticSort => {
   return {
     options: searchData.data ? searchData.data.availableSortingOptions : [],
-    selected: searchData?.input?.sort
+    selected: searchData?.input?.sort,
   };
 };
 
@@ -36,8 +39,10 @@ const getCategoryTree = (searchData): AgnosticCategoryTree => {
   const buildTree = (category: any): AgnosticCategoryTree => ({
     label: category.name,
     slug: category.slug,
-    items: (Array.isArray(category?.children)) ? category.children.map(cat => buildTree(cat)) : [],
-    isCurrent: (category.code === searchData.data?.category?.code)
+    items: Array.isArray(category?.children)
+      ? category.children.map((cat) => buildTree(cat))
+      : [],
+    isCurrent: category.code === searchData.data?.category?.code,
   });
 
   if (!searchData.data) {
@@ -47,8 +52,8 @@ const getCategoryTree = (searchData): AgnosticCategoryTree => {
   return {
     label: 'Root',
     slug: 'root',
-    items: searchData.data.categories.map(cat => buildTree(cat)),
-    isCurrent: false
+    items: searchData.data.categories.map((cat) => buildTree(cat)),
+    isCurrent: false,
   } as AgnosticCategoryTree;
 };
 
@@ -76,7 +81,7 @@ const getPagination = (searchData): AgnosticPagination => {
       totalPages: searchData.data.totalPages,
       totalItems: searchData.data.total,
       itemsPerPage: searchData.data.itemsPerPage,
-      pageOptions: searchData.data.perPageOptions
+      pageOptions: searchData.data.perPageOptions,
     };
   }
 
@@ -85,28 +90,28 @@ const getPagination = (searchData): AgnosticPagination => {
     totalPages: 1,
     totalItems: 0,
     itemsPerPage: 0,
-    pageOptions: []
+    pageOptions: [],
   };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getBreadcrumbs = (searchData): AgnosticBreadcrumb[] => {
-  const category = searchData?.data?.categoriesFlat.find(cat => cat.code === searchData?.data?.category?.code);
+  const category = searchData?.data?.categoriesFlat.find(
+    (cat) => cat.code === searchData?.data?.category?.code
+  );
   if (category) {
-    const breadcrumbs = [
-      {text: 'Home', link: '/'}
-    ];
+    const breadcrumbs = [{ text: 'Home', link: '/' }];
 
     if (category.parent.id !== '/api/v2/shop/taxons/MENU_CATEGORY') {
       breadcrumbs.push({
         text: category.parent.name,
-        link: `/c/${category.parent.slug}`
+        link: `/c/${category.parent.slug}`,
       });
     }
 
     breadcrumbs.push({
       text: category.name,
-      link: `/c/${category.slug}`
+      link: `/c/${category.slug}`,
     });
 
     return breadcrumbs;
@@ -122,5 +127,5 @@ export const facetGetters: FacetsGetters<any, any> = {
   getProductsNotFiltered,
   getCategoryTree,
   getBreadcrumbs,
-  getPagination
+  getPagination,
 };

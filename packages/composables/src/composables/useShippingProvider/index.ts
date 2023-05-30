@@ -1,4 +1,7 @@
-import { useShippingProviderFactory, UseShippingProviderParams } from '@vue-storefront/core';
+import {
+  useShippingProviderFactory,
+  UseShippingProviderParams,
+} from '@vue-storefront/core';
 import { Shipping, ShippingMethod } from '../../types';
 import { useCart } from '../useCart';
 import type { Context } from '@vue-storefront/sylius-api';
@@ -6,7 +9,7 @@ import type { Context } from '@vue-storefront/sylius-api';
 const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
   provide() {
     return {
-      cart: useCart()
+      cart: useCart(),
     };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,11 +18,17 @@ const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, { shippingMethod, customQuery}) => {
-    const response = await context.$sylius.api.updateCartShipping({ shippingMethod }, customQuery);
+  save: async (context: any, { shippingMethod, customQuery }) => {
+    const response = await context.$sylius.api.updateCartShipping(
+      { shippingMethod },
+      customQuery
+    );
     context.cart.setCart(response);
     return response;
-  }
+  },
 };
 
-export const useShippingProvider = useShippingProviderFactory<Shipping, ShippingMethod>(params);
+export const useShippingProvider = useShippingProviderFactory<
+  Shipping,
+  ShippingMethod
+>(params);

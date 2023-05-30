@@ -7,7 +7,12 @@ const createOrder = async (
   defaultVariables: VariablesHelper<typeof defaultMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, defaultMutation, defaultVariables, customQuery);
+  const queryGql = extendQuery(
+    context,
+    defaultMutation,
+    defaultVariables,
+    customQuery
+  );
   const { shop_completeOrder } = await mutate(context, queryGql);
 
   return shop_completeOrder.order;

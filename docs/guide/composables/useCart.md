@@ -4,86 +4,85 @@
 
 `useCart` composable can be used to:
 
-* create new cart or load existing one,
-* add, update and remove items in the cart,
-* applying and removing coupons,
-* checking if product is already added to the cart.
+- create new cart or load existing one,
+- add, update and remove items in the cart,
+- applying and removing coupons,
+- checking if product is already added to the cart.
 
 ## API
 
-* `cart: Cart` - a main data object.
-* `loading: boolean` - a reactive object containing information about loading state of the cart.
-* `error` - reactive object containing the error message.
+- `cart: Cart` - a main data object.
+- `loading: boolean` - a reactive object containing information about loading state of the cart.
+- `error` - reactive object containing the error message.
 
 ### `load`
 
 Function for loading existing cart from cookie or creating a brand new cart and storing cart identifier to cookie.
 function required to fetch cart from a server or create brand new if it doesn't exist.
 
-
 ### `addItem`
 
 Function for adding products to the cart. It accepts an object with the following keys:
 
-  * `product: Product`
+- `product: Product`
 
-  * `quantity: number`
+- `quantity: number`
 
-  * `customQuery?: customQuery`
+- `customQuery?: customQuery`
 
 ### `updateItemQty`
 
 Function for updating quantity of a product in cart. It accepts an object with the following keys:
 
-  * `product: Product`
+- `product: Product`
 
-  * `quantity: number`
+- `quantity: number`
 
-  * `customQuery?: CustomQuery`
+- `customQuery?: CustomQuery`
 
 ### `removeItem`
 
 Function for removing a product from cart. It accepts an object with the following keys:
 
-  * `product: Product`
+- `product: Product`
 
-  * `customQuery?: CustomQuery`
+- `customQuery?: CustomQuery`
 
 ### `isInCart`
 
 Function for checking if given product is currently in the cart.
 
-* `clear` - function for removing all items in cart.
+- `clear` - function for removing all items in cart.
 
-* `applyCoupon` - function for applying coupon to cart. It accepts an object with the following keys:
+- `applyCoupon` - function for applying coupon to cart. It accepts an object with the following keys:
 
-  * `couponCode: string`
+  - `couponCode: string`
 
-  * `customQuery?: CustomQuery`
+  - `customQuery?: CustomQuery`
 
 ### `removeCoupon`
 
 Function for removing coupon from cart. It accepts an object with the following keys:
 
-  * `coupon: string`
+- `coupon: string`
 
-  * `customQuery?: CustomQuery`
+- `customQuery?: CustomQuery`
 
 ## Getters
 
-* `getTotals: AgnosticTotals`
-* `getShippingPrice: number`
-* `getItems: CartLineItem[]`
-* `getItemName: string`
-* `getItemImage: string`
-* `getItemPrice: AgnosticPrice`
-* `getItemQty: number`
-* `getItemAttributes: Record<string, string>`
-* `getItemSku: string`
-* `getFormattedPrice: string`
-* `getTotalItems: number`
-* `getCoupons: AgnosticCoupon[]`
-* `getDiscounts: AgnosticDiscount[]`
+- `getTotals: AgnosticTotals`
+- `getShippingPrice: number`
+- `getItems: CartLineItem[]`
+- `getItemName: string`
+- `getItemImage: string`
+- `getItemPrice: AgnosticPrice`
+- `getItemQty: number`
+- `getItemAttributes: Record<string, string>`
+- `getItemSku: string`
+- `getFormattedPrice: string`
+- `getTotalItems: number`
+- `getCoupons: AgnosticCoupon[]`
+- `getDiscounts: AgnosticDiscount[]`
 
 ## Example
 
@@ -92,8 +91,16 @@ import { useCart, cartGetters } from '@realtainment/sylius';
 import { onSSR } from '@vue-storefront/core';
 import { computed, ref } from '@vue/composition-api';
 export default {
-  setup () {
-    const { cart, removeItem, updateItemQty, applyCoupon, load, removeCoupon, error } = useCart();
+  setup() {
+    const {
+      cart,
+      removeItem,
+      updateItemQty,
+      applyCoupon,
+      load,
+      removeCoupon,
+      error,
+    } = useCart();
 
     const products = computed(() => cartGetters.getItems(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
@@ -107,9 +114,12 @@ export default {
     const submitCouponForm = async () => {
       await applyCoupon({ couponCode: promoCode.value });
       const errorKeys = Object.keys(error.value);
-      errorKeys.forEach(errorKey => {
+      errorKeys.forEach((errorKey) => {
         if (error.value[errorKey] && error.value[errorKey]?.message) {
-          console.log({ type: 'danger', message: error.value[errorKey].message });
+          console.log({
+            type: 'danger',
+            message: error.value[errorKey].message,
+          });
         }
       });
     };
@@ -127,8 +137,8 @@ export default {
       removeItem,
       updateItemQty,
       applyCoupon,
-      handleCouponRemoval
+      handleCouponRemoval,
     };
-  }
+  },
 };
 ```

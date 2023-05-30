@@ -7,13 +7,14 @@
     <AppHeader />
 
     <div id="layout">
-      <nuxt :key="route.fullPath"/>
+      <nuxt :key="route.fullPath" />
 
       <BottomNavigation />
       <CartSidebar />
       <WishlistSidebar />
       <LoginModal />
       <Notification />
+      <VariantSelector />
     </div>
     <LazyHydrate when-visible>
       <AppFooter />
@@ -32,8 +33,14 @@ import LoginModal from '~/components/LoginModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 import { onSSR } from '@vue-storefront/core';
-import { useRoute } from '@nuxtjs/composition-api';
-import { useCart, useStore, useUser, useWishlist } from '@vue-storefront/sylius';
+import { useRoute, onMounted } from '@nuxtjs/composition-api';
+import {
+  useCart,
+  useStore,
+  useUser,
+  useWishlists,
+} from '@vue-storefront/sylius';
+import VariantSelector from '~/components/VariantSelector.vue';
 
 export default {
   name: 'DefaultLayout',
@@ -47,38 +54,40 @@ export default {
     CartSidebar,
     WishlistSidebar,
     LoginModal,
-    Notification
+    Notification,
+    VariantSelector,
   },
 
-  middleware: [
-    'is-connected'
-  ],
+  middleware: ['is-connected'],
 
   setup() {
     const route = useRoute();
     const { load: loadStores } = useStore();
-    const { load: loadUser } = useUser();
-    const { load: loadCart } = useCart();
-    const { load: loadWishlist } = useWishlist();
+    const { load: loadUser, isAuthenticated } = useUser();
+    const { cart, load: loadCart } = useCart();
+    const { load: loadWishlists } = useWishlists();
 
     onSSR(async () => {
-      await Promise.all([
-        loadStores(),
-        loadUser(),
-        loadCart(),
-        loadWishlist()
-      ]);
+      await loadUser();
+    });
+
+    onMounted(async () => {
+      await loadStores();
+      if (isAuthenticated.value) await loadWishlists();
+      if (!cart.value) {
+        await loadCart();
+      }
     });
 
     return {
-      route
+      route,
     };
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-@import "~@storefront-ui/vue/styles";
+@import '~@storefront-ui/vue/styles';
 
 #layout {
   box-sizing: border-box;
@@ -138,5 +147,16 @@ h4 {
   font-size: var(--h4-font-size);
   line-height: 1.6;
   margin: 0;
+}
+
+.sf-input:not(.sf-input--filled) {
+  input {
+    padding-left: 1%;
+  }
+
+  .sf-input__label {
+    top: 60%;
+    left: 1%;
+  }
 }
 </style>

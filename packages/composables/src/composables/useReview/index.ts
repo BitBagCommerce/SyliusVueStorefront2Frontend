@@ -1,6 +1,6 @@
 import {
   useReviewFactory,
-  UseReviewFactoryParams
+  UseReviewFactoryParams,
 } from '@vue-storefront/core';
 import type {
   Context,
@@ -15,7 +15,7 @@ const params: UseReviewFactoryParams<Review, UseReviewSearchParams, UseReviewAdd
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   searchReviews: async (context: Context, params) => {
     return await context.$sylius.api.getReviews({
-      productId: parseInt(params.productId)
+      productId: parseInt(params.productId),
     });
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,8 +26,8 @@ const params: UseReviewFactoryParams<Review, UseReviewSearchParams, UseReviewAdd
     review.author = apiState.getCustomerId();
     await context.$sylius.api.addReview({ review });
 
-    return context.$sylius.api.getReviews({productId: productId});
-  }
+    return context.$sylius.api.getReviews({ productId: productId });
+  },
 };
 
 export const useReview = useReviewFactory<Review, UseReviewSearchParams, any>(params);

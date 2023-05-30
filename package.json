@@ -16,6 +16,7 @@
     "docs:dev": "cd docs && yarn dev",
     "docs:build": "cd docs && yarn build",
     "lint": "eslint . --ext .ts,.vue --fix",
+    "format": "prettier --write .",
     "prepare": "[ -d '.husky' ] && (husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks) || true",
     "publish:api-client": "node ./scripts/publishApi.js",
     "publish:composables": "node ./scripts/publishComposable.js",
@@ -82,6 +83,7 @@
     "yarn": "1.x.x||>=3.x.x"
   },
   "dependencies": {
-    "concurrently": "^7.3.0"
+    "concurrently": "^7.3.0",
+    "prettier": "^2.8.8"
   }
 }

@@ -1,12 +1,34 @@
 import {
-  getUser, loginUser, refreshLoginUser, getUserAddresses, getUserOrders,
-  addUserAddress, updateUserAddress, deleteUserAddress, updateUserPassword, updateUserProfile,
-  resetUserPassword, triggerResetUserPassword, registerUser
+  getUser,
+  loginUser,
+  refreshLoginUser,
+  getUserAddresses,
+  getUserOrders,
+  addUserAddress,
+  updateUserAddress,
+  deleteUserAddress,
+  updateUserPassword,
+  updateUserProfile,
+  resetUserPassword,
+  triggerResetUserPassword,
+  registerUser,
 } from '../../src/api/user';
-import { getUserQuery, getUserAddressesQuery, getUserOrdersQuery } from '../../src/api/user/queries';
 import {
-  loginMutation, refreshLoginTokenMutation, addAddressMutation, deleteAddressMutation, updateAddressMutation,
-  updatePasswordMutation, updateProfileMutation, resetPasswordMutation, triggerResetPasswordMutation, registerMutation
+  getUserQuery,
+  getUserAddressesQuery,
+  getUserOrdersQuery,
+} from '../../src/api/user/queries';
+import {
+  loginMutation,
+  refreshLoginTokenMutation,
+  addAddressMutation,
+  deleteAddressMutation,
+  updateAddressMutation,
+  updatePasswordMutation,
+  updateProfileMutation,
+  resetPasswordMutation,
+  triggerResetPasswordMutation,
+  registerMutation,
 } from '../../src/api/user/mutations';
 import { defaultSettings } from '../../src/settings';
 
@@ -22,11 +44,11 @@ describe('[sylius-api-client] users', () => {
           expect(query).toEqual(getUserQuery);
           return {
             data: {
-              customer: { id }
-            }
+              customer: { id },
+            },
           };
-        }
-      }
+        },
+      },
     };
 
     const result = await getUser(context, id);
@@ -42,10 +64,12 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(loginMutation);
-          return { data: { shop_loginShopUserToken: { shopUserToken: 'token' } }};
-        }
+          return {
+            data: { shop_loginShopUserToken: { shopUserToken: 'token' } },
+          };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await loginUser(context, defaultVariables);
@@ -57,7 +81,7 @@ describe('[sylius-api-client] users', () => {
     const user = {
       username: '',
       email: '',
-      customer: {}
+      customer: {},
     };
 
     const context = {
@@ -66,16 +90,16 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(registerMutation);
-          return { data: { shop_registerUser: { user }}};
-        }
+          return { data: { shop_registerUser: { user } } };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await registerUser(context, defaultVariables);
     expect(result).toStrictEqual({
       username: '',
-      email: ''
+      email: '',
     });
   });
 
@@ -88,10 +112,12 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(refreshLoginTokenMutation);
-          return { data: { shop_refreshShopUserToken: { shopUserToken: 'token' } }};
-        }
+          return {
+            data: { shop_refreshShopUserToken: { shopUserToken: 'token' } },
+          };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await refreshLoginUser(context, defaultVariables);
@@ -110,11 +136,11 @@ describe('[sylius-api-client] users', () => {
           expect(query).toEqual(getUserAddressesQuery);
           return {
             data: {
-              addresses: { collection }
-            }
+              addresses: { collection },
+            },
           };
-        }
-      }
+        },
+      },
     };
 
     const result = await getUserAddresses(context, id);
@@ -130,10 +156,10 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(addAddressMutation);
-          return { data: { shop_postAddress: { address: {} } }};
-        }
+          return { data: { shop_postAddress: { address: {} } } };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await addUserAddress(context, defaultVariables);
@@ -149,10 +175,10 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(updateAddressMutation);
-          return { data: { shop_putAddress: { address: {} } }};
-        }
+          return { data: { shop_putAddress: { address: {} } } };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await updateUserAddress(context, defaultVariables);
@@ -168,10 +194,10 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(updateProfileMutation);
-          return { data: { shop_putCustomer: { customer: {} } }};
-        }
+          return { data: { shop_putCustomer: { customer: {} } } };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await updateUserProfile(context, defaultVariables);
@@ -187,10 +213,10 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(updatePasswordMutation);
-          return { data: { shop_password_updateCustomer: { customer: {} } }};
-        }
+          return { data: { shop_password_updateCustomer: { customer: {} } } };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await updateUserPassword(context, defaultVariables);
@@ -198,7 +224,7 @@ describe('[sylius-api-client] users', () => {
   });
 
   it('trigger reset user password', async () => {
-    const defaultVariables = { customerPassword: {}};
+    const defaultVariables = { customerPassword: {} };
 
     const context = {
       config: defaultSettings,
@@ -206,10 +232,12 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(triggerResetPasswordMutation);
-          return { data: { shop_send_reset_password_emailCustomer: { customer: {} } }};
-        }
+          return {
+            data: { shop_send_reset_password_emailCustomer: { customer: {} } },
+          };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await triggerResetUserPassword(context, defaultVariables);
@@ -225,10 +253,10 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(resetPasswordMutation);
-          return { data: { shop_reset_passwordCustomer: { customer: {} } }};
-        }
+          return { data: { shop_reset_passwordCustomer: { customer: {} } } };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await resetUserPassword(context, defaultVariables);
@@ -244,10 +272,10 @@ describe('[sylius-api-client] users', () => {
         mutate: ({ variables, mutation }) => {
           expect(variables).toEqual(defaultVariables);
           expect(mutation).toEqual(deleteAddressMutation);
-          return { data: { deleteAddress: { address: {} } }};
-        }
+          return { data: { deleteAddress: { address: {} } } };
+        },
       },
-      extendQuery: (customQuery, args) => args
+      extendQuery: (customQuery, args) => args,
     };
 
     const result = await deleteUserAddress(context, defaultVariables);
@@ -256,9 +284,7 @@ describe('[sylius-api-client] users', () => {
 
   it('get user orders', async () => {
     const id = '1';
-    const edges = [
-      { node: { items: { edges: []}}}
-    ];
+    const edges = [{ node: { items: { edges: [] } } }];
 
     const context = {
       config: defaultSettings,
@@ -268,17 +294,18 @@ describe('[sylius-api-client] users', () => {
           expect(query).toEqual(getUserOrdersQuery);
           return {
             data: {
-              customer: { orders: { edges } }
-            }
+              customer: { orders: { edges } },
+            },
           };
-        }
-      }
+        },
+      },
     };
 
     const result = await getUserOrders(context, id);
-    expect(result).toStrictEqual([{
-      items: []
-    }]);
+    expect(result).toStrictEqual([
+      {
+        items: [],
+      },
+    ]);
   });
-
 });

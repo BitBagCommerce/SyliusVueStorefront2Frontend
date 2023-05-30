@@ -2,16 +2,21 @@ import { UserShippingGetters } from '@vue-storefront/core';
 import type { UserShippingAddressSearchCriteria } from '@vue-storefront/sylius-api';
 import {
   useUserShippingAddress as Address,
-  useUserShippingAddressItem as AddressItem
+  useUserShippingAddressItem as AddressItem,
 } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getAddresses(shipping: Address, criteria?: UserShippingAddressSearchCriteria): AddressItem[] {
+function getAddresses(
+  shipping: Address,
+  criteria?: UserShippingAddressSearchCriteria
+): AddressItem[] {
   if (!criteria || !Object.keys(criteria).length) {
     return shipping;
   }
   const entries = Object.entries(criteria);
-  return shipping.filter(address => entries.every(([key, value]) => address[key] === value));
+  return shipping.filter((address) =>
+    entries.every(([key, value]) => address[key] === value)
+  );
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getDefault(shipping: Address): AddressItem {
@@ -116,5 +121,5 @@ export const userShippingGetters: UserShippingGetters<Address, AddressItem> = {
   getTaxNumber,
   getId,
   getApartmentNumber,
-  isDefault
+  isDefault,
 };

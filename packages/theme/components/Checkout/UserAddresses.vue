@@ -11,7 +11,8 @@
         class="billing__address"
       >
         <span
-          >{{ addressGetters.getFirstName(billingAddress) }} {{ addressGetters.getLastName(billingAddress) }}</span
+          >{{ addressGetters.getFirstName(billingAddress) }}
+          {{ addressGetters.getLastName(billingAddress) }}</span
         >
         <span
           >{{ addressGetters.getStreetName(billingAddress) }}
@@ -20,9 +21,13 @@
         <span>{{ addressGetters.getPostCode(billingAddress) }}</span>
         <span
           >{{ addressGetters.getCity(billingAddress)
-          }}{{ addressGetters.getProvince(billingAddress) ? `, ${addressGetters.getProvince(billingAddress)}` : '' }}</span
+          }}{{
+            addressGetters.getProvince(billingAddress)
+              ? `, ${addressGetters.getProvince(billingAddress)}`
+              : ''
+          }}</span
         >
-        <span>{{ addressGetters.getCountry(billingAddress)}}</span>
+        <span>{{ addressGetters.getCountry(billingAddress) }}</span>
         <span>{{ addressGetters.getPhone(billingAddress) }}</span>
       </SfAddress>
     </SfAddressPicker>
@@ -30,56 +35,57 @@
 </template>
 
 <script>
-import {
-  SfAddressPicker
-} from '@storefront-ui/vue';
+import { SfAddressPicker } from '@storefront-ui/vue';
 export default {
   name: 'UserAddresses',
   props: {
     addresses: {
       type: Array,
-      required: true
+      required: true,
     },
     addressGetters: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
-    SfAddressPicker
+    SfAddressPicker,
   },
-  setup (props, { emit }) {
-    const setCurrentAddress = async addressId => {
-      const selectedAddress = props.addressGetters.getAddresses(props.addresses, { id: addressId });
+  setup(props, { emit }) {
+    const setCurrentAddress = async (addressId) => {
+      const selectedAddress = props.addressGetters.getAddresses(
+        props.addresses,
+        { id: addressId }
+      );
       if (!selectedAddress || !selectedAddress.length) return;
-      emit('setCurrentAddress', selectedAddress[0]);
+      emit('set-current-address', selectedAddress[0]);
     };
     return {
       billingAddresses: props.addressGetters.getAddresses(props.addresses),
-      setCurrentAddress
+      setCurrentAddress,
     };
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-  .billing {
-    &__address {
-      margin-bottom: var(--spacer-base);
-      @include for-desktop {
-        margin-right: var(--spacer-sm);
-        flex: 1;
-      }
-    }
-    &__addresses {
-      margin-bottom: var(--spacer-xl);
-      @include for-desktop {
-        display: flex;
-        flex-wrap: wrap;
-      }
-    }
-    &__setAsDefault {
-      margin-bottom: var(--spacer-xl);
+.billing {
+  &__address {
+    margin-bottom: var(--spacer-base);
+    @include for-desktop {
+      margin-right: var(--spacer-sm);
+      flex: 1;
     }
   }
+  &__addresses {
+    margin-bottom: var(--spacer-xl);
+    @include for-desktop {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  &__setAsDefault {
+    margin-bottom: var(--spacer-xl);
+  }
+}
 </style>

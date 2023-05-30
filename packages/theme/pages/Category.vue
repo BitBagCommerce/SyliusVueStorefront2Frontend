@@ -6,77 +6,84 @@
     />
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
-        <LazyHydrate never>
+        <SfLoader
+          :class="{ 'loading--categories': categoriesLoading }"
+          :loading="categoriesLoading"
+        >
           <SfHeading
             :level="3"
-            :title="$t('Categories')"
-            class="navbar__title" />
-        </LazyHydrate>
+            :title="categoryTree.parent ? categoryTree.parent.name : $t('All')"
+            class="navbar__title"
+          />
+        </SfLoader>
       </div>
-      <CategoryPageHeader :pagination="pagination"/>
+      <CategoryPageHeader :pagination="pagination" />
     </div>
 
     <div class="main section">
       <div class="sidebar desktop-only">
-        <LazyHydrate when-idle>
-          <SfLoader
-          :class="{ 'loading--categories': loading }"
-          :loading="loading">
-            <SfAccordion
-              v-e2e="'categories-accordion'"
-              :open="activeCategory"
-              :show-chevron="true"
+        <SfLoader
+          :class="{ 'loading--categories': categoriesLoading }"
+          :loading="categoriesLoading"
+        >
+          <SfAccordion
+            v-if="categoryTree.children"
+            v-e2e="'categories-accordion'"
+            :show-chevron="true"
+          >
+            <SfAccordionItem
+              v-for="(child, index) in categoryTree.children"
+              :key="index"
+              :header="child.name"
             >
-              <SfAccordionItem
-                v-for="(cat, i) in categoryTree && categoryTree.items"
-                :key="i"
-                :header="cat.label"
-              >
-                <template>
-                  <SfList class="list">
-                    <SfListItem class="list__item">
-                      <SfMenuItem
-                        :count="cat.count || ''"
-                        :label="cat.label"
-                      >
-                        <template #label>
-                          <nuxt-link
-                            :to="localePath(th.getCatLink(cat))"
-                            :class="cat.isCurrent ? 'sidebar--cat-selected' : ''"
-                          >
-                            All
-                          </nuxt-link>
-                        </template>
-                      </SfMenuItem>
-                    </SfListItem>
-                    <SfListItem
-                      class="list__item"
-                      v-for="(subCat, j) in cat.items"
-                      :key="j"
+              <template>
+                <SfList class="list">
+                  <SfListItem class="list__item">
+                    <SfMenuItem :count="child.count" :label="child.name">
+                      <template #label>
+                        <nuxt-link
+                          :to="localePath(th.getCatLink(child))"
+                          :class="
+                            child.isCurrent ? 'sidebar--cat-selected' : ''
+                          "
+                        >
+                          All
+                        </nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                  <SfListItem
+                    class="list__item"
+                    v-for="(subCat, j) in child.children"
+                    :key="j"
+                  >
+                    <SfMenuItem
+                      :count="subCat.count || ''"
+                      :label="subCat.name"
                     >
-                      <SfMenuItem
-                        :count="subCat.count || ''"
-                        :label="subCat.label"
-                      >
-                        <template #label="{ label }">
-                          <nuxt-link
-                            :to="localePath(th.getCatLink(subCat))"
-                            :class="subCat.isCurrent ? 'sidebar--cat-selected' : ''"
-                          >
-                            {{ label }}
-                          </nuxt-link>
-                        </template>
-                      </SfMenuItem>
-                    </SfListItem>
-                  </SfList>
-                </template>
-              </SfAccordionItem>
-            </SfAccordion>
-          </SfLoader>
-        </LazyHydrate>
+                      <template #label="{ label }">
+                        <nuxt-link
+                          :to="localePath(th.getCatLink(subCat))"
+                          :class="
+                            subCat.isCurrent ? 'sidebar--cat-selected' : ''
+                          "
+                        >
+                          {{ label }}
+                        </nuxt-link>
+                      </template>
+                    </SfMenuItem>
+                  </SfListItem>
+                </SfList>
+              </template>
+            </SfAccordionItem>
+          </SfAccordion>
+        </SfLoader>
       </div>
-      <SfLoader :class="{ loading }" :loading="loading">
-        <div class="products" v-if="!loading">
+      <SfLoader
+        :class="{ loading: productsLoading }"
+        :loading="productsLoading"
+      >
+        <div class="products" v-if="!productsLoading">
           <transition-group
             v-if="isCategoryGridView"
             appear
@@ -84,28 +91,56 @@
             tag="div"
             class="products__grid"
           >
-            <SfProductCard
-              v-e2e="'category-product-card'"
+            <div
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
-              :style="{ '--index': i }"
-              :title="productGetters.getName(product)"
-              :image="productGetters.getCoverImage(product)"
-              imageHeight="260"
-              imageWidth="260"
-              :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
-              :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
-              :max-rating="5"
-              :score-rating="productGetters.getAverageRating(product)"
-              :show-add-to-cart-button="true"
-              :wishlistIcon="false"
-              :is-in-wishlist="isInWishlist({ product })"
-              :is-added-to-cart="isInCart({ product })"
-              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-              class="products__product-card"
-              @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
-            />
+              @mouseover="isDropdownVisible = true"
+              @mouseleave="isDropdownVisible = false"
+              class="product-card"
+            >
+              <SfProductCard
+                v-e2e="'category-product-card'"
+                :style="{ '--index': i }"
+                :title="productGetters.getName(product)"
+                :image="productGetters.getCoverImage(product)"
+                imageHeight="260"
+                imageWidth="260"
+                :regular-price="
+                  $n(productGetters.getPrice(product).regular, 'currency')
+                "
+                :special-price="
+                  productGetters.getPrice(product).special &&
+                  $n(productGetters.getPrice(product).special, 'currency')
+                "
+                :max-rating="5"
+                :score-rating="productGetters.getAverageRating(product)"
+                :show-add-to-cart-button="true"
+                :is-added-to-cart="isInCart({ product })"
+                :wishlist-icon="false"
+                :link="
+                  localePath(
+                    `/p/${productGetters.getId(
+                      product
+                    )}/${productGetters.getSlug(product)}`
+                  )
+                "
+                :addToCartDisabled="
+                  product.selectedVariant.tracked &&
+                  !productGetters.isInStock(product.selectedVariant) &&
+                  !productGetters.hasMultipleVariants(product)
+                "
+                class="products__product-card"
+                @click:add-to-cart="open(product)"
+              />
+
+              <WishlistDropdown
+                class="wishlist"
+                :wishlists="wishlists"
+                :product="product"
+                :visible="isDropdownVisible"
+                :icon="'circleIcon'"
+              />
+            </div>
           </transition-group>
           <transition-group
             v-else
@@ -121,21 +156,33 @@
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
               :title="productGetters.getName(product)"
-              :description="productGetters.getDescription(product)"
+              :description="product.shortDescription"
               :image="productGetters.getCoverImage(product)"
               imageHeight="260"
               imageWidth="260"
-              :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
-              :special-price="productGetters.getPrice(product).special && $n(productGetters.getPrice(product).special, 'currency')"
+              :regular-price="
+                $n(productGetters.getPrice(product).regular, 'currency')
+              "
+              :special-price="
+                productGetters.getPrice(product).special &&
+                $n(productGetters.getPrice(product).special, 'currency')
+              "
               :max-rating="5"
               :score-rating="productGetters.getAverageRating(product)"
               :qty="1"
-              :wishlistIcon="false"
-              :is-in-wishlist="isInWishlist({ product })"
-              :link="localePath(`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`)"
-              @input="productsQuantity[product._id] = $event"
-              @click:wishlist="!isInWishlist({ product }) ? addItemToWishlist({ product }) : removeProductFromWishlist(product)"
-              @click:add-to-cart="handleAddToCart({ product, quantity: Number(productsQuantity[product._id]) })"
+              :link="
+                localePath(
+                  `/p/${productGetters.getId(product)}/${productGetters.getSlug(
+                    product
+                  )}`
+                )
+              "
+              @quantity-change="productsQuantity[product._id] = $event"
+              @click:wishlist="
+                !isInWishlist({ product })
+                  ? addItemToWishlist({ product })
+                  : removeProductFromWishlist(product)
+              "
             >
               <template #configuration>
                 <SfProperty
@@ -152,34 +199,64 @@
                   </template>
                 </SfProperty>
               </template>
-              <template #wishlist-icon />
+              <template #actions>
+                <WishlistDropdown
+                  class="
+                    desktop-only
+                    products__product-card-horizontal--wishlist-button
+                  "
+                  :wishlists="wishlists"
+                  :product="product"
+                  :visible="true"
+                />
+              </template>
+              <template #wishlist-icon>
+                <WishlistDropdown
+                  class="products__product-card-horizontal--wishlist-circle"
+                  :wishlists="wishlists"
+                  :product="product"
+                  :visible="true"
+                  icon="circleIcon"
+                />
+              </template>
+              <template #add-to-cart>
+                <AddToCart
+                  :selectedVariant="product.selectedVariant"
+                  :disabled="loading"
+                  @quantity-change="productsQuantity[product._id] = $event"
+                  @click="open(product)"
+                />
+              </template>
             </SfProductCardHorizontal>
           </transition-group>
 
           <LazyHydrate on-interaction>
             <SfPagination
-              v-if="!loading"
+              v-if="!productsLoading"
               class="products__pagination desktop-only"
-              v-show="pagination.totalPages > 1"
-              :current="pagination.currentPage"
-              :total="pagination.totalPages"
+              v-show="pagination.lastPage > 1"
+              :current="pagination.page"
+              :total="pagination.lastPage"
               :visible="5"
             />
           </LazyHydrate>
 
-          <div
-            v-show="pagination.totalPages > 1"
-            class="products__show-on-page"
-          >
-            <span class="products__show-on-page__label">{{ $t('Show on page') }}</span>
+          <div v-show="pagination.lastPage > 1" class="products__show-on-page">
+            <span class="products__show-on-page__label">{{
+              $t('Show on page')
+            }}</span>
             <LazyHydrate on-interaction>
               <SfSelect
-                :value="pagination && pagination.itemsPerPage ? pagination.itemsPerPage.toString() : ''"
+                :value="
+                  pagination && pagination.itemsPerPage
+                    ? pagination.itemsPerPage.toString()
+                    : ''
+                "
                 class="products__items-per-page"
                 @input="th.changeItemsPerPage"
               >
                 <SfSelectOption
-                  v-for="option in pagination.pageOptions"
+                  v-for="option in [10, 20, 50]"
                   :key="option"
                   :value="option"
                   class="products__items-per-page__option"
@@ -213,14 +290,24 @@ import {
   SfLoader,
   SfColor,
   SfProperty,
-  SfAddToCart
 } from '@storefront-ui/vue';
-import { computed, ref, watch } from '@nuxtjs/composition-api';
-import { useCart, useWishlist, productGetters, useFacet, facetGetters, wishlistGetters } from '@vue-storefront/sylius';
+import AddToCart from '~/components/AddToCart.vue';
+import { computed, ref, watch, onMounted } from '@nuxtjs/composition-api';
+import {
+  useCart,
+  useWishlists,
+  productGetters,
+  categoryGetters,
+  wishlistGetters,
+  useProducts,
+  useAttributes,
+  useCategory,
+} from '@vue-storefront/sylius';
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
-import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
+import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
+import useVariantSelector from '~/composables/useVariantSelector';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -230,29 +317,44 @@ export default {
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart, error: useCartError } = useCart();
-    const { result, search, loading, error } = useFacet();
-    const { addItem: addItemToWishlist, isInWishlist, removeItem: removeItemFromWishlist, wishlist } = useWishlist();
+    const {
+      categories,
+      loading: categoriesLoading,
+      error,
+    } = useCategory('AppHeader:CategoryList');
+    const { load: loadAttributes } = useAttributes();
+    const {
+      load: loadProducts,
+      result: productsResult,
+      loading: productsLoading,
+    } = useProducts();
+    const {
+      addItem: addItemToWishlist,
+      isInWishlist,
+      removeItem: removeItemFromWishlist,
+      wishlists,
+    } = useWishlists();
     const { send } = useUiNotification();
+    const { open } = useVariantSelector();
 
-    const products = computed(() => facetGetters.getProducts(result.value));
+    const products = computed(() => productsResult.value?.products || []);
     const productsQuantity = ref({});
-    const categoryTree = computed(() => facetGetters.getCategoryTree(result.value));
-    const breadcrumbs = computed(() => facetGetters.getBreadcrumbs(result.value));
-    const pagination = computed(() => facetGetters.getPagination(result.value));
-    const activeCategory = computed(() => {
-      const items = categoryTree.value.items;
-
-      if (!items || !items.length) {
-        return '';
-      }
-
-      const category = items.find(({ isCurrent, items }) => isCurrent || items.find(({ isCurrent }) => isCurrent));
-
-      return category?.label || items[0].label;
-    });
+    const isDropdownVisible = false;
+    const activeCategory = computed(() =>
+      categories.value?.find(
+        (cat) => cat.slug === th.getFacetsFromURL()?.categorySlug
+      )
+    );
+    const categoryTree = computed(() =>
+      categoryGetters.getTree(activeCategory.value, categories.value)
+    );
+    const breadcrumbs = computed(() =>
+      categoryGetters.getBreadcrumbs(activeCategory.value, categories.value)
+    );
+    const pagination = computed(() => productsResult.value?.pagination || {});
 
     const initProductsQuantity = async () => {
-      await products.value?.forEach(product => {
+      await products.value?.forEach((product) => {
         productsQuantity.value[product._id] = 1;
       });
     };
@@ -263,44 +365,58 @@ export default {
     const handleAddToCart = async (params) => {
       await addItemToCart(params);
 
-      const cartError = Object.values(useCartError.value).find(err => err !== null);
+      const { addItem: addItemError } = useCartError.value;
 
-      if (cartError) {
-        send({ type: 'danger', message: cartError.message });
+      if (addItemError) {
+        send({ type: 'danger', message: addItemError.message });
 
         return;
       }
 
-      send({ type: 'success', message: t('Product has been added to the cart') });
+      send({
+        type: 'success',
+        message: t('Product has been added to the cart'),
+      });
     };
 
     const removeProductFromWishlist = (productItem) => {
-      const productsInWhishlist = computed(() => wishlistGetters.getItems(wishlist.value));
-      const product = productsInWhishlist.value.find(wishlistProduct => wishlistProduct.variant.sku === productItem.sku);
+      const productsInWishlist = computed(() =>
+        wishlistGetters.getItems(wishlists.value)
+      );
+      const product = productsInWishlist.value.find(
+        (wishlistProduct) => wishlistProduct.variant.sku === productItem.sku
+      );
       removeItemFromWishlist({ product });
     };
 
-    onSSR(async () => {
-      await search(th.getFacetsFromURL());
+    onMounted(async () => {
+      const facets = th.getFacetsFromURL();
+
+      await Promise.all([loadAttributes(facets), loadProducts(facets)]);
       if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
     });
 
     return {
       ...uiState,
       th,
+      productsLoading,
       products,
       categoryTree,
-      loading,
       productGetters,
       pagination,
+      categories,
+      categoriesLoading,
       activeCategory,
       breadcrumbs,
       handleAddToCart,
+      wishlists,
       addItemToWishlist,
       removeProductFromWishlist,
       isInWishlist,
       isInCart,
-      productsQuantity
+      productsQuantity,
+      isDropdownVisible,
+      open,
     };
   },
   components: {
@@ -322,44 +438,53 @@ export default {
     SfHeading,
     SfProperty,
     LazyHydrate,
-    SfAddToCart
-  }
+    AddToCart,
+    WishlistDropdown,
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 #category {
   box-sizing: border-box;
+
   @include for-desktop {
     max-width: 1240px;
     margin: 0 auto;
   }
 }
+
 .main {
   &.section {
     padding: var(--spacer-xs);
+
     @include for-desktop {
       padding: 0;
     }
   }
 }
+
 .breadcrumbs {
   margin: var(--spacer-base) auto var(--spacer-lg);
 }
+
 .navbar {
   position: relative;
   display: flex;
   border: 1px solid var(--c-light);
   border-width: 0 0 1px 0;
+
   @include for-desktop {
     border-width: 1px 0 1px 0;
   }
+
   &.section {
     padding: var(--spacer-sm);
     @include for-desktop {
       padding: 0;
     }
   }
+
   &__aside {
     display: flex;
     align-items: center;
@@ -369,14 +494,17 @@ export default {
     border: 1px solid var(--c-light);
     border-width: 0 1px 0 0;
   }
+
   &__title {
     --heading-title-font-weight: var(--font-weight--semibold);
     --heading-title-font-size: var(--font-size--xl);
   }
 }
+
 .main {
   display: flex;
 }
+
 .list {
   --menu-item-font-size: var(--font-size--sm);
   &__item {
@@ -388,6 +516,7 @@ export default {
     }
   }
 }
+
 .products {
   box-sizing: border-box;
   flex: 1;
@@ -398,6 +527,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
   }
+
   &__grid {
     justify-content: flex-start;
 
@@ -408,6 +538,7 @@ export default {
       justify-content: center;
     }
   }
+
   &__product-card {
     --product-card-title-font-weight: var(--font-weight--medium);
     --product-card-title-margin: 0 auto;
@@ -423,22 +554,48 @@ export default {
       height: var(--image-height);
     }
   }
+
   &__product-card-horizontal {
     flex: 0 0 100%;
+    --product-card-horizontal-add-to-cart-margin: 0;
+    --product-card-horizontal-actions-margin: auto 0 0 0;
 
-    ::v-deep .sf-image {
-      --image-width: 100%;
-      --image-height: auto;
+    &--wishlist {
+      @include for-tablet {
+        &-circle {
+          display: none;
+        }
 
-      &--placeholder {
-        width: var(--image-width);
-        height: var(--image-height);
+        &-button {
+          padding-bottom: 0 !important;
+          display: block !important;
+        }
+      }
+    }
+
+    ::v-deep {
+      .sf-product-card-horizontal__details {
+        margin-right: var(--spacer-2xl);
+      }
+
+      .sf-image {
+        --image-width: 100%;
+        --image-height: auto;
+
+        &--placeholder {
+          width: var(--image-width);
+          height: var(--image-height);
+        }
       }
     }
 
     @include for-mobile {
       --product-card-horizontal-review-margin: 0;
       --product-card-horizontal-actions-wrapper-margin: var(--spacer-xs) 0 0 0;
+
+      .products__product-card-horizontal--button {
+        --button-width: 100%;
+      }
 
       ::v-deep {
         .sf-image {
@@ -500,10 +657,22 @@ export default {
 
           &__configuration {
             display: block;
+
+            .sf-property {
+              flex-wrap: wrap;
+
+              span {
+                white-space: nowrap;
+              }
+
+              &__value {
+                font-weight: lighter;
+              }
+            }
           }
 
           &__details {
-            flex: 1 0 auto;
+            flex: 1 1 auto;
           }
 
           &__actions-wrapper {
@@ -531,59 +700,108 @@ export default {
       }
     }
   }
+
   &__slide-enter {
     opacity: 0;
-    transform: scale(.5);
+    transform: scale(0.5);
   }
+
   &__slide-enter-active {
-    transition: all .2s ease;
-    transition-delay: calc(.1s * var(--index));
+    transition: all 0.2s ease;
+    transition-delay: calc(0.1s * var(--index));
   }
+
   @include for-desktop {
     &__grid {
       margin: var(--spacer-sm) 0 0 var(--spacer-sm);
     }
+
     &__pagination {
       display: flex;
       justify-content: flex-start;
       margin: var(--spacer-xl) 0 0 0;
     }
+
     &__product-card-horizontal {
       margin: var(--spacer-lg) 0;
     }
+
     &__product-card {
       flex: 1 1 25%;
     }
+
     &__list {
       margin: 0 0 0 var(--spacer-sm);
     }
   }
+
   &__show-on-page {
     display: flex;
     justify-content: flex-end;
     align-items: baseline;
+
     &__label {
       font-family: var(--font-family--secondary);
       font-size: var(--font-size--sm);
     }
   }
+
+  .product-card {
+    position: relative;
+
+    .wishlist {
+      display: none;
+      position: absolute;
+      top: calc(1rem + var(--spacer-sm));
+      right: calc(1rem + var(--spacer-sm));
+    }
+
+    @include for-mobile {
+      .wishlist {
+        display: flex;
+        z-index: 1;
+
+        &.active {
+          z-index: 2;
+        }
+      }
+    }
+
+    @include for-desktop {
+      &:hover {
+        --product-card-add-button-opacity: 1;
+        --product-card-z-index: 1;
+        --product-card-box-shadow: 0px 4px 11px rgba(29, 31, 34, 0.1);
+
+        .wishlist {
+          display: flex;
+          z-index: 10;
+        }
+      }
+    }
+  }
 }
+
 .product {
   &__property {
     margin: 0.4em 0;
   }
 }
+
 .sidebar {
   flex: 0 0 15%;
   padding: var(--spacer-sm);
   border: 1px solid var(--c-light);
   border-width: 0 1px 0 0;
 }
+
 .loading {
   margin: var(--spacer-3xl) auto;
+
   @include for-desktop {
     margin-top: 6.25rem;
   }
+
   &--categories {
     @include for-desktop {
       margin-top: 3.75rem;

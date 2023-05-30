@@ -6,4 +6,4 @@ export type Address = {
   country: string;
   zipcode: string;
   phone: string;
-}
+};

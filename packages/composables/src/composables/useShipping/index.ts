@@ -6,7 +6,7 @@ import type { Context } from '@vue-storefront/sylius-api';
 const params: UseShippingParams<Address, any> = {
   provide() {
     return {
-      cart: useCart()
+      cart: useCart(),
     };
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -14,7 +14,7 @@ const params: UseShippingParams<Address, any> = {
     if (!context.cart.cart?.value) await context.cart.load({ customQuery });
     return {
       ...context.cart.cart.value.shippingAddress,
-      state: ''
+      state: '',
     };
   },
 
@@ -32,12 +32,12 @@ const params: UseShippingParams<Address, any> = {
         street: shippingDetails.street,
         city: shippingDetails.city,
         postcode: shippingDetails.postcode,
-        phoneNumber: shippingDetails.phoneNumber
-      }
+        phoneNumber: shippingDetails.phoneNumber,
+      },
     };
     await context.$sylius.api.addAddress({ addAddressInput }, customQuery);
     return shippingDetails;
-  }
+  },
 };
 
 export const useShipping = useShippingFactory<Address, any>(params);

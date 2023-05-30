@@ -3,11 +3,14 @@ export { default as getCategory } from './getCategory';
 export {
   getProduct,
   getProductNotFiltered,
-  getProductAttribute
+  getProductAttribute,
+  getFirstProductId,
+  getMinimalProduct,
 } from './getProduct';
 export {
   createCart,
   addToCart,
+  addManyToCart,
   addCouponToCart,
   removeFromCart,
   removeCouponFromCart,
@@ -19,7 +22,7 @@ export {
   addAddress,
   getPaymentMethods,
   getShippingMethods,
-  getCountries
+  getCountries,
 } from './cart';
 export {
   loginUser,
@@ -34,9 +37,15 @@ export {
   updateUserPassword,
   resetUserPassword,
   triggerResetUserPassword,
-  deleteUserAddress
+  deleteUserAddress,
 } from './user';
+export { getReviews, addReview } from './review';
 export {
-  getReviews,
-  addReview
-} from './review';
+  getWishlists,
+  addItem,
+  removeItem,
+  clearWishlist,
+  createWishlist,
+  editWishlist,
+  removeWishlist,
+} from './wishlist';

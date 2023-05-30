@@ -89,7 +89,11 @@ export const addToCartMutation = gql(`
             node {
               _id
               variant {
+                id
                 code
+                onHand
+                onHold
+                tracked
                 optionValues {
                   edges {
                     node {
@@ -115,6 +119,139 @@ export const addToCartMutation = gql(`
                         code
                       }
                     }
+                  }
+                }
+                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                  collection {
+                    channelCode
+                    price
+                    originalPrice
+                  }
+                }
+              }
+              unitPrice
+              total
+              productName
+              variantName
+              quantity
+            }
+          }
+        }
+      }
+    }
+  }
+`);
+
+export const addManyToCartMutation = gql(`
+  mutation addManyToCart(
+    $token: String!,
+    $variants: Iterable!
+  ) {
+    shop_add_itemsOrder(input: {
+      orderTokenValue: $token
+      cartItems: $variants
+    }) {
+      order {
+        tokenValue
+        localeCode
+        total
+        taxTotal
+        shippingTotal
+        orderPromotionTotal
+        promotionCoupon {
+          code
+          promotion {
+            name
+            description
+          }
+        }
+        shippingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        billingAddress {
+          id
+          firstName
+          lastName
+          street
+          city
+          postcode
+          state: provinceName
+          countryCode
+          phoneNumber
+        }
+        shipments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        payments {
+          edges {
+            node {
+              id
+              _id
+              method {
+                code
+              }
+            }
+          }
+        }
+        items {
+          totalCount
+          edges {
+            node {
+              _id
+              variant {
+                id
+                code
+                onHand
+                onHold
+                tracked
+                optionValues {
+                  edges {
+                    node {
+                      option {
+                        id
+                      }
+                      code
+                      value
+                    }
+                  }
+                }
+                product {
+                  images {
+                    collection {
+                      path
+                    }
+                  }
+                  options {
+                    edges {
+                      node {
+                        id
+                        name
+                        code
+                      }
+                    }
+                  }
+                }
+                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                  collection {
+                    channelCode
+                    price
+                    originalPrice
                   }
                 }
               }
@@ -204,7 +341,11 @@ export const removeFromCartMutation = gql(`
             node {
               _id
               variant {
+                id
                 code
+                onHand
+                onHold
+                tracked
                 optionValues {
                   edges {
                     node {
@@ -230,6 +371,13 @@ export const removeFromCartMutation = gql(`
                         code
                       }
                     }
+                  }
+                }
+                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                  collection {
+                    channelCode
+                    price
+                    originalPrice
                   }
                 }
               }
@@ -379,7 +527,11 @@ export const applyCouponMutation = gql(`
             node {
               _id
               variant {
+                id
                 code
+                onHand
+                onHold
+                tracked
                 optionValues {
                   edges {
                     node {
@@ -405,6 +557,13 @@ export const applyCouponMutation = gql(`
                         code
                       }
                     }
+                  }
+                }
+                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                  collection {
+                    channelCode
+                    price
+                    originalPrice
                   }
                 }
               }
@@ -492,7 +651,11 @@ export const removeCouponFromCartMutation = gql(`
             node {
               _id
               variant {
+                id
                 code
+                onHand
+                onHold
+                tracked
                 optionValues {
                   edges {
                     node {
@@ -518,6 +681,13 @@ export const removeCouponFromCartMutation = gql(`
                         code
                       }
                     }
+                  }
+                }
+                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                  collection {
+                    channelCode
+                    price
+                    originalPrice
                   }
                 }
               }
@@ -609,7 +779,11 @@ export const updateCartQuantityMutation = gql(`
             node {
               _id
               variant {
+                id
                 code
+                onHand
+                onHold
+                tracked
                 optionValues {
                   edges {
                     node {
@@ -635,6 +809,13 @@ export const updateCartQuantityMutation = gql(`
                         code
                       }
                     }
+                  }
+                }
+                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                  collection {
+                    channelCode
+                    price
+                    originalPrice
                   }
                 }
               }
@@ -722,7 +903,11 @@ export const updateCartPaymentMutation = gql(`
             node {
               _id
               variant {
+                id
                 code
+                onHand
+                onHold
+                tracked
                 optionValues {
                   edges {
                     node {
@@ -748,6 +933,13 @@ export const updateCartPaymentMutation = gql(`
                         code
                       }
                     }
+                  }
+                }
+                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                  collection {
+                    channelCode
+                    price
+                    originalPrice
                   }
                 }
               }
@@ -835,7 +1027,11 @@ export const updateCartShippingMutation = gql(`
             node {
               _id
               variant {
+                id
                 code
+                onHand
+                onHold
+                tracked
                 optionValues {
                   edges {
                     node {
@@ -861,6 +1057,13 @@ export const updateCartShippingMutation = gql(`
                         code
                       }
                     }
+                  }
+                }
+                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                  collection {
+                    channelCode
+                    price
+                    originalPrice
                   }
                 }
               }

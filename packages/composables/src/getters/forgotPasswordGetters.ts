@@ -12,5 +12,5 @@ function isPasswordChanged(result: any) {
 
 export const forgotPasswordGetters: ForgotPasswordGetters<any> = {
   getResetPasswordToken,
-  isPasswordChanged
+  isPasswordChanged,
 };

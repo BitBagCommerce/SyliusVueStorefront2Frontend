@@ -1,10 +1,18 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit, reset }">
     <div v-show="thankyou.show === true">
-      {{  $t('Thank you for your review.') }}
+      {{ $t('Thank you for your review.') }}
     </div>
-    <form class="form" @submit.prevent="handleSubmit(submitForm(reset))" v-show="thankyou.show === false">
-      <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
+    <form
+      class="form"
+      @submit.prevent="handleSubmit(submitForm(reset))"
+      v-show="thankyou.show === false"
+    >
+      <ValidationProvider
+        rules="required"
+        v-slot="{ errors }"
+        class="form__element"
+      >
         <SfInput
           v-model="form.title"
           type="text"
@@ -16,7 +24,11 @@
         />
       </ValidationProvider>
 
-      <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
+      <ValidationProvider
+        rules="required"
+        v-slot="{ errors }"
+        class="form__element"
+      >
         <SfInput
           v-model.number="form.rating"
           type="number"
@@ -29,7 +41,11 @@
         />
       </ValidationProvider>
 
-      <ValidationProvider rules="required" v-slot="{ errors }" class="form__element">
+      <ValidationProvider
+        rules="required"
+        v-slot="{ errors }"
+        class="form__element"
+      >
         <SfTextarea
           v-model="form.comment"
           :label="$t('Comment')"
@@ -55,23 +71,23 @@ export default {
     SfInput,
     SfButton,
     ValidationObserver,
-    ValidationProvider
+    ValidationProvider,
   },
   props: {
     productId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   setup(props, { emit }) {
     const resetForm = () => ({
       title: null,
       comment: null,
       reviewSubject: props.productId,
-      rating: null
+      rating: null,
     });
     const resetThankyou = () => ({
-      show: false
+      show: false,
     });
     const form = ref(resetForm());
     const thankyou = ref(resetThankyou());
@@ -94,8 +110,8 @@ export default {
     return {
       form,
       thankyou,
-      submitForm
+      submitForm,
     };
-  }
+  },
 };
 </script>

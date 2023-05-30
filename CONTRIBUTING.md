@@ -2,7 +2,6 @@
 
 Yeay! You want to contribute to @vuestorefront-community/sylius. That's amazing! To smoothen everyone's experience involved with the project please take note of the following guidelines and rules.
 
-
 ## Found an Issue?
 
 Thank you for reporting any issues you find. We do our best to test and make @vuestorefront-community/sylius as solid as possible, but any reported issue is a real help.
@@ -58,7 +57,9 @@ To make your life easier @vuestorefront-community/sylius is commitizen-friendly 
 - message format of `$type($scope): $message`
 
 ## Definition of done
+
 Issue is considered complete when:
+
 1. The issue has precise requirements (acceptance criteria) - if issue description is not clear, please reach us out by adding the comment to the issue
 2. Those requirements are implemented in the code
 3. Code is covered by tests (at least unit or integration)

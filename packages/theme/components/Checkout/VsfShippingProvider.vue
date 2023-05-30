@@ -12,7 +12,7 @@
       :label="method.label"
       :value="method.value"
       :description="method.description"
-      :selected ="selectedMethod"
+      :selected="selectedMethod"
       name="shippingMethod"
       class="form__radio shipping"
       @input="selectMethod(method.value)"
@@ -64,13 +64,13 @@ export default {
   components: {
     SfButton,
     SfRadio,
-    SfHeading
+    SfHeading,
   },
   props: {
     shippingMethods: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   setup(props) {
     const { cart } = useCart();
@@ -81,7 +81,7 @@ export default {
       const shippingMethod = {
         orderTokenValue: cart.value.tokenValue,
         shippingMethodCode: code,
-        shipmentId: String(cart.value.shipments._id)
+        shipmentId: String(cart.value.shipments._id),
       };
       saveShippingMethod({ shippingMethod });
     };
@@ -93,16 +93,18 @@ export default {
 
     onMounted(async () => {
       if (props.shippingMethods.value?.length) {
-        selectedMethod.value = cart.value.shipments ? cart.value.shipments.method.code : null;
+        selectedMethod.value = cart.value.shipments
+          ? cart.value.shipments.method.code
+          : null;
         if (selectedMethod.value) updateShipping(selectedMethod.value);
       }
     });
 
     return {
       selectedMethod,
-      selectMethod
+      selectMethod,
     };
-  }
+  },
 };
 </script>
 
@@ -121,7 +123,7 @@ export default {
   &__back-button {
     margin: var(--spacer-xl) 0 var(--spacer-sm);
     &:hover {
-      color:  var(--c-white);
+      color: var(--c-white);
     }
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;

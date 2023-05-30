@@ -16,7 +16,7 @@ const page = {
       shipping: new Shipping(),
       billing: new Billing(),
       payment: new Payment(),
-      thankyou: new ThankYou()
+      thankyou: new ThankYou(),
     };
   },
   get home() {
@@ -24,7 +24,7 @@ const page = {
   },
   get product() {
     return Product;
-  }
+  },
 };
 
 export default page;

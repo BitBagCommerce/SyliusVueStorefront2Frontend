@@ -13,5 +13,5 @@ We are either using the default type from VSF2, or it isn't used in any way yet.
 ```typescript
 export declare type Setttings = TODO;
 ```
-<b>References:</b> [TODO](./sylius-api.todo.md)
 
+<b>References:</b> [TODO](./sylius-api.todo.md)

@@ -1,12 +1,18 @@
 import { Context as _Context } from '@vue-storefront/core';
 import ApolloClient, { ApolloClientOptions } from 'apollo-client';
-import { FilterEqualTypeInput, FilterMatchTypeInput } from './api/getCategory/types';
-import { transformCart, transformCartItems } from './api/helpers';
+import {
+  FilterEqualTypeInput,
+  FilterMatchTypeInput,
+} from './api/getCategory/types';
+import { transformCart, transformItems } from './api/helpers';
 // we can approximate the final type of api by taking all the exports from `./api/index.ts`, and transforming the type of these exports accordingly
 import type * as api from './api/index';
 
 // generic type representing raw functions exported from api
-type ApiFunction<TArgs extends unknown[], TReturn> = (context: _Context, ...args: TArgs) => Promise<TReturn>
+type ApiFunction<TArgs extends unknown[], TReturn> = (
+  context: _Context,
+  ...args: TArgs
+) => Promise<TReturn>;
 
 // error type returned/thrown by api functions
 // ? seams to cose some issues if used as return type of ApiFunctionWithContext, for it to work properly it may be required to overview our current error handling in this project
@@ -14,7 +20,10 @@ type ApiFunction<TArgs extends unknown[], TReturn> = (context: _Context, ...args
 type GraphQlError = { graphQLErrors?: { debugMessage: string }[] };
 
 // transformed api function without context parameter, this is a form in which api functions will be accessible inside of context
-type ApiFunctionWithContext<TFunction> = TFunction extends ApiFunction<infer TArgs, infer TReturn>
+type ApiFunctionWithContext<TFunction> = TFunction extends ApiFunction<
+  infer TArgs,
+  infer TReturn
+>
   ? (...args: TArgs) => Promise<TReturn>
   : never;
 
@@ -35,7 +44,7 @@ export type Context = {
     config;
   };
   [key: string]: any;
-}
+};
 
 export type ProductAttributeFilterInput = {
   name: FilterMatchTypeInput;
@@ -52,6 +61,13 @@ export type ProductInput = {
   search?: string;
   filter?: ProductAttributeFilterInput;
   orderBy?: any;
+};
+
+export type ChannelPricing = {
+  id?: string;
+  price: number;
+  originalPrice?: number;
+  channelCode?: string;
 };
 
 export type ProductOptionValue = {
@@ -79,7 +95,7 @@ export type ProductVariant = {
   channelPricings: any[];
   optionValues: ProductOptionValue[];
 };
-export type Wishlist = Record<string, unknown>;
+
 export type Product = {
   _id?: number;
   description: string;
@@ -127,6 +143,7 @@ export type CartLineItem = {
     product: {
       images: string[];
     };
+    channelPricings: ChannelPricing[];
   };
   price?: {
     regular: number;
@@ -192,10 +209,10 @@ export type BillingAddress = {
   city: string;
   postcode: string;
   phoneNumber?: string;
-  state?: string
+  state?: string;
 };
 
-export type CartItem = ReturnType<typeof transformCartItems>[number];
+export type CartItem = ReturnType<typeof transformItems>[number];
 
 export type Coupon = TODO;
 
@@ -211,7 +228,9 @@ export type PasswordResetResult = TODO;
 
 export type ProductFilter = TODO;
 
-export type Review = Awaited<ReturnType<Context['$sylius']['api']['getReviews']>>;
+export type Review = Awaited<
+  ReturnType<Context['$sylius']['api']['getReviews']>
+>;
 
 export type ReviewItem = Review[number];
 
@@ -245,5 +264,39 @@ export type ShippingAddress = TODO;
 
 export type ShippingProvider = TODO;
 
-export type WishlistItem = TODO;
+export type WishlistItem = {
+  _id: string;
+  id: string;
+  code: string;
+  sku?: string;
+  name?: string;
+  productName: string;
+  unitPrice: number;
+  images: string[];
+  variant: {
+    id;
+    code: string;
+    product: {
+      name: string;
+      images: string[];
+    };
+    channelPricings: ChannelPricing[];
+  };
+  price?: {
+    regular: number;
+    special: number;
+  };
+  selectedVariant: {
+    code: string;
+    optionValues: ProductOptionValue[];
+    product: {
+      options: ProductOption[];
+    };
+  };
+};
 
+export type Wishlist = {
+  id: string;
+  name: string;
+  items: WishlistItem[];
+};

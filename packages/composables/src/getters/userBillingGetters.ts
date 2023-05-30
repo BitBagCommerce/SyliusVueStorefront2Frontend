@@ -2,16 +2,21 @@ import { UserBillingGetters } from '@vue-storefront/core';
 import type {
   UserBillingAddress as Address,
   UserAddressItem as AddressItem,
-  UserBillingAddressSearchCriteria
+  UserBillingAddressSearchCriteria,
 } from '@vue-storefront/sylius-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getAddresses(billing, criteria?: UserBillingAddressSearchCriteria): AddressItem[] {
+function getAddresses(
+  billing,
+  criteria?: UserBillingAddressSearchCriteria
+): AddressItem[] {
   if (!criteria || !Object.keys(criteria).length) {
     return billing;
   }
   const entries = Object.entries(criteria);
-  return billing.filter(address => entries.every(([key, value]) => address[key] === value));
+  return billing.filter((address) =>
+    entries.every(([key, value]) => address[key] === value)
+  );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -116,5 +121,5 @@ export const userBillingGetters: UserBillingGetters<Address, AddressItem> = {
   getTaxNumber,
   getId,
   getApartmentNumber,
-  isDefault
+  isDefault,
 };

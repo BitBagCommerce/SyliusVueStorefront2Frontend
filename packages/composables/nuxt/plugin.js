@@ -11,15 +11,23 @@ const defaultConfig = {
     customerCookieName: 'vsf-customer',
     customerRefreshCookieName: 'vsf-customer-token',
     customerIdCookieName: 'vsf-customer-id',
-    storeCookieName: 'vsf-store'
-  }
+    storeCookieName: 'vsf-store',
+  },
 };
 
 export default integrationPlugin(({ app, integration }) => {
-  const cartCookieName = moduleOptions.cookies?.cartCookieName || defaultConfig.cookies.cartCookieName;
-  const customerCookieName = moduleOptions.cookies?.customerCookieName || defaultConfig.cookies.customerCookieName;
-  const customerRefreshCookieName = moduleOptions.cookies?.customerRefreshCookieName || defaultConfig.cookies.customerRefreshCookieName;
-  const customerIdCookieName = moduleOptions.cookies?.customerIdCookieName || defaultConfig.cookies.customerIdCookieName;
+  const cartCookieName =
+    moduleOptions.cookies?.cartCookieName ||
+    defaultConfig.cookies.cartCookieName;
+  const customerCookieName =
+    moduleOptions.cookies?.customerCookieName ||
+    defaultConfig.cookies.customerCookieName;
+  const customerRefreshCookieName =
+    moduleOptions.cookies?.customerRefreshCookieName ||
+    defaultConfig.cookies.customerRefreshCookieName;
+  const customerIdCookieName =
+    moduleOptions.cookies?.customerIdCookieName ||
+    defaultConfig.cookies.customerIdCookieName;
 
   const getCartId = () => app.$cookies.get(cartCookieName);
   const setCartId = (id) => {
@@ -39,7 +47,8 @@ export default integrationPlugin(({ app, integration }) => {
     app.$cookies.set(customerCookieName, token);
   };
 
-  const getCustomerRefreshToken = () => app.$cookies.get(customerRefreshCookieName);
+  const getCustomerRefreshToken = () =>
+    app.$cookies.get(customerRefreshCookieName);
   const setCustomerRefreshToken = (token) => {
     if (!token) {
       app.$cookies.remove(customerRefreshCookieName);
@@ -69,9 +78,9 @@ export default integrationPlugin(({ app, integration }) => {
         setCustomerRefreshToken,
         getCustomerRefreshToken,
         getCustomerId,
-        setCustomerId
-      }
-    }
+        setCustomerId,
+      },
+    },
   });
 
   integration.configure('sylius', settings);

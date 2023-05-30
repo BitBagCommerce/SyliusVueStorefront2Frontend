@@ -9,23 +9,46 @@ import {
   removeCouponFromCartMutation,
   updateCartPaymentMutation,
   updateCartShippingMutation,
-  updateCartQuantityMutation
+  updateCartQuantityMutation,
+  addManyToCartMutation,
 } from './mutations';
-import { getCartQuery, getPaymentMethodsQuery, getShippingMethodsQuery, getCountriesQuery } from './queries';
+import {
+  getCartQuery,
+  getPaymentMethodsQuery,
+  getShippingMethodsQuery,
+  getCountriesQuery,
+} from './queries';
 import { CustomQuery, Context } from '@vue-storefront/core';
-import { mutate, query, extendQuery, transformCart, VariablesHelper } from '../helpers';
-import { AddBillingAddressMutation, AddShippingAddressMutation } from 'api-client/__generated__/graphql';
+import {
+  mutate,
+  query,
+  extendQuery,
+  transformCart,
+  VariablesHelper,
+} from '../helpers';
+import {
+  AddBillingAddressMutation,
+  AddShippingAddressMutation,
+} from 'api-client/__generated__/graphql';
 
-export const createCart = async (context: Context, customQuery?: CustomQuery) => {
+export const createCart = async (
+  context: Context,
+  customQuery?: CustomQuery
+) => {
   const { locale } = context.config;
   const defaultVariables = { locale };
 
-  const queryGql = extendQuery(context, createCartMutation, defaultVariables, customQuery);
+  const queryGql = extendQuery(
+    context,
+    createCartMutation,
+    defaultVariables,
+    customQuery
+  );
   const { cart } = await mutate(context, queryGql);
   const cartToken = `/api/v2/shop/orders/${cart.order.tokenValue}`;
 
   return {
-    cartToken
+    cartToken,
   };
 };
 
@@ -38,10 +61,15 @@ export const getCart = async (
   const variables = {
     cartId,
     locale,
-    acceptLanguage
+    acceptLanguage,
   };
-  const queryGql = extendQuery(context, getCartQuery, variables, customQuery);
-  const data = await query(context, queryGql.query, variables);
+  const queryGql = extendQuery(
+    context,
+    getCartQuery as any,
+    variables,
+    customQuery
+  );
+  const data: any = await query(context, queryGql.query, variables);
 
   return transformCart(context, data.order);
 };
@@ -51,10 +79,31 @@ export const addToCart = async (
   defaultVariables: VariablesHelper<typeof addToCartMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, addToCartMutation, defaultVariables, customQuery);
-  const { shop_add_itemOrder } = await mutate(context, queryGql);
+  const queryGql = extendQuery(
+    context,
+    addToCartMutation as any,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_add_itemOrder } = (await mutate(context, queryGql)) as any;
 
   return transformCart(context, shop_add_itemOrder.order);
+};
+
+export const addManyToCart = async (
+  context,
+  defaultVariables,
+  customQuery?: CustomQuery
+) => {
+  const queryGql = extendQuery(
+    context,
+    addManyToCartMutation as any,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_add_itemsOrder } = (await mutate(context, queryGql)) as any;
+
+  return transformCart(context, shop_add_itemsOrder.order);
 };
 
 export const updateCartQuantity = async (
@@ -62,8 +111,16 @@ export const updateCartQuantity = async (
   defaultVariables: VariablesHelper<typeof updateCartQuantityMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, updateCartQuantityMutation, defaultVariables, customQuery);
-  const { shop_change_quantityOrder } = await mutate(context, queryGql);
+  const queryGql = extendQuery(
+    context,
+    updateCartQuantityMutation as any,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_change_quantityOrder } = (await mutate(
+    context,
+    queryGql
+  )) as any;
 
   return transformCart(context, shop_change_quantityOrder.order);
 };
@@ -73,8 +130,13 @@ export const removeFromCart = async (
   defaultVariables: VariablesHelper<typeof removeFromCartMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, removeFromCartMutation, defaultVariables, customQuery);
-  const { shop_remove_itemOrder } = await mutate(context, queryGql);
+  const queryGql = extendQuery(
+    context,
+    removeFromCartMutation as any,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_remove_itemOrder } = (await mutate(context, queryGql)) as any;
 
   return transformCart(context, shop_remove_itemOrder.order);
 };
@@ -84,8 +146,13 @@ export const addCouponToCart = async (
   defaultVariables: VariablesHelper<typeof applyCouponMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, applyCouponMutation, defaultVariables, customQuery);
-  const { shop_apply_couponOrder } = await mutate(context, queryGql);
+  const queryGql = extendQuery(
+    context,
+    applyCouponMutation as any,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_apply_couponOrder } = (await mutate(context, queryGql)) as any;
 
   return transformCart(context, shop_apply_couponOrder.order);
 };
@@ -95,8 +162,13 @@ export const removeCouponFromCart = async (
   defaultVariables: VariablesHelper<typeof removeCouponFromCartMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, removeCouponFromCartMutation, defaultVariables, customQuery);
-  const { shop_remove_couponOrder } = await mutate(context, queryGql);
+  const queryGql = extendQuery(
+    context,
+    removeCouponFromCartMutation as any,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_remove_couponOrder } = (await mutate(context, queryGql)) as any;
 
   return transformCart(context, shop_remove_couponOrder.order);
 };
@@ -106,7 +178,12 @@ export const clearCart = async (
   defaultVariables: VariablesHelper<typeof clearCartMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, clearCartMutation, defaultVariables, customQuery);
+  const queryGql = extendQuery(
+    context,
+    clearCartMutation,
+    defaultVariables,
+    customQuery
+  );
   const { deleteOrder } = await mutate(context, queryGql);
 
   return deleteOrder.order;
@@ -136,21 +213,34 @@ export const addAddress = async (
         city: string;
         postcode: string;
         phoneNumber: string;
-      }
-    }
+      };
+    };
   },
   customQuery?: CustomQuery
-): Promise<AddShippingAddressMutation['shop_add_shipping_addressOrder']['order'] & AddBillingAddressMutation['shop_add_billing_addressOrder']['order']> => {
+): Promise<
+  AddShippingAddressMutation['shop_add_shipping_addressOrder']['order'] &
+    AddBillingAddressMutation['shop_add_billing_addressOrder']['order']
+> => {
   if (defaultVariables.addAddressInput?.shippingAddress) {
     // TODO: remove any
-    const queryGql = extendQuery(context, addShippingAddressMutation, defaultVariables as any, customQuery);
+    const queryGql = extendQuery(
+      context,
+      addShippingAddressMutation,
+      defaultVariables as any,
+      customQuery
+    );
     const data = await mutate(context, queryGql);
 
     return data.shop_add_shipping_addressOrder.order;
   }
 
   // TODO: remove any
-  const queryGql = extendQuery(context, addBillingAddressMutation, defaultVariables as any, customQuery);
+  const queryGql = extendQuery(
+    context,
+    addBillingAddressMutation,
+    defaultVariables as any,
+    customQuery
+  );
   const data = await mutate(context, queryGql);
 
   return data.shop_add_billing_addressOrder.order;
@@ -161,8 +251,16 @@ export const updateCartPayment = async (
   defaultVariables: VariablesHelper<typeof updateCartPaymentMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, updateCartPaymentMutation, defaultVariables, customQuery);
-  const { shop_select_payment_methodOrder } = await mutate(context, queryGql);
+  const queryGql = extendQuery(
+    context,
+    updateCartPaymentMutation as any,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_select_payment_methodOrder } = (await mutate(
+    context,
+    queryGql
+  )) as any;
 
   return transformCart(context, shop_select_payment_methodOrder.order);
 };
@@ -172,8 +270,16 @@ export const updateCartShipping = async (
   defaultVariables: VariablesHelper<typeof updateCartShippingMutation>,
   customQuery?: CustomQuery
 ) => {
-  const queryGql = extendQuery(context, updateCartShippingMutation, defaultVariables, customQuery);
-  const { shop_select_shipping_methodOrder } = await mutate(context, queryGql);
+  const queryGql = extendQuery(
+    context,
+    updateCartShippingMutation as any,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_select_shipping_methodOrder } = (await mutate(
+    context,
+    queryGql
+  )) as any;
 
   return transformCart(context, shop_select_shipping_methodOrder.order);
 };
@@ -183,29 +289,40 @@ export const getPaymentMethods = async (context: Context) => {
   const { paymentMethods } = await query(context, getPaymentMethodsQuery, {});
 
   return paymentMethods.collection.map((method) => {
-    const translation = method.translations.collection.find((translation) => translation.locale === locale);
+    const translation = method.translations.collection.find(
+      (translation) => translation.locale === locale
+    );
 
     return {
       label: translation.name,
       value: method.code,
-      description: translation.description
+      description: translation.description,
     };
   });
 };
 
-export const getShippingMethods = async (context: Context, defaultVariables: VariablesHelper<typeof getShippingMethodsQuery>) => {
+export const getShippingMethods = async (
+  context: Context,
+  defaultVariables: VariablesHelper<typeof getShippingMethodsQuery>
+) => {
   const { locale } = context.config;
-  const { shippingMethods } = await query(context, getShippingMethodsQuery, defaultVariables);
+  const { shippingMethods } = await query(
+    context,
+    getShippingMethodsQuery,
+    defaultVariables
+  );
 
   return shippingMethods.collection.map((method) => {
-    const translation = method.translations.collection.find((translation) => translation.locale === locale);
+    const translation = method.translations.collection.find(
+      (translation) => translation.locale === locale
+    );
     const channel = method.channels.collection[0].code;
 
     return {
       label: translation.name,
       value: method.code,
       description: translation.description,
-      cost: method.configuration[channel].amount / 100
+      cost: method.configuration[channel].amount / 100,
     };
   });
 };

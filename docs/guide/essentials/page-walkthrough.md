@@ -40,27 +40,27 @@ The category page can be accessed by selecting a category from the header naviga
 
 3. Category header - has some useful utilities for using the category page:
 
-    - Filters - allows you to toggle the filter sidebar. From this sidebar, we can filter visible products by their attributes, and their price.
+   - Filters - allows you to toggle the filter sidebar. From this sidebar, we can filter visible products by their attributes, and their price.
 
-    ![Filter sidebar](../../assets/filter-sidebar.png)
+   ![Filter sidebar](../../assets/filter-sidebar.png)
 
-    - Sort by - allows you to sort visible products in different ways.
+   - Sort by - allows you to sort visible products in different ways.
 
-    ![Sort by](../../assets/sort-by.png)
+   ![Sort by](../../assets/sort-by.png)
 
-    - Products found - shows you the number of products in the selected category, this number takes into consideration active filters.
+   - Products found - shows you the number of products in the selected category, this number takes into consideration active filters.
 
-    ![Products found](../../assets/products-found.png)
+   ![Products found](../../assets/products-found.png)
 
-    - View - lets you toggle between two product views: 
+   - View - lets you toggle between two product views:
 
-        - Grid view (default view) - activated by clicking highlighted icon
+     - Grid view (default view) - activated by clicking highlighted icon
 
-        ![Grid view](../../assets/grid-view.png)
+     ![Grid view](../../assets/grid-view.png)
 
-        - List view - activated by clicking highlighted icon
+     - List view - activated by clicking highlighted icon
 
-        ![List view](../../assets/list-view.png)
+     ![List view](../../assets/list-view.png)
 
 4. Product card - hovering over this card allows you to add the hovered product to the [cart](#cart-sidebar).
 
@@ -110,29 +110,29 @@ To access this page you have to:
 
 1. My profile - from here you can:
 
-    -  Change your personal information
+   - Change your personal information
 
-    ![Personal data](../../assets/personal-data.png)
+   ![Personal data](../../assets/personal-data.png)
 
-    - Change your password
+   - Change your password
 
-    ![Password change](../../assets/password-change.png)
+   ![Password change](../../assets/password-change.png)
 
 2. My addresses - from here you can:
 
-    - View your addresses
+   - View your addresses
 
-    ![Address list](../../assets/addresses-view.png)
+   ![Address list](../../assets/addresses-view.png)
 
-    - Edit your addresses
-    
-    ![Edit address button](../../assets/addresses-change-1.png)
+   - Edit your addresses
 
-    ![Edit address form](../../assets/addresses-change-2.png)
+   ![Edit address button](../../assets/addresses-change-1.png)
 
-    - Delete your addresses
+   ![Edit address form](../../assets/addresses-change-2.png)
 
-    ![Delete address button](../../assets/addresses-delete.png)
+   - Delete your addresses
+
+   ![Delete address button](../../assets/addresses-delete.png)
 
 3. Order history - here you can view your orders
 
@@ -141,6 +141,7 @@ To access this page you have to:
 4. Log out - allows you to log out from your account
 
 ## Cart sidebar
+
 To access the cart sidebar click on the cart icon on the header.
 
 ![Cart icon](../../assets/cart-icon-1.png)
@@ -155,11 +156,11 @@ If you have any products in your cart, the icon will have a badge in a corner wi
 
 1. Product list - list of items in your cart.
 
-3. Quantity selector - allows you to change how much of a selected item you have in a cart.
+2. Quantity selector - allows you to change how much of a selected item you have in a cart.
 
-4. Remove icon - appears if you hover your mouse over an item, and allows you to remove the hovered item from a cart.
+3. Remove icon - appears if you hover your mouse over an item, and allows you to remove the hovered item from a cart.
 
-5. Go to checkout button - takes you to the [checkout page](#checkout-page).
+4. Go to checkout button - takes you to the [checkout page](#checkout-page).
 
 ## Checkout page
 
@@ -202,4 +203,3 @@ Clicking that button will open shipping method selection list.
 After going through all steps your order will be made and you will be redirected to thank you page.
 
 ![Thank you page](../../assets/thank-you.png)
-

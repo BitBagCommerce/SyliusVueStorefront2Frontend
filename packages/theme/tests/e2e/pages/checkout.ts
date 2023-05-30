@@ -2,7 +2,6 @@ import { Customer } from '../types/customer';
 import { el } from './utils/element';
 
 class Shipping {
-
   get firstName(): Cypress.Chainable {
     return el('shipping-firstName', 'input');
   }
@@ -124,7 +123,6 @@ class Billing {
     this.zipcode.type(customer.address.billing.zipcode);
     this.phone.type(customer.address.billing.phone);
   }
-
 }
 
 class Payment {
@@ -147,9 +145,4 @@ class ThankYou {
   }
 }
 
-export {
-  Shipping,
-  Billing,
-  Payment,
-  ThankYou
-};
+export { Shipping, Billing, Payment, ThankYou };

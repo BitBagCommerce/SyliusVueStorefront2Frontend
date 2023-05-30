@@ -44,7 +44,11 @@ export const getCartQuery = gql(`
           node {
             _id
             variant {
+              id
               code
+              onHand
+              onHold
+              tracked
               optionValues {
                 edges {
                   node {
@@ -70,6 +74,13 @@ export const getCartQuery = gql(`
                       code
                     }
                   }
+                }
+              }
+              channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                collection {
+                  channelCode
+                  price
+                  originalPrice
                 }
               }
             }
@@ -116,9 +127,7 @@ export const getShippingMethodsQuery = gql(`
 
 export const getPaymentMethodsQuery = gql(`
   query getPaymentMethods {
-    paymentMethods(
-      enabled: true
-    ) {
+    paymentMethods(enabled: true) {
       collection {
         code
         translations {
@@ -149,4 +158,3 @@ export const getCountriesQuery = gql(`
     }
   }
 `);
-

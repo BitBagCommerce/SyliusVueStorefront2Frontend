@@ -8,13 +8,13 @@
 
 ```typescript
 export declare type UserAddressItem = {
-    id: string;
-    firstName: string;
-    lastName: string;
-    postcode: string;
-    street: string;
-    city: string;
-    countryCode: string;
-    phoneNumber: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  postcode: string;
+  street: string;
+  city: string;
+  countryCode: string;
+  phoneNumber: string;
 };
 ```

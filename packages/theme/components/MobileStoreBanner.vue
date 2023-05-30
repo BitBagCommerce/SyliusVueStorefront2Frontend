@@ -10,7 +10,7 @@
       <div class="banner-app__call-to-action">
         <SfButton
           class="banner-app__button sf-button--pure"
-          aria-label="Go to Apple Product"
+          :aria-label="$t('Go to Apple Product')"
           @click="() => {}"
         >
           <SfImage
@@ -22,7 +22,7 @@
         </SfButton>
         <SfButton
           class="banner-app__button sf-button--pure"
-          aria-label="Go to Google Product"
+          :aria-label="$t('Go to Google Product')"
           @click="() => {}"
         >
           <SfImage
@@ -38,18 +38,14 @@
 </template>
 
 <script>
-import {
-  SfBanner,
-  SfImage,
-  SfButton
-} from '@storefront-ui/vue';
+import { SfBanner, SfImage, SfButton } from '@storefront-ui/vue';
 export default {
   name: 'AppStoreBanner',
   components: {
     SfBanner,
     SfImage,
-    SfButton
-  }
+    SfButton,
+  },
 };
 </script>
 

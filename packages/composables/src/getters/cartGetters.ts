@@ -1,4 +1,10 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon, AgnosticDiscount } from '@vue-storefront/core';
+import {
+  CartGetters,
+  AgnosticPrice,
+  AgnosticTotals,
+  AgnosticCoupon,
+  AgnosticDiscount,
+} from '@vue-storefront/core';
 import { Cart, CartLineItem } from '@vue-storefront/sylius-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -13,11 +19,11 @@ export const getCartItems = (cart: Cart): CartLineItem[] => {
         sku: item.variant.code,
         images: item.variant.product.images,
         price: {
-          regular: item.unitPrice / 100,
-          special: 0
+          regular: item.variant.channelPricings[0].originalPrice,
+          special: item.variant.channelPricings[0].price,
         },
         selectedVariant: item.variant,
-        qty: item.quantity
+        qty: item.quantity,
       });
     });
   }
@@ -29,13 +35,16 @@ export const getCartItems = (cart: Cart): CartLineItem[] => {
 export const getCartItemName = (product: CartLineItem): string => product.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemImage = (product: CartLineItem): string => product.images[0].replace(/\/media\/image/, '') || '';
+export const getCartItemImage = (product: CartLineItem): string =>
+  product.images[0].replace(/\/media\/image/, '') || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemPrice = (product: CartLineItem): AgnosticPrice => {
+  const { special = 0, regular = 0 } = product?.price || {};
+
   return {
-    regular: product.price.regular,
-    special: product.price.special
+    regular: regular ? regular / 100 : special / 100,
+    special: regular && regular !== special ? special / 100 : 0,
   };
 };
 
@@ -43,10 +52,15 @@ export const getCartItemPrice = (product: CartLineItem): AgnosticPrice => {
 export const getCartItemQty = (product: CartLineItem): number => product.qty;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartItemAttributes = (product: CartLineItem, filterByAttributeName?: Array<string>) => {
+export const getCartItemAttributes = (
+  product: CartLineItem,
+  filterByAttributeName?: Array<string>
+) => {
   const attributes = {};
   product.selectedVariant.optionValues.forEach((optionValue) => {
-    const selectedOption = product.selectedVariant.product.options.find(option => option.id === optionValue.option.id);
+    const selectedOption = product.selectedVariant.product.options.find(
+      (option) => option.id === optionValue.option.id
+    );
     if (selectedOption) {
       attributes[selectedOption.name] = optionValue.value;
     }
@@ -59,15 +73,25 @@ export const getCartItemAttributes = (product: CartLineItem, filterByAttributeNa
 export const getCartItemSku = (product: CartLineItem): string => product.sku;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartTotals = (cart: Cart): AgnosticTotals => {
+export const getCartTotals = (cart: any): AgnosticTotals => {
   if (cart) {
-    const subtotal = (cart.total - cart.orderPromotionTotal - cart.shippingTotal) / 100;
-    const total = (cart.total) / 100;
+    const {
+      total: cartTotal,
+      orderPromotionTotal,
+      shippingTotal,
+      shippingAddress,
+    } = cart;
+
+    const subtotal = (cartTotal - orderPromotionTotal - shippingTotal) / 100;
+    const total = shippingAddress
+      ? cartTotal / 100
+      : (cartTotal - shippingTotal) / 100;
+
     return {
-      shipping: cart.shippingTotal / 100,
+      shipping: shippingAddress ? shippingTotal / 100 : 0,
       special: subtotal,
       total,
-      subtotal
+      subtotal,
     };
   }
 
@@ -75,12 +99,13 @@ export const getCartTotals = (cart: Cart): AgnosticTotals => {
     shipping: 0,
     total: 0,
     special: 0,
-    subtotal: 0
+    subtotal: 0,
   };
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartShippingPrice = (cart: Cart): number => cart?.shippingTotal ? cart.shippingTotal / 100 : 0;
+export const getCartShippingPrice = (cart: Cart): number =>
+  cart?.shippingTotal ? cart.shippingTotal / 100 : 0;
 
 export const getCartTokenValue = (cart: any): number => cart?.tokenValue;
 
@@ -106,7 +131,7 @@ export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
       name: cart.promotionCoupon.promotion.name,
       code: cart.promotionCoupon.code,
       value: Math.abs(cart.orderPromotionTotal) / 100,
-      description: cart.promotionCoupon.promotion.description
+      description: cart.promotionCoupon.promotion.description,
     };
 
     return [promotion];
@@ -129,5 +154,5 @@ export const cartGetters: CartGetters<Cart, CartLineItem> = {
   getTotalItems: getCartTotalItems,
   getCoupons,
   getDiscounts,
-  getCartTokenValue
+  getCartTokenValue,
 };

@@ -6,8 +6,8 @@
 
 ## API
 
-* `billing: any` - saved billing data.
-* `loading: boolean` - a reactive object containing information about loading state of the billing data.
+- `billing: any` - saved billing data.
+- `loading: boolean` - a reactive object containing information about loading state of the billing data.
 
 ### `load`
 
@@ -17,16 +17,16 @@ Function for fetching billing data.
 
 Function for saving billing data. It accepts an object with the following keys:
 
-  * `billingDetails`
-      * `firstName: string`
-      * `lastName: string`
-      * `street: string`
-      * `city: string`
-      * `state: string`
-      * `countryCode: string`
-      * `postcode: string`
-      * `email: string`
-      * `phoneNumber: string`
+- `billingDetails`
+  - `firstName: string`
+  - `lastName: string`
+  - `street: string`
+  - `city: string`
+  - `state: string`
+  - `countryCode: string`
+  - `postcode: string`
+  - `email: string`
+  - `phoneNumber: string`
 
 ## Example
 
@@ -35,7 +35,7 @@ import { onSSR } from '@vue-storefront/core';
 import { useBilling } from '@realtainment/sylius';
 
 export default {
-  setup () {
+  setup() {
     const { billing, load } = useBilling();
 
     onSSR(async () => {
@@ -43,8 +43,8 @@ export default {
     });
 
     return {
-      billing
-    }
-  }
+      billing,
+    };
+  },
 };
 ```
