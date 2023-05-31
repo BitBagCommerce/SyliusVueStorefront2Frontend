@@ -3,10 +3,12 @@ import {
   useCartFactory,
   UseCartFactoryParams,
 } from '@vue-storefront/core';
-
-import type { Cart, CartItem, Product } from '@vue-storefront/sylius-api';
-
-type Context = any;
+import type {
+  Cart,
+  CartItem,
+  Product,
+  Context,
+} from '@vue-storefront/sylius-api';
 
 const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   load: async (context: Context) => {

@@ -7,13 +7,7 @@ import {
   getMinimalProductsQuery,
   getFirstProductIdQuery,
 } from './queries';
-import { extendQuery, query, VariablesHelper } from '../helpers';
-import { TypedDocumentNode } from '@apollo/client/core';
-
-type OmitChannelsCode<T extends TypedDocumentNode> = Omit<
-  VariablesHelper<T>,
-  'channelsCode'
->;
+import { extendQuery, OmitChannelsCode, query } from '../helpers';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function getProduct(

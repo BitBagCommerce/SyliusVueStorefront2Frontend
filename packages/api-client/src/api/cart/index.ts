@@ -24,7 +24,7 @@ import {
   query,
   extendQuery,
   transformCart,
-  VariablesHelper,
+  OmitChannelsCode,
 } from '../helpers';
 import {
   AddBillingAddressMutation,
@@ -74,7 +74,7 @@ export const getCart = async (
 
 export const addToCart = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof addToCartMutation>,
+  defaultVariables: OmitChannelsCode<typeof addToCartMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -106,7 +106,7 @@ export const addManyToCart = async (
 
 export const updateCartQuantity = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof updateCartQuantityMutation>,
+  defaultVariables: OmitChannelsCode<typeof updateCartQuantityMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -122,7 +122,7 @@ export const updateCartQuantity = async (
 
 export const removeFromCart = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof removeFromCartMutation>,
+  defaultVariables: OmitChannelsCode<typeof removeFromCartMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -138,7 +138,7 @@ export const removeFromCart = async (
 
 export const addCouponToCart = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof applyCouponMutation>,
+  defaultVariables: OmitChannelsCode<typeof applyCouponMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -154,7 +154,7 @@ export const addCouponToCart = async (
 
 export const removeCouponFromCart = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof removeCouponFromCartMutation>,
+  defaultVariables: OmitChannelsCode<typeof removeCouponFromCartMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -170,7 +170,7 @@ export const removeCouponFromCart = async (
 
 export const clearCart = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof clearCartMutation>,
+  defaultVariables: OmitChannelsCode<typeof clearCartMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -242,7 +242,7 @@ export const addAddress = async (
 
 export const updateCartPayment = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof updateCartPaymentMutation>,
+  defaultVariables: OmitChannelsCode<typeof updateCartPaymentMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -258,7 +258,7 @@ export const updateCartPayment = async (
 
 export const updateCartShipping = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof updateCartShippingMutation>,
+  defaultVariables: OmitChannelsCode<typeof updateCartShippingMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -291,7 +291,7 @@ export const getPaymentMethods = async (context: Context) => {
 
 export const getShippingMethods = async (
   context: Context,
-  defaultVariables: VariablesHelper<typeof getShippingMethodsQuery>
+  defaultVariables: OmitChannelsCode<typeof getShippingMethodsQuery>
 ) => {
   const { locale } = context.config;
   const { shippingMethods } = await query(

@@ -16,6 +16,11 @@ export type VariablesHelper<TDocument> = TDocument extends TypedDocumentNode<
   ? TVariables
   : never;
 
+export type OmitChannelsCode<T extends TypedDocumentNode> = Omit<
+  VariablesHelper<T>,
+  'channelsCode' | 'channelCode'
+>;
+
 export const extendQuery = <
   TQuery extends TypedDocumentNode,
   TVariables extends QueryVariables
