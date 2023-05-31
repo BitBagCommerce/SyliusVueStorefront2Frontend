@@ -70,6 +70,7 @@ export const transformItems = (
       optionValues: edge.node.variant.optionValues.edges.map(
         (edge) => edge.node
       ),
+      channelPricings: edge.node.variant.channelPricings.collection,
       product: {
         options: edge.node.variant.product.options.edges.map(
           (edge) => edge.node

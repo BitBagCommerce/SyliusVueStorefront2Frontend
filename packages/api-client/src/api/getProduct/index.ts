@@ -8,18 +8,24 @@ import {
   getFirstProductIdQuery,
 } from './queries';
 import { extendQuery, query, VariablesHelper } from '../helpers';
+import { TypedDocumentNode } from '@apollo/client/core';
+
+type OmitChannelsCode<T extends TypedDocumentNode> = Omit<
+  VariablesHelper<T>,
+  'channelsCode'
+>;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function getProduct(
   context: Context,
-  params: VariablesHelper<typeof BaseQuery>,
+  params: OmitChannelsCode<typeof BaseQuery>,
   customQuery?: CustomQuery
 ) {
   try {
     const { query: queryGql, variables } = extendQuery(
       context,
-      BaseQuery as any,
-      params,
+      BaseQuery,
+      { ...params, channelsCode: process.env.SYLIUS_CHANNEL_CODE },
       customQuery
     );
     const data: any = await query(context, queryGql, variables);
@@ -77,17 +83,17 @@ export async function getProduct(
 
 export async function getProductNotFiltered(
   context: Context,
-  params: VariablesHelper<typeof getProductsNotFilteredQuery>,
+  params: OmitChannelsCode<typeof getProductsNotFilteredQuery>,
   customQuery?: CustomQuery
 ) {
   try {
     const { query: queryGql, variables } = extendQuery(
       context,
-      getProductsNotFilteredQuery as any,
-      params,
+      getProductsNotFilteredQuery,
+      { ...params, channelsCode: process.env.SYLIUS_CHANNEL_CODE },
       customQuery
     );
-    const data: any = await query(context, queryGql, variables);
+    const data = await query(context, queryGql, variables);
 
     const { locale, imagePaths } = context.config;
     const products = data.products.collection.map((item) => {
@@ -102,9 +108,6 @@ export async function getProductNotFiltered(
         ...item,
         attributes: item.attributes?.collection.filter(
           (attr) => attr.type === 'integer' || attr.localeCode === locale
-        ),
-        _categoriesRef: item.productTaxons?.collection.map(
-          (taxon) => taxon.taxon.id
         ),
         options: item.options?.edges.map((edge) => ({
           ...edge.node,
@@ -133,6 +136,7 @@ export async function getProductNotFiltered(
   }
 }
 
+// TODO: this function doesn't seem to be used any where and seems to be broken
 export async function getMinimalProduct(
   context,
   params,
@@ -144,11 +148,11 @@ export async function getMinimalProduct(
   try {
     const productsQuery = extendQuery(
       context,
-      getMinimalProductsQuery as any,
-      params,
+      getMinimalProductsQuery,
+      { ...params, channelsCode: process.env.SYLIUS_CHANNEL_CODE },
       customQuery
     );
-    const data: any = await query(
+    const data = await query(
       context,
       productsQuery.query,
       productsQuery.variables
@@ -156,7 +160,7 @@ export async function getMinimalProduct(
 
     const { locale, imagePaths } = context.config;
     pagination = data.products.paginationInfo;
-    products = data.products.collection.map((item) => {
+    products = data.products.collection.map((item: any) => {
       if (item.attributes) {
         item.attributes = item.attributes.collection.filter(
           (attr) => attr.type === 'integer' || attr.localeCode === locale
@@ -203,12 +207,18 @@ export async function getMinimalProduct(
 
     return {
       products,
+      pagination,
     };
   } catch (err) {
     console.log('Sylius getMinimalProduct error', err);
 
     return {
       products: [],
+      pagination: {
+        totalCount: 0,
+        lastPage: 0,
+        itemsPerPage: 0,
+      },
     };
   }
 }
@@ -281,7 +291,7 @@ export async function getProductAttribute(
 
 export async function getFirstProductId(context, params): Promise<any> {
   try {
-    const data: any = query(context, getFirstProductIdQuery, params);
+    const data = await query(context, getFirstProductIdQuery, params);
 
     return data.products.collection;
   } catch (err) {

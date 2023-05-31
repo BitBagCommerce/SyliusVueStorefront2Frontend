@@ -11,7 +11,7 @@ export const BaseQuery = gql(`
     $itemsPerPage: Int,
     $page: Int,
     $search: String,
-    $channelsCode: String,
+    $channelsCode: String!,
   ) {
     products(
       translations_name: $search,
@@ -71,7 +71,7 @@ export const BaseQuery = gql(`
             onHold
             onHand
             enabled
-            channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+            channelPricings(channelCode: $channelsCode) {
               collection {
                 channelCode
                 price
@@ -126,7 +126,7 @@ export const getMinimalProductsQuery = gql(`
     $itemsPerPage: Int,
     $page: Int,
     $search: String,
-    $channelsCode: String,
+    $channelsCode: String!,
   ) {
     products(
       translations_name: $search,
@@ -184,7 +184,7 @@ export const getMinimalProductsQuery = gql(`
             onHand
             enabled
             tracked
-            channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+            channelPricings(channelCode: $channelsCode) {
               collection {
                 channelCode
                 price
@@ -233,7 +233,7 @@ export const getProductsNotFilteredQuery = gql(`
   query getProductsNotFiltered(
     $slug: String,
     $categorySlug: String,
-    $channelsCode: String,
+    $channelsCode: String!,
   ) {
     products(
       translations_slug: $slug,
@@ -280,7 +280,7 @@ export const getProductsNotFilteredQuery = gql(`
             onHand
             enabled
             tracked
-            channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+            channelPricings(channelCode: $channelsCode) {
               collection {
                 channelCode
                 price

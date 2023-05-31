@@ -31,6 +31,8 @@ import {
   AddShippingAddressMutation,
 } from 'api-client/__generated__/graphql';
 
+const channelCode = process.env.SYLIUS_CHANNEL_CODE;
+
 export const createCart = async (
   context: Context,
   customQuery?: CustomQuery
@@ -62,14 +64,10 @@ export const getCart = async (
     cartId,
     locale,
     acceptLanguage,
+    channelCode,
   };
-  const queryGql = extendQuery(
-    context,
-    getCartQuery as any,
-    variables,
-    customQuery
-  );
-  const data: any = await query(context, queryGql.query, variables);
+  const queryGql = extendQuery(context, getCartQuery, variables, customQuery);
+  const data = await query(context, queryGql.query, variables);
 
   return transformCart(context, data.order);
 };
@@ -81,11 +79,11 @@ export const addToCart = async (
 ) => {
   const queryGql = extendQuery(
     context,
-    addToCartMutation as any,
-    defaultVariables,
+    addToCartMutation,
+    { ...defaultVariables, channelCode },
     customQuery
   );
-  const { shop_add_itemOrder } = (await mutate(context, queryGql)) as any;
+  const { shop_add_itemOrder } = await mutate(context, queryGql);
 
   return transformCart(context, shop_add_itemOrder.order);
 };
@@ -97,11 +95,11 @@ export const addManyToCart = async (
 ) => {
   const queryGql = extendQuery(
     context,
-    addManyToCartMutation as any,
-    defaultVariables,
+    addManyToCartMutation,
+    { ...defaultVariables, channelCode },
     customQuery
   );
-  const { shop_add_itemsOrder } = (await mutate(context, queryGql)) as any;
+  const { shop_add_itemsOrder } = await mutate(context, queryGql);
 
   return transformCart(context, shop_add_itemsOrder.order);
 };
@@ -113,14 +111,11 @@ export const updateCartQuantity = async (
 ) => {
   const queryGql = extendQuery(
     context,
-    updateCartQuantityMutation as any,
-    defaultVariables,
+    updateCartQuantityMutation,
+    { ...defaultVariables, channelCode },
     customQuery
   );
-  const { shop_change_quantityOrder } = (await mutate(
-    context,
-    queryGql
-  )) as any;
+  const { shop_change_quantityOrder } = await mutate(context, queryGql);
 
   return transformCart(context, shop_change_quantityOrder.order);
 };
@@ -132,11 +127,11 @@ export const removeFromCart = async (
 ) => {
   const queryGql = extendQuery(
     context,
-    removeFromCartMutation as any,
-    defaultVariables,
+    removeFromCartMutation,
+    { ...defaultVariables, channelCode },
     customQuery
   );
-  const { shop_remove_itemOrder } = (await mutate(context, queryGql)) as any;
+  const { shop_remove_itemOrder } = await mutate(context, queryGql);
 
   return transformCart(context, shop_remove_itemOrder.order);
 };
@@ -148,11 +143,11 @@ export const addCouponToCart = async (
 ) => {
   const queryGql = extendQuery(
     context,
-    applyCouponMutation as any,
-    defaultVariables,
+    applyCouponMutation,
+    { ...defaultVariables, channelCode },
     customQuery
   );
-  const { shop_apply_couponOrder } = (await mutate(context, queryGql)) as any;
+  const { shop_apply_couponOrder } = await mutate(context, queryGql);
 
   return transformCart(context, shop_apply_couponOrder.order);
 };
@@ -164,11 +159,11 @@ export const removeCouponFromCart = async (
 ) => {
   const queryGql = extendQuery(
     context,
-    removeCouponFromCartMutation as any,
-    defaultVariables,
+    removeCouponFromCartMutation,
+    { ...defaultVariables, channelCode },
     customQuery
   );
-  const { shop_remove_couponOrder } = (await mutate(context, queryGql)) as any;
+  const { shop_remove_couponOrder } = await mutate(context, queryGql);
 
   return transformCart(context, shop_remove_couponOrder.order);
 };
@@ -222,7 +217,6 @@ export const addAddress = async (
     AddBillingAddressMutation['shop_add_billing_addressOrder']['order']
 > => {
   if (defaultVariables.addAddressInput?.shippingAddress) {
-    // TODO: remove any
     const queryGql = extendQuery(
       context,
       addShippingAddressMutation,
@@ -253,14 +247,11 @@ export const updateCartPayment = async (
 ) => {
   const queryGql = extendQuery(
     context,
-    updateCartPaymentMutation as any,
-    defaultVariables,
+    updateCartPaymentMutation,
+    { ...defaultVariables, channelCode },
     customQuery
   );
-  const { shop_select_payment_methodOrder } = (await mutate(
-    context,
-    queryGql
-  )) as any;
+  const { shop_select_payment_methodOrder } = await mutate(context, queryGql);
 
   return transformCart(context, shop_select_payment_methodOrder.order);
 };
@@ -272,14 +263,11 @@ export const updateCartShipping = async (
 ) => {
   const queryGql = extendQuery(
     context,
-    updateCartShippingMutation as any,
-    defaultVariables,
+    updateCartShippingMutation,
+    { ...defaultVariables, channelCode },
     customQuery
   );
-  const { shop_select_shipping_methodOrder } = (await mutate(
-    context,
-    queryGql
-  )) as any;
+  const { shop_select_shipping_methodOrder } = await mutate(context, queryGql);
 
   return transformCart(context, shop_select_shipping_methodOrder.order);
 };

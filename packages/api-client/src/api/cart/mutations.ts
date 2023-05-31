@@ -18,7 +18,8 @@ export const addToCartMutation = gql(`
   mutation addToCart(
     $token: String!,
     $variantId: String!,
-    $quantity: Int!
+    $quantity: Int!,
+    $channelCode: String!
   ) {
     shop_add_itemOrder(input: {
       orderTokenValue: $token
@@ -121,7 +122,7 @@ export const addToCartMutation = gql(`
                     }
                   }
                 }
-                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                channelPricings(channelCode: $channelCode) {
                   collection {
                     channelCode
                     price
@@ -146,6 +147,7 @@ export const addManyToCartMutation = gql(`
   mutation addManyToCart(
     $token: String!,
     $variants: Iterable!
+    $channelCode: String!
   ) {
     shop_add_itemsOrder(input: {
       orderTokenValue: $token
@@ -247,7 +249,7 @@ export const addManyToCartMutation = gql(`
                     }
                   }
                 }
-                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                channelPricings(channelCode: $channelCode) {
                   collection {
                     channelCode
                     price
@@ -271,7 +273,8 @@ export const addManyToCartMutation = gql(`
 export const removeFromCartMutation = gql(`
   mutation removeFromCart(
     $cartId: String!,
-    $itemId: String!
+    $itemId: String!,
+    $channelCode: String!
   ) {
     shop_remove_itemOrder(input: {
       id: $cartId
@@ -373,7 +376,7 @@ export const removeFromCartMutation = gql(`
                     }
                   }
                 }
-                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                channelPricings(channelCode: $channelCode) {
                   collection {
                     channelCode
                     price
@@ -459,6 +462,7 @@ export const addBillingAddressMutation = gql(`
 export const applyCouponMutation = gql(`
   mutation addCouponToCart(
     $coupon: shop_apply_couponOrderInput!
+    $channelCode: String!
   ) {
     shop_apply_couponOrder(
       input: $coupon
@@ -559,7 +563,7 @@ export const applyCouponMutation = gql(`
                     }
                   }
                 }
-                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                channelPricings(channelCode: $channelCode) {
                   collection {
                     channelCode
                     price
@@ -582,7 +586,8 @@ export const applyCouponMutation = gql(`
 
 export const removeCouponFromCartMutation = gql(`
   mutation removeCouponFromCart(
-    $removeCouponInput: shop_remove_couponOrderInput!
+    $removeCouponInput: shop_remove_couponOrderInput!,
+    $channelCode: String!
   ) {
     shop_remove_couponOrder(
       input:$removeCouponInput
@@ -683,7 +688,7 @@ export const removeCouponFromCartMutation = gql(`
                     }
                   }
                 }
-                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                channelPricings(channelCode: $channelCode) {
                   collection {
                     channelCode
                     price
@@ -708,7 +713,8 @@ export const updateCartQuantityMutation = gql(`
   mutation updateCartQuantity(
     $cartId: String!,
     $itemId: String!,
-    $quantity: Int!
+    $quantity: Int!,
+    $channelCode: String!
   ) {
     shop_change_quantityOrder(input: {
       id: $cartId
@@ -811,7 +817,7 @@ export const updateCartQuantityMutation = gql(`
                     }
                   }
                 }
-                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                channelPricings(channelCode: $channelCode) {
                   collection {
                     channelCode
                     price
@@ -834,7 +840,8 @@ export const updateCartQuantityMutation = gql(`
 
 export const updateCartPaymentMutation = gql(`
   mutation updateCartPayment(
-    $paymentMethod: shop_select_payment_methodOrderInput!
+    $paymentMethod: shop_select_payment_methodOrderInput!,
+    $channelCode: String!
   ) {
     shop_select_payment_methodOrder(
       input: $paymentMethod
@@ -935,7 +942,7 @@ export const updateCartPaymentMutation = gql(`
                     }
                   }
                 }
-                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                channelPricings(channelCode: $channelCode) {
                   collection {
                     channelCode
                     price
@@ -958,7 +965,8 @@ export const updateCartPaymentMutation = gql(`
 
 export const updateCartShippingMutation = gql(`
   mutation updateCartShipping(
-    $shippingMethod: shop_select_shipping_methodOrderInput!
+    $shippingMethod: shop_select_shipping_methodOrderInput!,
+    $channelCode: String!
   ) {
     shop_select_shipping_methodOrder(
       input: $shippingMethod
@@ -1059,7 +1067,7 @@ export const updateCartShippingMutation = gql(`
                     }
                   }
                 }
-                channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+                channelPricings(channelCode: $channelCode) {
                   collection {
                     channelCode
                     price

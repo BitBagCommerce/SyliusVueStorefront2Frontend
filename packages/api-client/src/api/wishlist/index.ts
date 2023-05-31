@@ -12,7 +12,7 @@ import {
 
 export const getWishlists = async (context, customQuery?: CustomQuery) => {
   const queryGql = extendQuery(context, getWishlistsQuery, {}, customQuery);
-  const data = await query(context, queryGql.query, {});
+  const data: any = await query(context, queryGql.query, {});
   const {
     imagePaths: { thumbnail },
   } = context.config;
@@ -36,7 +36,7 @@ export const addItem = async (
     variables,
     customQuery
   );
-  const { add_itemWishlist } = await mutate(context, queryGql);
+  const { add_itemWishlist } = (await mutate(context, queryGql)) as any;
 
   return transformWishlists(context, add_itemWishlist.wishlist);
 };
@@ -57,7 +57,7 @@ export const removeItem = async (
     variables,
     customQuery
   );
-  const { remove_itemWishlist } = await mutate(context, queryGql);
+  const { remove_itemWishlist } = (await mutate(context, queryGql)) as any;
 
   return transformWishlists(context, remove_itemWishlist.wishlist);
 };
@@ -76,7 +76,7 @@ export const clearWishlist = async (
     variables,
     customQuery
   );
-  const { clearWishlist } = await mutate(context, queryGql);
+  const { clearWishlist } = (await mutate(context, queryGql)) as any;
 
   return transformWishlists(context, clearWishlist.wishlist);
 };
@@ -96,7 +96,7 @@ export const createWishlist = async (
     variables,
     customQuery
   );
-  const { createWishlist } = await mutate(context, queryGql);
+  const { createWishlist } = (await mutate(context, queryGql)) as any;
 
   return transformWishlists(context, createWishlist.wishlist);
 };
@@ -117,7 +117,7 @@ export const editWishlist = async (
     variables,
     customQuery
   );
-  const { updateWishlist } = await mutate(context, queryGql);
+  const { updateWishlist } = (await mutate(context, queryGql)) as any;
 
   return transformWishlists(context, updateWishlist.wishlist);
 };
@@ -136,7 +136,7 @@ export const removeWishlist = async (
     variables,
     customQuery
   );
-  const { deleteWishlist } = await mutate(context, queryGql);
+  const { deleteWishlist } = (await mutate(context, queryGql)) as any;
 
   return transformWishlists(context, deleteWishlist.wishlist);
 };

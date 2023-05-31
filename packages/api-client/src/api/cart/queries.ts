@@ -1,7 +1,7 @@
 import { gql } from 'api-client/__generated__';
 
 export const getCartQuery = gql(`
-  query getCart($cartId: ID!) {
+  query getCart($cartId: ID!, $channelCode: String!) {
     order(id: $cartId) {
       tokenValue
       localeCode
@@ -76,7 +76,7 @@ export const getCartQuery = gql(`
                   }
                 }
               }
-              channelPricings(channelCode: "${process.env.SYLIUS_CHANNEL_CODE}") {
+              channelPricings(channelCode: $channelCode) {
                 collection {
                   channelCode
                   price

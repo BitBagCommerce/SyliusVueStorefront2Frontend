@@ -114,10 +114,7 @@
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -218,7 +215,7 @@ import {
 } from '@vue-storefront/sylius';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { useVSFContext } from '@vue-storefront/core';
+import { useVSFContext, onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'Shipping',
