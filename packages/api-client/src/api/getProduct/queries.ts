@@ -148,13 +148,6 @@ export const getMinimalProductsQuery = gql(`
         slug
         averageRating
         shortDescription
-        productTaxons {
-          collection {
-            taxon {
-              id
-            }
-          }
-        }
         options {
           edges {
             node {

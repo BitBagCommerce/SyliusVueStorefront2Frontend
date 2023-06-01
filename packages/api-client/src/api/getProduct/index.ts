@@ -136,9 +136,6 @@ export async function getMinimalProduct(
   params,
   customQuery?: CustomQuery
 ): Promise<any> {
-  let pagination = {};
-  let products = [];
-
   try {
     const productsQuery = extendQuery(
       context,
@@ -153,50 +150,33 @@ export async function getMinimalProduct(
     );
 
     const { locale, imagePaths } = context.config;
-    pagination = data.products.paginationInfo;
-    products = data.products.collection.map((item: any) => {
-      if (item.attributes) {
-        item.attributes = item.attributes.collection.filter(
+    const pagination = data.products.paginationInfo;
+    const products = data.products?.collection.map((item) => {
+      const variants = item.variants?.collection.map((variant) => ({
+        ...variant,
+        optionValues: variant.optionValues?.edges.map((e) => e.node),
+        channelPricings: variant.channelPricings?.collection,
+      }));
+      const imagesRef = item.imagesRef?.collection;
+
+      return {
+        ...item,
+        attributes: item.attributes?.collection.filter(
           (attr) => attr.type === 'integer' || attr.localeCode === locale
-        );
-      }
-
-      if (item.productTaxons) {
-        item._categoriesRef = item.productTaxons.collection.map(
-          (taxon) => taxon.taxon.id
-        );
-        delete item.productTaxons;
-      }
-
-      if (item.options) {
-        item.options = item.options.edges.map((edge) => {
-          edge.node.values = edge.node.values.edges.map((e) => e.node);
-          return edge.node;
-        });
-      }
-
-      if (item.variants) {
-        item.variants = item.variants.collection.map((variant) => {
-          variant.optionValues = variant.optionValues.edges.map((e) => e.node);
-          if (variant.channelPricings) {
-            variant.channelPricings = variant.channelPricings.collection;
-          }
-          return variant;
-        });
-      }
-      item.selectedVariant = item?.variants?.length ? item.variants?.[0] : null;
-
-      if (item.imagesRef) {
-        const mapImages = item.imagesRef.collection;
-        item.images = mapImages.map((img) =>
+        ),
+        options: item.options?.edges.map((edge) => ({
+          ...edge.node,
+          values: edge.node?.values.edges.map((e) => e.node),
+        })),
+        variants,
+        selectedVariant: variants.length ? variants[0] : null,
+        images: imagesRef?.map((img) =>
           [imagePaths.thumbnail, img.path].join('/')
-        );
-        item.galleryImages = mapImages.map((img) =>
+        ),
+        galleryImages: imagesRef?.map((img) =>
           [imagePaths.regular, img.path].join('/')
-        );
-        delete item.imagesRef;
-      }
-      return item;
+        ),
+      };
     });
 
     return {

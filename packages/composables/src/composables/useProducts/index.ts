@@ -13,7 +13,7 @@ export const useProducts = () => {
   const load = async (params) => {
     try {
       loading.value = true;
-      products.value = await context.$sylius.api.getProduct(params);
+      products.value = await context.$sylius.api.getMinimalProduct(params);
     } catch (error) {
       products.value = [];
       error.value.load = error;
