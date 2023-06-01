@@ -40,9 +40,9 @@
                         <template #label>
                           <nuxt-link
                             :to="localePath(th.getCatLink(child))"
-                            :class="
-                              child.isCurrent ? 'sidebar--cat-selected' : ''
-                            "
+                            :class="{
+                              'sidebar--cat-selected': child.isCurrent,
+                            }"
                           >
                             All
                           </nuxt-link>
@@ -61,9 +61,9 @@
                         <template #label="{ label }">
                           <nuxt-link
                             :to="localePath(th.getCatLink(subCat))"
-                            :class="
-                              subCat.isCurrent ? 'sidebar--cat-selected' : ''
-                            "
+                            :class="{
+                              'sidebar--cat-selected': subCat.isCurrent,
+                            }"
                           >
                             {{ label }}
                           </nuxt-link>
