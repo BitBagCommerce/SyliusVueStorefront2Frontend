@@ -348,7 +348,7 @@ export default {
       )
     );
     const categoryTree = computed(() => {
-      if (hasChildren(activeCategory.value))
+      if (categoryGetters.hasChildren(activeCategory.value, categories.value))
         return categoryGetters.getTree(activeCategory.value, categories.value);
 
       return categoryGetters.getTree(
@@ -397,10 +397,6 @@ export default {
       removeItemFromWishlist({ product });
     };
 
-    function hasChildren(category) {
-      return categoryGetters.hasChildren(category, categories.value);
-    }
-
     onMounted(async () => {
       const facets = th.getFacetsFromURL();
 
@@ -429,7 +425,8 @@ export default {
       productsQuantity,
       isDropdownVisible,
       open,
-      hasChildren,
+      hasChildren: (category) =>
+        categoryGetters.hasChildren(category, categories.value),
     };
   },
   components: {

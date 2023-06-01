@@ -169,6 +169,14 @@ h4 {
   }
 }
 
+.sf-accordion-item__content {
+  .sf-list__item {
+    .sf-menu-item {
+      text-align: left;
+    }
+  }
+}
+
 .sf-accordion-item__header.is-open {
   --accordion-item-header-border-width: 0;
   --accordion-item-header-color: initial;
