@@ -3,10 +3,9 @@
 import {
   Context,
   Logger,
-  useUserFactory,
-  UseUserFactoryParams,
+  useUserFactory
 } from '@vue-storefront/core';
-import { User } from '../../types';
+import { User, UseUserFactoryParams } from '../../types';
 import { useCart } from '../useCart';
 const params: UseUserFactoryParams<User, any, any> = {
   provide() {
@@ -90,7 +89,7 @@ const params: UseUserFactoryParams<User, any, any> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  logIn: async (context: Context, { username, password }) => {
+  logIn: async (context: Context, { username, password, rememberMe }) => {
     const apiState = context.$sylius.config.state;
     const orderTokenValue = apiState
       .getCartId()
@@ -107,6 +106,7 @@ const params: UseUserFactoryParams<User, any, any> = {
         login: {
           username,
           password,
+          rememberMe,
           orderTokenValue,
         },
       });
@@ -156,6 +156,7 @@ const params: UseUserFactoryParams<User, any, any> = {
       return await params.logIn(context, {
         username: currentUser.email,
         password: newPassword,
+        rememberMe: false
       });
     }
 
