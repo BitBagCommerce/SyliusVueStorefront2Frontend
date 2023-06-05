@@ -1,13 +1,14 @@
 import { AgnosticBreadcrumb } from '@vue-storefront/core/lib/src/types';
 import { Category } from '@vue-storefront/sylius-api/src/types';
 
-// TODO: add better typing to categoryGetters
-
-const getTopLevelCategories = (categories: any[]): Category[] => {
+const getTopLevelCategories = (categories: Category[]): Category[] => {
   return categories.filter((cat) => cat.level === 1);
 };
 
-const getChildren = (category: any, categories: any[]): Category[] => {
+const getChildren = (
+  category: Category,
+  categories: Category[]
+): Category[] => {
   return category
     ? categories
         .filter((cat) => cat.parent?.id === category.id)
@@ -27,7 +28,14 @@ const getChildren = (category: any, categories: any[]): Category[] => {
         });
 };
 
-const getParent = (category: any, categories: any[]) => {
+const hasChildren = (category: Category, categories: Category[]): boolean => {
+  if (category === undefined || categories === undefined) {
+    return false;
+  }
+  return categories.some((cat) => cat.parent?.id === category.id);
+};
+
+const getParent = (category: Category, categories: Category[]) => {
   if (!category) return categories.find((cat) => cat.level === 1);
 
   return categories.find((cat) => cat.id === category.parent.id);
@@ -55,7 +63,7 @@ const getTree = (current: Category, categories: Category[]) => {
 };
 
 const _buildBreadcrumbs = (
-  categoryList: any[],
+  categoryList: Category[],
   allCategories
 ): AgnosticBreadcrumb[] => {
   const parent = getParent(categoryList[0], allCategories);
@@ -84,6 +92,7 @@ const getBreadcrumbs = (
 
 export const categoryGetters = {
   getChildren,
+  hasChildren,
   getParent,
   getTopLevelCategories,
   getTree,

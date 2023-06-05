@@ -120,10 +120,14 @@ export type Product = {
   variants: ProductVariant[];
 };
 export type Category = {
-  id: number;
+  id: string;
   name: string;
   slug: string;
   items: Category[];
+  level: number;
+  parent: {
+    id: string;
+  };
 };
 export type CategoryFilter = Record<string, unknown>;
 export type ShippingMethod = Record<string, unknown>;

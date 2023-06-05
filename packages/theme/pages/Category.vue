@@ -12,7 +12,7 @@
         >
           <SfHeading
             :level="3"
-            :title="categoryTree.parent ? categoryTree.parent.name : $t('All')"
+            :title="categoryTree.parent ? categoryTree.parent.name : ''"
             class="navbar__title"
           />
         </SfLoader>
@@ -31,51 +31,53 @@
             v-e2e="'categories-accordion'"
             :show-chevron="true"
           >
-            <SfAccordionItem
-              v-for="(child, index) in categoryTree.children"
-              :key="index"
-              :header="child.name"
-            >
-              <template>
-                <SfList class="list">
-                  <SfListItem class="list__item">
-                    <SfMenuItem :count="child.count" :label="child.name">
-                      <template #label>
-                        <nuxt-link
-                          :to="localePath(th.getCatLink(child))"
-                          :class="
-                            child.isCurrent ? 'sidebar--cat-selected' : ''
-                          "
-                        >
-                          All
-                        </nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                  <SfListItem
-                    class="list__item"
-                    v-for="(subCat, j) in child.children"
-                    :key="j"
-                  >
-                    <SfMenuItem
-                      :count="subCat.count || ''"
-                      :label="subCat.name"
+            <div v-for="child in categoryTree.children" :key="child.id">
+              <SfAccordionItem v-if="hasChildren(child)" :header="child.name">
+                <template>
+                  <SfList class="list">
+                    <SfListItem class="list__item">
+                      <SfMenuItem :count="child.count" :label="child.name">
+                        <template #label>
+                          <nuxt-link
+                            :to="localePath(th.getCatLink(child))"
+                            :class="{
+                              'sidebar--cat-selected': child.isCurrent,
+                            }"
+                          >
+                            All
+                          </nuxt-link>
+                        </template>
+                      </SfMenuItem>
+                    </SfListItem>
+                    <SfListItem
+                      class="list__item"
+                      v-for="(subCat, j) in child.children"
+                      :key="j"
                     >
-                      <template #label="{ label }">
-                        <nuxt-link
-                          :to="localePath(th.getCatLink(subCat))"
-                          :class="
-                            subCat.isCurrent ? 'sidebar--cat-selected' : ''
-                          "
-                        >
-                          {{ label }}
-                        </nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                </SfList>
-              </template>
-            </SfAccordionItem>
+                      <SfMenuItem
+                        :count="subCat.count || ''"
+                        :label="subCat.name"
+                      >
+                        <template #label="{ label }">
+                          <nuxt-link
+                            :to="localePath(th.getCatLink(subCat))"
+                            :class="{
+                              'sidebar--cat-selected': subCat.isCurrent,
+                            }"
+                          >
+                            {{ label }}
+                          </nuxt-link>
+                        </template>
+                      </SfMenuItem>
+                    </SfListItem>
+                  </SfList>
+                </template>
+              </SfAccordionItem>
+              <nuxt-link v-else :to="localePath(th.getCatLink(child))">
+                <SfAccordionItem :header="child.name" class="no-children">
+                </SfAccordionItem>
+              </nuxt-link>
+            </div>
           </SfAccordion>
         </SfLoader>
       </div>
@@ -346,9 +348,15 @@ export default {
         (cat) => cat.slug === th.getFacetsFromURL()?.categorySlug
       )
     );
-    const categoryTree = computed(() =>
-      categoryGetters.getTree(activeCategory.value, categories.value)
-    );
+    const categoryTree = computed(() => {
+      if (categoryGetters.hasChildren(activeCategory.value, categories.value))
+        return categoryGetters.getTree(activeCategory.value, categories.value);
+
+      return categoryGetters.getTree(
+        categoryGetters.getParent(activeCategory.value, categories.value),
+        categories.value
+      );
+    });
     const breadcrumbs = computed(() =>
       categoryGetters.getBreadcrumbs(activeCategory.value, categories.value)
     );
@@ -418,6 +426,8 @@ export default {
       productsQuantity,
       isDropdownVisible,
       open,
+      hasChildren: (category) =>
+        categoryGetters.hasChildren(category, categories.value),
     };
   },
   components: {

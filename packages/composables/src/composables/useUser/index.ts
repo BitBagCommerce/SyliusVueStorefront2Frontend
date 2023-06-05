@@ -1,10 +1,11 @@
 /* istanbul ignore file */
+import { Logger, useUserFactory } from '@vue-storefront/core';
 import {
-  Logger,
-  useUserFactory,
+  User,
+  UseUserRegisterParams,
+  UseUserUpdateParams,
   UseUserFactoryParams,
-} from '@vue-storefront/core';
-import { User, UseUserRegisterParams, UseUserUpdateParams } from '../../types';
+} from '../../types';
 import { useCart } from '../useCart';
 import type { Context } from '@vue-storefront/sylius-api';
 
@@ -51,9 +52,9 @@ const params: UseUserFactoryParams<
     apiState.setCartId(cartToken);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async (
     context: Context,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     { currentUser, updatedUserData, customQuery }
   ) => {
     const apiState = context.$sylius.config.state;
@@ -94,7 +95,7 @@ const params: UseUserFactoryParams<
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  logIn: async (context: Context, { username, password }) => {
+  logIn: async (context: Context, { username, password, rememberMe }) => {
     const apiState = context.$sylius.config.state;
     const orderTokenValue = apiState
       .getCartId()
@@ -111,6 +112,7 @@ const params: UseUserFactoryParams<
         login: {
           username,
           password,
+          rememberMe,
           orderTokenValue,
         },
       });
@@ -160,6 +162,7 @@ const params: UseUserFactoryParams<
       return await params.logIn(context, {
         username: currentUser.email,
         password: newPassword,
+        rememberMe: false,
       });
     }
 
