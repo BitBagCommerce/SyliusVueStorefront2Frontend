@@ -177,6 +177,12 @@ h4 {
   }
 }
 
+.sf-header-navigation-item__item--desktop {
+  @media screen and (max-width: 1023px) {
+    display: none;
+  }
+}
+
 .sf-accordion-item__header.is-open {
   --accordion-item-header-border-width: 0;
   --accordion-item-header-color: initial;
