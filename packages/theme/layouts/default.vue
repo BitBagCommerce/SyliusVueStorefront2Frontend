@@ -177,6 +177,12 @@ h4 {
   }
 }
 
+.sf-header-navigation-item__item--desktop {
+  @include for-mobile {
+    display: none;
+  }
+}
+
 .sf-accordion-item__header.is-open {
   --accordion-item-header-border-width: 0;
   --accordion-item-header-color: initial;
