@@ -31,7 +31,26 @@
             v-e2e="'categories-accordion'"
             :show-chevron="true"
           >
-            <div v-for="child in categoryTree.children" :key="child.id">
+            <nuxt-link
+              v-if="categoryTree.parent"
+              :to="localePath(th.getCatLink(categoryTree.parent))"
+            >
+              <SfAccordionItem
+                :header="$t('All')"
+                class="no-children"
+                :class="{
+                  'sf-accordion-item-active': isCategoryActive(
+                    categoryTree.parent
+                  ),
+                }"
+              >
+              </SfAccordionItem>
+            </nuxt-link>
+            <div
+              v-for="child in categoryTree.children"
+              :key="child.id"
+              :class="{ 'sf-accordion-item-active': isCategoryActive(child) }"
+            >
               <SfAccordionItem v-if="hasChildren(child)" :header="child.name">
                 <template>
                   <SfList class="list">
@@ -348,13 +367,17 @@ export default {
       )
     );
     const categoryTree = computed(() => {
-      if (categoryGetters.hasChildren(activeCategory.value, categories.value))
-        return categoryGetters.getTree(activeCategory.value, categories.value);
-
-      return categoryGetters.getTree(
-        categoryGetters.getParent(activeCategory.value, categories.value),
+      const parent = categoryGetters.getParent(
+        activeCategory.value,
         categories.value
       );
+      if (
+        categoryGetters.hasChildren(activeCategory.value, categories.value) ||
+        parent?.level === 0
+      )
+        return categoryGetters.getTree(activeCategory.value, categories.value);
+
+      return categoryGetters.getTree(parent, categories.value);
     });
     const breadcrumbs = computed(() =>
       categoryGetters.getBreadcrumbs(activeCategory.value, categories.value)
@@ -397,6 +420,10 @@ export default {
       removeItemFromWishlist({ product });
     };
 
+    const isCategoryActive = (category) => {
+      return category?.code === activeCategory.value?.code;
+    };
+
     onMounted(async () => {
       const facets = th.getFacetsFromURL();
 
@@ -415,6 +442,7 @@ export default {
       categories,
       categoriesLoading,
       activeCategory,
+      isCategoryActive,
       breadcrumbs,
       handleAddToCart,
       wishlists,
