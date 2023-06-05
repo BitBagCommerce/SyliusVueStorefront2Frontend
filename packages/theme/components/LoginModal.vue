@@ -345,7 +345,8 @@ export default {
 
     const handleForm = (fn) => async () => {
       resetErrorValues();
-      await fn({ user: form.value });
+      const rememberMeVal = rememberMe.value;
+      await fn({ user: {...form.value, rememberMe: rememberMeVal} });
 
       const hasUserErrors = userError.value.register || userError.value.login;
       if (hasUserErrors) {
@@ -365,7 +366,7 @@ export default {
         send({ type: 'info', message: t('Your account has been registered') });
 
         await login({
-          user: { username: form.value.email, password: form.value.password },
+          user: { username: form.value.email, password: form.value.password, rememberMe: rememberMe.value }
         });
         if ($sylius?.config?.state?.getCustomerToken() === undefined) {
           setIsVerifyUser(true);
