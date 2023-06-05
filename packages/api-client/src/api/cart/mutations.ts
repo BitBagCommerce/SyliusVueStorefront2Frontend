@@ -146,7 +146,7 @@ export const addToCartMutation = gql(`
 export const addManyToCartMutation = gql(`
   mutation addManyToCart(
     $token: String!,
-    $variants: Iterable!
+    $variants: Iterable!,
     $channelCode: String!
   ) {
     shop_add_itemsOrder(input: {
@@ -461,7 +461,7 @@ export const addBillingAddressMutation = gql(`
 
 export const applyCouponMutation = gql(`
   mutation addCouponToCart(
-    $coupon: shop_apply_couponOrderInput!
+    $coupon: shop_apply_couponOrderInput!,
     $channelCode: String!
   ) {
     shop_apply_couponOrder(

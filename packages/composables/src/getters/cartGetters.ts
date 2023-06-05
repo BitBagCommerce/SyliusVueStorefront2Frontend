@@ -51,9 +51,9 @@ export const getCartItemPrice = (product: CartLineItem): AgnosticPrice => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemQty = (product: CartLineItem): number => product.qty;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemAttributes = (
   product: CartLineItem,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   filterByAttributeName?: Array<string>
 ) => {
   const attributes = {};
@@ -73,7 +73,7 @@ export const getCartItemAttributes = (
 export const getCartItemSku = (product: CartLineItem): string => product.sku;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getCartTotals = (cart: any): AgnosticTotals => {
+export const getCartTotals = (cart: Cart): AgnosticTotals => {
   if (cart) {
     const {
       total: cartTotal,

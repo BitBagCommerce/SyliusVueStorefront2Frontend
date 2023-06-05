@@ -16,6 +16,28 @@ export const getCartQuery = gql(`
           description
         }
       }
+      shippingAddress {
+        id
+        firstName
+        lastName
+        street
+        city
+        postcode
+        state: provinceName
+        countryCode
+        phoneNumber
+      }
+      billingAddress {
+        id
+        firstName
+        lastName
+        street
+        city
+        postcode
+        state: provinceName
+        countryCode
+        phoneNumber
+      }
       shipments {
         edges {
           node {
