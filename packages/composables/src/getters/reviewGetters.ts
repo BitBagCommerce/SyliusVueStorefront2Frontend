@@ -1,7 +1,6 @@
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
 import { parse as parseDate, format as formatDate } from 'date-fns';
-type Review = any;
-type ReviewItem = any;
+import { Review, ReviewItem } from '@vue-storefront/sylius-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (review: Review): ReviewItem[] =>

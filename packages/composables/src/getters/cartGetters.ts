@@ -5,7 +5,7 @@ import {
   AgnosticCoupon,
   AgnosticDiscount,
 } from '@vue-storefront/core';
-import { Cart, CartLineItem } from '@vue-storefront/sylius-api/src/types';
+import { Cart, CartLineItem } from '@vue-storefront/sylius-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItems = (cart: Cart): CartLineItem[] => {
@@ -51,9 +51,9 @@ export const getCartItemPrice = (product: CartLineItem): AgnosticPrice => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemQty = (product: CartLineItem): number => product.qty;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemAttributes = (
   product: CartLineItem,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   filterByAttributeName?: Array<string>
 ) => {
   const attributes = {};
@@ -114,6 +114,7 @@ export const getCartTotalItems = (cart: Cart): number => {
   if (cart?.items) {
     return cart.items.reduce((prev, curr) => prev + curr.quantity, 0);
   }
+
   return 0;
 };
 
@@ -130,10 +131,12 @@ export const getDiscounts = (cart: Cart): AgnosticDiscount[] => {
       name: cart.promotionCoupon.promotion.name,
       code: cart.promotionCoupon.code,
       value: Math.abs(cart.orderPromotionTotal) / 100,
-      description: cart.promotionCoupon.description,
+      description: cart.promotionCoupon.promotion.description,
     };
+
     return [promotion];
   }
+
   return [];
 };
 

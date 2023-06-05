@@ -20,6 +20,8 @@ jobs:
   test_repository:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      SYLIUS_API_ENDPOINT: https://vsf2-demo-sylius.bitbag.io/
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

@@ -1,7 +1,6 @@
-import gql from 'graphql-tag';
-import { categoryFragment } from './fragments';
+import { gql } from 'api-client/__generated__';
 
-export const BaseQuery = gql`
+export const BaseQuery = gql(`
   query categoryList(
     $categorySlug: String,
     $categoryName: String,
@@ -11,8 +10,18 @@ export const BaseQuery = gql`
       translations_name: $categoryName
     ){
       collection {
-        ${categoryFragment}
+        id
+        code
+        name
+        position
+        slug
+        description
+        parent {
+          id
+        }
+        enabled
+        level
       }
     }
   }
-`;
+`);

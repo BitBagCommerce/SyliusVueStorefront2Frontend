@@ -40,7 +40,6 @@ export {
   deleteUserAddress,
 } from './user';
 export { getReviews, addReview } from './review';
-export { getFilters } from './filters';
 export {
   getWishlists,
   addItem,

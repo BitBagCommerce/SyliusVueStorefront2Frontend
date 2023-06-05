@@ -19,6 +19,7 @@ export function generateBaseConfig(pkg) {
       typescript({
         // eslint-disable-next-line global-require
         typescript: require('typescript'),
+        clean: true,
       }),
       terser(),
     ],

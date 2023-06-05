@@ -5,15 +5,25 @@
   "server": "server/index.js",
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "types": "lib/index.d.ts",
+  "types": "lib/api-client/src/index.d.ts",
   "scripts": {
-    "build": "rimraf lib server && rollup -c",
+    "build": "yarn graphql && rimraf lib server && rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
-    "prepublish": "yarn build"
+    "prepublish": "yarn build",
+    "graphql": "DOTENV_CONFIG_PATH=../theme/.env yarn graphql-codegen -r dotenv/config",
+    "graphql-watch": "DOTENV_CONFIG_PATH=../theme/.env yarn graphql-codegen --watch -r dotenv/config"
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
+    "@graphql-codegen/cli": "^3.0.1",
+    "@graphql-codegen/client-preset": "^3.0.1",
+    "@graphql-codegen/fragment-matcher": "^3.0.1",
+    "@graphql-codegen/typed-document-node": "^4.0.1",
+    "@graphql-codegen/typescript": "^3.0.4",
+    "@graphql-codegen/typescript-operations": "^3.0.4",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "@types/graphql": "^14.5.0",
     "@vue-storefront/core": "^2.7.1",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",

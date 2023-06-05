@@ -1,7 +1,6 @@
-import gql from 'graphql-tag';
-import { reviewFragment } from '../fragments/review';
+import { gql } from 'api-client/__generated__';
 
-export const getReviewsQuery = gql`
+export const getReviewsQuery = gql(`
   query productReviews(
     $productId: Int,
     $userId: Int
@@ -12,8 +11,16 @@ export const getReviewsQuery = gql`
       status: "accepted"
     ) {
       collection {
-        ${reviewFragment}
+        id
+        rating
+        comment
+        status
+        author {
+          id
+          fullName
+        }
+        createdAt
       }
     }
   }
-`;
+`);

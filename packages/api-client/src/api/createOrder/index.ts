@@ -1,27 +1,21 @@
 import defaultMutation from './mutations';
-import { CustomQuery } from '@vue-storefront/core';
-import gql from 'graphql-tag';
+import { Context, CustomQuery } from '@vue-storefront/core';
+import { extendQuery, mutate, VariablesHelper } from '../helpers';
 
 const createOrder = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof defaultMutation>,
   customQuery?: CustomQuery
 ) => {
-  const { createOrder: createOrderGql } = context.extendQuery(customQuery, {
-    createOrder: {
-      query: defaultMutation,
-      variables: defaultVariables,
-    },
-  });
-  const { data } = await context.client.mutate({
-    mutation: gql`
-      ${createOrderGql.query}
-    `,
-    variables: createOrderGql.variables,
-    fetchPolicy: 'no-cache',
-  });
+  const queryGql = extendQuery(
+    context,
+    defaultMutation,
+    defaultVariables,
+    customQuery
+  );
+  const { shop_completeOrder } = await mutate(context, queryGql);
 
-  return data.shop_completeOrder.order;
+  return shop_completeOrder.order;
 };
 
 export default createOrder;

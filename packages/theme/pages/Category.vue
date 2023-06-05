@@ -203,10 +203,7 @@
               </template>
               <template #actions>
                 <WishlistDropdown
-                  class="
-                    desktop-only
-                    products__product-card-horizontal--wishlist-button
-                  "
+                  class="desktop-only products__product-card-horizontal--wishlist-button"
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
@@ -224,7 +221,11 @@
               <template #add-to-cart>
                 <AddToCart
                   :selectedVariant="product.selectedVariant"
-                  :disabled="loading"
+                  :disabled="
+                    product.selectedVariant.tracked &&
+                    !productGetters.isInStock(product.selectedVariant) &&
+                    !productGetters.hasMultipleVariants(product)
+                  "
                   @quantity-change="productsQuantity[product._id] = $event"
                   @click="open(product)"
                 />

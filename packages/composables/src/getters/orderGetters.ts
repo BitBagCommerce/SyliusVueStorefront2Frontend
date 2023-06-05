@@ -4,7 +4,7 @@ import { UserOrderGetters } from '@vue-storefront/core';
 import { Order, OrderItem } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getDate = (order: any): string => {
+export const getDate = (order: Order): string => {
   if (order?.createdAt) {
     const parsedDate = parseDate(
       order.createdAt,
@@ -17,13 +17,13 @@ export const getDate = (order: any): string => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getId = (order: any): string => order?.number;
+export const getId = (order: Order): string => order?.number;
 
 export const getTokenValue = (order: any): string => order?.tokenValue;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getStatus = (order: any): string => order?.status || 'Failed';
-export const getPaymentStatus = (order: any): string => {
+export const getPaymentStatus = (order: Order): string => {
   switch (order.paymentState) {
     case 'awaiting_payment':
       return 'awaiting';
@@ -31,27 +31,27 @@ export const getPaymentStatus = (order: any): string => {
       return order.paymentState;
   }
 };
-export const getShippingStatus = (order: any): string => order.shippingState;
-export const getShippingTotal = (order: any): number =>
+export const getShippingStatus = (order: Order): string => order.shippingState;
+export const getShippingTotal = (order: Order): number =>
   order.shippingTotal / 100;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getPrice = (order: any): number | null => order.total / 100;
+export const getPrice = (order: Order): number | null => order.total / 100;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItems = (order: any): any[] => order?.items || [];
+export const getItems = (order: Order): any[] => order?.items || [];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItemSku = (item: any): string => item?.sku || 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemName = (item: any): string => item.productName;
+export const getItemName = (item: OrderItem): string => item.productName;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemQty = (item: any): number => item.quantity;
+export const getItemQty = (item: OrderItem): number => item.quantity;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemPrice = (item: any): number => item.total / 100;
+export const getItemPrice = (item: OrderItem): number => item.total / 100;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getFormattedPrice = (price: number) => String(price);

@@ -1,12 +1,16 @@
 import {
-  Context,
   Logger,
   useCartFactory,
   UseCartFactoryParams,
 } from '@vue-storefront/core';
+import type {
+  Cart,
+  CartItem,
+  Product,
+  Context,
+} from '@vue-storefront/sylius-api';
 
-import type { Cart, CartItem, Product } from '@vue-storefront/sylius-api';
-const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
+const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   load: async (context: Context) => {
     const apiState = context.$sylius.config.state;
     let cartId = apiState.getCartId();
@@ -75,9 +79,9 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
       customQuery
     );
 
-    if (cart.graphQLErrors?.length) {
+    if ((cart as any).graphQLErrors?.length) {
       throw {
-        message: cart.graphQLErrors?.[0]?.debugMessage,
+        message: (cart as any).graphQLErrors?.[0]?.debugMessage,
       };
     }
 
@@ -89,7 +93,7 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
     const cart = await context.$sylius.api.removeFromCart(
       {
         cartId,
-        itemId: String((product as Product)._id),
+        itemId: String(product._id),
       },
       customQuery
     );
@@ -104,15 +108,15 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
     const cart = await context.$sylius.api.updateCartQuantity(
       {
         cartId,
-        itemId: String((product as Product)._id),
+        itemId: String(product._id),
         quantity,
       },
       customQuery
     );
 
-    if (cart.graphQLErrors?.length) {
+    if ((cart as any).graphQLErrors?.length) {
       throw {
-        message: cart.graphQLErrors?.[0]?.debugMessage,
+        message: (cart as any).graphQLErrors?.[0]?.debugMessage,
       };
     }
 
@@ -122,7 +126,7 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
   clear: async (context: Context) => {
     const apiState = context.$sylius.config.state;
     const cartId = apiState.getCartId();
-    return await context.$sylius.api.clearCart({ cartId });
+    return (await context.$sylius.api.clearCart({ cartId })) as any;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   applyCoupon: async (
@@ -143,9 +147,9 @@ const params: UseCartFactoryParams<Cart, CartItem, Product | Product[]> = {
       customQuery
     );
 
-    if (applyCouponResponse.graphQLErrors?.length) {
+    if ((applyCouponResponse as any).graphQLErrors?.length) {
       throw {
-        message: applyCouponResponse.graphQLErrors?.[0]?.debugMessage,
+        message: (applyCouponResponse as any).graphQLErrors?.[0]?.debugMessage,
       };
     }
 
