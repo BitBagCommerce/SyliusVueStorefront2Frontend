@@ -325,15 +325,6 @@ export default {
       return Boolean(addresses?.length);
     });
 
-    onSSR(async () => {
-      if (billing.value) {
-        await loadShipping();
-      } else {
-        await Promise.all([loadShipping(), loadBilling()]);
-      }
-      countries.value = await $sylius.api.getCountries();
-    });
-
     onMounted(async () => {
       await Promise.all([loadShipping(), loadBilling()]);
       if (!countries.value.length) {
