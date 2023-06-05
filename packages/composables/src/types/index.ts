@@ -86,6 +86,17 @@ export type UseReviewAddParams = {
   title: string;
 };
 
+export type Address = {
+  email: string;
+  firstName: string;
+  lastName: string;
+  countryCode: string;
+  street: string;
+  city: string;
+  postcode: string;
+  phoneNumber: string;
+};
+
 export type UseShippingAddParams = TODO;
 
 export type UseUserUpdateParams = {
