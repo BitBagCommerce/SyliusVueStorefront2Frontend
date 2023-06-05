@@ -178,7 +178,7 @@ h4 {
 }
 
 .sf-header-navigation-item__item--desktop {
-  @media screen and (max-width: 1023px) {
+  @include for-mobile {
     display: none;
   }
 }
