@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <SfHeading
-      v-e2e="'billing-heading'"
+      data-e2e="billing-heading"
       :level="3"
       :title="$t('Billing')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -106,10 +106,7 @@
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -180,7 +177,7 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'continue-to-shipping'"
+            data-e2e="continue-to-shipping"
             class="form__action-button"
             type="submit"
           >

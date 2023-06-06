@@ -12,8 +12,7 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
-
-const tagify = require('cypress-tags');
+import { tagify } from 'cypress-tags';
 
 /**
  * @type {Cypress.PluginConfig}

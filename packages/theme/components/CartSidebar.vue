@@ -86,10 +86,7 @@
           <div v-if="totalItems">
             <SfProperty
               :name="$t('Subtotal')"
-              class="
-                sf-property--full-width sf-property--large
-                my-cart__total-price
-              "
+              class="sf-property--full-width sf-property--large my-cart__total-price"
             >
               <template #value>
                 <SfPrice
@@ -104,7 +101,7 @@
             </SfProperty>
             <nuxt-link :to="localePath({ name: 'billing' })">
               <SfButton
-                v-e2e="'go-to-checkout-btn'"
+                data-e2e="go-to-checkout-btn"
                 class="sf-button--full-width color-secondary"
                 @click="toggleCartSidebar"
               >

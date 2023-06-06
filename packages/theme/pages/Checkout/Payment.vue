@@ -93,10 +93,7 @@
         <SfProperty
           :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
-          class="
-            sf-property--full-width sf-property--large
-            summary__property-total
-          "
+          class="sf-property--full-width sf-property--large summary__property-total"
         />
 
         <VsfPaymentProvider @status="isPaymentReady = true" />
@@ -112,7 +109,7 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
-            v-e2e="'make-an-order'"
+            data-e2e="make-an-order"
             :disabled="isRedirecting || !isPaymentReady || !products.length"
             class="summary__action-button"
             @click="processOrder"

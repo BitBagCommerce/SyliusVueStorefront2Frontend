@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <SfHeading
-      v-e2e="'shipping-heading'"
+      data-e2e="shipping-heading"
       :level="3"
       :title="$t('Shipping')"
       class="sf-heading--left sf-heading--no-underline title"
@@ -33,7 +33,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-firstName'"
+            v-e2e="'shipping-firstName'"
             v-model="form.firstName"
             :label="$t('First name')"
             name="firstName"
@@ -50,7 +50,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-lastName'"
+            v-e2e="'shipping-lastName'"
             v-model="form.lastName"
             :label="$t('Last name')"
             name="lastName"
@@ -67,7 +67,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-streetName'"
+            v-e2e="'shipping-streetName'"
             v-model="form.street"
             :label="$t('Street name')"
             name="street"
@@ -84,7 +84,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-city'"
+            v-e2e="'shipping-city'"
             v-model="form.city"
             :label="$t('City')"
             name="city"
@@ -96,7 +96,7 @@
         </ValidationProvider>
         <ValidationProvider name="state" slim>
           <SfInput
-            v-e2e="'billing-state'"
+            v-e2e="'shipping-state'"
             v-model="form.state"
             :label="$t('State/Province')"
             name="state"
@@ -110,7 +110,7 @@
           slim
         >
           <SfSelect
-            v-e2e="'billing-country'"
+            v-e2e="'shipping-country'"
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
@@ -135,7 +135,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-zipcode'"
+            v-e2e="'shipping-zipcode'"
             v-model="form.postcode"
             :label="$t('Zip-code')"
             name="zipCode"
@@ -153,7 +153,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-phone'"
+            v-e2e="'shipping-phone'"
             v-model="form.phoneNumber"
             :label="$t('Phone number')"
             name="phoneNumber"
@@ -175,7 +175,7 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
-            v-e2e="'select-shipping'"
+            data-e2e="select-shipping"
             v-if="!isFormSubmitted"
             :disabled="loading"
             class="form__action-button"

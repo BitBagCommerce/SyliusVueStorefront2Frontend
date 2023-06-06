@@ -7,7 +7,7 @@ class Home extends Base {
   }
 
   visit(): Cypress.Chainable {
-    return cy.visit('/');
+    return cy.visit('/').clearCookies();
   }
 }
 
