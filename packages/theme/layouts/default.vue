@@ -177,6 +177,12 @@ h4 {
   }
 }
 
+.sf-accordion-item-active {
+  .sf-accordion-item__header {
+    font-weight: var(--font-weight--bold);
+  }
+}
+
 .sf-header-navigation-item__item--desktop {
   @include for-mobile {
     display: none;
