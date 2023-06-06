@@ -72,7 +72,12 @@
           <hr class="light-line login-register-separator" />
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
           <SfButton
-            class="register-today-button sf-button--full-width form__button color-light"
+            class="
+              register-today-button
+              sf-button--full-width
+              form__button
+              color-light
+            "
             @click="setIsLoginValue(false)"
           >
             {{ $t('Register today') }}
@@ -240,7 +245,11 @@ import {
 } from '@storefront-ui/vue';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, email } from 'vee-validate/dist/rules';
-import { useUser, useForgotPassword } from '@vue-storefront/sylius';
+import {
+  useUser,
+  useForgotPassword,
+  useWishlists,
+} from '@vue-storefront/sylius';
 import { useUiState, useUiNotification } from '~/composables';
 import { useVSFContext } from '@vue-storefront/core';
 
@@ -279,6 +288,7 @@ export default {
     const createAccount = ref(false);
     const rememberMe = ref(false);
     const { register, login, logout, loading, error: userError } = useUser();
+    const { load: loadWishlists } = useWishlists();
     const {
       request,
       error: forgotPasswordError,
@@ -335,7 +345,8 @@ export default {
 
     const handleForm = (fn) => async () => {
       resetErrorValues();
-      await fn({ user: form.value });
+      const rememberMeVal = rememberMe.value;
+      await fn({ user: {...form.value, rememberMe: rememberMeVal} });
 
       const hasUserErrors = userError.value.register || userError.value.login;
       if (hasUserErrors) {
@@ -355,7 +366,7 @@ export default {
         send({ type: 'info', message: t('Your account has been registered') });
 
         await login({
-          user: { username: form.value.email, password: form.value.password },
+          user: { username: form.value.email, password: form.value.password, rememberMe: rememberMe.value }
         });
         if ($sylius?.config?.state?.getCustomerToken() === undefined) {
           setIsVerifyUser(true);
@@ -367,6 +378,7 @@ export default {
         setIsLoginValue(false);
       }
 
+      await loadWishlists();
       send({ type: 'info', message: t('Login successful') });
       $router.push('/my-account');
 

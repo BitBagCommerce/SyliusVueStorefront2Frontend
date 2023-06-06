@@ -4,6 +4,7 @@ import {
   getProductsNotFilteredQuery,
   getProductsAttributesQuery,
   getMinimalProductsQuery,
+  getFirstProductIdQuery,
 } from './queries';
 import gql from 'graphql-tag';
 
@@ -304,4 +305,20 @@ export async function getProductAttribute(
   });
 
   return groupedAttributes;
+}
+
+export async function getFirstProductId(context, params): Promise<any> {
+  try {
+    const { data } = await context.client.query({
+      query: getFirstProductIdQuery,
+      variables: params,
+      fetchPolicy: 'no-cache',
+    });
+
+    return data.products.collection;
+  } catch (err) {
+    console.log('Sylius getProduct error', err);
+  }
+
+  return null;
 }

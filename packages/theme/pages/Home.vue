@@ -87,8 +87,8 @@
       </div>
     </LazyHydrate>
 
-    <LazyHydrate when-visible>
-      <SfLoader class="loading" :loading="loading">
+    <ClientOnly>
+      <SfLoader :class="{ loading }" :loading="loading">
         <SfCarousel
           class="carousel"
           :settings="{
@@ -161,7 +161,7 @@
           </SfCarouselItem>
         </SfCarousel>
       </SfLoader>
-    </LazyHydrate>
+    </ClientOnly>
 
     <LazyHydrate when-visible>
       <InstagramFeed />
@@ -183,19 +183,19 @@ import {
   SfButton,
   SfLoader,
 } from '@storefront-ui/vue';
-import { computed, useContext } from '@nuxtjs/composition-api';
+import { computed, useContext, onMounted } from '@nuxtjs/composition-api';
+
 import {
   useCart,
   useCategory,
-  useFacet,
-  facetGetters,
+  useProducts,
   productGetters,
 } from '@vue-storefront/sylius';
-import { onSSR } from '@vue-storefront/core';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
 import loader from '~/static/icons/loader.svg';
+import ClientOnly from 'vue-client-only';
 import useVariantSelector from '~/composables/useVariantSelector';
 
 export default {
@@ -215,16 +215,17 @@ export default {
     SfButton,
     LazyHydrate,
     SfLoader,
+    ClientOnly,
   },
   setup(_, { root }) {
     const t = (key) => root.$i18n.t(key);
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
-    const { result, search, loading } = useFacet('category/t-shirts');
     const { addItem: addItemToCart, error } = useCart();
     const { send } = useUiNotification();
     const { open } = useVariantSelector();
-    const products = computed(() => facetGetters.getProducts(result.value));
+    const { load, result, loading } = useProducts();
+    const products = computed(() => result.value?.products || []);
 
     const heroes = [
       {
@@ -332,13 +333,9 @@ export default {
       });
     };
 
-    onSSR(() =>
-      search({
-        categorySlug: 'category/t-shirts',
-        channelsCode: process.env.SYLIUS_CHANNEL_CODE,
-        attributes: {},
-      })
-    );
+    onMounted(async () => {
+      await load({ categorySlug: 'category/t-shirts' });
+    });
 
     return {
       banners,

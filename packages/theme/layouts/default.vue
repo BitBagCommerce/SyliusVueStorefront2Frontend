@@ -33,7 +33,7 @@ import LoginModal from '~/components/LoginModal.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import Notification from '~/components/Notification';
 import { onSSR } from '@vue-storefront/core';
-import { useRoute, watch } from '@nuxtjs/composition-api';
+import { useRoute, onMounted } from '@nuxtjs/composition-api';
 import {
   useCart,
   useStore,
@@ -64,21 +64,20 @@ export default {
     const route = useRoute();
     const { load: loadStores } = useStore();
     const { load: loadUser, isAuthenticated } = useUser();
-    const { load: loadCart } = useCart();
+    const { cart, load: loadCart } = useCart();
     const { load: loadWishlists } = useWishlists();
 
     onSSR(async () => {
-      await Promise.all([loadStores(), loadUser(), loadCart()]);
-
-      if (isAuthenticated.value) await loadWishlists();
+      await loadUser();
     });
 
-    watch(
-      () => isAuthenticated.value,
-      async () => {
-        if (isAuthenticated.value) await loadWishlists();
+    onMounted(async () => {
+      await loadStores();
+      if (isAuthenticated.value) await loadWishlists();
+      if (!cart.value) {
+        await loadCart();
       }
-    );
+    });
 
     return {
       route,
@@ -159,5 +158,34 @@ h4 {
     top: 60%;
     left: 1%;
   }
+}
+
+.sf-accordion-item.no-children {
+  .sf-accordion-item__chevron {
+    display: none;
+  }
+  .sf-accordion-item__content {
+    padding: 0;
+  }
+}
+
+.sf-accordion-item__content {
+  .sf-list__item {
+    .sf-menu-item {
+      text-align: left;
+    }
+  }
+}
+
+.sf-accordion-item-active {
+  .sf-accordion-item__header {
+    font-weight: var(--font-weight--bold);
+  }
+}
+
+.sf-accordion-item__header.is-open {
+  --accordion-item-header-border-width: 0;
+  --accordion-item-header-color: initial;
+  --chevron-color: initial;
 }
 </style>

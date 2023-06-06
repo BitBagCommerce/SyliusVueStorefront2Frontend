@@ -161,21 +161,13 @@ export default {
   setup(props, context) {
     const t = (key) => context.root.$i18n.t(key);
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
-    const {
-      cart,
-      removeItem,
-      updateItemQty,
-      load: loadCart,
-      loading,
-      error,
-    } = useCart();
+    const { cart, removeItem, updateItemQty, loading, error } = useCart();
     const { isAuthenticated } = useUser();
     const products = computed(() => cartGetters.getItems(cart.value));
     const totals = computed(() => cartGetters.getTotals(cart.value));
     const totalItems = computed(() => cartGetters.getTotalItems(cart.value));
     const { send } = useUiNotification();
     const cartItemRemovingInProgressId = ref([]);
-    loadCart();
 
     const isRemovingInProgress = (productId) => {
       return cartItemRemovingInProgressId.value.includes(productId);

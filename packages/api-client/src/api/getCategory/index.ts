@@ -21,10 +21,5 @@ export default async function getCategory(
     variables: categoryList.variables,
   });
 
-  const categories = data.taxa.collection.map((cat) => {
-    if (cat.children) cat.children = cat.children.collection;
-    return cat;
-  });
-
-  return categories;
+  return data.taxa.collection;
 }
