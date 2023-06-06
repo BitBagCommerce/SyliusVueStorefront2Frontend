@@ -1,14 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
-    <div class="checkout-title-container">
-      <SfHeading
-        v-e2e="'shipping-heading'"
-        :level="3"
-        :title="$t('Shipping')"
-        class="sf-heading--left sf-heading--no-underline title"
-      />
-      <EditCartButton />
-    </div>
+    <CheckoutHeader :title="$t('Shipping')" e2e="shipping-heading" />
     <SfCheckbox
       v-e2e="'copy-address'"
       :selected="sameAsBilling"
@@ -219,12 +211,12 @@ import {
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { useVSFContext } from '@vue-storefront/core';
-import EditCartButton from '~/components/Checkout/EditCartButton.vue';
+import CheckoutHeader from '~/components/Checkout/CheckoutHeader.vue';
 
 export default {
   name: 'Shipping',
   components: {
-    EditCartButton,
+    CheckoutHeader,
     SfHeading,
     SfInput,
     SfButton,

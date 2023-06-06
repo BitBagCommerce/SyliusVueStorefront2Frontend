@@ -1,14 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
-    <div class="checkout-title-container">
-      <SfHeading
-        v-e2e="'billing-heading'"
-        :level="3"
-        :title="$t('Billing')"
-        class="sf-heading--left sf-heading--no-underline title"
-      />
-      <EditCartButton />
-    </div>
+    <CheckoutHeader :title="$t('Billing')" e2e="billing-heading" />
     <form @submit.prevent="handleSubmit(handleFormSubmit)">
       <SfLoader :loading="loading">
         <div v-if="!loading">
@@ -213,7 +205,7 @@ import { required, min, digits, email } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { useVSFContext } from '@vue-storefront/core';
 import { useUiNotification, useUiState } from '~/composables/';
-import EditCartButton from '~/components/Checkout/EditCartButton.vue';
+import CheckoutHeader from '~/components/Checkout/CheckoutHeader.vue';
 
 export default {
   name: 'Billing',
@@ -227,7 +219,7 @@ export default {
     ValidationProvider,
     ValidationObserver,
     SfLoader,
-    EditCartButton,
+    CheckoutHeader,
     UserAddresses: () => import('@/components/Checkout/UserAddresses'),
   },
   setup(props, context) {

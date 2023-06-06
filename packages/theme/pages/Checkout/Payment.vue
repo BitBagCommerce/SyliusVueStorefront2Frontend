@@ -1,13 +1,6 @@
 <template>
   <div>
-    <div class="checkout-title-container">
-      <SfHeading
-        :level="3"
-        :title="$t('Payment')"
-        class="sf-heading--left sf-heading--no-underline title"
-      />
-      <EditCartButton />
-    </div>
+    <CheckoutHeader :title="$t('Payment')" />
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
         <SfTableHeader class="table__header table__image">{{
@@ -154,7 +147,7 @@ import {
   orderGetters,
 } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
-import EditCartButton from '~/components/Checkout/EditCartButton.vue';
+import CheckoutHeader from '~/components/Checkout/CheckoutHeader.vue';
 
 export default {
   name: 'ReviewOrder',
@@ -171,7 +164,7 @@ export default {
     SfAccordion,
     SfLink,
     SfLoader,
-    EditCartButton,
+    CheckoutHeader,
     VsfPaymentProvider: () =>
       import('~/components/Checkout/VsfPaymentProvider'),
   },
