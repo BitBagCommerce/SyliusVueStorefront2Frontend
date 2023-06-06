@@ -1,11 +1,14 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
-    <SfHeading
-      v-e2e="'shipping-heading'"
-      :level="3"
-      :title="$t('Shipping')"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
+    <div class="checkout-title-container">
+      <SfHeading
+        v-e2e="'shipping-heading'"
+        :level="3"
+        :title="$t('Shipping')"
+        class="sf-heading--left sf-heading--no-underline title"
+      />
+      <EditCartButton />
+    </div>
     <SfCheckbox
       v-e2e="'copy-address'"
       :selected="sameAsBilling"
@@ -215,11 +218,13 @@ import {
 } from '@vue-storefront/sylius';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { useVSFContext, onSSR } from '@vue-storefront/core';
+import { useVSFContext } from '@vue-storefront/core';
+import EditCartButton from '~/components/Checkout/EditCartButton.vue';
 
 export default {
   name: 'Shipping',
   components: {
+    EditCartButton,
     SfHeading,
     SfInput,
     SfButton,

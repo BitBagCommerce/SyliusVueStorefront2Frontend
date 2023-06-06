@@ -194,4 +194,9 @@ h4 {
   --accordion-item-header-color: initial;
   --chevron-color: initial;
 }
+
+.checkout-title-container {
+  display: flex;
+  justify-content: space-between;
+}
 </style>
