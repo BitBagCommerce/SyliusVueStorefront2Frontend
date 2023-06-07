@@ -7,7 +7,7 @@
       class="sf-heading--left sf-heading--no-underline title"
     />
     <SfCheckbox
-      v-e2e="'copy-address'"
+      data-e2e="copy-address"
       :selected="sameAsBilling"
       @change="handleCheckSameAddress"
       :label="$t('Copy address data from billing')"
@@ -33,7 +33,7 @@
           slim
         >
           <SfInput
-            v-e2e="'shipping-firstName'"
+            data-e2e="shipping-firstName"
             v-model="form.firstName"
             :label="$t('First name')"
             name="firstName"
@@ -50,7 +50,7 @@
           slim
         >
           <SfInput
-            v-e2e="'shipping-lastName'"
+            data-e2e="shipping-lastName"
             v-model="form.lastName"
             :label="$t('Last name')"
             name="lastName"
@@ -67,7 +67,7 @@
           slim
         >
           <SfInput
-            v-e2e="'shipping-streetName'"
+            data-e2e="shipping-streetName"
             v-model="form.street"
             :label="$t('Street name')"
             name="street"
@@ -84,7 +84,7 @@
           slim
         >
           <SfInput
-            v-e2e="'shipping-city'"
+            data-e2e="shipping-city"
             v-model="form.city"
             :label="$t('City')"
             name="city"
@@ -96,7 +96,7 @@
         </ValidationProvider>
         <ValidationProvider name="state" slim>
           <SfInput
-            v-e2e="'shipping-state'"
+            data-e2e="shipping-state"
             v-model="form.state"
             :label="$t('State/Province')"
             name="state"
@@ -110,7 +110,7 @@
           slim
         >
           <SfSelect
-            v-e2e="'shipping-country'"
+            data-e2e="shipping-country"
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
@@ -135,7 +135,7 @@
           slim
         >
           <SfInput
-            v-e2e="'shipping-zipcode'"
+            data-e2e="shipping-zipcode"
             v-model="form.postcode"
             :label="$t('Zip-code')"
             name="zipCode"
@@ -153,7 +153,7 @@
           slim
         >
           <SfInput
-            v-e2e="'shipping-phone'"
+            data-e2e="shipping-phone"
             v-model="form.phoneNumber"
             :label="$t('Phone number')"
             name="phoneNumber"

@@ -48,7 +48,7 @@
     <div class="navbar__view">
       <span class="navbar__view-label desktop-only">{{ $t('View') }}</span>
       <SfIcon
-        v-e2e="'tiles-icon'"
+        data-e2e="tiles-icon"
         class="navbar__view-icon"
         :color="isCategoryGridView ? 'black' : 'dark-secondary'"
         icon="tiles"
@@ -59,7 +59,7 @@
         @click="changeToCategoryGridView"
       />
       <SfIcon
-        v-e2e="'list-icon'"
+        data-e2e="list-icon"
         class="navbar__view-icon"
         :color="!isCategoryGridView ? 'black' : 'dark-secondary'"
         icon="list"

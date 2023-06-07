@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title shipping__title"
     />
     <SfRadio
-      v-e2e="'shipping-method'"
+      data-e2e="shipping-method"
       v-for="method in shippingMethods"
       :key="method.value"
       :label="method.label"

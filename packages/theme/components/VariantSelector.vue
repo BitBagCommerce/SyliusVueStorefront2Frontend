@@ -69,7 +69,7 @@
     </div>
 
     <AddToCart
-      v-e2e="'modal__add-to-cart'"
+      data-e2e="modal__add-to-cart"
       class="modal__add-to-cart"
       v-model="qty"
       :selectedVariant="product.selectedVariant"

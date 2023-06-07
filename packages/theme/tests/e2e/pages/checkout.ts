@@ -3,7 +3,7 @@ import { el } from './utils/element';
 
 class Shipping {
   get firstName(): Cypress.Chainable {
-    return el('shipping-firstName', 'input');
+    return el('shipping-firstName');
   }
 
   get lastName(): Cypress.Chainable {
@@ -19,7 +19,7 @@ class Shipping {
   }
 
   get state(): Cypress.Chainable {
-    return el('shipping-state', 'input');
+    return el('shipping-state');
   }
 
   get country(): Cypress.Chainable {
@@ -80,7 +80,7 @@ class Billing {
   }
 
   get state(): Cypress.Chainable {
-    return el('billing-state', 'input');
+    return el('billing-state');
   }
 
   get country(): Cypress.Chainable {

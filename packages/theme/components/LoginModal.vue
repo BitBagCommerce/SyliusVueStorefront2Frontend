@@ -1,6 +1,6 @@
 <template>
   <SfModal
-    v-e2e="'login-modal'"
+    data-e2e="login-modal"
     :visible="isLoginModalOpen"
     :persistent="true"
     class="modal"
@@ -23,7 +23,7 @@
             </div>
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-email'"
+                data-e2e="login-modal-email"
                 v-model="form.username"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
@@ -34,7 +34,7 @@
             </ValidationProvider>
             <ValidationProvider rules="required" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-password'"
+                data-e2e="login-modal-password"
                 v-model="form.password"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
@@ -45,14 +45,14 @@
               />
             </ValidationProvider>
             <SfCheckbox
-              v-e2e="'login-modal-remember-me'"
+              data-e2e="login-modal-remember-me"
               v-model="rememberMe"
               name="remember-me"
               :label="$t('Remember me')"
               class="form__element checkbox remember-me-checkbox"
             />
             <SfButton
-              v-e2e="'login-modal-submit'"
+              data-e2e="login-modal-submit"
               type="submit"
               class="sf-button--full-width form__button"
               :disabled="loading"
@@ -72,12 +72,7 @@
           <hr class="light-line login-register-separator" />
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
           <SfButton
-            class="
-              register-today-button
-              sf-button--full-width
-              form__button
-              color-light
-            "
+            class="register-today-button sf-button--full-width form__button color-light"
             @click="setIsLoginValue(false)"
           >
             {{ $t('Register today') }}
@@ -90,7 +85,7 @@
           <form class="form" @submit.prevent="handleSubmit(handleForgotten)">
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
-                v-e2e="'forgot-modal-email'"
+                data-e2e="forgot-modal-email"
                 v-model="form.username"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
@@ -103,7 +98,7 @@
               {{ forgotPasswordError.request.message }}
             </div>
             <SfButton
-              v-e2e="'forgot-modal-submit'"
+              data-e2e="forgot-modal-submit"
               type="submit"
               class="sf-button--full-width form__button"
               :disabled="forgotPasswordLoading"
@@ -146,7 +141,7 @@
           >
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-email'"
+                data-e2e="login-modal-email"
                 v-model="form.email"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
@@ -157,7 +152,7 @@
             </ValidationProvider>
             <ValidationProvider rules="required" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-firstName'"
+                data-e2e="login-modal-firstName"
                 v-model="form.firstName"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
@@ -168,7 +163,7 @@
             </ValidationProvider>
             <ValidationProvider rules="required" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-lastName'"
+                data-e2e="login-modal-lastName"
                 v-model="form.lastName"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
@@ -179,7 +174,7 @@
             </ValidationProvider>
             <ValidationProvider rules="required" v-slot="{ errors }">
               <SfInput
-                v-e2e="'login-modal-password'"
+                data-e2e="login-modal-password"
                 v-model="form.password"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
@@ -194,7 +189,7 @@
               v-slot="{ errors }"
             >
               <SfCheckbox
-                v-e2e="'login-modal-create-account'"
+                data-e2e="login-modal-create-account"
                 v-model="createAccount"
                 :valid="!errors[0]"
                 :errorMessage="errors[0]"
@@ -207,7 +202,7 @@
               {{ error.register }}
             </div>
             <SfButton
-              v-e2e="'login-modal-submit'"
+              data-e2e="login-modal-submit"
               type="submit"
               class="sf-button--full-width form__button"
               :disabled="loading"
@@ -221,7 +216,7 @@
         <div class="action">
           {{ $t('or') }}
           <SfButton
-            v-e2e="'login-modal-login-to-your-account'"
+            data-e2e="login-modal-login-to-your-account"
             class="sf-button--text"
             @click="setIsLoginValue(true)"
           >
@@ -346,7 +341,7 @@ export default {
     const handleForm = (fn) => async () => {
       resetErrorValues();
       const rememberMeVal = rememberMe.value;
-      await fn({ user: {...form.value, rememberMe: rememberMeVal} });
+      await fn({ user: { ...form.value, rememberMe: rememberMeVal } });
 
       const hasUserErrors = userError.value.register || userError.value.login;
       if (hasUserErrors) {
@@ -366,7 +361,11 @@ export default {
         send({ type: 'info', message: t('Your account has been registered') });
 
         await login({
-          user: { username: form.value.email, password: form.value.password, rememberMe: rememberMe.value }
+          user: {
+            username: form.value.email,
+            password: form.value.password,
+            rememberMe: rememberMe.value,
+          },
         });
         if ($sylius?.config?.state?.getCustomerToken() === undefined) {
           setIsVerifyUser(true);

@@ -13,7 +13,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-firstName'"
+            data-e2e="billing-firstName"
             v-model="form.firstName"
             :label="$t('First name')"
             name="firstName"
@@ -30,7 +30,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-lastName'"
+            data-e2e="billing-lastName"
             v-model="form.lastName"
             :label="$t('Last name')"
             name="lastName"
@@ -49,7 +49,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-streetName'"
+            data-e2e="billing-streetName"
             v-model="form.street"
             :label="$t('Street name')"
             name="street"
@@ -68,7 +68,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-city'"
+            data-e2e="billing-city"
             v-model="form.city"
             :label="$t('City')"
             name="city"
@@ -86,7 +86,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-zipcode'"
+            data-e2e="billing-zipcode"
             v-model="form.postcode"
             :label="$t('Zip-code')"
             name="zipCode"
@@ -105,14 +105,11 @@
           slim
         >
           <SfSelect
-            v-e2e="'billing-country'"
+            data-e2e="billing-country"
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -135,7 +132,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-phone'"
+            data-e2e="billing-phone"
             v-model="form.phoneNumber"
             :label="$t('Phone number')"
             name="phoneNumber"

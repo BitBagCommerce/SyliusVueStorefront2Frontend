@@ -6,7 +6,7 @@
           v-for="(category, index) in allCategories"
           :key="index"
           class="nav-item"
-          v-e2e="`app-header-url_${category.slug}`"
+          :data-e2e="`app-header-url_${category.slug}`"
           :label="category.name"
           :link="localePath(`/c/${category.slug}`)"
         />

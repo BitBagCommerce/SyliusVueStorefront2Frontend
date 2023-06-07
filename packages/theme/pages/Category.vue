@@ -28,7 +28,7 @@
         >
           <SfAccordion
             v-if="categoryTree.children"
-            v-e2e="'categories-accordion'"
+            data-e2e="categories-accordion"
             :show-chevron="true"
           >
             <div v-for="child in categoryTree.children" :key="child.id">
@@ -101,7 +101,7 @@
               class="product-card"
             >
               <SfProductCard
-                v-e2e="'category-product-card'"
+                data-e2e="category-product-card"
                 :style="{ '--index': i }"
                 :title="productGetters.getName(product)"
                 :image="productGetters.getCoverImage(product)"
@@ -152,7 +152,7 @@
             class="products__list"
           >
             <SfProductCardHorizontal
-              v-e2e="'category-product-card'"
+              data-e2e="category-product-card"
               v-for="(product, i) in products"
               class="products__product-card-horizontal"
               :key="productGetters.getSlug(product)"
