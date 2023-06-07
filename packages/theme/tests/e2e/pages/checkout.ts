@@ -138,4 +138,9 @@ class ThankYou {
   }
 }
 
-export { Shipping, Billing, Payment, ThankYou };
+export default {
+  shipping: new Shipping(),
+  billing: new Billing(),
+  payment: new Payment(),
+  thankyou: new ThankYou(),
+};
