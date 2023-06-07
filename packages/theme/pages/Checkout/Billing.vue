@@ -1,11 +1,6 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
-    <SfHeading
-      v-e2e="'billing-heading'"
-      :level="3"
-      :title="$t('Billing')"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
+    <CheckoutHeader :title="$t('Billing')" e2e="billing-heading" />
     <form @submit.prevent="handleSubmit(handleFormSubmit)">
       <SfLoader :loading="loading">
         <div v-if="!loading">
@@ -106,10 +101,7 @@
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -213,6 +205,7 @@ import { required, min, digits, email } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { useVSFContext } from '@vue-storefront/core';
 import { useUiNotification, useUiState } from '~/composables/';
+import CheckoutHeader from '~/components/Checkout/CheckoutHeader.vue';
 
 export default {
   name: 'Billing',
@@ -226,6 +219,7 @@ export default {
     ValidationProvider,
     ValidationObserver,
     SfLoader,
+    CheckoutHeader,
     UserAddresses: () => import('@/components/Checkout/UserAddresses'),
   },
   setup(props, context) {

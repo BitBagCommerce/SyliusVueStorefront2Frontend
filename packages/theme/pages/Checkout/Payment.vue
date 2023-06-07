@@ -1,10 +1,6 @@
 <template>
   <div>
-    <SfHeading
-      :level="3"
-      :title="$t('Payment')"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
+    <CheckoutHeader :title="$t('Payment')" />
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
         <SfTableHeader class="table__header table__image">{{
@@ -93,10 +89,7 @@
         <SfProperty
           :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
-          class="
-            sf-property--full-width sf-property--large
-            summary__property-total
-          "
+          class="sf-property--full-width sf-property--large summary__property-total"
         />
 
         <VsfPaymentProvider @status="isPaymentReady = true" />
@@ -154,6 +147,7 @@ import {
   orderGetters,
 } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
+import CheckoutHeader from '~/components/Checkout/CheckoutHeader.vue';
 
 export default {
   name: 'ReviewOrder',
@@ -170,6 +164,7 @@ export default {
     SfAccordion,
     SfLink,
     SfLoader,
+    CheckoutHeader,
     VsfPaymentProvider: () =>
       import('~/components/Checkout/VsfPaymentProvider'),
   },

@@ -318,4 +318,5 @@ export default {
   'Select country': 'Land auswählen',
   'in stock': 'auf Lager',
   All: 'Alle',
+  'Edit cart': 'Warenkorb bearbeiten',
 };
