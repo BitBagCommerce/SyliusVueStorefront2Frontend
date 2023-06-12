@@ -30,7 +30,7 @@ class Home {
 export default new Home();
 ```
 
-You probably can notice that we are importing `Header` from `./components/header`, for bigger elements, you should put them inside of `components` folder, files there will look similar to ones in `pages`. Inside of `header.ts` file
+You probably can notice that we are importing `Header` from `./components/header`. Bigger elements should be placed in the separate files inside of `/components` folder, files there will look similar to ones in `pages`. Inside of `header.ts` file:
 
 ```ts
 import { el } from '../utils/element';
@@ -64,7 +64,11 @@ class Header {
 export default new Header();
 ```
 
-As you can see above we are using some predefined functions from Cypress, for the list of available functions go [here]('https://docs.cypress.io/api/table-of-contents'). One function I'd like to describe here would be `cy.get()` the first parameter of this function is a CSS selector string, pretty much the same one you would put inside of `document.querySelector()` or `$()`, this function allows us to target specified DOM elements and chain other Cypress functions after `cy.get('[data-e2e="sidebar-cart"]').should('be.visible')`, we also have `el()` function which wraps our string so this `el('sidebar-cart', 'input')` would be equivalent to this `cy.get('[data-e2e="sidebar-cart"] input')`.
+As you can see above we are using some predefined functions from Cypress, for the list of available functions go [here]('https://docs.cypress.io/api/table-of-contents').
+
+One function I'd like to describe here would be `cy.get()` the first parameter of this function is a CSS selector string, pretty much the same one you would put inside of `document.querySelector()` or `$()`. `cy.get()` function allows us to target specified DOM elements and chain other Cypress functions after e.g. `cy.get('[data-e2e="sidebar-cart"]').should('be.visible')`.
+
+We also have `el()` function which wraps provided strings so this `el('sidebar-cart', 'input')` would be equivalent to this `cy.get('[data-e2e="sidebar-cart"] input')`.
 
 After defining our pages we have to put them inside the `factory.ts` file, here is how this file should look like:
 
