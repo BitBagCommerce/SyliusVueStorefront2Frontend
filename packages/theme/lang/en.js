@@ -310,4 +310,5 @@ export default {
   'Select country': 'Select country',
   'in stock': 'in stock',
   All: 'All',
+  'Edit cart': 'Edit cart',
 };
