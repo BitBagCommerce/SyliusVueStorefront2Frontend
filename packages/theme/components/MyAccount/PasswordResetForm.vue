@@ -73,7 +73,6 @@ export default {
   },
 
   setup(_, { emit, root }) {
-    const t = (key) => root.$i18n.t(key);
     const { send } = useUiNotification();
 
     const resetForm = () => ({
@@ -89,7 +88,7 @@ export default {
         const onComplete = () => {
           form.value = resetForm();
           resetValidationFn();
-          send({ type: 'info', message: t('Password has been changed') });
+          send({ type: 'info', message: root.$t('Password has been changed') });
         };
 
         const onError = (error) => {

@@ -230,20 +230,20 @@ export default {
       import('~/components/Checkout/VsfShippingProvider'),
   },
   setup(_, { root }) {
-    const t = (key) => root.$i18n.t(key);
-
     extend('required', {
       ...required,
-      message: t('This field is required'),
+      message: root.$t('This field is required'),
     });
     extend('min', {
       ...min,
       message:
-        t('The field should have at least') + ' {length} ' + t('characters'),
+        root.$t('The field should have at least') +
+        ' {length} ' +
+        root.$t('characters'),
     });
     extend('digits', {
       ...digits,
-      message: t('Please provide a valid phone number'),
+      message: root.$t('Please provide a valid phone number'),
     });
 
     const isFormSubmitted = ref(false);
@@ -288,7 +288,7 @@ export default {
 
       send({
         type: 'danger',
-        message: t(
+        message: root.$t(
           'No shipping methods are available for selected country. Please choose a different country.'
         ),
       });

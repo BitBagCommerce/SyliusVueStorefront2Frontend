@@ -13,10 +13,7 @@
         >
           <SfMegaMenuColumn
             :title="$t('Categories')"
-            class="
-              sf-mega-menu-column--pined-content-on-mobile
-              search__categories
-            "
+            class="sf-mega-menu-column--pined-content-on-mobile search__categories"
           >
             <template #title="{ title }">
               <SfHeading :title="title" :level="4" class="search__header" />
@@ -202,7 +199,6 @@ export default {
     },
   },
   setup(props, { emit, root }) {
-    const t = (key) => root.$i18n.t(key);
     const { addItem: addItemToCart, isInCart, error } = useCart();
     const { send } = useUiNotification();
     const isSearchOpen = ref(props.visible);
@@ -222,7 +218,7 @@ export default {
 
       send({
         type: 'success',
-        message: t('Product has been added to the cart'),
+        message: root.$t('Product has been added to the cart'),
       });
     };
 

@@ -246,10 +246,9 @@ import QuantitySelector from '~/components/CartSidebar/QuantitySelector.vue';
 export default {
   name: 'Product',
   transition: 'fade',
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
+  setup(props, { root }) {
     const qty = ref(1);
-    const { id, slug } = context.root.$route.params;
+    const { id, slug } = root.$route.params;
     const { isAuthenticated } = useUser();
     const {
       products,
@@ -268,7 +267,7 @@ export default {
       useWishlists();
 
     onMounted(async () => {
-      await search({ slug, query: context.root.$route.query });
+      await search({ slug, query: root.$route.query });
       await searchReviews({ productId: id });
     });
     const product = computed(
@@ -276,7 +275,7 @@ export default {
         products.value.products &&
         productGetters.getFiltered(products.value.products, {
           master: true,
-          attributes: context.root.$route.query,
+          attributes: root.$route.query,
         })[0]
     );
 
@@ -333,7 +332,7 @@ export default {
 
       send({
         type: 'success',
-        message: t('Product has been added to the cart'),
+        message: root.$t('Product has been added to the cart'),
       });
     };
 
@@ -359,8 +358,8 @@ export default {
           };
         }, {});
 
-        context.root.$router.replace({
-          path: context.root.$route.path,
+        root.$router.replace({
+          path: root.$route.path,
           query: {
             ...configuration.value,
             ...filterObj,
@@ -373,8 +372,8 @@ export default {
       const filterObj = {};
       filterObj[item.filter] = item.value;
 
-      context.root.$router.replace({
-        path: context.root.$route.path,
+      root.$router.replace({
+        path: root.$route.path,
         query: {
           ...configuration.value,
           ...filterObj,
@@ -402,7 +401,7 @@ export default {
 
     onUpdated(() => {
       if (
-        !Object.keys(context.root.$route.query).length &&
+        !Object.keys(root.$route.query).length &&
         Object.keys(options.value).length
       ) {
         const filter = Object.keys(options.value).map((key) => ({
