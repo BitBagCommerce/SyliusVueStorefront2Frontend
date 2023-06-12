@@ -95,8 +95,7 @@ export default {
     ValidationProvider,
     ValidationObserver,
   },
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
+  setup(props, { root }) {
     const {
       result,
       setNew,
@@ -112,17 +111,17 @@ export default {
       forgotPasswordGetters.isPasswordChanged(result.value)
     );
 
-    const token = context.root.$route.query.token;
+    const token = root.$route.query.token;
 
     const setNewPassword = async () => {
       passwordMatchError.value = false;
       if (form.value.password !== form.value.repeatPassword) {
-        passwordMatchError.value = t('Passwords do not match');
+        passwordMatchError.value = root.$t('Passwords do not match');
         return;
       }
 
       await setNew({ tokenValue: token, newPassword: form.value.password });
-      context.root.$router.push('/');
+      root.$router.push('/');
     };
 
     return {

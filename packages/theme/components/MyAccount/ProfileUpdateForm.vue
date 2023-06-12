@@ -38,10 +38,7 @@
             v-model="form.gender"
             :label="$t('Gender')"
             name="gender"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -149,17 +146,16 @@ export default {
     });
     const form = ref(resetForm());
     const selectedBirthday = ref('');
-    const t = (key) => root.$i18n.t(key);
 
     extend('digits', {
       ...digits,
-      message: t('Please provide a valid phone number'),
+      message: root.$t('Please provide a valid phone number'),
     });
 
     const genderOptions = [
-      { key: 'u', label: t('Unknown') },
-      { key: 'm', label: t('Male') },
-      { key: 'f', label: t('Female') },
+      { key: 'u', label: root.$t('Unknown') },
+      { key: 'm', label: root.$t('Male') },
+      { key: 'f', label: root.$t('Female') },
     ];
 
     const handleBirthday = (val) => {
@@ -175,7 +171,7 @@ export default {
     const submitForm = (resetValidationFn) => {
       return () => {
         const onComplete = () => {
-          send({ type: 'info', message: t('Profile has been updated') });
+          send({ type: 'info', message: root.$t('Profile has been updated') });
           form.value = resetForm();
           resetValidationFn();
         };

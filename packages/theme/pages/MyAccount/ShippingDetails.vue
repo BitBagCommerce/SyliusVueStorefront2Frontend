@@ -93,7 +93,6 @@ export default {
     SfLoader,
   },
   setup(_, { root }) {
-    const t = (key) => root.$i18n.t(key);
     const {
       shipping,
       load: loadUserShipping,
@@ -128,13 +127,13 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: t('Address has been removed') });
+      send({ type: 'info', message: root.$t('Address has been removed') });
     };
 
     const saveAddress = async ({ form, onComplete, onError }) => {
       const completeMsg = isNewAddress.value
-        ? t('Address added')
-        : t('Address updated');
+        ? root.$t('Address added')
+        : root.$t('Address updated');
       const actionMethod = isNewAddress.value ? addAddress : updateAddress;
 
       await actionMethod({ address: form });

@@ -168,12 +168,11 @@ export default {
     VsfPaymentProvider: () =>
       import('~/components/Checkout/VsfPaymentProvider'),
   },
-  setup(props, context) {
+  setup(props, { root }) {
     const { cart, load, setCart, loading: cartLoading } = useCart();
     const tokenValue = cartGetters.getCartTokenValue(cart.value);
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
-    const t = (key) => context.root.$i18n.t(key);
     const router = useRouter();
 
     const products = computed(() => cartGetters.getItems(cart.value));
@@ -193,16 +192,15 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: t('Your order has been placed') });
-      const { locales, locale } = context.root.$i18n;
+      send({ type: 'info', message: root.$t('Your order has been placed') });
+      const { locales, locale } = root.$i18n;
 
       let redirected = false;
 
       for (const localeIndex in locales) {
         if (locales[localeIndex].code === locale) {
           redirected = true;
-          const redirectHost =
-            context.root.context.$config.theme.payment.redirectHost;
+          const redirectHost = root.context.$config.theme.payment.redirectHost;
           window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
           setCart(null);
         }
@@ -213,7 +211,7 @@ export default {
           name: 'thank-you',
           query: { order: orderGetters.getId(order.value) },
         };
-        context.root.$router.push(context.root.localePath(thankYouPath));
+        root.$router.push(root.localePath(thankYouPath));
       }
     };
 
@@ -236,7 +234,11 @@ export default {
       cartLoading,
       products,
       totals: computed(() => cartGetters.getTotals(cart.value)),
-      tableHeaders: [t('Description'), t('Quantity'), t('Amount')],
+      tableHeaders: [
+        root.$t('Description'),
+        root.$t('Quantity'),
+        root.$t('Amount'),
+      ],
       cartGetters,
       processOrder,
     };

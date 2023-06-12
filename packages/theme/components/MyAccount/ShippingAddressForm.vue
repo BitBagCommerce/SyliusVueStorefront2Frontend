@@ -109,10 +109,7 @@
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -200,20 +197,20 @@ export default {
   },
 
   setup(props, { emit, root }) {
-    const t = (key) => root.$i18n.t(key);
-
     extend('required', {
       ...required,
-      message: t('This field is required'),
+      message: root.$t('This field is required'),
     });
     extend('min', {
       ...min,
       message:
-        t('The field should have at least') + ' {length} ' + t('characters'),
+        root.$t('The field should have at least') +
+        ' {length} ' +
+        root.$t('characters'),
     });
     extend('oneOf', {
       ...oneOf,
-      message: t('Invalid country'),
+      message: root.$t('Invalid country'),
     });
 
     const { send } = useUiNotification();

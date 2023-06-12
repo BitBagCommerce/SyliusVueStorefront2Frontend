@@ -218,7 +218,6 @@ export default {
     ClientOnly,
   },
   setup(_, { root }) {
-    const t = (key) => root.$i18n.t(key);
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
     const { addItem: addItemToCart, error } = useCart();
@@ -329,7 +328,7 @@ export default {
 
       send({
         type: 'success',
-        message: t('Product has been added to the cart'),
+        message: root.$t('Product has been added to the cart'),
       });
     };
 

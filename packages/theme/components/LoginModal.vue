@@ -72,12 +72,7 @@
           <hr class="light-line login-register-separator" />
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
           <SfButton
-            class="
-              register-today-button
-              sf-button--full-width
-              form__button
-              color-light
-            "
+            class="register-today-button sf-button--full-width form__button color-light"
             @click="setIsLoginValue(false)"
           >
             {{ $t('Register today') }}
@@ -266,16 +261,14 @@ export default {
     ValidationObserver,
     SfBar,
   },
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
-
+  setup(props, { root }) {
     extend('required', {
       ...required,
-      message: t('This field is required'),
+      message: root.$t('This field is required'),
     });
     extend('email', {
       ...email,
-      message: t('Please provide a valid e-mail address'),
+      message: root.$t('Please provide a valid e-mail address'),
     });
 
     const { isLoginModalOpen, toggleLoginModal } = useUiState();
@@ -294,7 +287,7 @@ export default {
       error: forgotPasswordError,
       loading: forgotPasswordLoading,
     } = useForgotPassword();
-    const { $router } = context.root;
+    const { $router } = root;
     const { send } = useUiNotification();
     const { $sylius } = useVSFContext();
 
@@ -346,14 +339,14 @@ export default {
     const handleForm = (fn) => async () => {
       resetErrorValues();
       const rememberMeVal = rememberMe.value;
-      await fn({ user: {...form.value, rememberMe: rememberMeVal} });
+      await fn({ user: { ...form.value, rememberMe: rememberMeVal } });
 
       const hasUserErrors = userError.value.register || userError.value.login;
       if (hasUserErrors) {
         error.login = userError.value.login?.message;
         error.register = userError.value.register?.message;
 
-        if (error.login === t("Can't authenticate, user not verified")) {
+        if (error.login === root.$t("Can't authenticate, user not verified")) {
           setIsVerifyUser(true);
         } else if (error.login === "Can't authenticate, user not verified") {
           setIsVerifyUser(true);
@@ -363,10 +356,17 @@ export default {
       }
 
       if (fn === register) {
-        send({ type: 'info', message: t('Your account has been registered') });
+        send({
+          type: 'info',
+          message: root.$t('Your account has been registered'),
+        });
 
         await login({
-          user: { username: form.value.email, password: form.value.password, rememberMe: rememberMe.value }
+          user: {
+            username: form.value.email,
+            password: form.value.password,
+            rememberMe: rememberMe.value,
+          },
         });
         if ($sylius?.config?.state?.getCustomerToken() === undefined) {
           setIsVerifyUser(true);
@@ -379,7 +379,7 @@ export default {
       }
 
       await loadWishlists();
-      send({ type: 'info', message: t('Login successful') });
+      send({ type: 'info', message: root.$t('Login successful') });
       $router.push('/my-account');
 
       toggleLoginModal();

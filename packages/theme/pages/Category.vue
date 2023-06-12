@@ -334,8 +334,7 @@ import useVariantSelector from '~/composables/useVariantSelector';
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
+  setup(props, { root }) {
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart, error: useCartError } = useCart();
@@ -407,7 +406,7 @@ export default {
 
       send({
         type: 'success',
-        message: t('Product has been added to the cart'),
+        message: root.$t('Product has been added to the cart'),
       });
     };
 
@@ -429,7 +428,7 @@ export default {
       const facets = th.getFacetsFromURL();
 
       await Promise.all([loadAttributes(facets), loadProducts(facets)]);
-      if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
+      if (error?.value?.search) root.$nuxt.error({ statusCode: 404 });
     });
 
     return {
