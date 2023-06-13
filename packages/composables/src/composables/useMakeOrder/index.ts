@@ -15,6 +15,10 @@ const factoryParams: UseMakeOrderFactoryParams<Order> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   make: async (context: Context, { customQuery }) => {
     const apiState = context.$sylius.config.state;
+    const cart = await context.$sylius.api.getCart(apiState.getCartId());
+
+    if (cart.items.length === 0) throw new Error('Cart is empty');
+
     const order = {
       id: `/api/v2/shop/orders/${context.cart.cart.value.tokenValue}`,
       orderTokenValue: context.cart.cart.value.tokenValue,
