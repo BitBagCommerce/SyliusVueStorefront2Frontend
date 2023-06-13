@@ -188,6 +188,7 @@ export default {
 
       if (makeError) {
         send({ type: 'danger', message: makeError.message });
+        setCart(null);
 
         router.push({ path: router.app.localePath('/') });
         return;
