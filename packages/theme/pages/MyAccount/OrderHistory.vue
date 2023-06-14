@@ -103,7 +103,7 @@
                 v-for="order in orders"
                 :key="orderGetters.getId(order)"
               >
-                <SfTableData v-e2e="'order-number'">{{
+                <SfTableData data-e2e="order-number">{{
                   orderGetters.getId(order)
                 }}</SfTableData>
                 <SfTableData>{{ orderGetters.getDate(order) }}</SfTableData>

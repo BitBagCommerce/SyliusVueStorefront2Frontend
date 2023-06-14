@@ -1,5 +1,5 @@
 <template>
-  <SfModal v-e2e="'login-modal'" visible class="modal" :cross="false">
+  <SfModal data-e2e="login-modal" visible class="modal" :cross="false">
     <template #modal-bar>
       <SfBar class="sf-modal__bar" :title="$t('Reset Password')" />
     </template>
@@ -8,7 +8,7 @@
         <form class="form" @submit.prevent="handleSubmit(setNewPassword)">
           <ValidationProvider rules="required" v-slot="{ errors }">
             <SfInput
-              v-e2e="'reset-password-modal-password'"
+              data-e2e="reset-password-modal-password"
               v-model="form.password"
               :valid="!errors[0]"
               :errorMessage="errors[0]"
@@ -20,7 +20,7 @@
           </ValidationProvider>
           <ValidationProvider rules="required" v-slot="{ errors }">
             <SfInput
-              v-e2e="'reset-password-modal-password-repeat'"
+              data-e2e="reset-password-modal-password-repeat"
               v-model="form.repeatPassword"
               :valid="!errors[0]"
               :errorMessage="errors[0]"
@@ -34,7 +34,7 @@
             {{ passwordMatchError || forgotPasswordError.setNew.message }}
           </div>
           <SfButton
-            v-e2e="'reset-password-modal-submit'"
+            data-e2e="reset-password-modal-submit"
             type="submit"
             class="sf-button--full-width form__button"
             :disabled="forgotPasswordLoading"

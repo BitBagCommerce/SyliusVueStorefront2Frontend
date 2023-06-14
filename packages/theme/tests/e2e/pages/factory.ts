@@ -1,30 +1,29 @@
-import Category from './category';
-import { Billing, Payment, Shipping, ThankYou } from './checkout';
-import Cart from './components/cart-sidebar';
-import Home from './home';
-import Product from './product';
+import category from './category';
+import checkout from './checkout';
+import cart from './components/cart-sidebar';
+import home from './home';
+import product from './product';
 
-const page = {
+class Page {
   get cart() {
-    return Cart;
-  },
-  get category() {
-    return Category;
-  },
-  get checkout() {
-    return {
-      shipping: new Shipping(),
-      billing: new Billing(),
-      payment: new Payment(),
-      thankyou: new ThankYou(),
-    };
-  },
-  get home() {
-    return Home;
-  },
-  get product() {
-    return Product;
-  },
-};
+    return cart;
+  }
 
-export default page;
+  get category() {
+    return category;
+  }
+
+  get checkout() {
+    return checkout;
+  }
+
+  get home() {
+    return home;
+  }
+
+  get product() {
+    return product;
+  }
+}
+
+export default new Page();

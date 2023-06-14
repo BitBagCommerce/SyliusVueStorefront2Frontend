@@ -105,7 +105,7 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
-            v-e2e="'make-an-order'"
+            data-e2e="make-an-order"
             :disabled="isRedirecting || !isPaymentReady || !products.length"
             class="summary__action-button"
             @click="processOrder"

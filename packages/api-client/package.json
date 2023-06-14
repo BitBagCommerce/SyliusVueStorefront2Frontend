@@ -9,7 +9,6 @@
   "scripts": {
     "build": "yarn graphql && rimraf lib server && rollup -c",
     "dev": "rollup -c -w",
-    "test": "jest",
     "prepublish": "yarn build",
     "graphql": "DOTENV_CONFIG_PATH=../theme/.env yarn graphql-codegen -r dotenv/config",
     "graphql-watch": "DOTENV_CONFIG_PATH=../theme/.env yarn graphql-codegen --watch -r dotenv/config"
