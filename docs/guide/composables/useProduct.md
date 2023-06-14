@@ -31,6 +31,10 @@ Function for fetching products based on passed `params: ProductsSearchParams`.
 - `getTotalReviews: number`
 - `getAverageRating: number`
 - `getOptions: any`
+- `getStockForVariant: number`
+- `isInStock: boolean`
+- `hasMultipleVariants: boolean`
+- `getQuantityLimit: number`
 
 ## Example
 
