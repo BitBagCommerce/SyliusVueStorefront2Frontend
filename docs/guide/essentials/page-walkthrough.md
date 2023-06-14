@@ -152,9 +152,9 @@ To access the wishlists sidebar click on the wishlist icon on the header.
 
 ![Wishlist sidebar](../../assets/wishlist-sidebar.png)
 
-1. Add new wislist - allows you to create a new wishlist with custom name, click create to confirm or cancel to go back.
+1. Add new wishlist - allows you to create a new wishlist with custom name, click create to confirm or cancel to go back.
 
-2. Wislists list - click on a wishlist to view its items.
+2. Wishlist - click on a wishlist to view its items.
 
 3. Remove wishlist icon - appears when user has at least two wishlists, click and confirm to remove wishlist.
 
@@ -178,11 +178,13 @@ To access the wishlists sidebar click on the wishlist icon on the header.
 
 ## Add item to wishlist dropdown
 
-User can add or remove items from wishlists in a few ways:
+User can add or remove items from wishlists in two ways:
 
 1. Product card on category page - by clicking the heart icon and selecting a wishlist from a dropdown menu.
+  ![Wishlist dropdown on category page](../../assets/wishlist-dropdown-category.png)
 
 2. Heart icon next to rating on product page - by clicking the heart icon and selecting a wishlist from a dropdown menu.
+  ![Wishlist dropdown on product page](../../assets/wishlist-dropdown-product.png)
 
 ## Cart sidebar
 
@@ -256,8 +258,8 @@ Variant selector is a modal that allows you to select a variant of a product. Th
 
 ![Variant selector](../../assets/variant-selector.png)
 
-1. Option fields - allows you to select a variant of a product.
+1. Option fields - allows user to select a variant of a product.
 
-2. Quantity selector - allows you to change how much of a selected item you want to add when clicking add to cart button.
+2. Quantity selector - allows user to change how much of a selected item you want to add when clicking add to cart button.
 
 3. Add to cart button - adds items wtith selectedo options to cart.
