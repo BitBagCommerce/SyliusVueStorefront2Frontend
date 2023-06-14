@@ -178,13 +178,15 @@ To access the wishlists sidebar click on the wishlist icon on the header.
 
 ## Add item to wishlist dropdown
 
-User can add or remove items from wishlists in two ways:
+Logged in user can add or remove items from wishlists by using the wishlist dropdown in two places:
 
-1. Product card on category page - by clicking the heart icon and selecting a wishlist from a dropdown menu.
+1. Product card on category page.
   ![Wishlist dropdown on category page](../../assets/wishlist-dropdown-category.png)
 
-2. Heart icon next to rating on product page - by clicking the heart icon and selecting a wishlist from a dropdown menu.
+2. Heart icon next to rating on product page.
   ![Wishlist dropdown on product page](../../assets/wishlist-dropdown-product.png)
+
+To add item to wishlist simply click the heart icon to open dropdown menu and select a wishlist from the list. Heart icon is filled in when item is in at least one wishlist. Heart icon in dropdown menu next to wishlist name indicates if item is in that wishlist.
 
 ## Cart sidebar
 
