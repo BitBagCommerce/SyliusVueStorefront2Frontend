@@ -1,14 +1,14 @@
-import { computed } from '@nuxtjs/composition-api';
-import { sharedRef, useVSFContext, Logger } from '@vue-storefront/core';
+import { computed, ref } from '@nuxtjs/composition-api';
+import { useVSFContext, Logger } from '@vue-storefront/core';
 import { Context } from '@vue-storefront/sylius-api';
 
 const composableName = 'useProducts';
 
 export const useProducts = () => {
   const context = useVSFContext() as Context;
-  const products = sharedRef(null, composableName);
-  const loading = sharedRef(false, `${composableName}-loading`);
-  const error = sharedRef({ load: null }, `${composableName}-error`);
+  const products = ref(null);
+  const loading = ref(false);
+  const error = ref({ load: null });
 
   const load = async (params) => {
     try {
