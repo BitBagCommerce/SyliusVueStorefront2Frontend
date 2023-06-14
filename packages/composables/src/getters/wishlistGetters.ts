@@ -6,7 +6,7 @@ import {
 } from '@vue-storefront/core';
 import type { Wishlist, WishlistItem } from '@vue-storefront/sylius-api';
 
-const getWishlist = (id: string, wishlists: Wishlist[]) => {
+const getWishlist = (id: string, wishlists: Wishlist[]): Wishlist | Record<string, never> => {
   const wishlist = wishlists.find((wishlist) => wishlist.id === id) || {};
 
   return wishlist;
