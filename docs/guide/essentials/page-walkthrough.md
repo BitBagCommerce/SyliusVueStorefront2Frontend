@@ -178,7 +178,7 @@ To access the wishlists sidebar click on the wishlist icon on the header.
 
 ## Add item to wishlist dropdown
 
-Logged in user can add or remove items from wishlists by using the wishlist dropdown in two places:
+Logged in user can add or remove items from wishlists by using the wishlists dropdown in two places:
 
 1. Product card on category page.
   ![Wishlist dropdown on category page](../../assets/wishlist-dropdown-category.png)
