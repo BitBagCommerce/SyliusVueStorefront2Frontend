@@ -9,33 +9,33 @@
 - `wishlists: Wishlist[]` - an array of fetched wishlists.
 - `loading: boolean` - a reactive object containing information whether wishlists are loading.
 
-### `laoad => Promise<void>`
+### `load => Promise<void>`
 
 Function for fetching wishlists.
 
-### `addItem => Promise<void>`
+### `addItem: (itemId: string, wishlistId: string) => Promise<void>`
 
 Function for adding item to wishlist, it takes item id and wishlist id as parameters:
 - `itemId: string`
 - `wishlistId: string`
 
-### `createWishlist => Promise<void>`
+### `createWishlist: (wishlistName: string) => Promise<void>`
 
 Function for creating wishlists, takes new name as parameter:
 - `wishlistName: string`
 
-### `clearWishlist => Promise<void>`
+### `clearWishlist: (wishlistId: string) => Promise<void>`
 
 Function for clearing all products from wishlist, it takes target wishlist Id as parameter:
 - `wishlistId: string`
 
-### `editWishlist => Promise<void>`
+### `editWishlist: (wishlistId: string, wishlistName: string) => Promise<void>`
 
 Function for changing wishlists name, it takes target wishlist Id and new name as parameters:
 - `wishlistId: string`
 - `wishlistName: string`
 
-### `isInWishlist => boolean`
+### `isInWishlist: (product: Product, wishlist: Wishlist) => boolean`
 
 Function for checking if product is in wishlist, it takes product and wishlist as parameters and returns boolean value:
 - `product: Product`
@@ -43,16 +43,16 @@ Function for checking if product is in wishlist, it takes product and wishlist a
 
 ## Getters
 
-- `getWishlist: Wishlist | Record<string, never>`
-- `getItems: WishlistItem[]`
-- `getTotals: AgnosticTotals`
-- `getItemName: string`
-- `getItemImage: string`
-- `getItemPrice: AgnosticPrice`
-- `getItemAttributes: Record<string, AgnosticAttribute | string>`
-- `getItemSku: string`
-- `getTotalItems: number`
-- `getFormattedPrice: string`
+- `getWishlist: (id: string, wishlists: Wishlist[]) => Wishlist | Record<string, never>`
+- `getItems: (wishlist: Wishlist) => WishlistItem[]`
+- `getTotals(wishlist: Wishlist): AgnosticTotals`
+- `getItemName: (item: any) => string`
+- `getItemImage: (item: WishlistItem) => string`
+- `getItemPrice: (item: WishlistItem) => AgnosticPrice`
+- `getItemAttributes: (item: WishlistItem, filters?: string[]) => Record<string, AgnosticAttribute | string>`
+- `getItemSku: (item: WishlistItem) => string`
+- `getTotalItems: (wishlist: Wishlist) => number`
+- `getFormattedPrice(price: number): string`
 
 ## Example
 
