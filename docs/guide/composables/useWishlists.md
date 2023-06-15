@@ -9,6 +9,10 @@
 - `wishlists: Wishlist[]` - an array of fetched wishlists.
 - `loading: boolean` - a reactive object containing information whether wishlists are loading.
 
+### `laoad => Promise<void>`
+
+Function for fetching wishlists.
+
 ### `addItem => Promise<void>`
 
 Function for adding item to wishlist, it takes item id and wishlist id as parameters:
