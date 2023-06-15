@@ -33,6 +33,7 @@ module.exports = {
           ['/guide/essentials/getting-started', 'Getting Started'],
           ['/guide/essentials/general-concepts', 'General Concepts'],
           ['/guide/essentials/page-walkthrough', 'Page Walkthrough'],
+          ['/guide/essentials/non-blocking-ui', 'Non Blocking UI'],
         ],
       },
       {
