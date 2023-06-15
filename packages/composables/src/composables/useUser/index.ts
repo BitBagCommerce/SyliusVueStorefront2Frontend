@@ -50,6 +50,8 @@ const params: UseUserFactoryParams<
     const { cartToken } = await context.$sylius.api.createCart();
 
     apiState.setCartId(cartToken);
+    context.cart.setCart(null);
+    await context.cart.load();
   },
 
   updateUser: async (
@@ -126,6 +128,13 @@ const params: UseUserFactoryParams<
       apiState.setCustomerToken(loginUserResponse.token);
       apiState.setCustomerRefreshToken(loginUserResponse.refreshToken);
       apiState.setCustomerId(loginUserResponse.user.customer.id);
+      apiState.setCartId(null);
+
+      const { cartToken } = await context.$sylius.api.createCart();
+
+      apiState.setCartId(cartToken);
+      context.cart.setCart(null);
+      await context.cart.load();
     } catch (e) {
       throw {
         message: "Can't authenticate with provided username/password.",
