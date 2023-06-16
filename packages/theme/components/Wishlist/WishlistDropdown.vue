@@ -122,6 +122,7 @@ export default {
     const wishlistsWithActionInProgressId = ref([]);
 
     const isInAnyWishlist = (product) => {
+      if (!props.wishlists) return false;
       return props.wishlists.some((wishlist) =>
         isInWishlist(product, wishlist)
       );
