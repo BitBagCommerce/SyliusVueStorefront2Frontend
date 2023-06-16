@@ -9,37 +9,29 @@
 - `wishlists: Wishlist[]` - an array of fetched wishlists.
 - `loading: boolean` - a reactive object containing information whether wishlists are loading.
 
-### `load => Promise<void>`
+### `load: () => Promise<void>`
 
 Function for fetching wishlists.
 
 ### `addItem: (itemId: string, wishlistId: string) => Promise<void>`
 
-Function for adding item to wishlist, it takes item id and wishlist id as parameters:
-- `itemId: string`
-- `wishlistId: string`
+Function for adding item to wishlist.
 
 ### `createWishlist: (wishlistName: string) => Promise<void>`
 
-Function for creating wishlists, takes new name as parameter:
-- `wishlistName: string`
+Function for creating wishlists.
 
 ### `clearWishlist: (wishlistId: string) => Promise<void>`
 
-Function for clearing all products from wishlist, it takes target wishlist Id as parameter:
-- `wishlistId: string`
+Function for clearing all products from wishlist.
 
 ### `editWishlist: (wishlistId: string, wishlistName: string) => Promise<void>`
 
-Function for changing wishlists name, it takes target wishlist Id and new name as parameters:
-- `wishlistId: string`
-- `wishlistName: string`
+Function for changing wishlists name.
 
 ### `isInWishlist: (product: Product, wishlist: Wishlist) => boolean`
 
-Function for checking if product is in wishlist, it takes product and wishlist as parameters and returns boolean value:
-- `product: Product`
-- `wishlist: Wishlist`
+Function for checking if product is in wishlist.
 
 ## Getters
 
