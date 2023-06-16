@@ -4,7 +4,6 @@
     @mouseleave="isDropdownVisible = false"
     class="product-card"
   >
-    <!--  change style index to product index  -->
     <SfProductCard
       data-e2e="product-card"
       :style="{ '--index': index }"
@@ -13,27 +12,14 @@
       imageHeight="260"
       imageWidth="260"
       :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
-      :special-price="
-        productGetters.getPrice(product).special &&
-        $n(productGetters.getPrice(product).special, 'currency')
-      "
+      :special-price="specialPrice"
       :max-rating="5"
       :score-rating="productGetters.getAverageRating(product)"
       :show-add-to-cart-button="true"
       :is-added-to-cart="isInCart({ product })"
       :wishlist-icon="false"
-      :link="
-        localePath(
-          `/p/${productGetters.getId(product)}/${productGetters.getSlug(
-            product
-          )}`
-        )
-      "
-      :addToCartDisabled="
-        product.selectedVariant.tracked &&
-        !productGetters.isInStock(product.selectedVariant) &&
-        !productGetters.hasMultipleVariants(product)
-      "
+      :link="link"
+      :addToCartDisabled="disableAddToCart"
       @click:add-to-cart="open(product)"
     />
 
@@ -52,33 +38,60 @@ import { productGetters, useCart, useWishlists } from '@vue-storefront/sylius';
 import useVariantSelector from '~/composables/useVariantSelector';
 import { SfProductCard } from '@storefront-ui/vue';
 import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
+import { computed, useRouter } from '@nuxtjs/composition-api';
 
 export default {
   name: 'ProductCard',
-  props: {
-    product: {
-      type: Object,
-    },
-    index: {
-      type: Number,
-    },
-  },
-  setup() {
-    const { isInCart } = useCart();
-    const { open } = useVariantSelector();
-    const { wishlists } = useWishlists();
-    const isDropdownVisible = false;
-    return {
-      isDropdownVisible,
-      isInCart,
-      open,
-      productGetters,
-      wishlists,
-    };
-  },
   components: {
     WishlistDropdown,
     SfProductCard,
+  },
+  props: {
+    product: {
+      type: Object,
+      required: true,
+    },
+    index: {
+      type: Number,
+      default: 0,
+    },
+  },
+  setup(props, { root }) {
+    const { isInCart } = useCart();
+    const router = useRouter();
+    const { open } = useVariantSelector();
+    const { wishlists } = useWishlists();
+    const isDropdownVisible = false;
+
+    const specialPrice = computed(
+      () =>
+        productGetters.getPrice(props.product).special &&
+        root.$n(productGetters.getPrice(props.product).special, 'currency')
+    );
+    const link = computed(() =>
+      router.app.localePath(
+        `/p/${productGetters.getId(props.product)}/${productGetters.getSlug(
+          props.product
+        )}`
+      )
+    );
+    const disableAddToCart = computed(
+      () =>
+        props.product.selectedVariant.tracked &&
+        !productGetters.isInStock(props.product.selectedVariant) &&
+        !productGetters.hasMultipleVariants(props.product)
+    );
+
+    return {
+      disableAddToCart,
+      isDropdownVisible,
+      isInCart,
+      link,
+      open,
+      productGetters,
+      specialPrice,
+      wishlists,
+    };
   },
 };
 </script>
