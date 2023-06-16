@@ -46,7 +46,6 @@ onMounted(async () => {
     await loadCart();
   }
 });
-
 ...
 ```
-As you can see in the example above, `loadUser()` is called on server side, and `loadWishlists()` is only called if user is authenticated.
+As you can see in the example above, `loadUser()` is called on server side, and `loadWishlists()` is only called if user is authenticated. This way we can save some resources, and load only data that is needed.
