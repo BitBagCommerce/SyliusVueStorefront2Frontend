@@ -37,7 +37,7 @@ Function for checking if product is in wishlist.
 
 - `getWishlist: (id: string, wishlists: Wishlist[]) => Wishlist | Record<string, never>`
 - `getItems: (wishlist: Wishlist) => WishlistItem[]`
-- `getTotals(wishlist: Wishlist): AgnosticTotals`
+- `getTotals: (wishlist: Wishlist) => AgnosticTotals`
 - `getItemName: (item: any) => string`
 - `getItemImage: (item: WishlistItem) => string`
 - `getItemPrice: (item: WishlistItem) => AgnosticPrice`
