@@ -166,6 +166,8 @@ export default {
 .modal {
   --modal-width: 35rem;
   --modal-content-padding: var(--spacer-base) 0;
+  position: relative;
+  z-index: 4;
 
   @include for-mobile {
     --modal-width: 100%;

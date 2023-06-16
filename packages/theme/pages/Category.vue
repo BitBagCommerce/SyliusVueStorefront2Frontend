@@ -112,56 +112,12 @@
             tag="div"
             class="products__grid"
           >
-            <div
+            <ProductCard
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
-              @mouseover="isDropdownVisible = true"
-              @mouseleave="isDropdownVisible = false"
-              class="product-card"
-            >
-              <SfProductCard
-                data-e2e="category-product-card"
-                :style="{ '--index': i }"
-                :title="productGetters.getName(product)"
-                :image="productGetters.getCoverImage(product)"
-                imageHeight="260"
-                imageWidth="260"
-                :regular-price="
-                  $n(productGetters.getPrice(product).regular, 'currency')
-                "
-                :special-price="
-                  productGetters.getPrice(product).special &&
-                  $n(productGetters.getPrice(product).special, 'currency')
-                "
-                :max-rating="5"
-                :score-rating="productGetters.getAverageRating(product)"
-                :show-add-to-cart-button="true"
-                :is-added-to-cart="isInCart({ product })"
-                :wishlist-icon="false"
-                :link="
-                  localePath(
-                    `/p/${productGetters.getId(
-                      product
-                    )}/${productGetters.getSlug(product)}`
-                  )
-                "
-                :addToCartDisabled="
-                  product.selectedVariant.tracked &&
-                  !productGetters.isInStock(product.selectedVariant) &&
-                  !productGetters.hasMultipleVariants(product)
-                "
-                class="products__product-card"
-                @click:add-to-cart="open(product)"
-              />
-
-              <WishlistDropdown
-                class="wishlist"
-                :wishlists="wishlists"
-                :product="product"
-                :visible="isDropdownVisible"
-                :icon="'circleIcon'"
-              />
-            </div>
+              :product="product"
+              :index="i"
+            />
           </transition-group>
           <transition-group
             v-else
@@ -330,6 +286,7 @@ import LazyHydrate from 'vue-lazy-hydration';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
 import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
 import useVariantSelector from '~/composables/useVariantSelector';
+import ProductCard from '~/components/Product/ProductCard.vue';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -458,6 +415,7 @@ export default {
     };
   },
   components: {
+    ProductCard,
     CategoryPageHeader,
     SfButton,
     SfSidebar,
@@ -781,41 +739,6 @@ export default {
     &__label {
       font-family: var(--font-family--secondary);
       font-size: var(--font-size--sm);
-    }
-  }
-
-  .product-card {
-    position: relative;
-
-    .wishlist {
-      display: none;
-      position: absolute;
-      top: calc(1rem + var(--spacer-sm));
-      right: calc(1rem + var(--spacer-sm));
-    }
-
-    @include for-mobile {
-      .wishlist {
-        display: flex;
-        z-index: 1;
-
-        &.active {
-          z-index: 2;
-        }
-      }
-    }
-
-    @include for-desktop {
-      &:hover {
-        --product-card-add-button-opacity: 1;
-        --product-card-z-index: 1;
-        --product-card-box-shadow: 0px 4px 11px rgba(29, 31, 34, 0.1);
-
-        .wishlist {
-          display: flex;
-          z-index: 10;
-        }
-      }
     }
   }
 }
