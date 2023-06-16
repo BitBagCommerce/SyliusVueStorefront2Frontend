@@ -23,11 +23,13 @@ Nuxt.js allows us to use SSR. It has a function called `onSSR()` that is called 
 
 ### Why we want to avoid it?
 
-
+Loading to much data on server side can **slow down the initial page load significantly**. That is why we use onSSR() only when we really need to.
 
 ### How is it currently used.
 
 Currently only one function is required to be called on server side by using `onSSR()` function. This function is `load()` from `useUser()`, it loads user data before loading a page. Every other function is called on client side, but some rely on data from loaded user. That allows us to optimize the page load, and load only data that is needed for the page to be rendered.
+
+### Example:
 
 ```js
 ...
@@ -47,3 +49,4 @@ onMounted(async () => {
 
 ...
 ```
+As you can see in the example above, `loadUser()` is called on server side, and `loadWishlists()` is only called if user is authenticated.
