@@ -4,14 +4,18 @@
 
 ## BillingAddress type
 
-:::warning This type wasn't altered for this integrations purposes.
-We are either using the default type from VSF2, or it isn't used in any way yet.
-:::
-
 <b>Signature:</b>
 
 ```typescript
-export declare type BillingAddress = TODO;
+export declare type BillingAddress = {
+    id: string;
+    firstName: string;
+    lastName: string;
+    countryCode: string;
+    street: string;
+    city: string;
+    postcode: string;
+    phoneNumber?: string;
+    state?: string;
+};
 ```
-
-<b>References:</b> [TODO](./sylius-api.todo.md)

@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export interface Config<T = any> extends ClientConfig
+export interface Config<T = any> extends ClientConfig 
 ```
-
 <b>Extends:</b> [ClientConfig](./sylius-api.clientconfig.md)
 
 ## Properties
 
-| Property                                  | Type                  | Description       |
-| ----------------------------------------- | --------------------- | ----------------- |
-| [client?](./sylius-api.config.client.md)  | ApolloClient&lt;T&gt; | <i>(Optional)</i> |
-| [storage](./sylius-api.config.storage.md) | Storage               |                   |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [client?](./sylius-api.config.client.md) | ApolloClient&lt;T&gt; | <i>(Optional)</i> |
+|  [storage](./sylius-api.config.storage.md) | Storage |  |
+

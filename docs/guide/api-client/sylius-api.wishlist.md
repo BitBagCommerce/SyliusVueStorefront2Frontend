@@ -7,5 +7,11 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type Wishlist = Record<string, unknown>;
+export declare type Wishlist = {
+    id: string;
+    name: string;
+    items: WishlistItem[];
+};
 ```
+<b>References:</b> [WishlistItem](./sylius-api.wishlistitem.md)
+

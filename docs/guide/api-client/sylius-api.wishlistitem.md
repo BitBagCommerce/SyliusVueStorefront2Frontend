@@ -4,14 +4,39 @@
 
 ## WishlistItem type
 
-:::warning This type wasn't altered for this integrations purposes.
-We are either using the default type from VSF2, or it isn't used in any way yet.
-:::
-
 <b>Signature:</b>
 
 ```typescript
-export declare type WishlistItem = TODO;
+export declare type WishlistItem = {
+    _id: string;
+    id: string;
+    code: string;
+    sku?: string;
+    name?: string;
+    productName: string;
+    unitPrice: number;
+    images: string[];
+    variant: {
+        id: any;
+        code: string;
+        product: {
+            name: string;
+            images: string[];
+        };
+        channelPricings: ChannelPricing[];
+    };
+    price?: {
+        regular: number;
+        special: number;
+    };
+    selectedVariant: {
+        code: string;
+        optionValues: ProductOptionValue[];
+        product: {
+            options: ProductOption[];
+        };
+    };
+};
 ```
+<b>References:</b> [ChannelPricing](./sylius-api.channelpricing.md)<!-- -->, [ProductOptionValue](./sylius-api.productoptionvalue.md)<!-- -->, [ProductOption](./sylius-api.productoption.md)
 
-<b>References:</b> [TODO](./sylius-api.todo.md)

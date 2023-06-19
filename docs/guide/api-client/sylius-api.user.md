@@ -4,14 +4,10 @@
 
 ## User type
 
-:::warning This type wasn't altered for this integrations purposes.
-We are either using the default type from VSF2, or it isn't used in any way yet.
-:::
-
 <b>Signature:</b>
 
 ```typescript
 export declare type User = TODO;
 ```
-
 <b>References:</b> [TODO](./sylius-api.todo.md)
+

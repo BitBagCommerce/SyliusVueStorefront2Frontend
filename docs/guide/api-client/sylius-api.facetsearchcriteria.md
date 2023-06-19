@@ -6,12 +6,8 @@
 
 <b>Signature:</b>
 
-:::warning This type wasn't altered for this integrations purposes.
-We are either using the default type from VSF2, or it isn't used in any way yet.
-:::
-
 ```typescript
 export declare type FacetSearchCriteria = TODO;
 ```
-
 <b>References:</b> [TODO](./sylius-api.todo.md)
+
