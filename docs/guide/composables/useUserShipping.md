@@ -17,7 +17,7 @@
 
 Function for loading all saved addresses for current user.
 
-### `addAddress: ({ address: AddressItem, customQuery?: CustomQuery }) => Promise<void>`
+### `addAddress: ({ address: any, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for adding a new address. It accepts an object with the following keys:
 
@@ -30,7 +30,7 @@ Function for adding a new address. It accepts an object with the following keys:
   - `countryCode: string`
   - `phoneNumber: string`
 
-### `updateAddress: ({ address: AddressItem, customQuery?: CustomQuery }) => Promise<void>`
+### `updateAddress: ({ address: any, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for updating an address. It accepts an object with the following keys:
 
@@ -43,14 +43,14 @@ Function for updating an address. It accepts an object with the following keys:
   - `countryCode: string`
   - `phoneNumber: string`
 
-### `deleteAddress: ({ address: AddressItem, customQuery?: CustomQuery }) => Promise<void>`
+### `deleteAddress: ({ address: any, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for deleting an address. It accepts an object with the following keys:
 
 - `address`
   - `id: string`
 
-### `setDefaultAddress: ({ address: AddressItem, customQuery?: CustomQuery }) => Promise<void>`
+### `setDefaultAddress: ({ address: any, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for deleting an address. It accepts an object with the following keys:
 
@@ -59,23 +59,23 @@ Function for deleting an address. It accepts an object with the following keys:
 
 ## Getters
 
-- `getAddresses: (shipping: Address, criteria?: UserShippingAddressSearchCriteria) => AddressItem[]`
-- `getDefault: (shipping: Address) => AddressItem`
+- `getAddresses: (shipping: Address, criteria?: UserShippingAddressSearchCriteria) => any[]`
+- `getDefault: (shipping: Address) => any`
 - `getTotal: (shipping: Address) => number`
-- `getPostCode: (address: AddressItem) => string`
-- `getStreetNumber: (address: AddressItem) => string | number`
-- `getCity: (address: AddressItem) => string`
-- `getFirstName: (address: AddressItem) => string`
-- `getLastName: (address: AddressItem) => string`
-- `getCountry: (address: AddressItem) => string`
-- `getPhone: (address: AddressItem) => string`
-- `getEmail: (address: AddressItem) => string`
-- `getProvince: (address: AddressItem) => string`
-- `getCompanyName: (address: AddressItem) => string`
-- `getTaxNumber: (address: AddressItem) => string`
-- `getId: (address: AddressItem) => string`
-- `getApartmentNumber: (address: AddressItem) => string | number`
-- `isDefault: (address: AddressItem) => boolean`
+- `getPostCode: (address: any) => string`
+- `getStreetNumber: (address: any) => string | number`
+- `getCity: (address: any) => string`
+- `getFirstName: (address: any) => string`
+- `getLastName: (address: any) => string`
+- `getCountry: (address: any) => string`
+- `getPhone: (address: any) => string`
+- `getEmail: (address: any) => string`
+- `getProvince: (address: any) => string`
+- `getCompanyName: (address: any) => string`
+- `getTaxNumber: (address: any) => string`
+- `getId: (address: any) => string`
+- `getApartmentNumber: (address: any) => string | number`
+- `isDefault: (address: any) => boolean`
 
 ## Example
 
