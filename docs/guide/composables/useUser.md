@@ -14,22 +14,22 @@
 [User](../api-client/sylius-api.user.md)
 [UseUserErrors](https://docs.vuestorefront.io/v2/reference/api/core.useusererrors.html)
 
-### `load`
+### `load: ({ customQuery?: CustomQuery }) => Promise<void>`
 
 Function for loading the current user.
 
-### `logIn`
+### `logIn: ({ user: UseUserLoginParams, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for logging in user. It accepts an object with the following keys:
 
 - `username: string`
 - `password: string`
 
-### `logOut`
+### `logOut: ({ customQuery?: CustomQuery }) => Promise<void>`
 
 Function for logging out current user.
 
-### `register`
+### `register: ({ user: UseUserRegisterParams, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for registering a new user. It accepts an object with the following keys:
 
@@ -38,7 +38,7 @@ Function for registering a new user. It accepts an object with the following key
 - `firstName: string`
 - `lastName: string`
 
-### `updateUser`
+### `updateUser: ({ user: any, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for updating user information. It accepts an object with the following keys:
 
@@ -51,7 +51,7 @@ Function for updating user information. It accepts an object with the following 
   - `phoneNumber: string`
   - `subscribedToNewsletter: boolean`
 
-### `changePassword`
+### `changePassword: ({ current: string, new: string, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for changing current users password. It accepts an object with the following keys:
 
@@ -61,10 +61,10 @@ Function for changing current users password. It accepts an object with the foll
 
 ## Getters
 
-- `getFirstName: string`
-- `getLastName: string`
-- `getFullName: string`
-- `getEmailAddress: string`
+- `getFirstName: (customer: any) => string`
+- `getLastName: (customer: any) => string`
+- `getFullName: (customer: any) => string`
+- `getEmailAddress: (customer: any) => string`
 
 ## Example
 
