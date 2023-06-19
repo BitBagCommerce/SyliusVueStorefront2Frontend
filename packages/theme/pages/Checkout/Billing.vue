@@ -274,12 +274,12 @@ export default {
       if (errors.length) {
         errors.forEach((errorKey) => {
           if (error.value[errorKey]?.graphQLErrors?.length) {
-            const e = error.value[errorKey].graphQLErrors[0];
-            send({ type: 'danger', message: e.debugMessage });
+            const e = error.value[errorKey].graphQLErrors[0].extensions.message;
+            send({ type: 'danger', message: e });
             hasErrors = true;
 
             if (
-              e.debugMessage ===
+              e ===
               'Provided email address belongs to another user, please log in to complete order.'
             ) {
               hasErrors = 'email_exists_error';
