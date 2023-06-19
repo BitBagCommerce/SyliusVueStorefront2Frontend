@@ -89,13 +89,13 @@ export const getUserOrdersQuery = gql(`
 `);
 
 export const validateResetUserPasswordQuery = gql(`
-  query resetPasswordMail(
+  query validateResetUserPassword(
     $token: String!
   ) {
-    resetPasswordToken(
-      tokenValue: $token
+    password_reset_tokenUser(
+      passwordResetToken: $token
     ) {
-      tokenValue
+      username
     }
   }
 `);
