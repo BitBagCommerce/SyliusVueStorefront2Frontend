@@ -9,11 +9,11 @@
 - `shipping: any` - saved shipping data.
 - `loading: boolean` - a reactive object containing information about loading state of the shipping data.
 
-### `load`
+### `load: ({ cutumQuery?: CustomQuery }) => Promise<void>`
 
 Function for fetching shipping data.
 
-### `save`
+### `save: ({params: any, shippingDetails: any, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for saving shipping data. It accepts an object with the following keys:
 
