@@ -12,26 +12,26 @@
 
 [UseMakeOrderErrors](https://docs.vuestorefront.io/v2/reference/api/core.usemakeordererrors.html)
 
-### `make`
+### `make: ({ customQuery?: CustomQuery }) => Promise<void>`
 
 Function for creating an order based on current cart token.
 
 ## Getters
 
-- `getDate: string`
-- `getId: string`
-- `getStatus: string`
-- `getPaymentStatus: string`
-- `getShippingStatus: string`
-- `getShippingTotal: number`
-- `getPrice: number`
-- `getItems: any[]`
-- `getItemSku: string`
-- `getItemName: string`
-- `getItemQty: number`
-- `getItemPrice: number`
-- `getFormattedPrice: string`
-- `getOrdersTotal: number`
+- `getDate: (order: ORDER) =>  string`
+- `getId: (order: ORDER) => string`
+- `getStatus: (order: ORDER) => string`
+- `getPaymentStatus: (order: ORDER) => string`
+- `getShippingStatus: (order: ORDER) => string`
+- `getShippingTotal: (order: ORDER) => number`
+- `getPrice: (order: ORDER) => number`
+- `getItems: (order: ORDER) => any[]`
+- `getItemSku: (item: ORDER_ITEM) => string`
+- `getItemName: (item: ORDER_ITEM) => string`
+- `getItemQty: (item: ORDER_ITEM) => number`
+- `getItemPrice: (item: ORDER_ITEM) => number`
+- `getFormattedPrice: (price: number) => string`
+- `getOrdersTotal: ({ offset: number, count: number, total: number, results: Array<ORDER> }) => number`
 
 ## Example
 
