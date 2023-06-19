@@ -6,30 +6,30 @@
 
 ## API
 
-- `orders: any[]` - current users orders.
+- `orders: any[]` - current user orders.
 - `loading: boolean` - a reactive object containing information about loading state of user orders.
 
-### `search`
+### `search: (params: any) => Promise<void>`
 
 Function for fetching user orders.
 
 ## Getters
 
-- `getDate: string`
-- `getId: string`
-- `getTokenValue: string`
-- `getStatus: string`
-- `getPaymentStatus: string`
-- `getShippingStatus: string`
-- `getShippingTotal: number`
-- `getPrice: number | null`
-- `getItems: any[]`
-- `getItemSku: string`
-- `getItemName: string `
-- `getItemQty: number `
-- `getItemPrice: number`
-- `getFormattedPrice: string`
-- `getOrdersTotal: number`
+- `getDate: (order: any) => string`
+- `getId: (order: any) => string`
+- `getTokenValue: (order: any) => string`
+- `getStatus: (order: any) => string`
+- `getPaymentStatus: (order: any) => string`
+- `getShippingStatus: (order: any) => string`
+- `getShippingTotal: (order: any) => number`
+- `getPrice: (order: any) => number | null`
+- `getItems: (order: any) => any[]`
+- `getItemSku: (order: any) => string`
+- `getItemName: (order: any) => string `
+- `getItemQty: (order: any) => number `
+- `getItemPrice: (order: any) => number`
+- `getFormattedPrice: (order: any) => string`
+- `getOrdersTotal: (order: any) => number`
 
 ## Example
 
