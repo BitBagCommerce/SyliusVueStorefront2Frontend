@@ -60,11 +60,10 @@ import {
   SfInput,
 } from '@storefront-ui/vue';
 import { ref, watch } from '@nuxtjs/composition-api';
-import {
-  useForgotPassword,
-} from '@vue-storefront/sylius';
+import { useForgotPassword } from '@vue-storefront/sylius';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
+import { useUiNotification } from '~/composables';
 
 extend('required', {
   ...required,
@@ -98,6 +97,7 @@ export default {
     const loading = ref(false);
 
     const token = root.$route.query.token;
+    const { send } = useUiNotification();
 
     const setNewPassword = async () => {
       passwordMatchError.value = false;
@@ -111,12 +111,16 @@ export default {
       }
 
       await setNew({ tokenValue: token, newPassword: form.value.password });
+      send({ type: 'info', message: root.$t('Password Changed') });
       root.$router.push('/');
     };
 
-    watch(() => root.$route.path, () => {
-      if (root.$route.path !== 'reset-password') loading.value = false;
-    });
+    watch(
+      () => root.$route.path,
+      () => {
+        if (root.$route.path !== 'reset-password') loading.value = false;
+      }
+    );
 
     return {
       form,

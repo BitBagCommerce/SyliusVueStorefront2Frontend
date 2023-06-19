@@ -207,6 +207,10 @@ export const resetUserPassword = async (
 };
 
 export const validateResetUserPassword = async (context, defaultVariables) => {
-  const token = await query(context, validateResetUserPasswordQuery, defaultVariables);
-  return token?.resetPasswordToken || {};
+  const token = await query(
+    context,
+    validateResetUserPasswordQuery,
+    defaultVariables
+  );
+  return token?.password_reset_tokenUser || {};
 };
