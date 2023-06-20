@@ -269,28 +269,23 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      const errors = Object.keys(error.value);
-      let hasErrors = false;
-      if (errors.length) {
-        errors.forEach((errorKey) => {
-          if (error.value[errorKey]?.graphQLErrors?.length) {
-            const e = error.value[errorKey].graphQLErrors[0].extensions.message;
-            send({ type: 'danger', message: e });
-            hasErrors = true;
+      const err = error.value.save?.graphQLErrors;
 
-            if (
-              e ===
-              'Provided email address belongs to another user, please log in to complete order.'
-            ) {
-              hasErrors = 'email_exists_error';
-            }
-          }
-        });
+      if (!err?.length) {
+        root.$router.push(root.localePath({ name: 'shipping' }));
+
+        return;
       }
 
-      if (hasErrors === 'email_exists_error') toggleLoginModal();
+      const message = err?.[0].extensions.message;
 
-      if (!hasErrors) root.$router.push(root.localePath({ name: 'shipping' }));
+      send({ type: 'danger', message: root.$t(message) });
+
+      if (
+        message ===
+        'Provided email address belongs to another user, please log in to complete order.'
+      )
+        toggleLoginModal();
     };
 
     const handleSetCurrentAddress = (address) => {
