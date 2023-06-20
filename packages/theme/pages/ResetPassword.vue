@@ -59,7 +59,7 @@ import {
   SfBar,
   SfInput,
 } from '@storefront-ui/vue';
-import { ref, watch } from '@nuxtjs/composition-api';
+import { ref } from '@nuxtjs/composition-api';
 import { useForgotPassword } from '@vue-storefront/sylius';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
