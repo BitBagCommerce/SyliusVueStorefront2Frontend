@@ -139,6 +139,9 @@
             @submit.prevent="handleSubmit(handleRegister)"
             autocomplete="off"
           >
+            <div v-show="error.register" class="login-error">
+              <SfAlert :message="error.register" type="danger" />
+            </div>
             <ValidationProvider rules="required|email" v-slot="{ errors }">
               <SfInput
                 data-e2e="login-modal-email"
@@ -198,9 +201,6 @@
                 class="form__element"
               />
             </ValidationProvider>
-            <div v-if="error.register">
-              {{ error.register }}
-            </div>
             <SfButton
               data-e2e="login-modal-submit"
               type="submit"
@@ -344,7 +344,9 @@ export default {
       const hasUserErrors = userError.value.register || userError.value.login;
       if (hasUserErrors) {
         error.login = userError.value.login?.message;
-        error.register = userError.value.register?.message;
+        error.register = root.$t('registerError', {
+          email: form.value.email,
+        });
 
         if (error.login === root.$t("Can't authenticate, user not verified")) {
           setIsVerifyUser(true);

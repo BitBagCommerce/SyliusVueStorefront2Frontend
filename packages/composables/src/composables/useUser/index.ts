@@ -74,23 +74,23 @@ const params: UseUserFactoryParams<
     context: Context,
     { email, password, firstName, lastName }
   ) => {
-    try {
-      const registerUserResponse = await context.$sylius.api.registerUser({
-        user: {
-          firstName,
-          lastName,
-          password,
-          email,
-        },
-      });
-      return registerUserResponse;
-    } catch (err) {
-      const error = {
-        ...err?.response?.data?.graphQLErrors?.[0],
-        message: err?.response?.data?.graphQLErrors?.[0].debugMessage,
+    const registerUserResponse: any = await context.$sylius.api.registerUser({
+      user: {
+        firstName,
+        lastName,
+        password,
+        email,
+      },
+    });
+    const error = registerUserResponse?.graphQLErrors?.[0];
+
+    if (error)
+      throw {
+        ...error,
+        message: error.debugMessage,
       };
-      throw error;
-    }
+
+    return registerUserResponse;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
