@@ -76,8 +76,6 @@ export const useCart = () => {
           return await context.$sylius.api.getCart(cartId);
         }
 
-        console.log('cartResponse', cartResponse);
-
         return cartResponse;
       },
       'load',
@@ -95,7 +93,6 @@ export const useCart = () => {
   }) =>
     handleCall(
       async () => {
-        console.log('add cart');
         const apiState = context.$sylius.config.state;
         let cartId = apiState.getCartId();
 
