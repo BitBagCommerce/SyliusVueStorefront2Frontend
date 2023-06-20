@@ -206,7 +206,10 @@ export const resetUserPassword = async (
   return {};
 };
 
-export const validateResetUserPassword = async (context, defaultVariables) => {
+export const validateResetUserPassword = async (
+  context: Context,
+  defaultVariables: VariablesHelper<typeof validateResetUserPasswordQuery>
+) => {
   const token = await query(
     context,
     validateResetUserPasswordQuery,
