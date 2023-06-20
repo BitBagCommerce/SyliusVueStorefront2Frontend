@@ -196,6 +196,8 @@ export default {
     };
 
     const closeSearch = debounce(() => {
+      console.log('close');
+
       if (!isSearchOpen.value || isSearchFocus.value) return;
       term.value = '';
       isSearchOpen.value = false;

@@ -23,6 +23,7 @@
                 <SfMenuItem
                   :label="category.name"
                   :link="localePath(`/c/${category.slug}`)"
+                  @click.native="$emit('close')"
                 >
                   <template #mobile-nav-icon> &#8203; </template>
                 </SfMenuItem>
