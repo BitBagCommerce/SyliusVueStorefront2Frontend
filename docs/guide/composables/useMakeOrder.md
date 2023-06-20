@@ -8,7 +8,7 @@
 
 - `order: Order | null` - created order.
 - `loading: boolean` - a reactive object containing information whether order is loading.
-- `error: UseMakeOrderErrors` - a map of errors per method
+- `error` - reactive object containing the error message.
 
 [UseMakeOrderErrors](https://docs.vuestorefront.io/v2/reference/api/core.usemakeordererrors.html)
 

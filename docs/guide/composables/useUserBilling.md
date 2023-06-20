@@ -8,6 +8,7 @@
 
 - `billing: any` - user saved addresses.
 - `loading: boolean` - a reactive object containing information addresses are loading.
+- `error` - reactive object containing the error message.
 
 ### `load: () => Promise<void>`
 

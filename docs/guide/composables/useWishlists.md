@@ -8,6 +8,7 @@
 
 - `wishlists: Wishlist[]` - an array of fetched wishlists.
 - `loading: boolean` - a reactive object containing information whether wishlists are loading.
+- `error` - reactive object containing the error message.
 
 ### `load: () => Promise<void>`
 

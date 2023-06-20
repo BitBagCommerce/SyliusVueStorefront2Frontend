@@ -8,6 +8,7 @@
 
 - `categories: Category[]` - an array of fetched categories.
 - `loading: boolean` - a reactive object containing information whether categories are loading.
+- `error` - reactive object containing the error message.
 
 ### `search: ({ customQuery?: CustomQuery }) => Promise<void>`
 

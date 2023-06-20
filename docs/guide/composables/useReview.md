@@ -8,7 +8,7 @@
 
 - `reviews: Review[]` - an array of fetched reviews.
 - `loading: boolean` - a reactive object containing information whether reviews are loading.
-- `error: UseReviewErrors` - a map of errors per method
+- `error` - reactive object containing the error message.
 
 ### `search: ({ customQuery?: CustomQuery }) => Promise<void>`
 

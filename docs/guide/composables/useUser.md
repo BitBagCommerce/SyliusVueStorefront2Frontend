@@ -9,7 +9,7 @@
 - `user: User | null` - user object.
 - `loading: boolean` - a reactive object containing information whether user object is loading.
 - `isAuthenticated: boolean ` - a reactive object containing information whether current user is authenticated.
-- `error: UseUserErrors ` - a map of errors per method
+- `error` - reactive object containing the error message.
 
 [User](../api-client/sylius-api.user.md)
 [UseUserErrors](https://docs.vuestorefront.io/v2/reference/api/core.useusererrors.html)

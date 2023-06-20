@@ -7,6 +7,7 @@
 ## API
 
 - `loading: boolean` - a reactive object containing information about loading state of shipping provider.
+- `error` - reactive object containing the error message.
 
 ### `save: ({ shippingMethod: any, customQuery?: CustomQuery }): Promise<void>`
 

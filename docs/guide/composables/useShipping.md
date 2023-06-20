@@ -8,6 +8,7 @@
 
 - `shipping: any` - saved shipping data.
 - `loading: boolean` - a reactive object containing information about loading state of the shipping data.
+- `error` - reactive object containing the error message.
 
 ### `load: ({ cutumQuery?: CustomQuery }) => Promise<void>`
 

@@ -8,6 +8,7 @@
 
 - `billing: any` - saved billing data.
 - `loading: boolean` - a reactive object containing information about loading state of the billing data.
+- `error` - reactive object containing the error message.
 
 ### `load: ({ cutumQuery?: CustomQuery }) => Promise<void>`
 
