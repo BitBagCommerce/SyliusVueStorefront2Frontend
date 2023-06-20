@@ -18,24 +18,24 @@ Function for fetching products based on passed `params: ProductsSearchParams`.
 
 ## Getters
 
-- `getId: (product: any) => string`
-- `getName: (product: any) => string`
-- `getSlug: (product: any) => string`
-- `getPrice: (product: any) => AgnosticPrice`
-- `getGallery: (product: any) => AgnosticMediaGalleryItem[]`
-- `getCoverImage: (product: any) => string`
-- `getFiltered: (products: any) => any[]`
-- `getAttributes: (products: any) => Record<string, AgnosticAttribute | string>`
-- `getDescription: (product: any) => string`
-- `getCategoryIds: (product: any) => string[]`
-- `getFormattedPrice: (product: any) => string`
-- `getTotalReviews: (product: any) => number`
-- `getAverageRating: (product: any) => number`
-- `getOptions: (product: any) => any`
-- `getStockForVariant: (product: any) => number`
-- `isInStock: (product: any) => boolean`
-- `hasMultipleVariants: (product: any) => boolean`
-- `getQuantityLimit: (product: any) => number`
+- `getId: (product: Product) => string`
+- `getName: (product: Product) => string`
+- `getSlug: (product: Product) => string`
+- `getPrice: (product: Product) => AgnosticPrice`
+- `getGallery: (product: Product) => AgnosticMediaGalleryItem[]`
+- `getCoverImage: (product: Product) => string`
+- `getFiltered: (products: Product[], filters: ProductVariantFilters | any = {}) => Product[]`
+- `getAttributes: (products: Product[] | Product, filterByAttributeName?: string[]) => Record<string, AgnosticAttribute | string>`
+- `getDescription: (product: Product) => string`
+- `getCategoryIds: (product: Product) => string[]`
+- `getFormattedPrice: (product: Product) => string`
+- `getTotalReviews: (product: Product) => number`
+- `getAverageRating: (product: Product) => number`
+- `getOptions: (product: Product) => any`
+- `getStockForVariant: (variant: any) => number`
+- `isInStock: (variant: any) => boolean`
+- `hasMultipleVariants: (product: Product) => boolean`
+- `getQuantityLimit: (variant: any) => number`
 
 ## Example
 

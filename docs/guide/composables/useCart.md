@@ -51,18 +51,19 @@ Function for removing coupon from cart.
 ## Getters
 
 - `getTotals: (cart: Cart) => AgnosticTotals`
-- `getShippingPrice: (cartItem: any) => number`
-- `getItems: (cartItem: any) => CartLineItem[]`
-- `getItemName: (cartItem: any) => string`
-- `getItemImage: (cartItem: any) => string`
-- `getItemPrice: (cartItem: any) => AgnosticPrice`
-- `getItemQty: (cartItem: any) => number`
-- `getItemAttributes: (cartItem: any, filters?: Array<string>) => Record<string, string>`
-- `getItemSku: (cartItem: any) => string`
+- `getShippingPrice: (cart: Cart) => number`
+- `getItems: (cart: Cart) => CartLineItem[]`
+- `getItemName: (product: CartLineItem) => string`
+- `getItemImage: (product: CartLineItem) => string`
+- `getItemPrice: (product: CartLineItem) => AgnosticPrice`
+- `getItemQty: (product: CartLineItem) => number`
+- `getItemAttributes: (product: CartLineItem, filterByAttributeName?: Array<string>) => Record<string, string>`
+- `getItemSku: (product: CartLineItem) => string`
 - `getFormattedPrice: (price: number) => string`
 - `getTotalItems: (cart: Cart) => number`
 - `getCoupons: (cart: Cart) => AgnosticCoupon[]`
 - `getDiscounts: (cart: Cart) => AgnosticDiscount[]`
+- `getCartTokenValue: (cart: any) => number`
 
 ## Example
 

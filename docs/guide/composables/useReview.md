@@ -27,15 +27,16 @@ Function for adding a review. It accepts an object with the following keys:
 
 ## Getters
 
-- `getItems: (review: any) => any[]`
-- `getReviewId: (item: any) => string`
-- `getReviewAuthor: (item: any) => string`
-- `getReviewRating: (item: any) => number`
-- `getReviewDate: (item: any) => string`
-- `getTotalReviews: (review: any) => number`
-- `getAverageRating: (review: any) => number`
-- `getRatesCount: (review: any) => AgnosticRateCount[]`
-- `getReviewsPage: (review: any) => number`
+- `getItems: (review: Review) => ReviewItem[]`
+- `getReviewId: (item: ReviewItem) => string`
+- `getReviewAuthor: (item: ReviewItem) => string`
+- `getReviewMessage: (item: ReviewItem) => string`
+- `getReviewRating: (item: ReviewItem) => number`
+- `getReviewDate: (item: ReviewItem) => string`
+- `getTotalReviews: (review: Review) => number`
+- `getAverageRating: (review: Review) => number`
+- `getRatesCount: (review: Review) => AgnosticRateCount[]`
+- `getReviewsPage: (review: Review) => number`
 
 [AgnosticRateCount](https://docs.vuestorefront.io/v2/reference/api/core.agnosticratecount.html)
 

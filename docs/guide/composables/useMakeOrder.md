@@ -18,20 +18,20 @@ Function for creating an order based on current cart token.
 
 ## Getters
 
-- `getDate: (order: ORDER) =>  string`
-- `getId: (order: ORDER) => string`
-- `getStatus: (order: ORDER) => string`
-- `getPaymentStatus: (order: ORDER) => string`
-- `getShippingStatus: (order: ORDER) => string`
-- `getShippingTotal: (order: ORDER) => number`
-- `getPrice: (order: ORDER) => number`
-- `getItems: (order: ORDER) => any[]`
-- `getItemSku: (item: ORDER_ITEM) => string`
-- `getItemName: (item: ORDER_ITEM) => string`
-- `getItemQty: (item: ORDER_ITEM) => number`
-- `getItemPrice: (item: ORDER_ITEM) => number`
+- `getDate: (order: Order) =>  string`
+- `getId: (order: Order) => string`
+- `getStatus: (order: Order) => string`
+- `getPaymentStatus: (order: Order) => string`
+- `getShippingStatus: (order: Order) => string`
+- `getShippingTotal: (order: Order) => number`
+- `getPrice: (order: Order) => number`
+- `getItems: (order: Order) => any[]`
+- `getItemSku: (item: OrderItem) => string`
+- `getItemName: (item: OrderItem) => string`
+- `getItemQty: (item: OrderItem) => number`
+- `getItemPrice: (item: OrderItem) => number`
 - `getFormattedPrice: (price: number) => string`
-- `getOrdersTotal: ({ offset: number, count: number, total: number, results: Array<ORDER> }) => number`
+- `getOrdersTotal: ({ offset: number, count: number, total: number, results: Array<Order> }) => number`
 
 ## Example
 

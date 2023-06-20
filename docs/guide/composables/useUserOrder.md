@@ -16,21 +16,21 @@ Function for fetching user orders.
 
 ## Getters
 
-- `getDate: (order: any) => string`
-- `getId: (order: any) => string`
+- `getDate: (order: Order) => string`
+- `getId: (order: Order) => string`
 - `getTokenValue: (order: any) => string`
 - `getStatus: (order: any) => string`
-- `getPaymentStatus: (order: any) => string`
-- `getShippingStatus: (order: any) => string`
-- `getShippingTotal: (order: any) => number`
-- `getPrice: (order: any) => number | null`
-- `getItems: (order: any) => any[]`
-- `getItemSku: (order: any) => string`
-- `getItemName: (order: any) => string `
-- `getItemQty: (order: any) => number `
-- `getItemPrice: (order: any) => number`
-- `getFormattedPrice: (order: any) => string`
-- `getOrdersTotal: (order: any) => number`
+- `getPaymentStatus: (order: Order) => string`
+- `getShippingStatus: (order: Order) => string`
+- `getShippingTotal: (order: Order) => number`
+- `getPrice: (order: Order) => number | null`
+- `getItems: (order: Order) => any[]`
+- `getItemSku: (item: any) => string`
+- `getItemName: (item: OrderItem) => string `
+- `getItemQty: (item: OrderItem) => number `
+- `getItemPrice: (item: OrderItem) => number`
+- `getFormattedPrice: (price: number) => string`
+- `getOrdersTotal: (orders: any) => number`
 
 ## Example
 

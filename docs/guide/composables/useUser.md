@@ -61,10 +61,10 @@ Function for changing current users password. It accepts an object with the foll
 
 ## Getters
 
-- `getFirstName: (customer: User) => string`
-- `getLastName: (customer: User) => string`
-- `getFullName: (customer: User) => string`
-- `getEmailAddress: (customer: User) => string`
+- `getFirstName: (user: User) => string`
+- `getLastName: (user: User) => string`
+- `getFullName: (user: User) => string`
+- `getEmailAddress: (user: User) => string`
 
 ## Example
 

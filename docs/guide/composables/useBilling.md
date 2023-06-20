@@ -14,7 +14,7 @@
 
 Function for fetching billing data.
 
-### `save: ({ params: any, billingDetails: any, customQuery?: CustomQuery }) => Promise<void>`
+### `save: ({ params: any, billingDetails: BillingAddress, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for saving billing data. It accepts an object with the following keys:
 

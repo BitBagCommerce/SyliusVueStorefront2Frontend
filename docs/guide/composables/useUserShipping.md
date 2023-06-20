@@ -59,23 +59,24 @@ Function for deleting an address. It accepts an object with the following keys:
 
 ## Getters
 
-- `getAddresses: (shipping: Address, criteria?: UserShippingAddressSearchCriteria) => any[]`
-- `getDefault: (shipping: Address) => any`
+- `getAddresses: (shipping: Address, criteria?: UserShippingAddressSearchCriteria) => AddressItem[]`
+- `getDefault: (shipping: Address) => AddressItem`
 - `getTotal: (shipping: Address) => number`
-- `getPostCode: (address: any) => string`
-- `getStreetNumber: (address: any) => string | number`
-- `getCity: (address: any) => string`
-- `getFirstName: (address: any) => string`
-- `getLastName: (address: any) => string`
-- `getCountry: (address: any) => string`
-- `getPhone: (address: any) => string`
-- `getEmail: (address: any) => string`
-- `getProvince: (address: any) => string`
-- `getCompanyName: (address: any) => string`
-- `getTaxNumber: (address: any) => string`
-- `getId: (address: any) => string`
-- `getApartmentNumber: (address: any) => string | number`
-- `isDefault: (address: any) => boolean`
+- `getPostCode: (address: AddressItem) => string`
+- `getStreetName: (address: AddressItem) => string`
+- `getStreetNumber: (address: AddressItem) => string | number`
+- `getCity: (address: AddressItem) => string`
+- `getFirstName: (address: AddressItem) => string`
+- `getLastName: (address: AddressItem) => string`
+- `getCountry: (address: AddressItem) => string`
+- `getPhone: (address: AddressItem) => string`
+- `getEmail: (address: AddressItem) => string`
+- `getProvince: (address: AddressItem) => string`
+- `getCompanyName: (address: AddressItem) => string`
+- `getTaxNumber: (address: AddressItem) => string`
+- `getId: (address: AddressItem) => string`
+- `getApartmentNumber: (address: AddressItem) => string | number`
+- `isDefault: (address: AddressItem) => boolean`
 
 ## Example
 

@@ -45,7 +45,7 @@ Function for checking if product is in wishlist.
 - `getItemAttributes: (item: WishlistItem, filters?: string[]) => Record<string, AgnosticAttribute | string>`
 - `getItemSku: (item: WishlistItem) => string`
 - `getTotalItems: (wishlist: Wishlist) => number`
-- `getFormattedPrice(price: number): string`
+- `getFormattedPrice: (price: number) => string`
 
 ## Example
 
