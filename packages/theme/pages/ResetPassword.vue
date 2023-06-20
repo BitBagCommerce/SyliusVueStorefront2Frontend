@@ -115,13 +115,6 @@ export default {
       root.$router.push('/');
     };
 
-    watch(
-      () => root.$route.path,
-      () => {
-        if (root.$route.path !== 'reset-password') loading.value = false;
-      }
-    );
-
     return {
       form,
       setNewPassword,
