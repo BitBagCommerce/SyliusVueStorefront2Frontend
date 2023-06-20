@@ -63,11 +63,11 @@
             </SfButton>
           </form>
         </ValidationObserver>
-        <!--        <div class="action">-->
-        <!--          <SfButton class="sf-button&#45;&#45;text" @click="setIsForgottenValue(true)">-->
-        <!--            {{ $t('Forgotten password?') }}-->
-        <!--          </SfButton>-->
-        <!--        </div>-->
+        <div class="action">
+          <SfButton class="sf-button--text" @click="setIsForgottenValue(true)">
+            {{ $t('Forgotten password?') }}
+          </SfButton>
+        </div>
         <div class="bottom">
           <hr class="light-line login-register-separator" />
           <p class="bottom__paragraph">{{ $t('No account') }}</p>

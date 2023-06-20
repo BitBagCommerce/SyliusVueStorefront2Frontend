@@ -87,3 +87,15 @@ export const getUserOrdersQuery = gql(`
     }
   }
 `);
+
+export const validateResetUserPasswordQuery = gql(`
+  query validateResetUserPassword(
+    $token: String!
+  ) {
+    password_reset_tokenUser(
+      passwordResetToken: $token
+    ) {
+      username
+    }
+  }
+`);

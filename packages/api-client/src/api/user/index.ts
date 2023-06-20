@@ -14,6 +14,7 @@ import {
   getUserQuery,
   getUserAddressesQuery,
   getUserOrdersQuery,
+  validateResetUserPasswordQuery,
 } from './queries';
 import { Context, CustomQuery } from '@vue-storefront/core';
 import { mutate, query, extendQuery, VariablesHelper } from '../helpers';
@@ -203,4 +204,16 @@ export const resetUserPassword = async (
   await mutate(context, queryGql);
 
   return {};
+};
+
+export const validateResetUserPassword = async (
+  context: Context,
+  defaultVariables: VariablesHelper<typeof validateResetUserPasswordQuery>
+) => {
+  const token = await query(
+    context,
+    validateResetUserPasswordQuery,
+    defaultVariables
+  );
+  return token?.password_reset_tokenUser || {};
 };
