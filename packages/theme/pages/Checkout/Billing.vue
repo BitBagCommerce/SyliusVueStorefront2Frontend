@@ -6,7 +6,7 @@
         <div v-if="!loading">
           <UserAddresses
             v-if="isAuthenticated && hasSavedBillingAddress"
-            :addresses="userBilling"
+            :addresses="userShipping"
             :addressGetters="userShippingGetters"
             @setCurrentAddress="handleSetCurrentAddress"
           />
@@ -248,8 +248,8 @@ export default {
     const { $vsf } = useVSFContext();
     const { isAuthenticated, user } = useUser();
     const {
-      shipping: userBilling,
-      load: loadUserBilling,
+      shipping: userShipping,
+      load: loadUserShipping,
       loading,
     } = useUserShipping();
     const { send } = useUiNotification();
@@ -296,10 +296,10 @@ export default {
     };
 
     const hasSavedBillingAddress = computed(() => {
-      if (!isAuthenticated.value || !userBilling.value) {
+      if (!isAuthenticated.value || !userShipping.value) {
         return false;
       }
-      const addresses = userShippingGetters.getAddresses(userBilling.value);
+      const addresses = userShippingGetters.getAddresses(userShipping.value);
       return Boolean(addresses?.length);
     });
 
@@ -315,7 +315,7 @@ export default {
       };
       if (isAuthenticated.value) {
         form.value.email = user.value.email ?? null;
-        await loadUserBilling();
+        await loadUserShipping();
       }
     });
 
@@ -329,7 +329,7 @@ export default {
       hasSavedBillingAddress,
       isAuthenticated,
       canAddNewAddress,
-      userBilling,
+      userShipping,
       userShippingGetters,
       user,
     };
