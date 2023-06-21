@@ -34,7 +34,7 @@
       <div class="form__horizontal">
         <ValidationProvider name="gender" v-slot="{ errors }" slim>
           <SfSelect
-            v-e2e="'gender'"
+            data-e2e="gender"
             v-model="form.gender"
             :label="$t('Gender')"
             name="gender"
@@ -79,7 +79,7 @@
           @input="handleBirthday"
         />
         <SfCheckbox
-          v-e2e="'copy-address'"
+          data-e2e="copy-address"
           :selected="form.subscribedToNewsletter"
           @change="handleCheckSubscribedToNewsletter"
           :label="$t('Subscribed to newsletter')"

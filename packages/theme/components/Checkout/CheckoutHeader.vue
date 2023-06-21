@@ -1,7 +1,7 @@
 <template>
   <div class="checkout-title-container">
     <SfHeading
-      :v-e2e="e2e"
+      :data-e2e="e2e"
       :level="3"
       :title="title"
       class="sf-heading--left sf-heading--no-underline title"

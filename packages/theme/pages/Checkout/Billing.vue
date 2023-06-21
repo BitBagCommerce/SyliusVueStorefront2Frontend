@@ -20,7 +20,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-firstName'"
+            data-e2e="billing-firstName"
             v-model="form.firstName"
             :label="$t('First name')"
             name="firstName"
@@ -37,7 +37,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-lastName'"
+            data-e2e="billing-lastName"
             v-model="form.lastName"
             :label="$t('Last name')"
             name="lastName"
@@ -54,7 +54,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-streetName'"
+            data-e2e="billing-streetName"
             v-model="form.street"
             :label="$t('Street name')"
             name="street"
@@ -71,7 +71,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-city'"
+            data-e2e="billing-city"
             v-model="form.city"
             :label="$t('City')"
             name="city"
@@ -83,7 +83,7 @@
         </ValidationProvider>
         <ValidationProvider name="state" slim>
           <SfInput
-            v-e2e="'billing-state'"
+            data-e2e="billing-state"
             v-model="form.state"
             :label="$t('State/Province')"
             name="state"
@@ -97,7 +97,7 @@
           slim
         >
           <SfSelect
-            v-e2e="'billing-country'"
+            data-e2e="billing-country"
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
@@ -123,7 +123,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-zipcode'"
+            data-e2e="billing-zipcode"
             v-model="form.postcode"
             :label="$t('Zip-code')"
             name="zipCode"
@@ -140,7 +140,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-email'"
+            data-e2e="billing-email"
             v-model="form.email"
             :label="$t('E-mail')"
             name="email"
@@ -158,7 +158,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-phone'"
+            data-e2e="billing-phone"
             v-model="form.phoneNumber"
             :label="$t('Phone number')"
             name="phoneNumber"
@@ -172,7 +172,7 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'continue-to-shipping'"
+            data-e2e="continue-to-shipping"
             class="form__action-button"
             type="submit"
           >
@@ -269,28 +269,23 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      const errors = Object.keys(error.value);
-      let hasErrors = false;
-      if (errors.length) {
-        errors.forEach((errorKey) => {
-          if (error.value[errorKey]?.graphQLErrors?.length) {
-            const e = error.value[errorKey].graphQLErrors[0];
-            send({ type: 'danger', message: e.debugMessage });
-            hasErrors = true;
+      const err = error.value.save?.graphQLErrors;
 
-            if (
-              e.debugMessage ===
-              'Provided email address belongs to another user, please log in to complete order.'
-            ) {
-              hasErrors = 'email_exists_error';
-            }
-          }
-        });
+      if (!err?.length) {
+        root.$router.push(root.localePath({ name: 'shipping' }));
+
+        return;
       }
 
-      if (hasErrors === 'email_exists_error') toggleLoginModal();
+      const message = err?.[0].extensions.message;
 
-      if (!hasErrors) root.$router.push(root.localePath({ name: 'shipping' }));
+      send({ type: 'danger', message: root.$t(message) });
+
+      if (
+        message ===
+        'Provided email address belongs to another user, please log in to complete order.'
+      )
+        toggleLoginModal();
     };
 
     const handleSetCurrentAddress = (address) => {

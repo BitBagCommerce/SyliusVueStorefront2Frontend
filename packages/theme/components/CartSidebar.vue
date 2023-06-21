@@ -1,7 +1,7 @@
 <template>
   <div id="cart">
     <SfSidebar
-      v-e2e="'sidebar-cart'"
+      data-e2e="sidebar-cart"
       :visible="isCartSidebarOpen"
       :title="$t('My Cart')"
       class="sf-sidebar--right"
@@ -21,7 +21,7 @@
             <transition-group name="sf-fade" tag="div">
               <ProductItem
                 v-for="product in products"
-                v-e2e="'collected-product'"
+                data-e2e="collected-product"
                 :key="cartGetters.getItemSku(product)"
                 :image="productGetters.getCoverImage(product)"
                 :title="cartGetters.getItemName(product)"
@@ -101,7 +101,7 @@
             </SfProperty>
             <nuxt-link :to="localePath({ name: 'billing' })">
               <SfButton
-                v-e2e="'go-to-checkout-btn'"
+                data-e2e="go-to-checkout-btn"
                 class="sf-button--full-width color-secondary"
                 @click="toggleCartSidebar"
               >

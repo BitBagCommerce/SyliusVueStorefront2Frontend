@@ -98,7 +98,7 @@ export default {
     babel: {
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
     },
-    transpile: ['vee-validate/dist/rules', '@glidejs'],
+    transpile: ['vee-validate/dist/rules', '@glidejs', 'mochawesome'],
     plugins: [
       new webpack.DefinePlugin({
         'process.VERSION': JSON.stringify({

@@ -10,7 +10,8 @@
         "state": "California",
         "country": "United States",
         "zipcode": "45678",
-        "phone": "123456789"
+        "phone": "123456789",
+        "email": "john.doe{random}@example.com"
       },
       "billing": {
         "streetName": "1 VueStorefront Rd.",
@@ -19,7 +20,8 @@
         "state": "California",
         "country": "United States",
         "zipcode": "45678",
-        "phone": "123456789"
+        "phone": "123456789",
+        "email": "john.doe{random}@example.com"
       }
     }
   }

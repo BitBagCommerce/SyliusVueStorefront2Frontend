@@ -311,4 +311,7 @@ export default {
   'in stock': 'in stock',
   All: 'All',
   'Edit cart': 'Edit cart',
+  'Provided email address belongs to another user, please log in to complete order.':
+    'Provided email address belongs to another user, please log in to complete order.',
+  registerError: 'User with email "{email}" is already registered.',
 };

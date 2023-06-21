@@ -47,83 +47,21 @@
               hide-text=""
             >
               <div class="results-listing">
-                <SfProductCard
+                <ProductCard
                   v-for="(product, index) in products"
                   :key="index"
-                  class="result-card"
-                  :regular-price="
-                    $n(productGetters.getPrice(product).regular, 'currency')
-                  "
-                  :score-rating="productGetters.getAverageRating(product)"
-                  :reviews-count="7"
-                  wishlistIcon=""
-                  isInWishlistIcon=""
-                  :image="productGetters.getCoverImage(product)"
-                  imageHeight="260"
-                  imageWidth="260"
-                  :alt="productGetters.getName(product)"
-                  :title="productGetters.getName(product)"
-                  :link="
-                    localePath(
-                      `/p/${productGetters.getId(
-                        product
-                      )}/${productGetters.getSlug(product)}`
-                    )
-                  "
-                  :showAddToCartButton="true"
-                  @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
-                  :is-added-to-cart="isInCart({ product })"
-                >
-                  <template #image>
-                    <NuxtLink
-                      :to="
-                        localePath(
-                          `/p/${productGetters.getId(
-                            product
-                          )}/${productGetters.getSlug(product)}`
-                        )
-                      "
-                    >
-                      <SfImage
-                        class="sf-product-card__image"
-                        :src="productGetters.getCoverImage(product)"
-                        :alt="productGetters.getName(product)"
-                        :width="260"
-                        :height="260"
-                        @click="$emit('close')"
-                      />
-                    </NuxtLink>
-                  </template>
-                </SfProductCard>
+                  :product="product"
+                  :index="index"
+                />
               </div>
             </SfScrollable>
             <div class="results--mobile smartphone-only">
-              <SfProductCard
+              <ProductCard
                 v-for="(product, index) in products"
                 :key="index"
-                class="result-card"
-                :regular-price="
-                  $n(productGetters.getPrice(product).regular, 'currency')
-                "
-                :score-rating="productGetters.getAverageRating(product)"
-                :reviews-count="7"
-                wishlistIcon=""
-                isInWishlistIcon=""
-                :image="productGetters.getCoverImage(product)"
-                imageHeight="260"
-                imageWidth="260"
-                :alt="productGetters.getName(product)"
-                :title="productGetters.getName(product)"
-                :link="
-                  localePath(
-                    `/p/${productGetters.getId(
-                      product
-                    )}/${productGetters.getSlug(product)}`
-                  )
-                "
-                @click:add-to-cart="handleAddToCart({ product, quantity: 1 })"
+                :product="product"
+                :index="index"
                 @click.native="$emit('close')"
-                :is-added-to-cart="isInCart({ product })"
               />
             </div>
           </SfMegaMenuColumn>
@@ -175,10 +113,12 @@ import SfImage from '~/components/SearchResults/SfImage.vue';
 import { ref, watch, computed } from '@nuxtjs/composition-api';
 import { productGetters, useCart } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
+import ProductCard from '~/components/Product/ProductCard.vue';
 
 export default {
   name: 'SearchResults',
   components: {
+    ProductCard,
     SfMegaMenu,
     SfList,
     SfBanner,
