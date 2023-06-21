@@ -6,8 +6,8 @@
         <div v-if="!loading">
           <UserAddresses
             v-if="isAuthenticated && hasSavedBillingAddress"
-            :addresses="userBilling"
-            :addressGetters="userBillingGetters"
+            :addresses="userShipping"
+            :addressGetters="userShippingGetters"
             @setCurrentAddress="handleSetCurrentAddress"
           />
         </div>
@@ -198,8 +198,8 @@ import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import {
   useBilling,
   useUser,
-  useUserBilling,
-  userBillingGetters,
+  useUserShipping,
+  userShippingGetters,
 } from '@vue-storefront/sylius';
 import { required, min, digits, email } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
@@ -248,10 +248,10 @@ export default {
     const { $vsf } = useVSFContext();
     const { isAuthenticated, user } = useUser();
     const {
-      billing: userBilling,
-      load: loadUserBilling,
+      shipping: userShipping,
+      load: loadUserShipping,
       loading,
-    } = useUserBilling();
+    } = useUserShipping();
     const { send } = useUiNotification();
     const canAddNewAddress = ref(true);
     const countries = ref([]);
@@ -296,10 +296,10 @@ export default {
     };
 
     const hasSavedBillingAddress = computed(() => {
-      if (!isAuthenticated.value || !userBilling.value) {
+      if (!isAuthenticated.value || !userShipping.value) {
         return false;
       }
-      const addresses = userBillingGetters.getAddresses(userBilling.value);
+      const addresses = userShippingGetters.getAddresses(userShipping.value);
       return Boolean(addresses?.length);
     });
 
@@ -315,7 +315,7 @@ export default {
       };
       if (isAuthenticated.value) {
         form.value.email = user.value.email ?? null;
-        await loadUserBilling();
+        await loadUserShipping();
       }
     });
 
@@ -329,8 +329,8 @@ export default {
       hasSavedBillingAddress,
       isAuthenticated,
       canAddNewAddress,
-      userBilling,
-      userBillingGetters,
+      userShipping,
+      userShippingGetters,
       user,
     };
   },
