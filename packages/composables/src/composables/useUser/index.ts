@@ -171,7 +171,7 @@ const params: UseUserFactoryParams<
 
     throw {
       ...errors,
-      message: errors.debugMessage,
+      message: errors.extensions.message,
     };
   },
 };
