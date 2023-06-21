@@ -544,11 +544,6 @@ export default {
       --product-card-add-button-bottom: var(--spacer-base);
       --product-card-title-margin: var(--spacer-sm) 0 0 0;
     }
-
-    ::v-deep .sf-image--placeholder {
-      width: var(--image-width);
-      height: var(--image-height);
-    }
   }
 
   &__product-card-horizontal {
