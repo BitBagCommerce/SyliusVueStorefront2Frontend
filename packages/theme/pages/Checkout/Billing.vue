@@ -304,7 +304,6 @@ export default {
     });
 
     onMounted(async () => {
-      console.log('Billing.vue');
       if (!billing.value) {
         await load();
       }
