@@ -107,6 +107,11 @@ export default {
     right: calc(1rem + var(--spacer-sm));
   }
 
+  ::v-deep .sf-image--placeholder {
+    width: 100%;
+    height: auto;
+  }
+
   @include for-mobile {
     .wishlist {
       display: flex;
