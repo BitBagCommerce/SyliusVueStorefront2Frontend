@@ -12,7 +12,6 @@ export { useShipping } from './composables/useShipping';
 export { useShippingProvider } from './composables/useShippingProvider';
 export { useUser } from './composables/useUser';
 export { useStore } from './composables/useStore';
-export { useUserBilling } from './composables/useUserBilling';
 export { useUserOrder } from './composables/useUserOrder';
 export { useUserShipping } from './composables/useUserShipping';
 export { useWishlist } from './composables/useWishlist';
