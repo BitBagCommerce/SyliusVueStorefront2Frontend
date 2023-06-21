@@ -127,7 +127,7 @@
       <div class="form__horizontal">
         <ValidationProvider
           name="phoneNumber"
-          rules="required|min:9"
+          rules="required|digits:9"
           v-slot="{ errors }"
           slim
         >
