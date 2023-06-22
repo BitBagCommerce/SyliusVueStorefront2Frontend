@@ -154,11 +154,14 @@ To access the wishlists sidebar click on the wishlist icon on the header.
 
 1. Add new wishlist - allows you to create a new wishlist with custom name, click create to confirm or cancel to go back.
 
-2. Wishlist - click on a wishlist to view its items.
 
-3. Remove wishlist icon - appears when user has at least two wishlists, click and confirm to remove wishlist.
+2. Remove wishlist icon - appears when user has at least two wishlists, click and confirm to remove wishlist.
+
+3. Wishlist - click on a wishlist to view its items.
 
 ### Single wishlist in a sidebar legend:
+
+Slect wishlist from wishlists sidebar to see single wishlist items.
 
 ![Single wishlist](../../assets/single-wishlist.png)
 
