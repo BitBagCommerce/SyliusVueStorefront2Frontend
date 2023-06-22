@@ -48,6 +48,10 @@ Function for applying coupon to cart.
 
 Function for removing coupon from cart.
 
+### `setCart: (newCart: Cart) => void`
+
+Function for replacing cart.
+
 ## Getters
 
 - `getTotals: (cart: Cart) => AgnosticTotals`
