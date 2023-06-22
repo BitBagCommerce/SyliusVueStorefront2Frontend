@@ -10,6 +10,8 @@
 - `loading: boolean` - a reactive object containing information whether wishlists are loading.
 - `error` - reactive object containing the error message.
 
+[Wishlist](/guide/api-client/sylius-api.wishlist.html), [WishlistItem](/guide/api-client/sylius-api.wishlistitem.html)
+
 ### `load: () => Promise<void>`
 
 Function for fetching wishlists.
