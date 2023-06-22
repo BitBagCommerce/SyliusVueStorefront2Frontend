@@ -320,7 +320,11 @@ export default {
     });
 
     onMounted(async () => {
-      await Promise.all([loadShipping(), loadBilling()]);
+      if (billing.value) {
+        await loadShipping();
+      } else {
+        await Promise.all([loadShipping(), loadBilling()]);
+      }
       if (!countries.value.length) {
         countries.value = await $sylius.api.getCountries();
       }
