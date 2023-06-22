@@ -1,16 +1,16 @@
 {
   "customer": {
-    "firstName": "John",
-    "lastName": "Doe",
+    "firstName": "Karen",
+    "lastName": "Dramaker",
     "address": {
       "shipping": {
-        "streetName": "1 VueStorefront Rd.",
-        "apartment": "23",
-        "city": "Los Angeles",
+        "streetName": "2 VueStorefront Rd.",
+        "apartment": "12",
+        "city": "San Francisco",
         "state": "California",
         "country": "United States",
-        "zipcode": "45678",
-        "phone": "123456789",
+        "zipcode": "12323",
+        "phone": "987654321",
         "email": "john.doe{random}@example.com"
       },
       "billing": {
