@@ -10,7 +10,7 @@
 - `loading: boolean` - a reactive object containing information whether reviews are loading.
 - `error` - reactive object containing the error message.
 
-### `search: ( UseReviewSearchParams { customQuery?: CustomQuery }) => Promise<void>`
+### `search: ( UseReviewSearchParams { customQuery?: CustomQuery }) => Promise<any>`
 
 Function for fetching reviews based on passed `params`. It accepts an object with the following key:
 
