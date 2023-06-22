@@ -25,9 +25,9 @@ Nuxt.js allows us to use SSR. It has a function called `onSSR()` that is called 
 
 Loading to much data on server side can **slow down the initial page load significantly**. That is why we use onSSR() only when we really need to.
 
-### How is it currently used.
+### Usage example:
 
-Currently only one function is required to be called on server side by using `onSSR()` function. This function is `load()` from `useUser()`, it loads user data before loading a page. Every other function is called on client side, but some rely on data from loaded user. That allows us to optimize the page load, and load only data that is needed for the page to be rendered.
+Sometimes `onSSR()` function has to be used to get better overall performence. In example below function `load()` from `useUser()` is used inside `onSSR()`, it loads user data before loading a page. Every other function is called on client side, but some rely on data from loaded user. That makes it possible to optimize the page load, and load only data that is needed for the page to be rendered.
 
 ```js
 ...
