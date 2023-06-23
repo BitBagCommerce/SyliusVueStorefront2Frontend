@@ -46,6 +46,10 @@ class Shipping {
     return el('select-shipping');
   }
 
+  get copyBillingAddress(): Cypress.Chainable {
+    return el('copy-billing-address');
+  }
+
   get shippingMethods(): Cypress.Chainable {
     return el('shipping-method', 'label', { timeout: 10000 });
   }
