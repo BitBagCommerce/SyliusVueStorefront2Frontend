@@ -10,7 +10,7 @@
 - `loading: boolean` - a reactive object containing information about loading state of user orders.
 - `error` - reactive object containing the error message.
 
-### `search: (OrderSearchParams) => Promise<OrdersResponse>`
+### `search: (params: OrderSearchParams) => Promise<OrdersResponse>`
 
 Function for fetching user orders.
 

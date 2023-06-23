@@ -9,7 +9,7 @@
 - `products: Product[]` - an array of fetched products.
 - `loading: boolean` - a reactive object containing information whether products are loading.
 
-### `search: ( any ) => Promise<{ products: any, pagination: any }>`
+### `search: (params: ProductsSearchParams) => Promise<{ products: any, pagination: any }>`
 
 Function for fetching products based on passed `params: ProductsSearchParams`.
 

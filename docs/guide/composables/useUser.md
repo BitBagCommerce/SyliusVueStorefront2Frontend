@@ -26,7 +26,7 @@ Function for logging in user.
 
 Function for logging out current user.
 
-### `register: ( UseUserRegisterParams, customQuery?: CustomQuery ) => Promise<void>`
+### `register: (user: UseUserRegisterParams, customQuery?: CustomQuery) => Promise<void>`
 
 Function for registering a new user. It accepts an object with the following keys:
 
@@ -36,11 +36,11 @@ Function for registering a new user. It accepts an object with the following key
 - `firstName: string`
 - `lastName: string`
 
-### `updateUser: ({ currentUser: User, updatedUserData: UseUserUpdateParams, customQuery?: CustomQuery }) => Promise<void>`
+### `updateUser: (currentUser: User, newUser: UseUserUpdateParams, customQuery?: CustomQuery) => Promise<void>`
 
 Function for updating user information.
 
-### `changePassword: ({ currentUser: User, currentPassword: string, newPassword: string, customQuery?: CustomQuery }) => Promise<void>`
+### `changePassword: (currentUser: User, currentPassword: string, newPassword: string, customQuery?: CustomQuery) => Promise<void>`
 
 Function for changing current users password. It accepts an object with the following keys:
 
