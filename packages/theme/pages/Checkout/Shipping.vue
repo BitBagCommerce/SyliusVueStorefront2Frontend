@@ -2,7 +2,7 @@
   <ValidationObserver v-slot="{ handleSubmit }">
     <CheckoutHeader :title="$t('Shipping')" e2e="shipping-heading" />
     <SfCheckbox
-      data-e2e="copy-address"
+      data-e2e="copy-billing-address"
       :selected="sameAsBilling"
       @change="handleCheckSameAddress"
       :label="$t('Copy address data from billing')"

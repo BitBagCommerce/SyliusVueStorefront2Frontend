@@ -14,12 +14,7 @@ context('Copy billing data to shipping form', () => {
 
     page.home.visit();
     page.home.header.categories.first().click();
-    cy.get('button.sf-product-card__add-button').first().click();
-    cy.get('body').then((body) => {
-      if (body.find('button.sf-add-to-cart__button').length > 0) {
-        cy.get('button.sf-add-to-cart__button').first().click();
-      }
-    });
+    page.category.addProductToCart();
     page.product.header.openCart();
     page.cart.goToCheckoutButton.click();
     page.checkout.billing.heading.should('be.visible');
@@ -28,8 +23,7 @@ context('Copy billing data to shipping form', () => {
     page.checkout.shipping.heading.should('be.visible');
 
     // Copy billing address
-    cy.get('[data-testid="copyBillingAddress"] > label').click();
-
+    page.checkout.shipping.copyBillingAddress.click();
     // Testing results
     page.checkout.shipping.firstName.should('have.value', data.customer.firstName);
     page.checkout.shipping.lastName.should('have.value', data.customer.lastName);
