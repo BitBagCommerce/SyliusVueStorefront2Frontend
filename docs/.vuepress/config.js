@@ -34,6 +34,7 @@ module.exports = {
           ['/guide/essentials/general-concepts', 'General Concepts'],
           ['/guide/essentials/page-walkthrough', 'Page Walkthrough'],
           ['/guide/essentials/testing', 'Testing'],
+          ['/guide/essentials/non-blocking-ui', 'Non Blocking UI'],
         ],
       },
       {
@@ -51,6 +52,7 @@ module.exports = {
           ['/guide/composables/useUser', 'useUser'],
           ['/guide/composables/useUserOrder', 'useUserOrder'],
           ['/guide/composables/useUserShipping', 'useUserShipping'],
+          ['/guide/composables/useWishlists', 'useWishlists'],
         ],
       },
       {

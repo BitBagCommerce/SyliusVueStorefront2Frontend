@@ -8,15 +8,15 @@
 
 ```typescript
 export declare type ProductInput = {
-  itemsPerPage: number;
-  page: number;
-  slug: string;
-  categorySlug: string;
-  id?: string;
-  search?: string;
-  filter?: ProductAttributeFilterInput;
-  orderBy?: any;
+    itemsPerPage: number;
+    page: number;
+    slug: string;
+    categorySlug: string;
+    id?: string;
+    search?: string;
+    filter?: ProductAttributeFilterInput;
+    orderBy?: any;
 };
 ```
-
 <b>References:</b> [ProductAttributeFilterInput](./sylius-api.productattributefilterinput.md)
+

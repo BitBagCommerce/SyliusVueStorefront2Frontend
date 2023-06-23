@@ -8,32 +8,33 @@
 
 ```typescript
 export declare type CartLineItem = {
-  _id: string;
-  code: string;
-  sku?: string;
-  name?: string;
-  productName: string;
-  unitPrice: number;
-  qty?: number;
-  quantity: number;
-  images: string[];
-  variant: {
+    _id: string;
     code: string;
-    product: {
-      images: string[];
+    sku?: string;
+    name?: string;
+    productName: string;
+    unitPrice: number;
+    qty?: number;
+    quantity: number;
+    images: string[];
+    variant: {
+        code: string;
+        product: {
+            images: string[];
+        };
+        channelPricings: ChannelPricing[];
     };
-  };
-  price?: {
-    regular: number;
-    special: number;
-  };
-  selectedVariant: {
-    optionValues: ProductOptionValue[];
-    product: {
-      options: ProductOption[];
+    price?: {
+        regular: number;
+        special: number;
     };
-  };
+    selectedVariant: {
+        optionValues: ProductOptionValue[];
+        product: {
+            options: ProductOption[];
+        };
+    };
 };
 ```
+<b>References:</b> [ChannelPricing](./sylius-api.channelpricing.md)<!-- -->, [ProductOptionValue](./sylius-api.productoptionvalue.md)<!-- -->, [ProductOption](./sylius-api.productoption.md)
 
-<b>References:</b> [ProductOptionValue](./sylius-api.productoptionvalue.md)<!-- -->, [ProductOption](./sylius-api.productoption.md)

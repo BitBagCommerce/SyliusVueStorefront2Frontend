@@ -8,30 +8,30 @@
 
 - `order: Order | null` - created order.
 - `loading: boolean` - a reactive object containing information whether order is loading.
-- `error: UseMakeOrderErrors` - a map of errors per method
+- `error: UseMakeOrderErrors` - a map of errors per method.
 
 [UseMakeOrderErrors](https://docs.vuestorefront.io/v2/reference/api/core.usemakeordererrors.html)
 
-### `make`
+### `make: ({ customQuery?: CustomQuery }) => Promise<void>`
 
 Function for creating an order based on current cart token.
 
 ## Getters
 
-- `getDate: string`
-- `getId: string`
-- `getStatus: string`
-- `getPaymentStatus: string`
-- `getShippingStatus: string`
-- `getShippingTotal: number`
-- `getPrice: number`
-- `getItems: any[]`
-- `getItemSku: string`
-- `getItemName: string`
-- `getItemQty: number`
-- `getItemPrice: number`
-- `getFormattedPrice: string`
-- `getOrdersTotal: number`
+- `getDate: (order: Order) =>  string`
+- `getId: (order: Order) => string`
+- `getStatus: (order: Order) => string`
+- `getPaymentStatus: (order: Order) => string`
+- `getShippingStatus: (order: Order) => string`
+- `getShippingTotal: (order: Order) => number`
+- `getPrice: (order: Order) => number`
+- `getItems: (order: Order) => any[]`
+- `getItemSku: (item: OrderItem) => string`
+- `getItemName: (item: OrderItem) => string`
+- `getItemQty: (item: OrderItem) => number`
+- `getItemPrice: (item: OrderItem) => number`
+- `getFormattedPrice: (price: number) => string`
+- `getOrdersTotal: ({ offset: number, count: number, total: number, results: Array<Order> }) => number`
 
 ## Example
 

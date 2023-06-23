@@ -7,16 +7,17 @@
 <b>Signature:</b>
 
 ```typescript
-export interface ClientConfig
+export interface ClientConfig 
 ```
 
 ## Properties
 
-| Property                                                      | Type                                       | Description       |
-| ------------------------------------------------------------- | ------------------------------------------ | ----------------- |
-| [acceptLanguage](./sylius-api.clientconfig.acceptlanguage.md) | string\[\]                                 |                   |
-| [api](./sylius-api.clientconfig.api.md)                       | string                                     |                   |
-| [cookies](./sylius-api.clientconfig.cookies.md)               | Record&lt;string, string&gt;               |                   |
-| [customOptions?](./sylius-api.clientconfig.customoptions.md)  | ApolloClientOptions&lt;any&gt;             | <i>(Optional)</i> |
-| [locale](./sylius-api.clientconfig.locale.md)                 | string                                     |                   |
-| [state](./sylius-api.clientconfig.state.md)                   | [ConfigState](./sylius-api.configstate.md) |                   |
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [acceptLanguage](./sylius-api.clientconfig.acceptlanguage.md) | string\[\] |  |
+|  [api](./sylius-api.clientconfig.api.md) | string |  |
+|  [cookies](./sylius-api.clientconfig.cookies.md) | Record&lt;string, string&gt; |  |
+|  [customOptions?](./sylius-api.clientconfig.customoptions.md) | ApolloClientOptions&lt;any&gt; | <i>(Optional)</i> |
+|  [locale](./sylius-api.clientconfig.locale.md) | string |  |
+|  [state](./sylius-api.clientconfig.state.md) | [ConfigState](./sylius-api.configstate.md) |  |
+

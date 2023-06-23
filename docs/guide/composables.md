@@ -24,4 +24,4 @@
 
 ## useUserShipping
 
-## useWishlist
+## useWishlists

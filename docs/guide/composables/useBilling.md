@@ -9,11 +9,11 @@
 - `billing: any` - saved billing data.
 - `loading: boolean` - a reactive object containing information about loading state of the billing data.
 
-### `load`
+### `load: ({ cutumQuery?: CustomQuery }) => Promise<void>`
 
 Function for fetching billing data.
 
-### `save`
+### `save: ({ params: any, billingDetails: BillingAddress, customQuery?: CustomQuery }) => Promise<void>`
 
 Function for saving billing data. It accepts an object with the following keys:
 

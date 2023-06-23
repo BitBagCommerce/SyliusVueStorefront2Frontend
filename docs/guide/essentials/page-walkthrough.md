@@ -140,6 +140,57 @@ To access this page you have to:
 
 4. Log out - allows you to log out from your account
 
+## Wishlists sidebar
+
+Wishlist feature is only active when logged in.
+
+To access the wishlists sidebar click on the wishlist icon on the header.
+
+![Wishlist sidebar icon](../../assets/wishlist-sidebar-icon.png)
+
+### Wishlists sidebar legend:
+
+![Wishlist sidebar](../../assets/wishlist-sidebar.png)
+
+1. Add new wishlist - allows you to create a new wishlist with custom name, click create to confirm or cancel to go back.
+
+
+2. Remove wishlist icon - appears when user has at least two wishlists, click and confirm to remove wishlist.
+
+3. Wishlist - click on a wishlist to view its items.
+
+### Single wishlist in a sidebar legend:
+
+Slect wishlist from wishlists sidebar to see single wishlist items.
+
+![Single wishlist](../../assets/single-wishlist.png)
+
+1. Change wishlist name - displays input field to change wishlist name, click change to confirm or cancel to go back.
+
+2. Select everything checkbox - allows you to select or deselect all items in a wishlist.
+
+3. Select single item checkbox - allows you to select or deselect a single item in a wishlist.
+
+4. Quantity selector - allows you to change how much of a selected item you want to add when clicking add to cart button.
+
+5. Add to cart - adds selected items to cart.
+
+6. Clear - removes all items from wishlist.
+
+7. Remove item icon - appears if you hover your mouse over an item, and allows you to remove the hovered item from a wishlist.
+
+## Add item to wishlist dropdown
+
+Logged in user can add or remove items from wishlists by using the wishlists dropdown in two places:
+
+1. Product card on category page.
+  ![Wishlist dropdown on category page](../../assets/wishlist-dropdown-category.png)
+
+2. Heart icon next to rating on product page.
+  ![Wishlist dropdown on product page](../../assets/wishlist-dropdown-product.png)
+
+To add item to wishlist simply click the heart icon to open dropdown menu and select a wishlist from the list. Heart icon is filled in when item is in at least one wishlist. Heart icon in dropdown menu next to wishlist name indicates if item is in that wishlist.
+
 ## Cart sidebar
 
 To access the cart sidebar click on the cart icon on the header.
@@ -203,3 +254,17 @@ Clicking that button will open shipping method selection list.
 After going through all steps your order will be made and you will be redirected to thank you page.
 
 ![Thank you page](../../assets/thank-you.png)
+
+## Variant selector
+
+Variant selector is a modal that allows you to select a variant of a product. This modal is only available on products with variants on category page. It is displayed automatically when you click on cart icon on a product card. Cart icon is only displayed on desktop version.
+
+### Variant selector modal legend:
+
+![Variant selector](../../assets/variant-selector.png)
+
+1. Option fields - allows user to select a variant of a product.
+
+2. Quantity selector - allows user to change how much of a selected item you want to add when clicking add to cart button.
+
+3. Add to cart button - adds items wtith selectedo options to cart.
