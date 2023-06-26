@@ -16,10 +16,14 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.19.0'
+          cache: 'yarn'
       - name: Checkout
         uses: actions/checkout@v3
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          node-version: '14.19.0'
-          cache: 'yarn'
+          install: false
