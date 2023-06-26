@@ -8,7 +8,7 @@
             v-if="isAuthenticated && hasSavedBillingAddress"
             :addresses="userShipping"
             :addressGetters="userShippingGetters"
-            @setCurrentAddress="handleSetCurrentAddress"
+            @set-current-address="handleSetCurrentAddress"
           />
         </div>
       </SfLoader>
