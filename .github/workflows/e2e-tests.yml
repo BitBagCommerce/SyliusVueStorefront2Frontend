@@ -5,6 +5,7 @@ on:
       - main
       - develop
       - release-**
+      - VSF2-226
   pull_request:
     branches:
       - main
