@@ -80,22 +80,23 @@
         </ValidationProvider>
 
         <ValidationProvider
-          name="zipCode"
-          rules="required|min:2"
+          name="state"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            data-e2e="shipping-zipcode"
-            v-model="form.postcode"
-            :label="$t('Zip-code')"
-            name="zipCode"
-            class="form__element form__element--half form__element--half-even"
+            data-e2e="shipping-state"
+            v-model="form.state"
+            :label="$t('State/Province')"
+            name="state"
+            class="form__element form__element--half"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
+
       </div>
       <div class="form__horizontal">
         <ValidationProvider
@@ -122,6 +123,23 @@
               {{ countryOption.label }}
             </SfSelectOption>
           </SfSelect>
+        </ValidationProvider>
+        <ValidationProvider
+          name="zipCode"
+          rules="required|min:2"
+          v-slot="{ errors }"
+          slim
+        >
+          <SfInput
+            data-e2e="shipping-zipcode"
+            v-model="form.postcode"
+            :label="$t('Zip-code')"
+            name="zipCode"
+            class="form__element form__element--half form__element--half-even"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
         </ValidationProvider>
       </div>
       <div class="form__horizontal">
@@ -155,15 +173,9 @@
 import { SfInput, SfButton, SfSelect, SfCheckbox } from '@storefront-ui/vue';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { reactive } from '@nuxtjs/composition-api';
+import { reactive, onMounted, ref } from '@nuxtjs/composition-api';
 import { useUiNotification } from '~/composables/';
-
-const COUNTRIES = [
-  { key: 'US', label: 'United States' },
-  { key: 'UK', label: 'United Kingdom' },
-  { key: 'IT', label: 'Italy' },
-  { key: 'PL', label: 'Poland' },
-];
+import { useVSFContext } from '@vue-storefront/core';
 
 export default {
   name: 'ShippingAddressForm',
@@ -213,6 +225,9 @@ export default {
       message: root.$t('Invalid country'),
     });
 
+    const { $vsf } = useVSFContext();
+    const countries = ref([]);
+
     const { send } = useUiNotification();
     const form = reactive({
       id: props.address.id,
@@ -237,10 +252,14 @@ export default {
       });
     };
 
+    onMounted(async () => {
+      countries.value = await $vsf.$sylius.api.getCountries();
+    });
+
     return {
       form,
       submitForm,
-      countries: COUNTRIES,
+      countries: countries,
     };
   },
 };
@@ -273,6 +292,7 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: flex-start;
     }
     .form__element {
       @include for-desktop {
