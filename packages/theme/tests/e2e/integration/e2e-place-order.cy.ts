@@ -12,12 +12,14 @@ context('Order placement', () => {
   it(['e2e', 'happypath'], 'Should successfully place an order', () => {
     const data = cy.fixtures.data;
 
+    // Add product to cart and go to checkout
     page.home.visit();
     page.home.header.categories.first().click();
-    page.category.products.first().click();
-    page.product.addToCartButton.click();
+    page.category.addProductToCart();
     page.product.header.openCart();
     page.cart.goToCheckoutButton.click();
+
+    // Checkout process
     page.checkout.billing.heading.should('be.visible');
     page.checkout.billing.fillForm(data.customer);
     page.checkout.billing.continueToShippingButton.click();
