@@ -22,6 +22,7 @@
     "publish:composables": "node ./scripts/publishComposable.js",
     "start": "cd packages/theme && yarn start",
     "test": "cd packages/theme && yarn test:e2e",
+    "test:hl": "cd packages/theme && yarn test:e2e:hl",
     "update:check": "ncu && lerna run update:check --stream",
     "update:update": "ncu -u && lerna run update:update --stream",
     "commit": "cz",
