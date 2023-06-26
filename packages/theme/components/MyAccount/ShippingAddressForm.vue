@@ -81,8 +81,6 @@
 
         <ValidationProvider
           name="state"
-          rules="required"
-          v-slot="{ errors }"
           slim
         >
           <SfInput
@@ -91,9 +89,6 @@
             :label="$t('State/Province')"
             name="state"
             class="form__element form__element--half"
-            required
-            :valid="!errors[0]"
-            :errorMessage="errors[0]"
           />
         </ValidationProvider>
 
