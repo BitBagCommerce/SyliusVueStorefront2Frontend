@@ -1,19 +1,22 @@
-name: End-to-end tests
+name: Build develop
+
 on:
   push:
     branches:
-      - main
       - develop
       - release-**
-      - VSF2-226
   pull_request:
     branches:
-      - main
       - develop
       - release-**
-      - VSF2-226
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
-  cypress-run:
+  test_repository:
+    name: Build
     runs-on: ubuntu-latest
     env:
       SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}api/v2/graphql
@@ -32,9 +35,3 @@ jobs:
 
       - name: Build packages
         run: yarn build
-
-      - name: Run website
-        run: yarn start
-
-      - name: Run tests
-        run: yarn test:hl
