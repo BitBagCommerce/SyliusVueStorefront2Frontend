@@ -45,7 +45,6 @@ export const useCart = () => {
 
       return data as TUpdate extends true ? void : TReturn;
     } catch (e) {
-      cart.value = null;
       error.value[name] = e;
 
       Logger.error(`${composableName}/${name}`, e);
@@ -217,37 +216,41 @@ export const useCart = () => {
       true
     );
 
-    const applyCoupon = ({
-      couponCode, customQuery
-    }: {
-      couponCode: string;
-      customQuery: CustomQuery;
-    }) => {
-      handleCall(
-        async () => {
-          const apiState = context.$sylius.config.state;
-          const orderTokenValue = apiState
-            .getCartId()
-            .replace('/api/v2/shop/orders/', '');
-          const applyCouponResponse =
-            await context.$sylius.api.addCouponToCart(
-              {
-                coupon: {
-                  orderTokenValue,
-                  couponCode,
-                },
-              },
-              customQuery
-            );
+  const applyCoupon = ({
+    couponCode,
+    customQuery,
+  }: {
+    couponCode: string;
+    customQuery: CustomQuery;
+  }) => {
+    handleCall(
+      async () => {
+        const apiState = context.$sylius.config.state;
+        const orderTokenValue = apiState
+          .getCartId()
+          .replace('/api/v2/shop/orders/', '');
+        const applyCouponResponse = await context.$sylius.api.addCouponToCart(
+          {
+            coupon: {
+              orderTokenValue,
+              couponCode,
+            },
+          },
+          customQuery
+        );
 
-          return {
-            updatedCart: applyCouponResponse,
-            updatedCoupon: couponCode,
+        if ((applyCouponResponse as any).graphQLErrors?.length) {
+          throw {
+            message: (applyCouponResponse as any).graphQLErrors?.[0]
+              ?.debugMessage,
           };
-        },
-        'applyCoupon',
-        true
-      );
+        }
+
+        return applyCouponResponse;
+      },
+      'applyCoupon',
+      true
+    );
   };
 
   const removeCoupon = ({
