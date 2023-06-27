@@ -22,11 +22,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      SYLIUS_API_ENDPOINT: ${{ secrets.TEST_DEBUG_SECRET }}
+      SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}
     steps:
-      - name: echo a secret
-        run: echo ${{ secrets.TEST_DEBUG_SECRET }}
-
       - name: Checkout code
         uses: actions/checkout@v2
 
