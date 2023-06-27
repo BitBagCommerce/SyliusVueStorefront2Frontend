@@ -15,17 +15,23 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    env:
+      SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}api/v2/graphql
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: '14.19.0'
           cache: 'yarn'
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
-        with:
-          config-file: packages/theme/tests/e2e/cypress.config.js
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build packages
+        run: yarn build
+
+      - name: Run tests
+        run: yarn test:hl
