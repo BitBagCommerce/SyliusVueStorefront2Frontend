@@ -33,5 +33,8 @@ jobs:
       - name: Build packages
         run: yarn build
 
+      - name: Run website
+        run: yarn start
+
       - name: Run tests
         run: yarn test:hl
