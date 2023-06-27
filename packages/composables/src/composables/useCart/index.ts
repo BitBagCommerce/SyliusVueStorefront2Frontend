@@ -14,6 +14,7 @@ export const useCart = () => {
     removeItem: null,
     updateItemQty: null,
     clear: null,
+    applyCoupon: null,
     removeCoupon: null,
     isInCart: null,
   };
@@ -44,7 +45,6 @@ export const useCart = () => {
 
       return data as TUpdate extends true ? void : TReturn;
     } catch (e) {
-      cart.value = null;
       error.value[name] = e;
 
       Logger.error(`${composableName}/${name}`, e);
@@ -216,6 +216,43 @@ export const useCart = () => {
       true
     );
 
+  const applyCoupon = ({
+    couponCode,
+    customQuery,
+  }: {
+    couponCode: string;
+    customQuery: CustomQuery;
+  }) => {
+    handleCall(
+      async () => {
+        const apiState = context.$sylius.config.state;
+        const orderTokenValue = apiState
+          .getCartId()
+          .replace('/api/v2/shop/orders/', '');
+        const applyCouponResponse = await context.$sylius.api.addCouponToCart(
+          {
+            coupon: {
+              orderTokenValue,
+              couponCode,
+            },
+          },
+          customQuery
+        );
+
+        if ((applyCouponResponse as any).graphQLErrors?.length) {
+          throw {
+            message: (applyCouponResponse as any).graphQLErrors?.[0]
+              ?.debugMessage,
+          };
+        }
+
+        return applyCouponResponse;
+      },
+      'applyCoupon',
+      true
+    );
+  };
+
   const removeCoupon = ({
     couponCode,
     customQuery,
@@ -270,6 +307,7 @@ export const useCart = () => {
     removeItem,
     updateItemQty,
     clear,
+    applyCoupon,
     removeCoupon,
     isInCart,
     setCart,
