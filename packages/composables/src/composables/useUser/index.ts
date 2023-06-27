@@ -4,12 +4,12 @@ import {
   User,
   UseUserRegisterParams,
   UseUserUpdateParams,
-  UseUserFactoryParams,
+  UseUserFactoryParamsExtension,
 } from '../../types';
 import { useCart } from '../useCart';
 import type { Context } from '@vue-storefront/sylius-api';
 
-const params: UseUserFactoryParams<
+const params: UseUserFactoryParamsExtension<
   User,
   UseUserUpdateParams,
   UseUserRegisterParams
@@ -94,7 +94,10 @@ const params: UseUserFactoryParams<
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  logIn: async (context: Context, { username, password, rememberMe }) => {
+  logIn: async (
+    context: Context,
+    { username, password, rememberMe, keepCart }
+  ) => {
     const apiState = context.$sylius.config.state;
     const orderTokenValue = apiState
       .getCartId()
@@ -125,10 +128,13 @@ const params: UseUserFactoryParams<
       apiState.setCustomerToken(loginUserResponse.token);
       apiState.setCustomerRefreshToken(loginUserResponse.refreshToken);
       apiState.setCustomerId(loginUserResponse.user.customer.id);
-      apiState.setCartId(null);
 
-      context.cart.setCart(null);
-      await context.cart.load();
+      if (!keepCart) {
+        apiState.setCartId(null);
+        context.cart.setCart(null);
+
+        await context.cart.load();
+      }
     } catch (e) {
       throw {
         message: "Can't authenticate with provided username/password.",
