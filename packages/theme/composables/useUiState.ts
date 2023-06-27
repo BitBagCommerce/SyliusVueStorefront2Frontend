@@ -3,11 +3,14 @@ import { reactive, computed } from '@nuxtjs/composition-api';
 const state = reactive({
   isCartSidebarOpen: false,
   isWishlistSidebarOpen: false,
-  isLoginModalOpen: false,
+  loginModalState: {
+    isOpen: false,
+    isRedirect: true,
+  },
   isNewsletterModalOpen: false,
   isCategoryGridView: true,
   isFilterSidebarOpen: false,
-  isMobileMenuOpen: false
+  isMobileMenuOpen: false,
 });
 
 const useUiState = () => {
@@ -28,10 +31,20 @@ const useUiState = () => {
     state.isWishlistSidebarOpen = !state.isWishlistSidebarOpen;
   };
 
-  const isLoginModalOpen = computed(() => state.isLoginModalOpen);
-  const toggleLoginModal = () => {
+  const isLoginModalOpen = computed(() => state.loginModalState.isOpen);
+  const isLoginModalRedirect = computed(() => state.loginModalState.isRedirect);
+  const toggleLoginModal = (redirect = true) => {
     if (state.isMobileMenuOpen) toggleMobileMenu();
-    state.isLoginModalOpen = !state.isLoginModalOpen;
+
+    if (state.loginModalState.isOpen) {
+      state.loginModalState.isOpen = false;
+      state.loginModalState.isRedirect = true;
+
+      return;
+    }
+
+    state.loginModalState.isOpen = true;
+    state.loginModalState.isRedirect = redirect;
   };
 
   const isNewsletterModalOpen = computed(() => state.isNewsletterModalOpen);
@@ -56,6 +69,7 @@ const useUiState = () => {
     isCartSidebarOpen,
     isWishlistSidebarOpen,
     isLoginModalOpen,
+    isLoginModalRedirect,
     isNewsletterModalOpen,
     isCategoryGridView,
     isFilterSidebarOpen,
@@ -67,7 +81,7 @@ const useUiState = () => {
     changeToCategoryGridView,
     changeToCategoryListView,
     toggleFilterSidebar,
-    toggleMobileMenu
+    toggleMobileMenu,
   };
 };
 
