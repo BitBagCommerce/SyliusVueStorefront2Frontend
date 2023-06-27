@@ -25,7 +25,7 @@ jobs:
       SYLIUS_API_ENDPOINT: ${{ secrets.TEST_DEBUG_SECRET }}
     steps:
       - name: echo a secret
-        run: echo SYLIUS_API_ENDPOINT
+        run: echo ${{ secrets.TEST_DEBUG_SECRET }}
 
       - name: Checkout code
         uses: actions/checkout@v2
