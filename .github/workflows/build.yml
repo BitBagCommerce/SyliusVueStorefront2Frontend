@@ -22,7 +22,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}
+      SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}api/v2/graphql
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
