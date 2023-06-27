@@ -14,6 +14,7 @@ export const useCart = () => {
     removeItem: null,
     updateItemQty: null,
     clear: null,
+    applyCoupon: null,
     removeCoupon: null,
     isInCart: null,
   };
@@ -216,6 +217,39 @@ export const useCart = () => {
       true
     );
 
+    const applyCoupon = ({
+      couponCode, customQuery
+    }: {
+      couponCode: string;
+      customQuery: CustomQuery;
+    }) => {
+      handleCall(
+        async () => {
+          const apiState = context.$sylius.config.state;
+          const orderTokenValue = apiState
+            .getCartId()
+            .replace('/api/v2/shop/orders/', '');
+          const applyCouponResponse =
+            await context.$sylius.api.addCouponToCart(
+              {
+                coupon: {
+                  orderTokenValue,
+                  couponCode,
+                },
+              },
+              customQuery
+            );
+
+          return {
+            updatedCart: applyCouponResponse,
+            updatedCoupon: couponCode,
+          };
+        },
+        'applyCoupon',
+        true
+      );
+  };
+
   const removeCoupon = ({
     couponCode,
     customQuery,
@@ -270,6 +304,7 @@ export const useCart = () => {
     removeItem,
     updateItemQty,
     clear,
+    applyCoupon,
     removeCoupon,
     isInCart,
     setCart,
