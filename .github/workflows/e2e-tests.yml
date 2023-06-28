@@ -37,10 +37,8 @@ jobs:
       - name: Build packages
         run: yarn build
 
+      - name: Start
+        run: $ cd packages/theme && yarn start
+
       - name: Cypress run
-        uses: cypress-io/github-action@v3
-        with:
-          config-file: packages/theme/tests/e2e/cypress.config.js
-          install: false
-          start: yarn start
-          wait-on: 'http://localhost:3000'
+        run: yarn test:hl
