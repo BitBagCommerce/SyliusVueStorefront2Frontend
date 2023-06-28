@@ -41,3 +41,6 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           config-file: packages/theme/tests/e2e/cypress.config.js
+          install: false
+          start: yarn start
+          wait-on: 'http://localhost:3000'
