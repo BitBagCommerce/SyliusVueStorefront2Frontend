@@ -222,7 +222,7 @@ export const useCart = () => {
   }: {
     couponCode: string;
     customQuery: CustomQuery;
-  }) => {
+  }) =>
     handleCall(
       async () => {
         const apiState = context.$sylius.config.state;
@@ -251,7 +251,6 @@ export const useCart = () => {
       'applyCoupon',
       true
     );
-  };
 
   const removeCoupon = ({
     couponCode,

@@ -137,9 +137,6 @@ export default {
 
     const submitCouponForm = async () => {
       await applyCoupon({ couponCode: promoCode.value });
-      // BUG: Await is skipped before the error message is set in file (composables/useCart/index.ts)
-      // TODO: replace this temporary fix with proper solution
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const { applyCoupon: updateError } = error.value;
 
