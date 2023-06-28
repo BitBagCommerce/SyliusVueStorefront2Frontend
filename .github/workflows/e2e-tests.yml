@@ -39,3 +39,5 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v5
+        with:
+          config-file: packages/theme/tests/e2e/cypress.config.js
