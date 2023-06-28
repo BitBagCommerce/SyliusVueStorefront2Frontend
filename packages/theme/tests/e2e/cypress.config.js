@@ -22,6 +22,6 @@ module.exports = defineConfig({
     },
     baseUrl: 'http://localhost:3000',
     specPattern: 'integration/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: './support/index.js',
+    supportFile: 'packages/theme/tests/e2e/support/index.js',
   },
 });
