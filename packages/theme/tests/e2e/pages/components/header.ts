@@ -6,7 +6,7 @@ class Header {
   }
 
   get categories(): Cypress.Chainable {
-    return cy.get('[data-e2e*="app-header"]');
+    return cy.get('[data-e2e*="app-header-url"]');
   }
 
   get category() {
