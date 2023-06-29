@@ -29,6 +29,7 @@ context('Copy billing data to shipping form', () => {
 
       // Copy billing address
       page.checkout.shipping.heading.should('be.visible');
+      cy.wait(1000);
       page.checkout.shipping.copyBillingAddress.click();
 
       // Testing results
