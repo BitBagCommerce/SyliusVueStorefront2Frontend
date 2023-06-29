@@ -1,7 +1,7 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
-  fixturesFolder: 'packages/theme/tests/e2e/fixtures',
+  fixturesFolder: './fixtures',
   viewportHeight: 1080,
   viewportWidth: 1920,
   screenshotOnRunFailure: true,
@@ -21,7 +21,7 @@ module.exports = defineConfig({
       return require('./plugins/index.js')(on, config);
     },
     baseUrl: 'http://localhost:3000',
-    specPattern: 'packages/theme/tests/e2e/integration/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: './integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: false,
   },
 });
