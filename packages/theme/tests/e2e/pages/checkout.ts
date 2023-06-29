@@ -18,8 +18,8 @@ class Shipping {
     return el('shipping-city');
   }
 
-  get state(): Cypress.Chainable {
-    return el('shipping-state');
+  get provinceName(): Cypress.Chainable {
+    return el('shipping-provinceName');
   }
 
   get country(): Cypress.Chainable {
@@ -60,7 +60,7 @@ class Shipping {
     this.streetName.type(customer.address.shipping.streetName);
     this.city.type(customer.address.shipping.city);
     this.country.select(customer.address.shipping.country);
-    this.state.type(customer.address.shipping.state);
+    this.provinceName.type(customer.address.shipping.provinceName);
     this.zipcode.type(customer.address.shipping.zipcode);
     this.phone.type(customer.address.shipping.phone);
   }
@@ -83,8 +83,8 @@ class Billing {
     return el('billing-city');
   }
 
-  get state(): Cypress.Chainable {
-    return el('billing-state');
+  get provinceName(): Cypress.Chainable {
+    return el('billing-provinceName');
   }
 
   get country(): Cypress.Chainable {
@@ -117,7 +117,7 @@ class Billing {
     this.streetName.type(customer.address?.billing.streetName);
     this.city.type(customer.address?.billing.city);
     this.country.select(customer.address?.billing.country);
-    this.state.type(customer.address?.billing.state);
+    this.provinceName.type(customer.address?.billing.provinceName);
     this.zipcode.type(customer.address?.billing.zipcode);
     this.phone.type(customer.address?.billing.phone);
     this.email.type(
