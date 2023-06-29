@@ -24,6 +24,7 @@ context('Copy billing data to shipping form', () => {
 
       // Fill in billing form
       page.checkout.billing.heading.should('be.visible');
+      cy.wait(1000);
       page.checkout.billing.fillForm(data.customer);
       page.checkout.billing.continueToShippingButton.click();
 

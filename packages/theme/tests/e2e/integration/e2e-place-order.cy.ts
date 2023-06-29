@@ -21,9 +21,11 @@ context('Order placement', () => {
 
     // Checkout process
     page.checkout.billing.heading.should('be.visible');
+    cy.wait(1000);
     page.checkout.billing.fillForm(data.customer);
     page.checkout.billing.continueToShippingButton.click();
     page.checkout.shipping.heading.should('be.visible');
+    cy.wait(1000);
     page.checkout.shipping.fillForm(data.customer);
     page.checkout.shipping.selectShippingButton.click();
     page.checkout.shipping.shippingMethods.first().click();
