@@ -7,7 +7,7 @@ module.exports = defineConfig({
   viewportWidth: 1920,
   screenshotOnRunFailure: true,
   screenshotsFolder: 'report/assets/screenshots',
-  video: true,
+  video: false,
   reporter: '../../../../node_modules/mochawesome',
   reporterOptions: {
     reportDir: 'report',
