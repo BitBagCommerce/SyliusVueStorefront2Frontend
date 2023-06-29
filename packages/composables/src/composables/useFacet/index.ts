@@ -5,7 +5,12 @@ import {
 } from '@vue-storefront/core';
 const factoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  search: async (context: Context, params: FacetSearchResult<any>) => {
+  search: async (
+    context: Context,
+    params: FacetSearchResult<any> & {
+      input: { categorySlug: string };
+    }
+  ) => {
     return {
       page: params.input.page,
       availableFilters: [],

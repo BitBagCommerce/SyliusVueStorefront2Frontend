@@ -7,14 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type Cart = {
-  items: CartLineItem[];
-  total: number;
-  shippingTotal: number;
-  orderPromotionTotal: number;
-  promotionCoupon: any;
-  tokenValue: string;
-};
+export declare type Cart = ReturnType<typeof transformCart>;
 ```
-
-<b>References:</b> [CartLineItem](./sylius-api.cartlineitem.md)

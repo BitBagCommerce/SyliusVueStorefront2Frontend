@@ -13,7 +13,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-firstName'"
+            data-e2e="shipping-firstName"
             v-model="form.firstName"
             :label="$t('First name')"
             name="firstName"
@@ -30,7 +30,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-lastName'"
+            data-e2e="shipping-lastName"
             v-model="form.lastName"
             :label="$t('Last name')"
             name="lastName"
@@ -49,7 +49,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-streetName'"
+            data-e2e="shipping-streetName"
             v-model="form.street"
             :label="$t('Street name')"
             name="street"
@@ -68,7 +68,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-city'"
+            data-e2e="shipping-city"
             v-model="form.city"
             :label="$t('City')"
             name="city"
@@ -86,7 +86,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-zipcode'"
+            data-e2e="shipping-zipcode"
             v-model="form.postcode"
             :label="$t('Zip-code')"
             name="zipCode"
@@ -105,14 +105,11 @@
           slim
         >
           <SfSelect
-            v-e2e="'billing-country'"
+            data-e2e="shipping-country"
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -130,12 +127,12 @@
       <div class="form__horizontal">
         <ValidationProvider
           name="phoneNumber"
-          rules="required|min:9"
+          rules="required|digits:9"
           v-slot="{ errors }"
           slim
         >
           <SfInput
-            v-e2e="'billing-phone'"
+            data-e2e="shipping-phone"
             v-model="form.phoneNumber"
             :label="$t('Phone number')"
             name="phoneNumber"
@@ -200,20 +197,20 @@ export default {
   },
 
   setup(props, { emit, root }) {
-    const t = (key) => root.$i18n.t(key);
-
     extend('required', {
       ...required,
-      message: t('This field is required'),
+      message: root.$t('This field is required'),
     });
     extend('min', {
       ...min,
       message:
-        t('The field should have at least') + ' {length} ' + t('characters'),
+        root.$t('The field should have at least') +
+        ' {length} ' +
+        root.$t('characters'),
     });
     extend('oneOf', {
       ...oneOf,
-      message: t('Invalid country'),
+      message: root.$t('Invalid country'),
     });
 
     const { send } = useUiNotification();

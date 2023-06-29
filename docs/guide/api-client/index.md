@@ -6,6 +6,6 @@
 
 ## Packages
 
-| Package                                       | Description |
-| --------------------------------------------- | ----------- |
-| [@vue-storefront/sylius-api](./sylius-api.md) |             |
+| Package                                       |
+| --------------------------------------------- |
+| [@vue-storefront/sylius-api](./sylius-api.md) |

@@ -10,9 +10,11 @@ import {
   removeWishlistMutation,
 } from './mutations';
 
+const channelCode = process.env.SYLIUS_CHANNEL_CODE;
+
 export const getWishlists = async (context, customQuery?: CustomQuery) => {
   const queryGql = extendQuery(context, getWishlistsQuery, {}, customQuery);
-  const data = await query(context, queryGql.query, {});
+  const data = await query(context, queryGql.query, { channelCode });
   const {
     imagePaths: { thumbnail },
   } = context.config;
@@ -29,6 +31,7 @@ export const addItem = async (
   const variables = {
     id: wishlistId,
     productVariant: itemId,
+    channelCode,
   };
   const queryGql = extendQuery(
     context,
@@ -50,6 +53,7 @@ export const removeItem = async (
   const variables = {
     id: wishlistId,
     productVariant: itemId,
+    channelCode,
   };
   const queryGql = extendQuery(
     context,
@@ -69,6 +73,7 @@ export const clearWishlist = async (
 ) => {
   const variables = {
     id: wishlistId,
+    channelCode,
   };
   const queryGql = extendQuery(
     context,
@@ -88,7 +93,7 @@ export const createWishlist = async (
 ) => {
   const variables = {
     name: wishlistName,
-    channelCode: process.env.SYLIUS_CHANNEL_CODE,
+    channelCode,
   };
   const queryGql = extendQuery(
     context,
@@ -110,6 +115,7 @@ export const editWishlist = async (
   const variables = {
     id: wishlistId,
     name: wishlistName,
+    channelCode,
   };
   const queryGql = extendQuery(
     context,

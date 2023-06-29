@@ -5,7 +5,7 @@
       :breadcrumbs="breadcrumbs"
     />
     <SfContentPages
-      v-e2e="'my-account-content-pages'"
+      data-e2e="my-account-content-pages"
       :title="$t('My Account')"
       :active="activePage"
       class="my-account"
@@ -51,9 +51,8 @@ export default {
     // MyReviews
   },
   middleware: ['is-authenticated'],
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
-    const { $router, $route } = context.root;
+  setup(props, { root }) {
+    const { $router, $route } = root;
     const { logout } = useUser();
     const { send } = useUiNotification();
     const activePage = ref('');
@@ -80,16 +79,16 @@ export default {
     };
 
     const handleActivePage = async (title) => {
-      if (title === t('Log out')) {
+      if (title === root.$t('Log out')) {
         await logout();
-        $router.push(context.root.localePath({ name: 'home' }));
-        send({ type: 'info', message: t('Logout successful') });
+        $router.push(root.localePath({ name: 'home' }));
+        send({ type: 'info', message: root.$t('Logout successful') });
         return;
       }
 
       const slugifiedTitle = (title || '').toLowerCase().replace(' ', '-');
       const transformedPath = `/my-account/${slugifiedTitle}`;
-      const localeTransformedPath = context.root.localePath(transformedPath);
+      const localeTransformedPath = root.localePath(transformedPath);
 
       $router.push(localeTransformedPath);
 
@@ -118,11 +117,11 @@ export default {
 
     const breadcrumbs = [
       {
-        text: t('Home'),
+        text: root.$t('Home'),
         link: '#',
       },
       {
-        text: t('My Account'),
+        text: root.$t('My Account'),
         link: '#',
       },
     ];

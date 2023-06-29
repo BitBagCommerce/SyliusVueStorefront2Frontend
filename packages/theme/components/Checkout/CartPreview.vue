@@ -47,11 +47,7 @@
           <SfProperty
             v-if="hasSpecialPrice"
             :value="$n(totals.special, 'currency')"
-            class="
-              sf-property--full-width sf-property--small
-              property
-              special-price
-            "
+            class="sf-property--full-width sf-property--small property special-price"
           />
           <SfProperty
             v-if="hasShipping"
@@ -117,7 +113,7 @@ export default {
     SfCircleIcon,
     SfLoader,
   },
-  setup(_, context) {
+  setup(_, { root }) {
     const {
       cart,
       removeItem,
@@ -129,7 +125,6 @@ export default {
       loading,
     } = useCart();
     const { send } = useUiNotification();
-    const t = (key) => context.root.$i18n.t(key);
 
     const listIsHidden = ref(false);
     const promoCode = ref('');
@@ -142,12 +137,17 @@ export default {
 
     const submitCouponForm = async () => {
       await applyCoupon({ couponCode: promoCode.value });
-      const errorKeys = Object.keys(error.value);
-      errorKeys.forEach((errorKey) => {
-        if (error.value[errorKey] && error.value[errorKey]?.message) {
-          send({ type: 'danger', message: error.value[errorKey].message });
-        }
-      });
+
+      const { applyCoupon: updateError } = error.value;
+
+      if (updateError) {
+        send({ type: 'danger', message: root.$t(updateError.message) });
+      } else {
+        send({
+          type: 'info',
+          message: root.$t('Your cart has been updated'),
+        });
+      }
     };
 
     const handleCouponRemoval = async (coupon) => {
@@ -177,20 +177,22 @@ export default {
       submitCouponForm,
       characteristics: [
         {
-          title: t('Safety'),
-          description: t('It carefully packaged with a personal touch'),
+          title: root.$t('Safety'),
+          description: root.$t('It carefully packaged with a personal touch'),
           icon: 'safety',
         },
         {
-          title: t('Easy shipping'),
-          description: t(
+          title: root.$t('Easy shipping'),
+          description: root.$t(
             "You'll receive dispatch confirmation and an arrival date"
           ),
           icon: 'shipping',
         },
         {
-          title: t('Changed your mind?'),
-          description: t('Rest assured, we offer free returns within 30 days'),
+          title: root.$t('Changed your mind?'),
+          description: root.$t(
+            'Rest assured, we offer free returns within 30 days'
+          ),
           icon: 'return',
         },
       ],

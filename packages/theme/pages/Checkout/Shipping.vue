@@ -1,13 +1,8 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
-    <SfHeading
-      v-e2e="'shipping-heading'"
-      :level="3"
-      :title="$t('Shipping')"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
+    <CheckoutHeader :title="$t('Shipping')" e2e="shipping-heading" />
     <SfCheckbox
-      v-e2e="'copy-address'"
+      data-e2e="copy-billing-address"
       :selected="sameAsBilling"
       @change="handleCheckSameAddress"
       :label="$t('Copy address data from billing')"
@@ -21,7 +16,7 @@
             v-if="isAuthenticated && hasSavedShippingAddress"
             :addresses="userShipping"
             :addressGetters="userShippingGetters"
-            @setCurrentAddress="handleSetCurrentAddress"
+            @set-current-address="handleSetCurrentAddress"
           />
         </div>
       </SfLoader>
@@ -33,7 +28,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-firstName'"
+            data-e2e="shipping-firstName"
             v-model="form.firstName"
             :label="$t('First name')"
             name="firstName"
@@ -50,7 +45,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-lastName'"
+            data-e2e="shipping-lastName"
             v-model="form.lastName"
             :label="$t('Last name')"
             name="lastName"
@@ -67,7 +62,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-streetName'"
+            data-e2e="shipping-streetName"
             v-model="form.street"
             :label="$t('Street name')"
             name="street"
@@ -84,7 +79,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-city'"
+            data-e2e="shipping-city"
             v-model="form.city"
             :label="$t('City')"
             name="city"
@@ -96,7 +91,7 @@
         </ValidationProvider>
         <ValidationProvider name="state" slim>
           <SfInput
-            v-e2e="'billing-state'"
+            data-e2e="shipping-state"
             v-model="form.state"
             :label="$t('State/Province')"
             name="state"
@@ -110,14 +105,11 @@
           slim
         >
           <SfSelect
-            v-e2e="'billing-country'"
+            data-e2e="shipping-country"
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -138,7 +130,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-zipcode'"
+            data-e2e="shipping-zipcode"
             v-model="form.postcode"
             :label="$t('Zip-code')"
             name="zipCode"
@@ -156,7 +148,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-phone'"
+            data-e2e="shipping-phone"
             v-model="form.phoneNumber"
             :label="$t('Phone number')"
             name="phoneNumber"
@@ -178,7 +170,7 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
-            v-e2e="'select-shipping'"
+            data-e2e="select-shipping"
             v-if="!isFormSubmitted"
             :disabled="loading"
             class="form__action-button"
@@ -219,10 +211,12 @@ import {
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { useVSFContext } from '@vue-storefront/core';
+import CheckoutHeader from '~/components/Checkout/CheckoutHeader.vue';
 
 export default {
   name: 'Shipping',
   components: {
+    CheckoutHeader,
     SfHeading,
     SfInput,
     SfButton,
@@ -236,20 +230,20 @@ export default {
       import('~/components/Checkout/VsfShippingProvider'),
   },
   setup(_, { root }) {
-    const t = (key) => root.$i18n.t(key);
-
     extend('required', {
       ...required,
-      message: t('This field is required'),
+      message: root.$t('This field is required'),
     });
     extend('min', {
       ...min,
       message:
-        t('The field should have at least') + ' {length} ' + t('characters'),
+        root.$t('The field should have at least') +
+        ' {length} ' +
+        root.$t('characters'),
     });
     extend('digits', {
       ...digits,
-      message: t('Please provide a valid phone number'),
+      message: root.$t('Please provide a valid phone number'),
     });
 
     const isFormSubmitted = ref(false);
@@ -294,7 +288,7 @@ export default {
 
       send({
         type: 'danger',
-        message: t(
+        message: root.$t(
           'No shipping methods are available for selected country. Please choose a different country.'
         ),
       });
@@ -326,7 +320,11 @@ export default {
     });
 
     onMounted(async () => {
-      await Promise.all([loadShipping(), loadBilling()]);
+      if (billing.value) {
+        await loadShipping();
+      } else {
+        await Promise.all([loadShipping(), loadBilling()]);
+      }
       if (!countries.value.length) {
         countries.value = await $sylius.api.getCountries();
       }

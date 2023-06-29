@@ -8,11 +8,15 @@
 
 ```typescript
 export declare type Category = {
-  id: number;
-  name: string;
-  slug: string;
-  items: Category[];
+    id: string;
+    name: string;
+    slug: string;
+    items: Category[];
+    level: number;
+    parent: {
+        id: string;
+    };
 };
 ```
-
 <b>References:</b> [Category](./sylius-api.category.md)
+

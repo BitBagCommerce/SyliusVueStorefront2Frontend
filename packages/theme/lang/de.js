@@ -318,4 +318,9 @@ export default {
   'Select country': 'Land auswählen',
   'in stock': 'auf Lager',
   All: 'Alle',
+  'Edit cart': 'Warenkorb bearbeiten',
+  'Provided email address belongs to another user, please log in to complete order.':
+    'Die angegebene E-Mail-Adresse gehört einem anderen Benutzer. Bitte melden Sie sich an, um die Bestellung abzuschließen.',
+  registerError:
+    'Der Benutzer mit der E-Mail-Adresse "{email}" ist bereits registriert.',
 };

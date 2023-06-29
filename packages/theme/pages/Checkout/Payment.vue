@@ -1,10 +1,6 @@
 <template>
   <div>
-    <SfHeading
-      :level="3"
-      :title="$t('Payment')"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
+    <CheckoutHeader :title="$t('Payment')" />
     <SfTable class="sf-table--bordered table desktop-only">
       <SfTableHeading class="table__row">
         <SfTableHeader class="table__header table__image">{{
@@ -93,10 +89,7 @@
         <SfProperty
           :name="$t('Total price')"
           :value="$n(totals.total, 'currency')"
-          class="
-            sf-property--full-width sf-property--large
-            summary__property-total
-          "
+          class="sf-property--full-width sf-property--large summary__property-total"
         />
 
         <VsfPaymentProvider @status="isPaymentReady = true" />
@@ -112,7 +105,7 @@
             {{ $t('Go back') }}
           </SfButton>
           <SfButton
-            v-e2e="'make-an-order'"
+            data-e2e="make-an-order"
             :disabled="isRedirecting || !isPaymentReady || !products.length"
             class="summary__action-button"
             @click="processOrder"
@@ -154,6 +147,7 @@ import {
   orderGetters,
 } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
+import CheckoutHeader from '~/components/Checkout/CheckoutHeader.vue';
 
 export default {
   name: 'ReviewOrder',
@@ -170,15 +164,15 @@ export default {
     SfAccordion,
     SfLink,
     SfLoader,
+    CheckoutHeader,
     VsfPaymentProvider: () =>
       import('~/components/Checkout/VsfPaymentProvider'),
   },
-  setup(props, context) {
+  setup(props, { root }) {
     const { cart, load, setCart, loading: cartLoading } = useCart();
     const tokenValue = cartGetters.getCartTokenValue(cart.value);
     const { order, make, loading, error } = useMakeOrder();
     const { send } = useUiNotification();
-    const t = (key) => context.root.$i18n.t(key);
     const router = useRouter();
 
     const products = computed(() => cartGetters.getItems(cart.value));
@@ -194,20 +188,21 @@ export default {
 
       if (makeError) {
         send({ type: 'danger', message: makeError.message });
+        setCart(null);
 
+        router.push({ path: router.app.localePath('/') });
         return;
       }
 
-      send({ type: 'info', message: t('Your order has been placed') });
-      const { locales, locale } = context.root.$i18n;
+      send({ type: 'info', message: root.$t('Your order has been placed') });
+      const { locales, locale } = root.$i18n;
 
       let redirected = false;
 
       for (const localeIndex in locales) {
         if (locales[localeIndex].code === locale) {
           redirected = true;
-          const redirectHost =
-            context.root.context.$config.theme.payment.redirectHost;
+          const redirectHost = root.context.$config.theme.payment.redirectHost;
           window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
           setCart(null);
         }
@@ -218,7 +213,7 @@ export default {
           name: 'thank-you',
           query: { order: orderGetters.getId(order.value) },
         };
-        context.root.$router.push(context.root.localePath(thankYouPath));
+        root.$router.push(root.localePath(thankYouPath));
       }
     };
 
@@ -241,7 +236,11 @@ export default {
       cartLoading,
       products,
       totals: computed(() => cartGetters.getTotals(cart.value)),
-      tableHeaders: [t('Description'), t('Quantity'), t('Amount')],
+      tableHeaders: [
+        root.$t('Description'),
+        root.$t('Quantity'),
+        root.$t('Amount'),
+      ],
       cartGetters,
       processOrder,
     };

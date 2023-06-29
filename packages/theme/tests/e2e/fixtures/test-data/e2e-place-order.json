@@ -8,18 +8,20 @@
         "apartment": "23",
         "city": "Los Angeles",
         "state": "California",
-        "country": "United States",
+        "country": "US",
         "zipcode": "45678",
-        "phone": "123456789"
+        "phone": "123456789",
+        "email": "john.doe{random}@example.com"
       },
       "billing": {
         "streetName": "1 VueStorefront Rd.",
         "apartment": "23",
         "city": "Los Angeles",
         "state": "California",
-        "country": "United States",
+        "country": "US",
         "zipcode": "45678",
-        "phone": "123456789"
+        "phone": "123456789",
+        "email": "john.doe{random}@example.com"
       }
     }
   }

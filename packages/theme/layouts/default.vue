@@ -183,9 +183,47 @@ h4 {
   }
 }
 
+.sf-header-navigation-item__item--desktop {
+  @include for-mobile {
+    display: none;
+  }
+}
+
 .sf-accordion-item__header.is-open {
   --accordion-item-header-border-width: 0;
   --accordion-item-header-color: initial;
   --chevron-color: initial;
+}
+
+.carousel {
+}
+
+.carousel {
+  margin: 0 calc(0 - var(--spacer-sm)) 0 0;
+  @include for-desktop {
+    margin: 0;
+  }
+  ::v-deep .glide__slide--clone {
+    opacity: 0.4;
+  }
+  .product-card {
+    @include for-mobile {
+      --product-card-max-width: 100%;
+    }
+    margin: 1.375rem 0 2.5rem 0;
+    @include for-desktop {
+      margin: var(--spacer-xl) 0 var(--spacer-xl) 0;
+    }
+  }
+  .sf-product-card__image {
+    @include for-mobile {
+      width: 100%;
+    }
+  }
+  ::v-deep .sf-arrow--long .sf-arrow--right {
+    --arrow-icon-transform: rotate(180deg);
+    -webkit-transform-origin: center;
+    transform-origin: center;
+  }
 }
 </style>

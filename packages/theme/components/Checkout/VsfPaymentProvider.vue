@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title shipping__title"
     />
     <SfRadio
-      v-e2e="'payment-method'"
+      data-e2e="payment-method"
       v-for="method in paymentMethods"
       :key="method.value"
       :label="method.label"

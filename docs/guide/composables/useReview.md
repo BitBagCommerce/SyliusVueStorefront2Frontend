@@ -8,15 +8,15 @@
 
 - `reviews: Review[]` - an array of fetched reviews.
 - `loading: boolean` - a reactive object containing information whether reviews are loading.
-- `error: UseReviewErrors` - a map of errors per method
+- `error` - reactive object containing the error message.
 
-### `search`
+### `search: (params: UseReviewSearchParams, { customQuery?: CustomQuery }) => Promise<any>`
 
 Function for fetching reviews based on passed `params`. It accepts an object with the following key:
 
 - `productId: string`
 
-### `addReview`
+### `addReview: (params: UseReviewAddParams, { customQuery?: CustomQuery }) => Promise<void>`
 
 Function for adding a review. It accepts an object with the following keys:
 
@@ -27,15 +27,16 @@ Function for adding a review. It accepts an object with the following keys:
 
 ## Getters
 
-- `getItems: ReviewItem[]`
-- `getReviewId: string`
-- `getReviewAuthor: string`
-- `getReviewRating: number`
-- `getReviewDate: string`
-- `getTotalReviews: number`
-- `getAverageRating: number`
-- `getRatesCount: AgnosticRateCount[]`
-- `getReviewsPage: number`
+- `getItems: (review: Review) => ReviewItem[]`
+- `getReviewId: (item: ReviewItem) => string`
+- `getReviewAuthor: (item: ReviewItem) => string`
+- `getReviewMessage: (item: ReviewItem) => string`
+- `getReviewRating: (item: ReviewItem) => number`
+- `getReviewDate: (item: ReviewItem) => string`
+- `getTotalReviews: (review: Review) => number`
+- `getAverageRating: (review: Review) => number`
+- `getRatesCount: (review: Review) => AgnosticRateCount[]`
+- `getReviewsPage: (review: Review) => number`
 
 [AgnosticRateCount](https://docs.vuestorefront.io/v2/reference/api/core.agnosticratecount.html)
 

@@ -1,7 +1,7 @@
 <template>
   <div id="cart">
     <SfSidebar
-      v-e2e="'sidebar-cart'"
+      data-e2e="sidebar-cart"
       :visible="isCartSidebarOpen"
       :title="$t('My Cart')"
       class="sf-sidebar--right"
@@ -21,7 +21,7 @@
             <transition-group name="sf-fade" tag="div">
               <ProductItem
                 v-for="product in products"
-                v-e2e="'collected-product'"
+                data-e2e="collected-product"
                 :key="cartGetters.getItemSku(product)"
                 :image="productGetters.getCoverImage(product)"
                 :title="cartGetters.getItemName(product)"
@@ -86,10 +86,7 @@
           <div v-if="totalItems">
             <SfProperty
               :name="$t('Subtotal')"
-              class="
-                sf-property--full-width sf-property--large
-                my-cart__total-price
-              "
+              class="sf-property--full-width sf-property--large my-cart__total-price"
             >
               <template #value>
                 <SfPrice
@@ -104,7 +101,7 @@
             </SfProperty>
             <nuxt-link :to="localePath({ name: 'billing' })">
               <SfButton
-                v-e2e="'go-to-checkout-btn'"
+                data-e2e="go-to-checkout-btn"
                 class="sf-button--full-width color-secondary"
                 @click="toggleCartSidebar"
               >
@@ -158,8 +155,7 @@ export default {
     SfImage,
     ProductItem,
   },
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
+  setup(props, { root }) {
     const { isCartSidebarOpen, toggleCartSidebar } = useUiState();
     const { cart, removeItem, updateItemQty, loading, error } = useCart();
     const { isAuthenticated } = useUser();
@@ -193,9 +189,9 @@ export default {
       const { updateItemQty: updateError } = error.value;
 
       if (updateError) {
-        send({ type: 'danger', message: t(updateError.message) });
+        send({ type: 'danger', message: root.$t(updateError.message) });
       } else {
-        send({ type: 'info', message: t('Your cart has been updated') });
+        send({ type: 'info', message: root.$t('Your cart has been updated') });
       }
     }, 500);
 

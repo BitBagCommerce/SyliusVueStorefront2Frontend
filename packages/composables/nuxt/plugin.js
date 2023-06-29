@@ -29,6 +29,8 @@ export default integrationPlugin(({ app, integration }) => {
     moduleOptions.cookies?.customerIdCookieName ||
     defaultConfig.cookies.customerIdCookieName;
 
+  const maxAge = 60 * 60 * 24 * 90;
+
   const getCartId = () => app.$cookies.get(cartCookieName);
   const setCartId = (id) => {
     if (!id) {
@@ -44,7 +46,7 @@ export default integrationPlugin(({ app, integration }) => {
       app.$cookies.remove(customerCookieName);
       return;
     }
-    app.$cookies.set(customerCookieName, token);
+    app.$cookies.set(customerCookieName, token, { maxAge });
   };
 
   const getCustomerRefreshToken = () =>
@@ -54,7 +56,9 @@ export default integrationPlugin(({ app, integration }) => {
       app.$cookies.remove(customerRefreshCookieName);
       return;
     }
-    app.$cookies.set(customerRefreshCookieName, token);
+    app.$cookies.set(customerRefreshCookieName, token, {
+      maxAge,
+    });
   };
 
   const getCustomerId = () => app.$cookies.get(customerIdCookieName);
@@ -63,7 +67,7 @@ export default integrationPlugin(({ app, integration }) => {
       app.$cookies.remove(customerIdCookieName);
       return;
     }
-    app.$cookies.set(customerIdCookieName, id);
+    app.$cookies.set(customerIdCookieName, id, { maxAge });
   };
 
   const settings = mapConfigToSetupObject({

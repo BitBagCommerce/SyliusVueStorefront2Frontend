@@ -8,12 +8,12 @@
 
 ```typescript
 export declare type ProductOption = {
-  id: string;
-  code: string;
-  name: string;
-  label: string;
-  values: ProductOptionValue[];
+    id: string;
+    code: string;
+    name: string;
+    label: string;
+    values: ProductOptionValue[];
 };
 ```
-
 <b>References:</b> [ProductOptionValue](./sylius-api.productoptionvalue.md)
+

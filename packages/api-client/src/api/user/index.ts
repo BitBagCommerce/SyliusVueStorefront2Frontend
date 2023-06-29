@@ -14,18 +14,20 @@ import {
   getUserQuery,
   getUserAddressesQuery,
   getUserOrdersQuery,
+  validateResetUserPasswordQuery,
 } from './queries';
-import { CustomQuery } from '@vue-storefront/core';
-import { mutate, query, extendQuery } from '../helpers';
+import { Context, CustomQuery } from '@vue-storefront/core';
+import { mutate, query, extendQuery, VariablesHelper } from '../helpers';
 
-export const getUser = async (context, id: string) => {
+export const getUser = async (context: Context, id: string) => {
   const { customer } = await query(context, getUserQuery, { id });
+
   return customer;
 };
 
 export const registerUser = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof registerMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -44,8 +46,8 @@ export const registerUser = async (
 };
 
 export const loginUser = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof loginMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -55,12 +57,13 @@ export const loginUser = async (
     customQuery
   );
   const { shop_loginShopUserToken } = await mutate(context, queryGql);
+
   return shop_loginShopUserToken.shopUserToken;
 };
 
 export const refreshLoginUser = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof refreshLoginTokenMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -70,28 +73,29 @@ export const refreshLoginUser = async (
     customQuery
   );
   const { shop_refreshShopUserToken } = await mutate(context, queryGql);
+
   return shop_refreshShopUserToken.shopUserToken;
 };
 
-export const getUserAddresses = async (context, id: string) => {
-  const { addresses } = await query(context, getUserAddressesQuery, { id });
+export const getUserAddresses = async (context: Context) => {
+  const { addresses } = await query(context, getUserAddressesQuery, {});
+
   return addresses.collection;
 };
 
-export const getUserOrders = async (context, id: string) => {
+export const getUserOrders = async (context: Context, id: string) => {
   const { customer } = await query(context, getUserOrdersQuery, { id });
-  const orders = customer.orders.edges.map((edge) => {
-    const order = edge.node;
-    order.items = order.items.edges.map((e) => e.node);
-    return order;
-  });
+  const orders = customer.orders.edges.map((edge) => ({
+    ...edge.node,
+    items: edge.node.items.edges.map((e) => e.node),
+  }));
 
   return orders;
 };
 
 export const addUserAddress = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof addAddressMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -101,12 +105,13 @@ export const addUserAddress = async (
     customQuery
   );
   const { shop_postAddress } = await mutate(context, queryGql);
+
   return shop_postAddress.address;
 };
 
 export const updateUserAddress = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof updateAddressMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -116,12 +121,13 @@ export const updateUserAddress = async (
     customQuery
   );
   const { shop_putAddress } = await mutate(context, queryGql);
+
   return shop_putAddress.address;
 };
 
 export const deleteUserAddress = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof deleteAddressMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -131,12 +137,13 @@ export const deleteUserAddress = async (
     customQuery
   );
   const { deleteAddress } = await mutate(context, queryGql);
-  return deleteAddress.address;
+
+  return deleteAddress.clientMutationId;
 };
 
 export const updateUserProfile = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof updateProfileMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -146,12 +153,13 @@ export const updateUserProfile = async (
     customQuery
   );
   const { shop_putCustomer } = await mutate(context, queryGql);
+
   return shop_putCustomer.customer;
 };
 
 export const updateUserPassword = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof updatePasswordMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -161,12 +169,13 @@ export const updateUserPassword = async (
     customQuery
   );
   await mutate(context, queryGql);
+
   return {};
 };
 
 export const triggerResetUserPassword = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof triggerResetPasswordMutation>,
   customQuery?: CustomQuery
 ) => {
   defaultVariables.customerPassword.localeCode = context.config.locale;
@@ -177,12 +186,13 @@ export const triggerResetUserPassword = async (
     customQuery
   );
   await mutate(context, queryGql);
+
   return {};
 };
 
 export const resetUserPassword = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof resetPasswordMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -192,5 +202,18 @@ export const resetUserPassword = async (
     customQuery
   );
   await mutate(context, queryGql);
+
   return {};
+};
+
+export const validateResetUserPassword = async (
+  context: Context,
+  defaultVariables: VariablesHelper<typeof validateResetUserPasswordQuery>
+) => {
+  const token = await query(
+    context,
+    validateResetUserPasswordQuery,
+    defaultVariables
+  );
+  return token?.password_reset_tokenUser || {};
 };

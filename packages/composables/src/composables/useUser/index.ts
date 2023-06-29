@@ -1,13 +1,19 @@
 /* istanbul ignore file */
-
+import { Logger, useUserFactory } from '@vue-storefront/core';
 import {
-  Context,
-  Logger,
-  useUserFactory
-} from '@vue-storefront/core';
-import { User, UseUserFactoryParams } from '../../types';
+  User,
+  UseUserRegisterParams,
+  UseUserUpdateParams,
+  UseUserFactoryParamsExtension,
+} from '../../types';
 import { useCart } from '../useCart';
-const params: UseUserFactoryParams<User, any, any> = {
+import type { Context } from '@vue-storefront/sylius-api';
+
+const params: UseUserFactoryParamsExtension<
+  User,
+  UseUserUpdateParams,
+  UseUserRegisterParams
+> = {
   provide() {
     return {
       cart: useCart(),
@@ -41,14 +47,13 @@ const params: UseUserFactoryParams<User, any, any> = {
     apiState.setCustomerId(null);
     apiState.setCartId(null);
 
-    const { cartToken } = await context.$sylius.api.createCart();
-
-    apiState.setCartId(cartToken);
+    context.cart.setCart(null);
+    await context.cart.load();
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async (
     context: Context,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     { currentUser, updatedUserData, customQuery }
   ) => {
     const apiState = context.$sylius.config.state;
@@ -69,27 +74,30 @@ const params: UseUserFactoryParams<User, any, any> = {
     context: Context,
     { email, password, firstName, lastName }
   ) => {
-    try {
-      const registerUserResponse = await context.$sylius.api.registerUser({
-        user: {
-          firstName,
-          lastName,
-          password,
-          email,
-        },
-      });
-      return registerUserResponse;
-    } catch (err) {
-      const error = {
-        ...err?.response?.data?.graphQLErrors?.[0],
-        message: err?.response?.data?.graphQLErrors?.[0].debugMessage,
+    const registerUserResponse: any = await context.$sylius.api.registerUser({
+      user: {
+        firstName,
+        lastName,
+        password,
+        email,
+      },
+    });
+    const error = registerUserResponse?.graphQLErrors?.[0];
+
+    if (error)
+      throw {
+        ...error,
+        message: error.debugMessage,
       };
-      throw error;
-    }
+
+    return registerUserResponse;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  logIn: async (context: Context, { username, password, rememberMe }) => {
+  logIn: async (
+    context: Context,
+    { username, password, rememberMe, keepCart }
+  ) => {
     const apiState = context.$sylius.config.state;
     const orderTokenValue = apiState
       .getCartId()
@@ -111,7 +119,7 @@ const params: UseUserFactoryParams<User, any, any> = {
         },
       });
 
-      if (loginUserResponse.graphQLErrors !== undefined) {
+      if ((loginUserResponse as any).graphQLErrors !== undefined) {
         throw {
           message: "Can't authenticate with provided username/password.",
         };
@@ -120,6 +128,13 @@ const params: UseUserFactoryParams<User, any, any> = {
       apiState.setCustomerToken(loginUserResponse.token);
       apiState.setCustomerRefreshToken(loginUserResponse.refreshToken);
       apiState.setCustomerId(loginUserResponse.user.customer.id);
+
+      if (!keepCart) {
+        apiState.setCartId(null);
+        context.cart.setCart(null);
+
+        await context.cart.load();
+      }
     } catch (e) {
       throw {
         message: "Can't authenticate with provided username/password.",
@@ -148,7 +163,7 @@ const params: UseUserFactoryParams<User, any, any> = {
       },
       customQuery
     );
-    const errors = updatePassword.graphQLErrors?.[0];
+    const errors = (updatePassword as any).graphQLErrors?.[0];
 
     if (!errors) {
       await params.logOut(context, { currentUser });
@@ -156,13 +171,13 @@ const params: UseUserFactoryParams<User, any, any> = {
       return await params.logIn(context, {
         username: currentUser.email,
         password: newPassword,
-        rememberMe: false
+        rememberMe: false,
       });
     }
 
     throw {
       ...errors,
-      message: errors.debugMessage,
+      message: errors.extensions.message,
     };
   },
 };

@@ -1,11 +1,12 @@
 import {
-  Context,
   Logger,
   useCategoryFactory,
   UseCategoryFactoryParams,
 } from '@vue-storefront/core';
+import { Context } from '@vue-storefront/sylius-api';
 import { Category } from '../../types';
 
+// TODO: add better typing after category list changes
 const params: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (
     context: Context,
@@ -16,10 +17,12 @@ const params: UseCategoryFactoryParams<Category, any> = {
         searchParams,
         customQuery
       );
+
       return category;
     } catch (e) {
       Logger.error(e);
     }
+
     return [];
   },
 };

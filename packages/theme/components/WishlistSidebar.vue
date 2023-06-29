@@ -174,8 +174,7 @@ export default {
     WishlistForm,
     SfInput,
   },
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
+  setup(_, { root }) {
     const { isWishlistSidebarOpen, toggleWishlistSidebar } = useUiState();
     const { wishlists, createWishlist, clearWishlist, editWishlist, error } =
       useWishlists();
@@ -204,13 +203,13 @@ export default {
     const sidebarTitle = computed(() => {
       switch (currentView.value) {
         case views.list:
-          return t('Select wishlist');
+          return root.$t('Select wishlist');
         case views.items:
-          return currentWishlist.value.name || t('Unknown');
+          return currentWishlist.value.name || root.$t('Unknown');
         case views.create:
-          return t('Add new wishlist');
+          return root.$t('Add new wishlist');
         case views.edit:
-          return t('Change wishlist name');
+          return root.$t('Change wishlist name');
       }
     });
 
@@ -292,7 +291,7 @@ export default {
 
       send({
         type: 'success',
-        message: t('Product has been added to the cart'),
+        message: root.$t('Product has been added to the cart'),
       });
     };
 

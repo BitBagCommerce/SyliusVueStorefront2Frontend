@@ -69,7 +69,7 @@
     </div>
 
     <AddToCart
-      v-e2e="'modal__add-to-cart'"
+      data-e2e="modal__add-to-cart"
       class="modal__add-to-cart"
       v-model="qty"
       :selectedVariant="product.selectedVariant"
@@ -108,15 +108,13 @@ export default {
     QuantitySelector,
     AddToCart,
   },
-  setup(_, context) {
+  setup(_, { root }) {
     const { product, close, setAttribute, attributes, options, optionKeys } =
       useVariantSelector();
     const { addItem, loading, error } = useCart();
     const { send } = useUiNotification();
 
     const qty = ref(1);
-
-    const t = (key) => context.root.$i18n.t(key);
 
     const handleAddToCart = async () => {
       await addItem({ product: product.value, quantity: qty.value });
@@ -131,7 +129,7 @@ export default {
 
       send({
         type: 'success',
-        message: t('Product has been added to the cart'),
+        message: root.$t('Product has been added to the cart'),
       });
       close();
     };
@@ -168,6 +166,8 @@ export default {
 .modal {
   --modal-width: 35rem;
   --modal-content-padding: var(--spacer-base) 0;
+  position: relative;
+  z-index: 4;
 
   @include for-mobile {
     --modal-width: 100%;

@@ -111,54 +111,12 @@
               @click="go('next')"
             />
           </template>
-          <SfCarouselItem
-            class="carousel__item"
+          <ProductCard
             v-for="(product, i) in products"
+            :product="product"
+            :index="i"
             :key="i"
-          >
-            <SfProductCard
-              :title="product.name"
-              :image="productGetters.getCoverImage(product)"
-              imageHeight="260"
-              imageWidth="260"
-              :regular-price="
-                $n(productGetters.getPrice(product).regular, 'currency')
-              "
-              :max-rating="5"
-              :score-rating="product.averageRating"
-              :show-add-to-cart-button="true"
-              wishlistIcon=""
-              isInWishlistIcon=""
-              :link="
-                localePath(
-                  `/p/${productGetters.getId(product)}/${productGetters.getSlug(
-                    product
-                  )}`
-                )
-              "
-              class="carousel__item__product"
-              @click:add-to-cart="open(product)"
-            >
-              <template #image>
-                <NuxtLink
-                  :to="
-                    localePath(
-                      `/p/${productGetters.getId(
-                        product
-                      )}/${productGetters.getSlug(product)}`
-                    )
-                  "
-                >
-                  <img
-                    class="carousel__item__image"
-                    :src="productGetters.getCoverImage(product)"
-                    :alt="product.name"
-                    loading="lazy"
-                  />
-                </NuxtLink>
-              </template>
-            </SfProductCard>
-          </SfCarouselItem>
+          />
         </SfCarousel>
       </SfLoader>
     </ClientOnly>
@@ -197,10 +155,12 @@ import { useUiNotification } from '~/composables';
 import loader from '~/static/icons/loader.svg';
 import ClientOnly from 'vue-client-only';
 import useVariantSelector from '~/composables/useVariantSelector';
+import ProductCard from '~/components/Product/ProductCard.vue';
 
 export default {
   name: 'Home',
   components: {
+    ProductCard,
     InstagramFeed,
     SfHero,
     SfBanner,
@@ -218,7 +178,6 @@ export default {
     ClientOnly,
   },
   setup(_, { root }) {
-    const t = (key) => root.$i18n.t(key);
     const { $config } = useContext();
     const { categories } = useCategory('AppHeader:CategoryList');
     const { addItem: addItemToCart, error } = useCart();
@@ -329,7 +288,7 @@ export default {
 
       send({
         type: 'success',
-        message: t('Product has been added to the cart'),
+        message: root.$t('Product has been added to the cart'),
       });
     };
 

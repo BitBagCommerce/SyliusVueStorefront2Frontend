@@ -28,7 +28,7 @@
         >
           <SfAccordion
             v-if="categoryTree.children"
-            v-e2e="'categories-accordion'"
+            data-e2e="categories-accordion"
             :show-chevron="true"
           >
             <nuxt-link
@@ -112,56 +112,12 @@
             tag="div"
             class="products__grid"
           >
-            <div
+            <ProductCard
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
-              @mouseover="isDropdownVisible = true"
-              @mouseleave="isDropdownVisible = false"
-              class="product-card"
-            >
-              <SfProductCard
-                v-e2e="'category-product-card'"
-                :style="{ '--index': i }"
-                :title="productGetters.getName(product)"
-                :image="productGetters.getCoverImage(product)"
-                imageHeight="260"
-                imageWidth="260"
-                :regular-price="
-                  $n(productGetters.getPrice(product).regular, 'currency')
-                "
-                :special-price="
-                  productGetters.getPrice(product).special &&
-                  $n(productGetters.getPrice(product).special, 'currency')
-                "
-                :max-rating="5"
-                :score-rating="productGetters.getAverageRating(product)"
-                :show-add-to-cart-button="true"
-                :is-added-to-cart="isInCart({ product })"
-                :wishlist-icon="false"
-                :link="
-                  localePath(
-                    `/p/${productGetters.getId(
-                      product
-                    )}/${productGetters.getSlug(product)}`
-                  )
-                "
-                :addToCartDisabled="
-                  product.selectedVariant.tracked &&
-                  !productGetters.isInStock(product.selectedVariant) &&
-                  !productGetters.hasMultipleVariants(product)
-                "
-                class="products__product-card"
-                @click:add-to-cart="open(product)"
-              />
-
-              <WishlistDropdown
-                class="wishlist"
-                :wishlists="wishlists"
-                :product="product"
-                :visible="isDropdownVisible"
-                :icon="'circleIcon'"
-              />
-            </div>
+              :product="product"
+              :index="i"
+            />
           </transition-group>
           <transition-group
             v-else
@@ -171,7 +127,7 @@
             class="products__list"
           >
             <SfProductCardHorizontal
-              v-e2e="'category-product-card'"
+              data-e2e="category-product-card"
               v-for="(product, i) in products"
               class="products__product-card-horizontal"
               :key="productGetters.getSlug(product)"
@@ -222,10 +178,7 @@
               </template>
               <template #actions>
                 <WishlistDropdown
-                  class="
-                    desktop-only
-                    products__product-card-horizontal--wishlist-button
-                  "
+                  class="desktop-only products__product-card-horizontal--wishlist-button"
                   :wishlists="wishlists"
                   :product="product"
                   :visible="true"
@@ -243,7 +196,11 @@
               <template #add-to-cart>
                 <AddToCart
                   :selectedVariant="product.selectedVariant"
-                  :disabled="loading"
+                  :disabled="
+                    product.selectedVariant.tracked &&
+                    !productGetters.isInStock(product.selectedVariant) &&
+                    !productGetters.hasMultipleVariants(product)
+                  "
                   @quantity-change="productsQuantity[product._id] = $event"
                   @click="open(product)"
                 />
@@ -329,12 +286,12 @@ import LazyHydrate from 'vue-lazy-hydration';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
 import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
 import useVariantSelector from '~/composables/useVariantSelector';
+import ProductCard from '~/components/Product/ProductCard.vue';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
   transition: 'fade',
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
+  setup(props, { root }) {
     const th = useUiHelpers();
     const uiState = useUiState();
     const { addItem: addItemToCart, isInCart, error: useCartError } = useCart();
@@ -406,7 +363,7 @@ export default {
 
       send({
         type: 'success',
-        message: t('Product has been added to the cart'),
+        message: root.$t('Product has been added to the cart'),
       });
     };
 
@@ -428,7 +385,7 @@ export default {
       const facets = th.getFacetsFromURL();
 
       await Promise.all([loadAttributes(facets), loadProducts(facets)]);
-      if (error?.value?.search) context.root.$nuxt.error({ statusCode: 404 });
+      if (error?.value?.search) root.$nuxt.error({ statusCode: 404 });
     });
 
     return {
@@ -458,6 +415,7 @@ export default {
     };
   },
   components: {
+    ProductCard,
     CategoryPageHeader,
     SfButton,
     SfSidebar,
@@ -585,11 +543,6 @@ export default {
       --product-card-title-font-weight: var(--font-weight--normal);
       --product-card-add-button-bottom: var(--spacer-base);
       --product-card-title-margin: var(--spacer-sm) 0 0 0;
-    }
-
-    ::v-deep .sf-image--placeholder {
-      width: var(--image-width);
-      height: var(--image-height);
     }
   }
 
@@ -781,41 +734,6 @@ export default {
     &__label {
       font-family: var(--font-family--secondary);
       font-size: var(--font-size--sm);
-    }
-  }
-
-  .product-card {
-    position: relative;
-
-    .wishlist {
-      display: none;
-      position: absolute;
-      top: calc(1rem + var(--spacer-sm));
-      right: calc(1rem + var(--spacer-sm));
-    }
-
-    @include for-mobile {
-      .wishlist {
-        display: flex;
-        z-index: 1;
-
-        &.active {
-          z-index: 2;
-        }
-      }
-    }
-
-    @include for-desktop {
-      &:hover {
-        --product-card-add-button-opacity: 1;
-        --product-card-z-index: 1;
-        --product-card-box-shadow: 0px 4px 11px rgba(29, 31, 34, 0.1);
-
-        .wishlist {
-          display: flex;
-          z-index: 10;
-        }
-      }
     }
   }
 }

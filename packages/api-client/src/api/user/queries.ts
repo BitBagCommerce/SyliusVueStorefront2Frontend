@@ -1,32 +1,48 @@
-import gql from 'graphql-tag';
-import { customerFragment } from '../fragments/customer';
-import { addressFragment } from '../fragments/address';
+import { gql } from 'api-client/__generated__';
 
-export const getUserQuery = gql`
+export const getUserQuery = gql(`
   query getUser(
     $id: ID!
   ) {
     customer (
       id: $id
     ) {
-      ${customerFragment}
+      firstName
+      lastName
+      email
+      phoneNumber
+      gender
+      birthday
+      subscribedToNewsletter
     }
   }
-`;
+`);
 
-export const getUserAddressesQuery = gql`
+export const getUserAddressesQuery = gql(`
   query getUserAddresses {
     addresses {
       collection {
-        ${addressFragment}
+        id
+        firstName
+        lastName
+        street
+        city
+        postcode
+        state: provinceName
+        countryCode
+        phoneNumber
       }
     }
   }
-`;
+`);
 
-export const getUserOrdersQuery = gql`
-  query getCustomerOrders($id: ID!) {
-    customer(id: $id) {
+export const getUserOrdersQuery = gql(`
+  query getCustomerOrders(
+    $id: ID!
+  ) {
+    customer (
+      id: $id
+    ) {
       orders {
         edges {
           node {
@@ -70,4 +86,16 @@ export const getUserOrdersQuery = gql`
       }
     }
   }
-`;
+`);
+
+export const validateResetUserPasswordQuery = gql(`
+  query validateResetUserPassword(
+    $token: String!
+  ) {
+    password_reset_tokenUser(
+      passwordResetToken: $token
+    ) {
+      username
+    }
+  }
+`);

@@ -6,7 +6,7 @@
       class="sf-heading--left sf-heading--no-underline title shipping__title"
     />
     <SfRadio
-      v-e2e="'shipping-method'"
+      data-e2e="shipping-method"
       v-for="method in shippingMethods"
       :key="method.value"
       :label="method.label"
@@ -42,7 +42,7 @@
         {{ $t('Go back') }}
       </SfButton>
       <SfButton
-        v-e2e="'continue-to-billing'"
+        data-e2e="continue-to-payment"
         class="form__action-button"
         :disabled="!selectedMethod"
         type="button"

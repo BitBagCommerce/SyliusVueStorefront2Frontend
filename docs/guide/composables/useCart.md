@@ -15,74 +15,59 @@
 - `loading: boolean` - a reactive object containing information about loading state of the cart.
 - `error` - reactive object containing the error message.
 
-### `load`
+### `load: ({ customQuery?: CustomQuery } }) => Promise<void>`
 
 Function for loading existing cart from cookie or creating a brand new cart and storing cart identifier to cookie.
 function required to fetch cart from a server or create brand new if it doesn't exist.
 
-### `addItem`
+### `addItem: ({ product: Product, quantity: number, customQuery?: customQuery }) => Promise<void>`
 
-Function for adding products to the cart. It accepts an object with the following keys:
+Function for adding products to the cart.
 
-- `product: Product`
+### `updateItemQty: ({ product: Product, quantity?: number, customQuery?: customQuery }) => Promise<void>`
 
-- `quantity: number`
+Function for updating quantity of a product in cart.
 
-- `customQuery?: customQuery`
+### `removeItem: ({ product: Product, customQuery?: customQuery }) => Promise<void>`
 
-### `updateItemQty`
+Function for removing a product from cart.
 
-Function for updating quantity of a product in cart. It accepts an object with the following keys:
-
-- `product: Product`
-
-- `quantity: number`
-
-- `customQuery?: CustomQuery`
-
-### `removeItem`
-
-Function for removing a product from cart. It accepts an object with the following keys:
-
-- `product: Product`
-
-- `customQuery?: CustomQuery`
-
-### `isInCart`
+### `isInCart: ({ product: Product }) => boolean`
 
 Function for checking if given product is currently in the cart.
 
-- `clear` - function for removing all items in cart.
+### `clear: () => Promise<void>`
 
-- `applyCoupon` - function for applying coupon to cart. It accepts an object with the following keys:
+Function for removing all items in cart.
 
-  - `couponCode: string`
+### `applyCoupon: ({ couponCode: string, customQuery?: CustomQuery }) => Promise<void>`
 
-  - `customQuery?: CustomQuery`
+Function for applying coupon to cart.
 
-### `removeCoupon`
+### `removeCoupon: ({ couponCode: string, customQuery?: CustomQuery }) => Promise<void>`
 
-Function for removing coupon from cart. It accepts an object with the following keys:
+Function for removing coupon from cart.
 
-- `coupon: string`
+### `setCart: (newCart: Cart) => void`
 
-- `customQuery?: CustomQuery`
+Function for replacing cart.
 
 ## Getters
 
-- `getTotals: AgnosticTotals`
-- `getShippingPrice: number`
-- `getItems: CartLineItem[]`
-- `getItemName: string`
-- `getItemImage: string`
-- `getItemPrice: AgnosticPrice`
-- `getItemQty: number`
-- `getItemAttributes: Record<string, string>`
-- `getItemSku: string`
-- `getFormattedPrice: string`
-- `getTotalItems: number`
-- `getCoupons: AgnosticCoupon[]`
-- `getDiscounts: AgnosticDiscount[]`
+- `getTotals: (cart: Cart) => AgnosticTotals`
+- `getShippingPrice: (cart: Cart) => number`
+- `getItems: (cart: Cart) => CartLineItem[]`
+- `getItemName: (product: CartLineItem) => string`
+- `getItemImage: (product: CartLineItem) => string`
+- `getItemPrice: (product: CartLineItem) => AgnosticPrice`
+- `getItemQty: (product: CartLineItem) => number`
+- `getItemAttributes: (product: CartLineItem, filterByAttributeName?: Array<string>) => Record<string, string>`
+- `getItemSku: (product: CartLineItem) => string`
+- `getFormattedPrice: (price: number) => string`
+- `getTotalItems: (cart: Cart) => number`
+- `getCoupons: (cart: Cart) => AgnosticCoupon[]`
+- `getDiscounts: (cart: Cart) => AgnosticDiscount[]`
+- `getCartTokenValue: (cart: any) => number`
 
 ## Example
 

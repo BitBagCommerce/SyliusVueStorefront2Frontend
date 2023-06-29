@@ -1,7 +1,6 @@
-import gql from 'graphql-tag';
-import { minimalProductFragment, productFragment } from './fragments';
+import { gql } from 'api-client/__generated__';
 
-export const BaseQuery = gql`
+export const BaseQuery = gql(`
   query getProducts(
     $slug: String,
     $categorySlug: String,
@@ -12,7 +11,7 @@ export const BaseQuery = gql`
     $itemsPerPage: Int,
     $page: Int,
     $search: String,
-    $channelsCode: String,
+    $channelsCode: String!,
   ) {
     products(
       translations_name: $search,
@@ -27,7 +26,85 @@ export const BaseQuery = gql`
       channels_code: $channelsCode,
     ) {
       collection {
-        ${productFragment}
+        id
+        _id
+        sku: code
+        name
+        slug
+        averageRating
+        shortDescription
+        description
+        metaKeywords
+        metaDescription
+        productTaxons {
+          collection {
+            taxon {
+              id
+            }
+          }
+        }
+        options {
+          edges {
+            node {
+              id
+              _id
+              values {
+                edges {
+                  node {
+                    id
+                    code
+                    value
+                  }
+                }
+              }
+              name
+              code
+            }
+          }
+        }
+        variants {
+          collection {
+            id
+            code
+            name
+            inStock
+            onHold
+            onHand
+            enabled
+            channelPricings(channelCode: $channelsCode) {
+              collection {
+                channelCode
+                price
+              }
+            }
+            optionValues {
+              edges {
+                node {
+                  id
+                  code
+                  value
+                  option {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+        attributes {
+          collection {
+            type
+            name
+            stringValue
+            localeCode
+          }
+        }
+        imagesRef: images {
+          collection {
+            path
+          }
+        }
+        enabled
       }
       paginationInfo {
         itemsPerPage
@@ -36,10 +113,10 @@ export const BaseQuery = gql`
       }
     }
   }
-`;
+`);
 
-export const getMinimalProductsQuery = gql`
-  query getProducts(
+export const getMinimalProductsQuery = gql(`
+  query getMinimalProducts(
     $slug: String,
     $categorySlug: String,
     $orderBy: [ProductFilter_order],
@@ -49,7 +126,7 @@ export const getMinimalProductsQuery = gql`
     $itemsPerPage: Int,
     $page: Int,
     $search: String,
-    $channelsCode: String,
+    $channelsCode: String!,
   ) {
     products(
       translations_name: $search,
@@ -64,7 +141,77 @@ export const getMinimalProductsQuery = gql`
       channels_code: $channelsCode,
     ) {
       collection {
-        ${minimalProductFragment}
+        id
+        _id
+        sku: code
+        name
+        slug
+        averageRating
+        shortDescription
+        options {
+          edges {
+            node {
+              id
+              _id
+              values {
+                edges {
+                  node {
+                    id
+                    code
+                    value
+                  }
+                }
+              }
+              name
+              code
+            }
+          }
+        }
+        variants {
+          collection {
+            id
+            code
+            name
+            inStock
+            onHold
+            onHand
+            enabled
+            tracked
+            channelPricings(channelCode: $channelsCode) {
+              collection {
+                channelCode
+                price
+                originalPrice
+              }
+            }
+            optionValues {
+              edges {
+                node {
+                  id
+                  code
+                  value
+                  option {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+        attributes {
+          collection {
+            type
+            name
+            stringValue
+            localeCode
+          }
+        }
+        imagesRef: images {
+          collection {
+            path
+          }
+        }
+        enabled
       }
       paginationInfo {
         itemsPerPage
@@ -73,13 +220,13 @@ export const getMinimalProductsQuery = gql`
       }
     }
   }
-`;
+`);
 
-export const getProductsNotFilteredQuery = gql`
+export const getProductsNotFilteredQuery = gql(`
   query getProductsNotFiltered(
     $slug: String,
     $categorySlug: String,
-    $channelsCode: String,
+    $channelsCode: String!,
   ) {
     products(
       translations_slug: $slug,
@@ -87,13 +234,86 @@ export const getProductsNotFilteredQuery = gql`
       channels_code: $channelsCode,
     ) {
       collection {
-        ${productFragment}
+        id
+        _id
+        sku: code
+        name
+        slug
+        averageRating
+        shortDescription
+        description
+        metaKeywords
+        metaDescription
+        options {
+          edges {
+            node {
+              id
+              _id
+              values {
+                edges {
+                  node {
+                    id
+                    code
+                    value
+                  }
+                }
+              }
+              name
+              code
+            }
+          }
+        }
+        variants {
+          collection {
+            id
+            code
+            name
+            inStock
+            onHold
+            onHand
+            enabled
+            tracked
+            channelPricings(channelCode: $channelsCode) {
+              collection {
+                channelCode
+                price
+                originalPrice
+              }
+            }
+            optionValues {
+              edges {
+                node {
+                  id
+                  code
+                  value
+                  option {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+        attributes {
+          collection {
+            type
+            name
+            stringValue
+            localeCode
+          }
+        }
+        imagesRef: images {
+          collection {
+            path
+          }
+        }
+        enabled
       }
     }
   }
-`;
+`);
 
-export const getProductsAttributesQuery = gql`
+export const getProductsAttributesQuery = gql(`
   query productsAttributesInTaxon($categorySlug: String, $locale: String) {
     products(productTaxons_taxon_translations_slug: $categorySlug) {
       collection {
@@ -109,9 +329,9 @@ export const getProductsAttributesQuery = gql`
       }
     }
   }
-`;
+`);
 
-export const getFirstProductIdQuery = gql`
+export const getFirstProductIdQuery = gql(`
   query getFirstProduct {
     products(itemsPerPage: 1) {
       collection {
@@ -119,4 +339,4 @@ export const getFirstProductIdQuery = gql`
       }
     }
   }
-`;
+`);

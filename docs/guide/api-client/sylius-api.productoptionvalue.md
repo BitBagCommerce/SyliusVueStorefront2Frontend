@@ -8,11 +8,11 @@
 
 ```typescript
 export declare type ProductOptionValue = {
-  id: string;
-  code: string;
-  value: string;
-  option: {
     id: string;
-  };
+    code: string;
+    value: string;
+    option: {
+        id: string;
+    };
 };
 ```

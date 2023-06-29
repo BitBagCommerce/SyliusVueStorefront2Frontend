@@ -9,7 +9,7 @@
 - `products: Product[]` - an array of fetched products.
 - `loading: boolean` - a reactive object containing information whether products are loading.
 
-### `search`
+### `search: (params: ProductsSearchParams) => Promise<{ products: any, pagination: any }>`
 
 Function for fetching products based on passed `params: ProductsSearchParams`.
 
@@ -17,20 +17,24 @@ Function for fetching products based on passed `params: ProductsSearchParams`.
 
 ## Getters
 
-- `getId: string`
-- `getName: string`
-- `getSlug: string`
-- `getPrice: AgnosticPrice`
-- `getGallery: AgnosticMediaGalleryItem[]`
-- `getCoverImage: string`
-- `getFiltered: Product[]`
-- `getAttributes: Record<string, AgnosticAttribute | string>`
-- `getDescription: string`
-- `getCategoryIds: string[]`
-- `getFormattedPrice: string`
-- `getTotalReviews: number`
-- `getAverageRating: number`
-- `getOptions: any`
+- `getId: (product: Product) => string`
+- `getName: (product: Product) => string`
+- `getSlug: (product: Product) => string`
+- `getPrice: (product: Product) => AgnosticPrice`
+- `getGallery: (product: Product) => AgnosticMediaGalleryItem[]`
+- `getCoverImage: (product: Product) => string`
+- `getFiltered: (products: Product[], filters: ProductVariantFilters | any = {}) => Product[]`
+- `getAttributes: (products: Product[] | Product, filterByAttributeName?: string[]) => Record<string, AgnosticAttribute | string>`
+- `getDescription: (product: Product) => string`
+- `getCategoryIds: (product: Product) => string[]`
+- `getFormattedPrice: (product: Product) => string`
+- `getTotalReviews: (product: Product) => number`
+- `getAverageRating: (product: Product) => number`
+- `getOptions: (product: Product) => any`
+- `getStockForVariant: (variant: any) => number`
+- `isInStock: (variant: any) => boolean`
+- `hasMultipleVariants: (product: Product) => boolean`
+- `getQuantityLimit: (variant: any) => number`
 
 ## Example
 

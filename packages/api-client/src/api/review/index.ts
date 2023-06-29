@@ -1,16 +1,20 @@
 import { getReviewsQuery } from './queries';
 import { addReviewMutation } from './mutations';
-import { mutate, query, extendQuery } from '../helpers';
-import { CustomQuery } from '@vue-storefront/core';
+import { mutate, query, extendQuery, VariablesHelper } from '../helpers';
+import { Context, CustomQuery } from '@vue-storefront/core';
 
-export const getReviews = async (context, params) => {
+export const getReviews = async (
+  context: Context,
+  params: VariablesHelper<typeof getReviewsQuery>
+) => {
   const { productReviews } = await query(context, getReviewsQuery, params);
+
   return productReviews.collection;
 };
 
 export const addReview = async (
-  context,
-  defaultVariables,
+  context: Context,
+  defaultVariables: VariablesHelper<typeof addReviewMutation>,
   customQuery?: CustomQuery
 ) => {
   const queryGql = extendQuery(
@@ -20,5 +24,6 @@ export const addReview = async (
     customQuery
   );
   await mutate(context, queryGql);
+
   return {};
 };

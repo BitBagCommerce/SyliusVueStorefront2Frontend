@@ -1,19 +1,14 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
-    <SfHeading
-      v-e2e="'billing-heading'"
-      :level="3"
-      :title="$t('Billing')"
-      class="sf-heading--left sf-heading--no-underline title"
-    />
+    <CheckoutHeader :title="$t('Billing')" e2e="billing-heading" />
     <form @submit.prevent="handleSubmit(handleFormSubmit)">
       <SfLoader :loading="loading">
         <div v-if="!loading">
           <UserAddresses
             v-if="isAuthenticated && hasSavedBillingAddress"
-            :addresses="userBilling"
-            :addressGetters="userBillingGetters"
-            @setCurrentAddress="handleSetCurrentAddress"
+            :addresses="userShipping"
+            :addressGetters="userShippingGetters"
+            @set-current-address="handleSetCurrentAddress"
           />
         </div>
       </SfLoader>
@@ -25,7 +20,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-firstName'"
+            data-e2e="billing-firstName"
             v-model="form.firstName"
             :label="$t('First name')"
             name="firstName"
@@ -42,7 +37,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-lastName'"
+            data-e2e="billing-lastName"
             v-model="form.lastName"
             :label="$t('Last name')"
             name="lastName"
@@ -59,7 +54,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-streetName'"
+            data-e2e="billing-streetName"
             v-model="form.street"
             :label="$t('Street name')"
             name="street"
@@ -76,7 +71,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-city'"
+            data-e2e="billing-city"
             v-model="form.city"
             :label="$t('City')"
             name="city"
@@ -88,7 +83,7 @@
         </ValidationProvider>
         <ValidationProvider name="state" slim>
           <SfInput
-            v-e2e="'billing-state'"
+            data-e2e="billing-state"
             v-model="form.state"
             :label="$t('State/Province')"
             name="state"
@@ -102,14 +97,11 @@
           slim
         >
           <SfSelect
-            v-e2e="'billing-country'"
+            data-e2e="billing-country"
             v-model="form.countryCode"
             :label="$t('Country')"
             name="countryCode"
-            class="
-              form__element form__element--half form__select
-              sf-select--underlined
-            "
+            class="form__element form__element--half form__select sf-select--underlined"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -131,7 +123,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-zipcode'"
+            data-e2e="billing-zipcode"
             v-model="form.postcode"
             :label="$t('Zip-code')"
             name="zipCode"
@@ -148,7 +140,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-email'"
+            data-e2e="billing-email"
             v-model="form.email"
             :label="$t('E-mail')"
             name="email"
@@ -166,7 +158,7 @@
           slim
         >
           <SfInput
-            v-e2e="'billing-phone'"
+            data-e2e="billing-phone"
             v-model="form.phoneNumber"
             :label="$t('Phone number')"
             name="phoneNumber"
@@ -180,7 +172,7 @@
       <div class="form">
         <div class="form__action">
           <SfButton
-            v-e2e="'continue-to-shipping'"
+            data-e2e="continue-to-shipping"
             class="form__action-button"
             type="submit"
           >
@@ -206,13 +198,14 @@ import { ref, computed, onMounted } from '@nuxtjs/composition-api';
 import {
   useBilling,
   useUser,
-  useUserBilling,
-  userBillingGetters,
+  useUserShipping,
+  userShippingGetters,
 } from '@vue-storefront/sylius';
 import { required, min, digits, email } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { useVSFContext } from '@vue-storefront/core';
 import { useUiNotification, useUiState } from '~/composables/';
+import CheckoutHeader from '~/components/Checkout/CheckoutHeader.vue';
 
 export default {
   name: 'Billing',
@@ -226,27 +219,28 @@ export default {
     ValidationProvider,
     ValidationObserver,
     SfLoader,
+    CheckoutHeader,
     UserAddresses: () => import('@/components/Checkout/UserAddresses'),
   },
-  setup(props, context) {
-    const t = (key) => context.root.$i18n.t(key);
-
+  setup(props, { root }) {
     extend('required', {
       ...required,
-      message: t('This field is required'),
+      message: root.$t('This field is required'),
     });
     extend('min', {
       ...min,
       message:
-        t('The field should have at least') + ' {length} ' + t('characters'),
+        root.$t('The field should have at least') +
+        ' {length} ' +
+        root.$t('characters'),
     });
     extend('digits', {
       ...digits,
-      message: t('Please provide a valid phone number'),
+      message: root.$t('Please provide a valid phone number'),
     });
     extend('email', {
       ...email,
-      message: t('Please provide a valid e-mail address'),
+      message: root.$t('Please provide a valid e-mail address'),
     });
 
     const { load, save, billing, error } = useBilling();
@@ -254,10 +248,10 @@ export default {
     const { $vsf } = useVSFContext();
     const { isAuthenticated, user } = useUser();
     const {
-      billing: userBilling,
-      load: loadUserBilling,
+      shipping: userShipping,
+      load: loadUserShipping,
       loading,
-    } = useUserBilling();
+    } = useUserShipping();
     const { send } = useUiNotification();
     const canAddNewAddress = ref(true);
     const countries = ref([]);
@@ -275,31 +269,23 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      const errors = Object.keys(error.value);
-      let hasErrors = false;
-      if (errors.length) {
-        errors.forEach((errorKey) => {
-          if (error.value[errorKey]?.graphQLErrors?.length) {
-            const e = error.value[errorKey].graphQLErrors[0];
-            send({ type: 'danger', message: e.debugMessage });
-            hasErrors = true;
+      const err = error.value.save?.graphQLErrors;
 
-            if (
-              e.debugMessage ===
-              'Provided email address belongs to another user, please log in to complete order.'
-            ) {
-              hasErrors = 'email_exists_error';
-            }
-          }
-        });
+      if (!err?.length) {
+        root.$router.push(root.localePath({ name: 'shipping' }));
+
+        return;
       }
 
-      if (hasErrors === 'email_exists_error') toggleLoginModal();
+      const message = err?.[0].extensions.message;
 
-      if (!hasErrors)
-        context.root.$router.push(
-          context.root.localePath({ name: 'shipping' })
-        );
+      send({ type: 'danger', message: root.$t(message) });
+
+      if (
+        message ===
+        'Provided email address belongs to another user, please log in to complete order.'
+      )
+        toggleLoginModal(false);
     };
 
     const handleSetCurrentAddress = (address) => {
@@ -310,10 +296,10 @@ export default {
     };
 
     const hasSavedBillingAddress = computed(() => {
-      if (!isAuthenticated.value || !userBilling.value) {
+      if (!isAuthenticated.value || !userShipping.value) {
         return false;
       }
-      const addresses = userBillingGetters.getAddresses(userBilling.value);
+      const addresses = userShippingGetters.getAddresses(userShipping.value);
       return Boolean(addresses?.length);
     });
 
@@ -329,7 +315,7 @@ export default {
       };
       if (isAuthenticated.value) {
         form.value.email = user.value.email ?? null;
-        await loadUserBilling();
+        await loadUserShipping();
       }
     });
 
@@ -343,8 +329,8 @@ export default {
       hasSavedBillingAddress,
       isAuthenticated,
       canAddNewAddress,
-      userBilling,
-      userBillingGetters,
+      userShipping,
+      userShippingGetters,
       user,
     };
   },

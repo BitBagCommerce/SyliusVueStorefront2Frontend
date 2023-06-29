@@ -8,14 +8,20 @@
 
 - `categories: Category[]` - an array of fetched categories.
 - `loading: boolean` - a reactive object containing information whether categories are loading.
+- `error` - reactive object containing the error message.
 
-### `search`
+### `search: ({ customQuery?: CustomQuery }) => Promise<void>`
 
 Function for fetching products based on passed `params`.
 
 ## Getters
 
-- `getTree: AgnosticCategoryTree`
+- `getTree: AgnosticCategoryTree | null`
+- `getBreadcrumbs?: (category: any) => AgnosticBreadcrumb[];`
+- `getChildren: (category: Category, categories: Category[]) => Category[]`
+- `hasChildren: (category: Category, categories: Category[]) => boolean`
+- `getTopLevelCategories: (categories: Category[]) => Category[]`
+- `getParent: (categories: Category[]) => Category`
 
 [AgnosticCategoryTree](https://docs.vuestorefront.io/v2/reference/api/core.agnosticcategorytree.html)
 

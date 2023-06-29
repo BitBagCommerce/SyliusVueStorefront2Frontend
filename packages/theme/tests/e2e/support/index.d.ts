@@ -6,4 +6,8 @@ declare namespace Cypress {
   interface Chainable {
     fixtures?: any;
   }
+
+  interface cy {
+    fixtures: { data: any };
+  }
 }
