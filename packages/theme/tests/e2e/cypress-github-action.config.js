@@ -1,12 +1,13 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
+  projectId: 'zwgjzu',
   fixturesFolder: 'packages/theme/tests/e2e/fixtures',
   viewportHeight: 1080,
   viewportWidth: 1920,
   screenshotOnRunFailure: true,
   screenshotsFolder: 'report/assets/screenshots',
-  video: false,
+  video: true,
   reporter: 'node_modules/mochawesome',
   reporterOptions: {
     reportDir: 'report',
