@@ -39,7 +39,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cypress run
-        uses: cypress-io/github-action@v3
+        uses: cypress-io/github-action@v5
         with:
           config-file: packages/theme/tests/e2e/cypress-github-action.config.js
           install: yarn install
