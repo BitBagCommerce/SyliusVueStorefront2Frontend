@@ -21,6 +21,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}api/v2/graphql
+      PORT: 3000
+      MIDDLEWARE_URL: http://localhost:3000/api/
+      SYLIUS_CHANNEL_CODE: FASHION_WEB
+      SYLIUS_THUMBNAIL_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}media/cache/sylius_shop_product_thumbnail
+      SYLIUS_REGULAR_IMAGE_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}media/cache/sylius_shop_product_large_thumbnail
+      SYLIUS_PAYMENT_GATEWAY_HOST: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}
+      SYLIUS_DEFAULT_LOCALE: en_US
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
