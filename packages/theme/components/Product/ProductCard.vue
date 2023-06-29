@@ -126,6 +126,7 @@ export default {
   @include for-desktop {
     &:hover {
       --product-card-add-button-opacity: 1;
+      --product-card-add-button-bottom: -1rem;
       --product-card-z-index: 1;
       --product-card-box-shadow: 0px 4px 11px rgba(29, 31, 34, 0.1);
 
