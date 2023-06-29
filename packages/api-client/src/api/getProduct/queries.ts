@@ -71,6 +71,7 @@ export const BaseQuery = gql(`
             onHold
             onHand
             enabled
+            tracked
             channelPricings(channelCode: $channelsCode) {
               collection {
                 channelCode
