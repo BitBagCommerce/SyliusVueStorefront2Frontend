@@ -23,6 +23,5 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
     specPattern: 'packages/theme/tests/e2e/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: false,
-    defaultCommandTimeout: 20000,
   },
 });
