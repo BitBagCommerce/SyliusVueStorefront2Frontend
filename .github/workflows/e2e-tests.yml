@@ -37,6 +37,10 @@ jobs:
       - name: Build packages
         run: yarn build
 
+  e2e_tests:
+    name: End to end tests
+    runs-on: ubuntu-latest
+    steps:
       - name: Cypress run
         uses: cypress-io/github-action@v3
         with:
