@@ -7,6 +7,7 @@ module.exports = defineConfig({
   screenshotOnRunFailure: true,
   screenshotsFolder: 'report/assets/screenshots',
   video: false,
+  integrationFolder: 'packages/theme/tests/e2e/integration',
   reporter: 'node_modules/mochawesome',
   reporterOptions: {
     reportDir: 'report',
