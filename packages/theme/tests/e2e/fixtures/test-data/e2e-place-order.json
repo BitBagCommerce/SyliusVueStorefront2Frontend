@@ -8,7 +8,7 @@
         "apartment": "23",
         "city": "Los Angeles",
         "state": "California",
-        "country": "United States",
+        "country": "US",
         "zipcode": "45678",
         "phone": "123456789",
         "email": "john.doe{random}@example.com"
@@ -18,7 +18,7 @@
         "apartment": "23",
         "city": "Los Angeles",
         "state": "California",
-        "country": "United States",
+        "country": "US",
         "zipcode": "45678",
         "phone": "123456789",
         "email": "john.doe{random}@example.com"

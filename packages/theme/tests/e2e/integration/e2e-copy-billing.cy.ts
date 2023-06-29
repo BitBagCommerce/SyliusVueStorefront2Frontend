@@ -15,18 +15,22 @@ context('Copy billing data to shipping form', () => {
     () => {
       const data = cy.fixtures.data;
 
+      // Add product to cart
       page.home.visit();
       page.home.header.categories.first().click();
       page.category.addProductToCart();
       page.product.header.openCart();
       page.cart.goToCheckoutButton.click();
+
+      // Fill in billing form
       page.checkout.billing.heading.should('be.visible');
       page.checkout.billing.fillForm(data.customer);
       page.checkout.billing.continueToShippingButton.click();
-      page.checkout.shipping.heading.should('be.visible');
 
       // Copy billing address
+      page.checkout.shipping.heading.should('be.visible');
       page.checkout.shipping.copyBillingAddress.click();
+
       // Testing results
       page.checkout.shipping.firstName.should(
         'have.value',
@@ -44,7 +48,10 @@ context('Copy billing data to shipping form', () => {
         'have.value',
         data.customer.address.billing.city
       );
-      page.checkout.shipping.country.should('not.have.value', '');
+      page.checkout.shipping.country.should(
+        'have.value',
+        data.customer.address.billing.country
+      );
       page.checkout.shipping.provinceName.should(
         'have.value',
         data.customer.address.billing.provinceName

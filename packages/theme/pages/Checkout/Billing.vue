@@ -285,7 +285,7 @@ export default {
         message ===
         'Provided email address belongs to another user, please log in to complete order.'
       )
-        toggleLoginModal();
+        toggleLoginModal(false);
     };
 
     const handleSetCurrentAddress = (address) => {

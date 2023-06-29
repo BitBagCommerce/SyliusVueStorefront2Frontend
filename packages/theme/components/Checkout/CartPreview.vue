@@ -137,12 +137,17 @@ export default {
 
     const submitCouponForm = async () => {
       await applyCoupon({ couponCode: promoCode.value });
-      const errorKeys = Object.keys(error.value);
-      errorKeys.forEach((errorKey) => {
-        if (error.value[errorKey] && error.value[errorKey]?.message) {
-          send({ type: 'danger', message: error.value[errorKey].message });
-        }
-      });
+
+      const { applyCoupon: updateError } = error.value;
+
+      if (updateError) {
+        send({ type: 'danger', message: root.$t(updateError.message) });
+      } else {
+        send({
+          type: 'info',
+          message: root.$t('Your cart has been updated'),
+        });
+      }
     };
 
     const handleCouponRemoval = async (coupon) => {

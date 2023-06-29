@@ -271,7 +271,8 @@ export default {
       message: root.$t('Please provide a valid e-mail address'),
     });
 
-    const { isLoginModalOpen, toggleLoginModal } = useUiState();
+    const { isLoginModalOpen, isLoginModalRedirect, toggleLoginModal } =
+      useUiState();
     const form = ref({});
     const isLogin = ref(true);
     const isForgotten = ref(false);
@@ -339,7 +340,13 @@ export default {
     const handleForm = (fn) => async () => {
       resetErrorValues();
       const rememberMeVal = rememberMe.value;
-      await fn({ user: { ...form.value, rememberMe: rememberMeVal } });
+      await fn({
+        user: {
+          ...form.value,
+          rememberMe: rememberMeVal,
+          keepCart: !isLoginModalRedirect.value,
+        },
+      });
 
       const hasUserErrors = userError.value.register || userError.value.login;
       if (hasUserErrors) {
@@ -382,7 +389,8 @@ export default {
 
       await loadWishlists();
       send({ type: 'info', message: root.$t('Login successful') });
-      $router.push('/my-account');
+
+      if (isLoginModalRedirect.value) $router.push('/my-account');
 
       toggleLoginModal();
     };
