@@ -30,7 +30,7 @@
           "
           image-width="180"
           image-height="200"
-          :isRemovingInProgress="false"
+          :isRemovingInProgress="removalsInProgress.includes(item[uniqueKey])"
           @remove="$emit('remove', item)"
           class="item"
         >
@@ -154,6 +154,12 @@ export default {
         return isValid;
       },
     },
+
+    removalsInProgress: {
+      type: Array,
+      default: () => [],
+    },
+
     modelValue: {
       type: Array,
     },
@@ -231,6 +237,7 @@ export default {
 
   &__top-bar {
     padding: 0 var(--spacer-xs);
+    margin-bottom: var(--spacer-sm);
     display: flex;
     justify-content: space-between;
     align-items: center;
