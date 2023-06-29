@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build
+    name: End to end tests
     runs-on: ubuntu-latest
     env:
       SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}api/v2/graphql
@@ -37,11 +37,6 @@ jobs:
       - name: Build packages
         run: yarn build
 
-  e2e_tests:
-    needs: build
-    name: End to end tests
-    runs-on: ubuntu-latest
-    steps:
       - name: Cypress run
         uses: cypress-io/github-action@v3
         with:
