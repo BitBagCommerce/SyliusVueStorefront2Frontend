@@ -47,9 +47,3 @@ jobs:
           start: yarn start
           browser: electron
           wait-on: 'http://localhost:3000'
-
-      - uses: actions/upload-artifact@v2
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
