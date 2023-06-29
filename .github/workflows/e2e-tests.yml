@@ -39,7 +39,7 @@ jobs:
           cache: 'yarn'
 
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v2
         with:
           config-file: packages/theme/tests/e2e/cypress-github-action.config.js
           install: yarn install
@@ -47,3 +47,9 @@ jobs:
           start: yarn start
           browser: electron
           wait-on: 'http://localhost:3000'
+
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
