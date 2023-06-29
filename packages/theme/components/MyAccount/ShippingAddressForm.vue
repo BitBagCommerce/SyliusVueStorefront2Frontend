@@ -79,19 +79,15 @@
           />
         </ValidationProvider>
 
-        <ValidationProvider
-          name="state"
-          slim
-        >
+        <ValidationProvider name="provinceName" slim>
           <SfInput
-            data-e2e="shipping-state"
-            v-model="form.state"
+            data-e2e="shipping-provinceName"
+            v-model="form.provinceName"
             :label="$t('State/Province')"
-            name="state"
+            name="provinceName"
             class="form__element form__element--half"
           />
         </ValidationProvider>
-
       </div>
       <div class="form__horizontal">
         <ValidationProvider
@@ -194,6 +190,7 @@ export default {
         city: '',
         postcode: '',
         countryCode: '',
+        provinceName: '',
         phoneNumber: '',
       }),
     },
@@ -232,6 +229,7 @@ export default {
       city: props.address.city,
       postcode: props.address.postcode,
       countryCode: props.address.countryCode,
+      provinceName: props.address.provinceName,
       phoneNumber: props.address.phoneNumber,
     });
 
