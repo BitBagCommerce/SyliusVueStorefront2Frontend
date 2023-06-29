@@ -7,7 +7,6 @@ module.exports = defineConfig({
   screenshotOnRunFailure: true,
   screenshotsFolder: 'report/assets/screenshots',
   video: false,
-  integrationFolder: 'packages/theme/tests/e2e/integration',
   reporter: 'node_modules/mochawesome',
   reporterOptions: {
     reportDir: 'report',
@@ -22,7 +21,7 @@ module.exports = defineConfig({
       return require('./plugins/index.js')(on, config);
     },
     baseUrl: 'http://localhost:3000',
-    specPattern: 'integration/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: 'packages/theme/tests/e2e/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: false,
   },
 });
