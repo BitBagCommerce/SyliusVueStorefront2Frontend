@@ -1,7 +1,7 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
-  fixturesFolder: 'fixtures',
+  fixturesFolder: 'packages/theme/tests/e2e/fixtures',
   viewportHeight: 1080,
   viewportWidth: 1920,
   screenshotOnRunFailure: true,
