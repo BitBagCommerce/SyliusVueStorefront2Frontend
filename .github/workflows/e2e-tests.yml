@@ -45,4 +45,5 @@ jobs:
           install: yarn install
           build: yarn build
           start: yarn start
+          browser: electron
           wait-on: 'http://localhost:3000'
