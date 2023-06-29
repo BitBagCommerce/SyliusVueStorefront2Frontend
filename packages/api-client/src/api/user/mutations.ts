@@ -106,7 +106,7 @@ export const addAddressMutation = gql(`
         street
         city
         postcode
-        state: provinceName
+        provinceName
         countryCode
         phoneNumber
       }
@@ -128,7 +128,7 @@ export const updateAddressMutation = gql(`
         street
         city
         postcode
-        state: provinceName
+        provinceName
         countryCode
         phoneNumber
       }
