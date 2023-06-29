@@ -108,7 +108,7 @@ export const useCart = () => {
             productVariant:
               prod.selectedVariant.id ||
               `/api/v2/shop/orders/${prod.selectedVariant.code}`,
-            quantity: prod.selectedVariant.quantity,
+            quantity: prod.qty ?? prod.selectedVariant.quantity,
           }));
           const cart = await context.$sylius.api.addManyToCart(
             {
