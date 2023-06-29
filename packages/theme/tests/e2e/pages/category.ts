@@ -6,13 +6,12 @@ class Category {
   }
 
   public addProductToCart(id = 0): void {
-    el('product-card').eq(id).click();
-    cy.get('button.sf-add-to-cart__button').first().click();
-    // cy.get('body').then((body) => {
-    //   if (body.find('button.sf-add-to-cart__button').length > 0) {
-    //     cy.get('button.sf-add-to-cart__button').first().click();
-    //   }
-    // });
+    cy.get('button.sf-product-card__add-button').eq(id).click();
+    cy.get('body').then((body) => {
+      if (body.find('button.sf-add-to-cart__button').length > 0) {
+        cy.get('button.sf-add-to-cart__button').first().click();
+      }
+    });
   }
 }
 
