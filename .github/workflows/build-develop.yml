@@ -40,6 +40,7 @@ jobs:
   cypress:
     name: Cypress - End to end tests
     runs-on: ubuntu-latest
+    needs: build
     env:
       SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}api/v2/graphql
       PORT: 3000
