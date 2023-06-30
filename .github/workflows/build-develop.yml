@@ -51,21 +51,11 @@ jobs:
       SYLIUS_PAYMENT_GATEWAY_HOST: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}
       SYLIUS_DEFAULT_LOCALE: en_US
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14.19.0'
-          cache: 'yarn'
-
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           config-file: packages/theme/tests/e2e/cypress-github-action.config.js
           install: false
-          build: false
           start: yarn start
           browser: electron
           wait-on: 'http://localhost:3000'
