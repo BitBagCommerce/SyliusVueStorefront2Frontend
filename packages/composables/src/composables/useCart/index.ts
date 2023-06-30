@@ -118,6 +118,14 @@ export const useCart = () => {
             customQuery
           );
 
+          const errors = (cart as any)?.graphQLErrors;
+
+          if (errors)
+            throw {
+              message: errors?.[0]?.debugMessage,
+              ...errors,
+            };
+
           return cart;
         }
 
