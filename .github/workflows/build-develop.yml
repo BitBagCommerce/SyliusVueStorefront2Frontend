@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - release-**
+      - VSF2-225
   pull_request:
     branches:
       - develop
@@ -15,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test_repository:
+  build:
     name: Build
     runs-on: ubuntu-latest
     env:
@@ -35,3 +36,38 @@ jobs:
 
       - name: Build packages
         run: yarn build
+
+  cypress:
+    name: Cypress - End to end tests
+    runs-on: ubuntu-latest
+    env:
+      SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}api/v2/graphql
+      PORT: 3000
+      MIDDLEWARE_URL: http://localhost:3000/api/
+      SYLIUS_CHANNEL_CODE: FASHION_WEB
+      SYLIUS_THUMBNAIL_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}media/cache/sylius_shop_product_thumbnail
+      SYLIUS_REGULAR_IMAGE_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}media/cache/sylius_shop_product_large_thumbnail
+      SYLIUS_PAYMENT_GATEWAY_HOST: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}
+      SYLIUS_DEFAULT_LOCALE: en_US
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.19.0'
+          cache: 'yarn'
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          config-file: packages/theme/tests/e2e/cypress-github-action.config.js
+          install: false
+          build: false
+          start: yarn start
+          browser: electron
+          wait-on: 'http://localhost:3000'
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
