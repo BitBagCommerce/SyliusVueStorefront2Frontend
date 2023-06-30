@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - release-**
+      - VSF2-225
   pull_request:
     branches:
       - develop
