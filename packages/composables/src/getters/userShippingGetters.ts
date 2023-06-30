@@ -75,7 +75,7 @@ function getEmail(address: AddressItem): string {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getProvince(address: AddressItem): string {
-  return '';
+  return address.provinceName;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
