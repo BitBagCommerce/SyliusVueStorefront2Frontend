@@ -23,6 +23,6 @@ module.exports = defineConfig({
     },
     baseUrl: 'http://localhost:3000',
     specPattern: './integration/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: false,
+    supportFile: './support/index.js',
   },
 });

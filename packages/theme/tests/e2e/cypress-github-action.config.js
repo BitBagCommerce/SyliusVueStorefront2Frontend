@@ -7,7 +7,7 @@ module.exports = defineConfig({
   viewportWidth: 1920,
   screenshotOnRunFailure: true,
   screenshotsFolder: 'report/assets/screenshots',
-  video: true,
+  video: false,
   reporter: 'node_modules/mochawesome',
   defaultCommandTimeout: 20000,
   reporterOptions: {
@@ -24,6 +24,6 @@ module.exports = defineConfig({
     },
     baseUrl: 'http://localhost:3000',
     specPattern: 'packages/theme/tests/e2e/integration/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: false,
+    supportFile: 'packages/theme/tests/e2e/support/index.js',
   },
 });
