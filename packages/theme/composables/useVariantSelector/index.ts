@@ -4,9 +4,13 @@ import { productGetters } from '@vue-storefront/sylius';
 
 const state = reactive({ product: null });
 const attributes = ref({});
+const initialQty = ref(1);
 
 const useVariantSelector = () => {
-  const open = (product: any) => (state.product = product);
+  const open = (product: any, qty = 1) => {
+    state.product = product;
+    initialQty.value = qty;
+  };
   const close = () => (state.product = null);
   const setAttribute = (key, value) => Vue.set(attributes.value, key, value);
   const product = computed(() =>
@@ -49,6 +53,7 @@ const useVariantSelector = () => {
     open,
     close,
     product,
+    initialQty: computed(() => initialQty.value),
     setAttribute,
     attributes,
     optionKeys,
