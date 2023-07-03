@@ -130,7 +130,7 @@ export default {
       default: null,
     },
   },
-  setup(props) {
+  setup(props, { root }) {
     const { isInWishlist, addItem, removeItem, error } = useWishlists();
     const { isAuthenticated } = useUser();
     const { send } = useUiNotification();
@@ -159,7 +159,10 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Item has been removed from wishlist' });
+      send({
+        type: 'info',
+        message: root.$t('Item has been removed from wishlist'),
+      });
     };
 
     const handleAddToWishlist = async (itemId, wishlistId) => {
@@ -171,7 +174,10 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Item has been added to wishlist' });
+      send({
+        type: 'info',
+        message: root.$t('Item has been added to wishlist'),
+      });
     };
 
     const handleWishlistAction = async (product, wishlist) => {

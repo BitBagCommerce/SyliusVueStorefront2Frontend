@@ -243,7 +243,10 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Wishlist was created successfully' });
+      send({
+        type: 'info',
+        message: root.$t('Wishlist was created successfully'),
+      });
       toggleListView();
     };
 
@@ -258,7 +261,10 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Wishlist was edited successfully' });
+      send({
+        type: 'info',
+        message: root.$t('Wishlist was edited successfully'),
+      });
       toggleItemsView(wishlistId);
     };
 
@@ -273,7 +279,7 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Wishlist cleared successfully' });
+      send({ type: 'info', message: root.$t('Wishlist cleared successfully') });
     };
 
     const handleAddToCart = async () => {
@@ -382,12 +388,13 @@ export default {
 
 .bottom {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--spacer-sm);
 
   &__button {
     --button-padding: var(--spacer-sm) 0;
 
-    width: 100%;
+    flex: 1 0 calc(50% - var(--spacer-sm));
   }
 }
 </style>

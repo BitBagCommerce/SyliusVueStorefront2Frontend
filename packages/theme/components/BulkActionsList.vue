@@ -2,7 +2,7 @@
   <div class="list">
     <div class="list__top-bar">
       <SfCheckbox
-        label="Select all"
+        :label="$t('Select all')"
         :selected="areAllItemsSelected"
         @change="selectAll"
       />

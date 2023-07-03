@@ -124,7 +124,7 @@ export default {
     SfLoader,
   },
   props: ['wishlists'],
-  setup(props) {
+  setup(props, { root }) {
     const { send } = useUiNotification();
     const { removeWishlist, error } = useWishlists();
     const toggledConfirm = ref('');
@@ -158,7 +158,7 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Wishlist has been removed' });
+      send({ type: 'info', message: root.$t('Wishlist has been removed') });
     };
 
     return {
