@@ -31,6 +31,7 @@ const params: UseShippingParams<Address, any> = {
         countryCode: shippingDetails.countryCode,
         street: shippingDetails.street,
         city: shippingDetails.city,
+        provinceName: shippingDetails.provinceName,
         postcode: shippingDetails.postcode,
         phoneNumber: shippingDetails.phoneNumber,
       },

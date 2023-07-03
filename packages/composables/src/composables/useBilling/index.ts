@@ -33,6 +33,7 @@ const params: UseBillingParams<BillingAddress, AddParams> = {
         countryCode: billingDetails.countryCode,
         street: billingDetails.street,
         city: billingDetails.city,
+        provinceName: billingDetails.provinceName,
         postcode: billingDetails.postcode,
         phoneNumber: billingDetails.phoneNumber,
       },

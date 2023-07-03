@@ -47,7 +47,7 @@ export const addToCartMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -58,7 +58,7 @@ export const addToCartMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -174,7 +174,7 @@ export const addManyToCartMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -185,7 +185,7 @@ export const addManyToCartMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -301,7 +301,7 @@ export const removeFromCartMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -312,7 +312,7 @@ export const removeFromCartMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -426,7 +426,7 @@ export const addShippingAddressMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -450,7 +450,7 @@ export const addBillingAddressMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -488,7 +488,7 @@ export const applyCouponMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -499,7 +499,7 @@ export const applyCouponMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -613,7 +613,7 @@ export const removeCouponFromCartMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -624,7 +624,7 @@ export const removeCouponFromCartMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -742,7 +742,7 @@ export const updateCartQuantityMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -753,7 +753,7 @@ export const updateCartQuantityMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -867,7 +867,7 @@ export const updateCartPaymentMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -878,7 +878,7 @@ export const updateCartPaymentMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -992,7 +992,7 @@ export const updateCartShippingMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }
@@ -1003,7 +1003,7 @@ export const updateCartShippingMutation = gql(`
           street
           city
           postcode
-          state: provinceName
+          provinceName
           countryCode
           phoneNumber
         }

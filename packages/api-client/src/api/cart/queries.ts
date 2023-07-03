@@ -23,7 +23,7 @@ export const getCartQuery = gql(`
         street
         city
         postcode
-        state: provinceName
+        provinceName
         countryCode
         phoneNumber
       }
@@ -34,7 +34,7 @@ export const getCartQuery = gql(`
         street
         city
         postcode
-        state: provinceName
+        provinceName
         countryCode
         phoneNumber
       }
