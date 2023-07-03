@@ -212,9 +212,6 @@ export default {
         const height = window.innerHeight;
 
         isTop.value = y > height / 2;
-
-        console.log(dropdown.value.$el.getBoundingClientRect().top);
-        console.log(window.innerHeight);
       }
     );
 
