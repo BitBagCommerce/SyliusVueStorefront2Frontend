@@ -103,8 +103,7 @@ export default {
 
     const handleInput = (input, isConfirm) => {
       isConfirmOpen.value = isConfirm;
-
-      inputQty.value = Number(input);
+      inputQty.value = parseInt(input);
 
       if (props.max !== null && input > props.max) inputQty.value = props.max;
 
