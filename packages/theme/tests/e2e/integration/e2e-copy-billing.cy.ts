@@ -16,6 +16,7 @@ context('Copy billing data to shipping form', () => {
       const data = cy.fixtures.data;
 
       // Add product to cart
+      cy.interceptGQL('getCategory', 'e2e-categories.json');
       page.home.visit();
       page.home.header.categories.first().click();
       page.category.addProductToCart();
