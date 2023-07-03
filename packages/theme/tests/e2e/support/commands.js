@@ -27,6 +27,6 @@
 
 Cypress.Commands.add('interceptGQL', (url, path) => {
   cy.intercept('POST', '/api/sylius/' + url, (req) => {
-    req.reply({ fixture: '../fixtures/test-data/' + path });
+    req.reply({ fixture: '../fixtures/graphql-responses-data/' + path });
   });
 });

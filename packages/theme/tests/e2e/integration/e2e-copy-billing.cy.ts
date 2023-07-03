@@ -16,7 +16,12 @@ context('Copy billing data to shipping form', () => {
       const data = cy.fixtures.data;
 
       // Add product to cart
-      cy.interceptGQL('getCategory', 'e2e-categories.json');
+      cy.interceptGQL('getCategory', 'e2e-getCategory.json');
+      // cy.intercept('POST', '/api/sylius/createCart', (req) => {
+      //   // req.reply({ fixture: '../fixtures/graphql-responses-data/' + path });
+      // });
+      cy.interceptGQL('getMinimalProduct', 'e2e-getMinimalProduct.json');
+      cy.interceptGQL('createCart', 'e2e-createCart.json');
       page.home.visit();
       page.home.header.categories.first().click();
       page.category.addProductToCart();
