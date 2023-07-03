@@ -141,7 +141,7 @@ export const useCart = () => {
 
         if ((cart as any).graphQLErrors?.length) {
           throw {
-            message: (cart as any).graphQLErrors?.[0]?.debugMessage,
+            message: (cart as any).graphQLErrors?.[0]?.extensions.message,
           };
         }
 
@@ -200,7 +200,7 @@ export const useCart = () => {
 
         if ((cart as any).graphQLErrors?.length) {
           throw {
-            message: (cart as any).graphQLErrors?.[0]?.debugMessage,
+            message: (cart as any).graphQLErrors?.[0]?.extensions.message,
           };
         }
 
@@ -249,8 +249,8 @@ export const useCart = () => {
 
         if ((applyCouponResponse as any).graphQLErrors?.length) {
           throw {
-            message: (applyCouponResponse as any).graphQLErrors?.[0]
-              ?.debugMessage,
+            message: (applyCouponResponse as any).graphQLErrors?.[0]?.extensions
+              .message,
           };
         }
 

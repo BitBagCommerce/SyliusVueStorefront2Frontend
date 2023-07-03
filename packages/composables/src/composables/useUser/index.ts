@@ -87,7 +87,7 @@ const params: UseUserFactoryParamsExtension<
     if (error)
       throw {
         ...error,
-        message: error.debugMessage,
+        message: error.extensions.message,
       };
 
     return registerUserResponse;
