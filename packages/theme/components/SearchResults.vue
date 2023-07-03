@@ -62,7 +62,6 @@
                 :key="index"
                 :product="product"
                 :index="index"
-                @click.native="$emit('close')"
               />
             </div>
           </SfMegaMenuColumn>
