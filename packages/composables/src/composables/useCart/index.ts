@@ -122,7 +122,7 @@ export const useCart = () => {
 
           if (errors)
             throw {
-              message: errors?.[0]?.debugMessage,
+              message: errors?.[0]?.extensions.message,
               ...errors,
             };
 
