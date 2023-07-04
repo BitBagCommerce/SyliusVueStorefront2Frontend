@@ -10,7 +10,7 @@
       >
         <SfInput
           v-model="wishlistName"
-          label="Wishlist name"
+          :label="$t('Wishlist name')"
           name="name"
           required
           class="wishlist-form__input"
@@ -25,7 +25,7 @@
           class="wishlist-form__buttons--button"
           :class="{ 'is-disabled--button': isFormActionInProgress }"
         >
-          {{ isEdit ? 'Change' : 'Create' }}
+          {{ isEdit ? $t('Change') : $t('Create') }}
         </SfButton>
 
         <SfButton
@@ -33,7 +33,7 @@
           class="color-secondary wishlist-form__buttons--button"
           :class="{ 'is-disabled--button': isFormActionInProgress }"
         >
-          Cancel
+          {{ $t('Cancel') }}
         </SfButton>
       </div>
     </form>
@@ -102,8 +102,10 @@ export default {
   }
 
   &__buttons {
+    margin-top: var(--spacer-xs);
     display: flex;
-    gap: var(--spacer-sm);
+    flex-wrap: wrap;
+    gap: var(--spacer-xs);
 
     &--button {
       flex: 1 0 auto;
