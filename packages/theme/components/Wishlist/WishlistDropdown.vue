@@ -52,7 +52,6 @@
       </SfButton>
     </template>
 
-    {{ isTop }}
     <SfList
       class="dropdown__list"
       v-click-outside="(e) => handleClickOutside(e)"
