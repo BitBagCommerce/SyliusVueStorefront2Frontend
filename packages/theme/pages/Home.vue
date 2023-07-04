@@ -440,6 +440,10 @@ export default {
   margin: 0 calc(0 - var(--spacer-sm)) 0 0;
   @include for-desktop {
     margin: 0;
+
+    ::v-deep .sf-carousel__wrapper {
+      overflow: clip visible;
+    }
   }
   ::v-deep .glide__slide--clone {
     opacity: 0.4;
