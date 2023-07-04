@@ -1,4 +1,5 @@
 import page from '../pages/factory';
+import { createCartJSON } from '../fixtures/graphql-responses-data/e2e-createCart';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
@@ -15,13 +16,37 @@ context('Copy billing data to shipping form', () => {
     () => {
       const data = cy.fixtures.data;
 
+      // Mocking API responses
+      let getCartCounter = 0;
+
+      // cy.intercept('POST', '/api/sylius/addAddress', (req) => {});
+      cy.interceptGql('getMinimalProduct', 'e2e-getMinimalProduct.json');
+      cy.interceptGql('getCategory', 'e2e-getCategory.json');
+      cy.interceptGql('createCart', 'e2e-createCart.json');
+      cy.intercept('POST', '/api/sylius/getCart', (req) => {
+        if (getCartCounter === 0) {
+          getCartCounter++;
+          req.reply({
+            fixture: '../fixtures/graphql-responses-data/e2e-getCartEmpty.json',
+          });
+        } else {
+          req.reply({
+            fixture:
+              '../fixtures/graphql-responses-data/e2e-getCartWithProduct.json',
+          });
+        }
+      });
+      cy.interceptGql('getFirstProductId', 'e2e-getFirstProductId.json');
+      cy.interceptGql('getProductAttribute', 'e2e-getProductAttribute.json');
+      cy.interceptGql('getCountries', 'e2e-getCountries.json');
+      cy.interceptGql('addToCart', 'e2e-addToCart.json');
+      cy.interceptGql('addAddress', 'e2e-addAddress.json');
+      cy.interceptGql(
+        'getProductNotFiltered',
+        'e2e-getProductNotFiltered.json'
+      );
+
       // Add product to cart
-      cy.interceptGQL('getCategory', 'e2e-getCategory.json');
-      // cy.intercept('POST', '/api/sylius/createCart', (req) => {
-      //   // req.reply({ fixture: '../fixtures/graphql-responses-data/' + path });
-      // });
-      cy.interceptGQL('getMinimalProduct', 'e2e-getMinimalProduct.json');
-      cy.interceptGQL('createCart', 'e2e-createCart.json');
       page.home.visit();
       page.home.header.categories.first().click();
       page.category.addProductToCart();

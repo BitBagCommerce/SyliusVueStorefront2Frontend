@@ -1,0 +1,15 @@
+{
+  "billingAddress": {
+    "id": "/api/v2/shop/addresses/110",
+    "firstName": "John",
+    "lastName": "Doe",
+    "street": "1 VueStorefront Rd.",
+    "city": "Los Angeles",
+    "postcode": "45678",
+    "state": null,
+    "countryCode": "US",
+    "phoneNumber": "123456789",
+    "__typename": "Address"
+  },
+  "__typename": "Order"
+}
