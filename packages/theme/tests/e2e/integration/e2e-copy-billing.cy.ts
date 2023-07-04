@@ -1,5 +1,4 @@
 import page from '../pages/factory';
-import { createCartJSON } from '../fixtures/graphql-responses-data/e2e-createCart';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
