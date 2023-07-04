@@ -81,12 +81,12 @@
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
-        <ValidationProvider name="state" slim>
+        <ValidationProvider name="provinceName" slim>
           <SfInput
-            data-e2e="billing-state"
-            v-model="form.state"
+            data-e2e="billing-provinceName"
+            v-model="form.provinceName"
             :label="$t('State/Province')"
-            name="state"
+            name="provinceName"
             class="form__element form__element--half form__element--half-even"
           />
         </ValidationProvider>
@@ -260,7 +260,7 @@ export default {
       lastName: '',
       street: '',
       city: '',
-      state: '',
+      provinceName: '',
       countryCode: null,
       postcode: '',
       email: null,

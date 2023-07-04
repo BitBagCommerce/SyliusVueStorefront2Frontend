@@ -1,67 +1,14 @@
 <template>
-  <div v-if="totalItems" class="my-wishlist" key="my-wishlist">
-    <div class="my-wishlist__total-items">
-      <SfCheckbox @change="toggleAll" :selected="isEverythingSelected()" />
-
-      <span
-        >Total items: <strong>{{ totalItems }}</strong></span
-      >
-    </div>
-    <div class="collected-product-list">
-      <transition-group name="fade" tag="div">
-        <ProductItem
-          v-for="product in renderedProducts"
-          :key="wishlistGetters.getItemSku(product)"
-          :image="wishlistGetters.getItemImage(product)"
-          :title="wishlistGetters.getItemName(product)"
-          :regular-price="
-            $n(wishlistGetters.getItemPrice(product).regular, 'currency')
-          "
-          :special-price="
-            wishlistGetters.getItemPrice(product).special &&
-            $n(wishlistGetters.getItemPrice(product).special, 'currency')
-          "
-          :stock="99999"
-          image-width="180"
-          image-height="200"
-          :isRemovingInProgress="isRemovingInProgress(product.id)"
-          @remove="handleRemoveItemFromWishlist(product.id, wishlistId)"
-          class="collected-product"
-        >
-          <template #configuration>
-            <div class="collected-product__properties">
-              <SfProperty
-                v-for="(attribute, key) in wishlistGetters.getItemAttributes(
-                  product,
-                  ['color', 'size']
-                )"
-                :key="key"
-                :name="key"
-                :value="attribute"
-              />
-            </div>
-          </template>
-
-          <template #input>
-            <div class="collected-product__input">
-              <SfCheckbox
-                @change="toggleSelection(product)"
-                :selected="product.selected"
-                class="collected-product__input--checkbox"
-              />
-
-              <SfQuantitySelector
-                v-model="product.selectedVariant.quantity"
-                class="collected-product__input--quantity"
-              />
-            </div>
-          </template>
-
-          <template #actions>&nbsp;</template>
-        </ProductItem>
-      </transition-group>
-    </div>
-  </div>
+  <BulkActionsList
+    v-if="totalItems"
+    :items="products"
+    :getters="wishlistGetters"
+    :removalsInProgress="wishlistsItemRemovingInProgressId"
+    uniqueKey="id"
+    v-model="selectedItems"
+    @update:modelValue="$emit('change', selectedItems)"
+    @remove="handleRemoveItemFromWishlist"
+  />
 
   <div v-else class="empty-wishlist" key="empty-wishlist">
     <div class="empty-wishlist__banner">
@@ -83,7 +30,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import {
   SfButton,
   SfIcon,
@@ -96,9 +42,10 @@ import {
   SfCheckbox,
   SfQuantitySelector,
 } from '@storefront-ui/vue';
-import { computed, ref, watch } from '@nuxtjs/composition-api';
+import { computed, ref } from '@nuxtjs/composition-api';
 import { useWishlists, wishlistGetters } from '@vue-storefront/sylius';
 import ProductItem from '../CartSidebar/ProductItem.vue';
+import BulkActionsList from '../BulkActionsList.vue';
 
 export default {
   name: 'WishlistItems',
@@ -114,9 +61,10 @@ export default {
     SfCheckbox,
     SfQuantitySelector,
     ProductItem,
+    BulkActionsList,
   },
   props: ['wishlistId'],
-  setup(props, { emit }) {
+  setup(props) {
     const { wishlists, removeItem } = useWishlists();
     const wishlist = computed(() =>
       wishlistGetters.getWishlist(props.wishlistId, wishlists.value)
@@ -130,79 +78,28 @@ export default {
     const totalItems = computed(
       () => wishlistGetters.getTotalItems(wishlist.value) || 0
     );
-    const renderedProducts = ref(
-      products.value?.map((prod) => ({ ...prod, selected: false }))
-    );
+    const selectedItems = ref([]);
     const wishlistsItemRemovingInProgressId = ref([]);
 
     const isRemovingInProgress = (productId) => {
       return wishlistsItemRemovingInProgressId.value.includes(productId);
     };
 
-    const handleRemoveItemFromWishlist = async (productId, wishlistId) => {
+    const handleRemoveItemFromWishlist = async (product) => {
+      const { wishlistId } = props;
+
       wishlistsItemRemovingInProgressId.value = [
         ...wishlistsItemRemovingInProgressId.value,
-        productId,
+        product.id,
       ];
 
-      await removeItem(productId, wishlistId);
+      await removeItem(product.id, wishlistId);
 
       wishlistsItemRemovingInProgressId.value =
         wishlistsItemRemovingInProgressId.value.filter(
-          (id) => id !== productId
+          (id) => id !== product.id
         );
     };
-
-    const getSelected = () =>
-      renderedProducts.value
-        .filter((prod) => prod.selected === true)
-        .map((prod) => {
-          prod.selectedVariant.quantity = prod.selectedVariant.quantity || 1;
-
-          return prod;
-        });
-
-    const toggleSelection = (product) => {
-      const index = renderedProducts.value.findIndex(
-        (prod) => prod.id === product.id
-      );
-
-      renderedProducts.value[index].selected =
-        !renderedProducts.value[index].selected;
-      emit('change', getSelected());
-    };
-
-    const isEverythingSelected = () =>
-      getSelected().length === renderedProducts.value.length;
-
-    const toggleAll = () => {
-      if (isEverythingSelected()) {
-        renderedProducts.value.map((prod) => (prod.selected = false));
-        emit('change', getSelected());
-
-        return;
-      }
-
-      renderedProducts.value.map((prod) => (prod.selected = true));
-      emit('change', getSelected());
-    };
-
-    const initQuantities = () =>
-      renderedProducts.value.forEach((_, i) =>
-        Vue.set(renderedProducts.value[i].selectedVariant, 'quantity', 1)
-      );
-    initQuantities();
-
-    watch(
-      () => products.value,
-      () => {
-        renderedProducts.value = products.value?.map((prod) => ({
-          ...prod,
-          selected: false,
-        }));
-        initQuantities();
-      }
-    );
 
     return {
       removeItem,
@@ -210,12 +107,10 @@ export default {
       totals,
       totalItems,
       wishlistGetters,
-      renderedProducts,
-      toggleSelection,
-      toggleAll,
-      isEverythingSelected,
+      selectedItems,
       handleRemoveItemFromWishlist,
       isRemovingInProgress,
+      wishlistsItemRemovingInProgressId,
     };
   },
 };

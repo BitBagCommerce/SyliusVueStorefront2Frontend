@@ -6,7 +6,10 @@ import {
 } from '@vue-storefront/core';
 import type { Wishlist, WishlistItem } from '@vue-storefront/sylius-api';
 
-const getWishlist = (id: string, wishlists: Wishlist[]): Wishlist | Record<string, never> => {
+const getWishlist = (
+  id: string,
+  wishlists: Wishlist[]
+): Wishlist | Record<string, never> => {
   const wishlist = wishlists.find((wishlist) => wishlist.id === id) || {};
 
   return wishlist;
@@ -29,6 +32,7 @@ const getItems = (wishlist: Wishlist): WishlistItem[] => {
           regular: item.variant.channelPricings[0].originalPrice,
           special: item.variant.channelPricings[0].price,
         },
+        qty: 1,
         selectedVariant: item.variant,
       });
     });

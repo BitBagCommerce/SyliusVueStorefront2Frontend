@@ -72,6 +72,7 @@
       data-e2e="modal__add-to-cart"
       class="modal__add-to-cart"
       v-model="qty"
+      :qty="qty"
       :selectedVariant="product.selectedVariant"
       :disabled="loading"
       @quantity-change="qty = $event"
@@ -109,12 +110,19 @@ export default {
     AddToCart,
   },
   setup(_, { root }) {
-    const { product, close, setAttribute, attributes, options, optionKeys } =
-      useVariantSelector();
+    const {
+      product,
+      close,
+      setAttribute,
+      attributes,
+      options,
+      optionKeys,
+      initialQty,
+    } = useVariantSelector();
     const { addItem, loading, error } = useCart();
     const { send } = useUiNotification();
 
-    const qty = ref(1);
+    const qty = ref(initialQty.value);
 
     const handleAddToCart = async () => {
       await addItem({ product: product.value, quantity: qty.value });
@@ -137,7 +145,7 @@ export default {
     watch(
       () => product.value,
       () => {
-        qty.value = 1;
+        qty.value = initialQty.value;
 
         if (optionKeys.value.length < 1 && product.value) {
           handleAddToCart();

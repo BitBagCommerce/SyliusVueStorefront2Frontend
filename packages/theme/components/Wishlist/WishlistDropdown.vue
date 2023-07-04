@@ -3,11 +3,16 @@
     v-if="isAuthenticated"
     :isOpen="isOpen"
     class="dropdown"
-    :class="{ 'no-icon': !icon, active: isOpen }"
+    :class="{ 'no-icon': !icon, active: isOpen, 'dropdown--top': isTop }"
+    ref="dropdown"
   >
     <template #opener>
       <template v-if="icon == 'icon'">
-        <SfButton class="sf-button--pure ignore-click" @click="isOpen = !isOpen" data-toggle-btn="ignore">
+        <SfButton
+          class="sf-button--pure ignore-click"
+          @click="isOpen = !isOpen"
+          data-toggle-btn="ignore"
+        >
           <SfIcon
             v-if="isInAnyWishlist(product)"
             class="sf-header__icon"
@@ -37,12 +42,20 @@
         />
       </template>
 
-      <SfButton v-else @click="isOpen = !isOpen" class="sf-button ignore-click" data-toggle-btn="ignore">
+      <SfButton
+        v-else
+        @click="isOpen = !isOpen"
+        class="sf-button ignore-click"
+        data-toggle-btn="ignore"
+      >
         <span>{{ $t('Add to wishlist') }}</span>
       </SfButton>
     </template>
 
-    <SfList class="dropdown__list" v-click-outside="(e) => handleClickOutside(e)">
+    <SfList
+      class="dropdown__list"
+      v-click-outside="(e) => handleClickOutside(e)"
+    >
       <SfListItem v-for="(wishlist, i) in wishlists" :key="'wishlist' + i">
         <SfButton
           class="sf-button--pure list__item-button"
@@ -71,7 +84,9 @@
       </SfListItem>
     </SfList>
 
-    <template #cancel> &#8203; </template>
+    <template #cancel>
+      <span />
+    </template>
   </SfDropdown>
 </template>
 
@@ -114,12 +129,14 @@ export default {
       default: null,
     },
   },
-  setup(props) {
+  setup(props, { root }) {
     const { isInWishlist, addItem, removeItem, error } = useWishlists();
     const { isAuthenticated } = useUser();
     const { send } = useUiNotification();
     const isOpen = ref(false);
     const wishlistsWithActionInProgressId = ref([]);
+    const dropdown = ref(null);
+    const isTop = ref(false);
 
     const isInAnyWishlist = (product) => {
       if (!props.wishlists) return false;
@@ -141,7 +158,10 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Item has been removed from wishlist' });
+      send({
+        type: 'info',
+        message: root.$t('Item has been removed from wishlist'),
+      });
     };
 
     const handleAddToWishlist = async (itemId, wishlistId) => {
@@ -153,7 +173,10 @@ export default {
         return;
       }
 
-      send({ type: 'info', message: 'Item has been added to wishlist' });
+      send({
+        type: 'info',
+        message: root.$t('Item has been added to wishlist'),
+      });
     };
 
     const handleWishlistAction = async (product, wishlist) => {
@@ -187,14 +210,26 @@ export default {
       }
     );
 
+    watch(
+      () => isOpen.value,
+      () => {
+        const y = dropdown.value.$el.getBoundingClientRect().top;
+        const height = window.innerHeight;
+
+        isTop.value = y > height / 2;
+      }
+    );
+
     return {
       isOpen,
+      dropdown,
+      isTop,
       isInWishlist,
       isInAnyWishlist,
       isWishlistActionInProgress,
       handleWishlistAction,
       isAuthenticated,
-      handleClickOutside
+      handleClickOutside,
     };
   },
 };
@@ -215,6 +250,13 @@ export default {
       right: 0;
       left: auto;
       max-width: 320px;
+    }
+  }
+
+  &--top {
+    ::v-deep .sf-dropdown__container {
+      top: unset;
+      bottom: calc(100% + var(--spacer-xs));
     }
   }
 
@@ -243,9 +285,10 @@ export default {
   }
 
   &__list {
+    max-height: 35vh;
     min-width: 10rem;
     padding: var(--spacer-sm);
-    padding-bottom: 0;
+    overflow-y: auto;
 
     .list__item {
       &-button {

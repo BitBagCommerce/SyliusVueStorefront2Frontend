@@ -211,9 +211,9 @@ export type BillingAddress = {
   countryCode: string;
   street: string;
   city: string;
+  provinceName?: string;
   postcode: string;
   phoneNumber?: string;
-  state?: string;
 };
 
 export type CartItem = ReturnType<typeof transformItems>[number];
@@ -256,10 +256,10 @@ export type UserAddressItem = {
   lastName: string;
   street: string;
   city: string;
+  provinceName?: string;
   postcode: string;
   countryCode: string;
   phoneNumber?: string;
-  state?: string;
 };
 
 export type UserShippingAddressSearchCriteria = TODO;

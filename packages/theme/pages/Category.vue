@@ -202,7 +202,7 @@
                     !productGetters.hasMultipleVariants(product)
                   "
                   @quantity-change="productsQuantity[product._id] = $event"
-                  @click="open(product)"
+                  @click="open(product, productsQuantity[product._id])"
                 />
               </template>
             </SfProductCardHorizontal>

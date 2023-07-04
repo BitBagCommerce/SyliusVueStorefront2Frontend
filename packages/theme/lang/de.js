@@ -167,7 +167,7 @@ export default {
     'Sylius-Integration unterstützt von BitBag',
   forgotPasswordConfirmation:
     'Vielen Dank! Wenn ein Konto mit der E-Mail-Adresse {0} registriert ist, finden Sie in Ihrem Posteingang eine Nachricht mit einem Link zum Zurücksetzen des Passworts.',
-  'Select Wishlist': 'Wunschliste auswählen',
+  'Select wishlist': 'Wunschliste auswählen',
   'Create Wishlist': 'Wunschliste erstellen',
   'Edit Wishlist': 'Wunschliste bearbeiten',
   'Are you sure?': 'Bist du dir sicher?',
@@ -323,4 +323,15 @@ export default {
     'Die angegebene E-Mail-Adresse gehört einem anderen Benutzer. Bitte melden Sie sich an, um die Bestellung abzuschließen.',
   registerError:
     'Der Benutzer mit der E-Mail-Adresse "{email}" ist bereits registriert.',
+  Clear: 'Klar',
+  'Select all': 'Wählen Sie Alle',
+  'Wishlist has been removed': 'Wunschliste wurde entfernt',
+  'Wishlist was created successfully': 'Wunschliste wurde erfolgreich erstellt',
+  'Wishlist was edited successfully':
+    'Wunschliste wurde erfolgreich bearbeitet',
+  'Item has been added to wishlist':
+    'Artikel wurde zur Wunschliste hinzugefügt',
+  'Item has been removed from wishlist':
+    'Artikel wurde von der Wunschliste entfernt',
+  'Wishlist cleared successfully': 'Wunschliste erfolgreich gelöscht',
 };
