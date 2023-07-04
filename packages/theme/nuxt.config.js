@@ -136,7 +136,7 @@ export default {
     },
   },
   router: {
-    middleware: ['checkout', 'refresh-auth'],
+    middleware: ['checkout', 'refresh-auth', 'default-locale'],
     scrollBehavior(_to, _from, savedPosition) {
       if (savedPosition) {
         return savedPosition;
