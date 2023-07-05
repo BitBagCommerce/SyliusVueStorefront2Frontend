@@ -52,7 +52,7 @@ context('Order placement', () => {
     page.checkout.shipping.continueToPaymentButton.click();
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
-    cy.interceptGql('getCart', 'e2e-getCart-empty.json');
     page.checkout.thankyou.heading.should('be.visible');
+    cy.interceptGql('getCart', 'e2e-getCart-empty.json');
   });
 });
