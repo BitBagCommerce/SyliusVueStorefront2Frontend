@@ -122,6 +122,7 @@ export default {
   &__order-number {
     display: flex;
     flex-direction: column;
+    gap: var(--spacer-xs);
     font: var(--font-weight--light) var(--font-size--sm) / 1.4
       var(--font-family--primary);
     @include for-desktop {
