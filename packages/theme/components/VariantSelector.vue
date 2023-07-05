@@ -1,7 +1,7 @@
 <template>
   <SfModal
-    :visible="!!product && optionKeys.length > 0"
-    v-if="!!product && optionKeys.length > 0"
+    :visible="!!product"
+    v-if="!!product"
     :title="$t('Select size')"
     @close="close"
     class="modal"
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div class="modal__selects">
+    <div v-if="optionKeys.length > 0" class="modal__selects">
       <SfSelect
         v-for="(item, key) in optionKeys"
         :key="key"
@@ -146,11 +146,6 @@ export default {
       () => product.value,
       () => {
         qty.value = initialQty.value;
-
-        if (optionKeys.value.length < 1 && product.value) {
-          handleAddToCart();
-          close();
-        }
       }
     );
 
