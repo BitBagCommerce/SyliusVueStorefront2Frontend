@@ -19,12 +19,12 @@ context('Copy billing data to shipping form', () => {
       cy.interceptGql('getMinimalProduct', 'e2e-getMinimalProduct.json');
       cy.interceptGql('getCategory', 'e2e-getCategory.json');
       cy.interceptGql('createCart', 'e2e-createCart.json');
-      cy.interceptGql('getCart', 'e2e-getCartEmpty.json');
+      cy.interceptGql('getCart', 'e2e-getCart-empty.json');
       cy.interceptGql('getFirstProductId', 'e2e-getFirstProductId.json');
       cy.interceptGql('getProductAttribute', 'e2e-getProductAttribute.json');
       cy.interceptGql('getCountries', 'e2e-getCountries.json');
       cy.interceptGql('addToCart', 'e2e-addToCart.json');
-      cy.interceptGql('addAddress', 'e2e-addAddress.json');
+      cy.interceptGql('addAddress', 'e2e-addAddress-billing.json');
       cy.interceptGql(
         'getProductNotFiltered',
         'e2e-getProductNotFiltered.json'
@@ -33,7 +33,7 @@ context('Copy billing data to shipping form', () => {
       // Add product to cart
       page.home.visit();
       page.home.header.categories.first().click();
-      cy.interceptGql('getCart', 'e2e-getCartWithProduct.json');
+      cy.interceptGql('getCart', 'e2e-getCart-withProduct.json');
       page.category.addProductToCart();
       page.product.header.openCart();
       page.cart.goToCheckoutButton.click();
@@ -42,7 +42,7 @@ context('Copy billing data to shipping form', () => {
       page.checkout.billing.heading.should('be.visible');
       cy.wait(1000);
       page.checkout.billing.fillForm(data.customer);
-      cy.interceptGql('getCart', 'e2e-getCartBillingSubmit.json');
+      cy.interceptGql('getCart', 'e2e-getCart-billingSubmit.json');
       page.checkout.billing.continueToShippingButton.click();
 
       // Copy billing address
