@@ -24,7 +24,10 @@ context('Order placement', () => {
     cy.interceptGql('addAddress', 'e2e-addAddress-billing.json');
     cy.interceptGql('getProductNotFiltered', 'e2e-getProductNotFiltered.json');
     cy.interceptGql('getShippingMethods', 'e2e-getShippingMethods.json');
+    cy.interceptGql('getPaymentMethods', 'e2e-getPaymentMethods.json');
     cy.interceptGql('updateCartShipping', 'e2e-updateCartShipping.json');
+    cy.interceptGql('updateCartPayment', 'e2e-updateCartPayment.json');
+    cy.interceptGql('createOrder', 'e2e-createOrder.json');
 
     // Add product to cart and go to checkout
     page.home.visit();
@@ -45,9 +48,11 @@ context('Order placement', () => {
     page.checkout.shipping.fillForm(data.customer);
     page.checkout.shipping.selectShippingButton.click();
     page.checkout.shipping.shippingMethods.first().click();
+    cy.interceptGql('getCart', 'e2e-getCart-makeOrder.json');
     page.checkout.shipping.continueToPaymentButton.click();
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
+    cy.interceptGql('getCart', 'e2e-getCart-empty.json');
     page.checkout.thankyou.heading.should('be.visible');
   });
 });
