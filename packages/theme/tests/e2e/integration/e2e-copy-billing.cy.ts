@@ -16,7 +16,6 @@ context('Copy billing data to shipping form', () => {
       const data = cy.fixtures.data;
 
       // Mocking API responses
-      // cy.intercept('POST', '/api/sylius/addAddress', (req) => {});
       cy.interceptGql('getMinimalProduct', 'e2e-getMinimalProduct.json');
       cy.interceptGql('getCategory', 'e2e-getCategory.json');
       cy.interceptGql('createCart', 'e2e-createCart.json');
@@ -43,6 +42,7 @@ context('Copy billing data to shipping form', () => {
       page.checkout.billing.heading.should('be.visible');
       cy.wait(1000);
       page.checkout.billing.fillForm(data.customer);
+      cy.interceptGql('getCart', 'e2e-getCartBillingSubmit.json');
       page.checkout.billing.continueToShippingButton.click();
 
       // Copy billing address
@@ -71,8 +71,10 @@ context('Copy billing data to shipping form', () => {
         'have.value',
         data.customer.address.billing.country
       );
-      // TODO: Uncomment when state is added to the form
-      // page.checkout.shipping.state.should('have.value', data.customer.address.billing.state);
+      page.checkout.shipping.provinceName.should(
+        'have.value',
+        data.customer.address.billing.provinceName
+      );
       page.checkout.shipping.zipcode.should(
         'have.value',
         data.customer.address.billing.zipcode
