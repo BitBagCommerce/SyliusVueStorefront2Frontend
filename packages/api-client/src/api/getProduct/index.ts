@@ -199,7 +199,7 @@ export async function getMinimalProduct(
 
 export async function getProductAttribute(
   context: Context,
-  params: { categorySlug: string },
+  params: { categorySlug: string; locale: string },
   customQuery?: CustomQuery
 ) {
   type Attribute = {
@@ -218,11 +218,10 @@ export async function getProductAttribute(
     options: Attribute[];
   }[];
 
-  const variables = { ...params, locale: context.config.locale };
   const { query: attributeQuery, variables: attributeVariables } = extendQuery(
     context,
     getProductsAttributesQuery,
-    variables,
+    params,
     customQuery
   );
   const data = await query(context, attributeQuery, attributeVariables);
