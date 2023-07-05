@@ -8,12 +8,16 @@ export const useAttributes = () => {
   const attributes = sharedRef(null, composableName);
   const loading = sharedRef(false, `${composableName}-loading`);
   const error = sharedRef({ load: null }, `${composableName}-error`);
+  const locale = context.app.i18n.localeProperties.sylius;
 
   const load = async (params) => {
     try {
       loading.value = true;
 
-      const response = await context.$sylius.api.getProductAttribute(params);
+      const response = await context.$sylius.api.getProductAttribute({
+        ...params,
+        locale,
+      });
 
       if (Object.keys(response).length === 0) return;
 
