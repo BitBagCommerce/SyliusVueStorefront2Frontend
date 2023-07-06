@@ -30,9 +30,24 @@ context('Order placement', () => {
     cy.interceptGql('createOrder', 'e2e-createOrder.json');
 
     cy.intercept('GET', 'http://localhost:8000/**/pay', (req) => {
+      req.url = 'http://localhost:3000/en/checkout/thank-you?order=000000010';
+      console.log(req.url);
       req.reply((res) => {
         res.send({
           statusCode: 200,
+          Headers: {
+            Connection: 'keep-alive',
+            'Content-Encoding': 'gzip',
+            'Origin-Agent-Cluster': '?0',
+            'Transfer-Encoding': 'chunked',
+            Vary: 'Accept-Encoding',
+            'access-control-allow-origin': '*',
+            'cache-control': 'no-cache, no-store, must-revalidate',
+            'content-type': 'text/html',
+            date: 'Thu, 06 Jul 2023 12:12:33 GMT',
+            'keep-alive': 'timeout=5',
+            location: '/checkout/thank-you?order=000000010',
+          },
           body: `<html>
           <head>
             <meta charset="UTF-8" />
@@ -46,7 +61,12 @@ context('Order placement', () => {
           </html>`,
         });
       });
-    });
+    }).as('pay');
+
+    // Cypress.on('fail', (error, runnable) => {
+    //   console.log(error);
+    //   return false;
+    // });
 
     // Add product to cart and go to checkout
     page.home.visit();
@@ -71,6 +91,8 @@ context('Order placement', () => {
     page.checkout.shipping.continueToPaymentButton.click();
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
+    cy.wait('@pay');
+    // cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
     cy.wait(5000);
     page.checkout.thankyou.heading.should('be.visible');
     cy.interceptGql('getCart', 'e2e-getCart-empty.json');
