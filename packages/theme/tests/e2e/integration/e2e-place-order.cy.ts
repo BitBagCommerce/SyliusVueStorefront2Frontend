@@ -29,6 +29,25 @@ context('Order placement', () => {
     cy.interceptGql('updateCartPayment', 'e2e-updateCartPayment.json');
     cy.interceptGql('createOrder', 'e2e-createOrder.json');
 
+    cy.intercept('GET', 'http://localhost:8000/**/pay', (req) => {
+      req.reply((res) => {
+        res.send({
+          statusCode: 200,
+          body: `<html>
+          <head>
+            <meta charset="UTF-8" />
+            <meta http-equiv="refresh" content="0;url='http://localhost:3000/en/checkout/thank-you?order=000000010'" />
+            <title>Redirecting to http://localhost:3000/en/checkout/thank-you?order=000000010</title>
+          </head>
+          <body>
+            Redirecting to <a
+              href="http://localhost:3000/en/checkout/thank-you?order=000000010">http://localhost:3000/en/checkout/thank-you?order=000000060</a>.
+          </body>
+          </html>`,
+        });
+      });
+    });
+
     // Add product to cart and go to checkout
     page.home.visit();
     page.home.header.categories.first().click();
@@ -52,6 +71,7 @@ context('Order placement', () => {
     page.checkout.shipping.continueToPaymentButton.click();
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
+    cy.wait(5000);
     page.checkout.thankyou.heading.should('be.visible');
     cy.interceptGql('getCart', 'e2e-getCart-empty.json');
   });
