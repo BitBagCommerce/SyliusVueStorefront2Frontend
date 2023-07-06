@@ -4,12 +4,17 @@ import {
   PlatformApi,
   UseUserFactoryParams,
 } from '@vue-storefront/core';
-import type { Context } from '@vue-storefront/sylius-api';
+import type { Context, GraphQLError } from '@vue-storefront/sylius-api';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 
-export type Category = Awaited<
-  ReturnType<Context['$sylius']['api']['getCategory']>
+export type ExcludeError<TResponse> = Omit<
+  Extract<TResponse, { graphQLErrors: undefined }>,
+  'graphQLErrors'
+>;
+
+export type Category = ExcludeError<
+  Awaited<ReturnType<Context['$sylius']['api']['getCategory']>>
 >[number];
 
 export type User = {
@@ -30,7 +35,21 @@ export type Coupon = Record<string, unknown>;
 
 export type Product = Record<string, unknown>;
 
-export type Review = Record<string, unknown>;
+export type Review = ExcludeError<
+  Awaited<ReturnType<Context['$sylius']['api']['getReviews']>>
+>;
+
+export type ReviewItem = {
+  id: string;
+  rating: number;
+  comment?: string;
+  status: string;
+  createdAt: string;
+  author: {
+    id: string;
+    fullName: string;
+  };
+};
 
 export type Shipping = Record<string, unknown>;
 
@@ -53,7 +72,9 @@ export type ProductsResponse = Awaited<
 export type OrderSearchParams = Record<string, any>;
 
 export type OrdersResponse = {
-  results: Awaited<ReturnType<Context['$sylius']['api']['getUserOrders']>>;
+  results: ExcludeError<
+    Awaited<ReturnType<Context['$sylius']['api']['getUserOrders']>>
+  >;
   total: number;
 };
 
@@ -118,8 +139,8 @@ export type UseUserRegisterParams = {
 
 export type useUserOrderSearchParams = TODO;
 
-export type useUserShippingAddress = Awaited<
-  ReturnType<Context['$sylius']['api']['getUserAddresses']>
+export type useUserShippingAddress = ExcludeError<
+  Awaited<ReturnType<Context['$sylius']['api']['getUserAddresses']>>
 >;
 
 export type useUserShippingAddressItem = {
@@ -158,3 +179,8 @@ export interface UseUserFactoryParamsExtension<
     }
   ) => Promise<USER>;
 }
+
+export type ComposableError = {
+  message: string;
+  details: GraphQLError[];
+};
