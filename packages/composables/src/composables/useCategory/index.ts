@@ -4,6 +4,7 @@ import {
   UseCategoryFactoryParams,
 } from '@vue-storefront/core';
 import { Context } from '@vue-storefront/sylius-api';
+import { errorHelper } from '../../helpers';
 import { Category } from '../../types';
 
 // TODO: add better typing after category list changes
@@ -13,9 +14,8 @@ const params: UseCategoryFactoryParams<Category, any> = {
     { customQuery, ...searchParams }
   ) => {
     try {
-      const category = await context.$sylius.api.getCategory(
-        searchParams,
-        customQuery
+      const category = errorHelper(
+        await context.$sylius.api.getCategory(searchParams, customQuery)
       );
 
       return category;
