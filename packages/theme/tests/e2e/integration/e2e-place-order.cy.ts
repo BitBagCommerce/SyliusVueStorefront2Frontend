@@ -30,7 +30,7 @@ context('Order placement', () => {
     cy.interceptGql('createOrder', 'e2e-createOrder.json');
 
     cy.intercept('GET', 'http://localhost:8000/**/pay', (req) => {
-      req.url = '/';
+      req.url = 'http://localhost:3000/';
     }).as('pay');
 
     // Add product to cart and go to checkout
@@ -57,7 +57,7 @@ context('Order placement', () => {
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
     cy.wait('@pay').clearCookies();
-    cy.visit('/en/checkout/thank-you?order=000000010');
+    cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
     page.checkout.thankyou.heading.should('be.visible');
     cy.interceptGql('getCart', 'e2e-getCart-empty.json');
   });
