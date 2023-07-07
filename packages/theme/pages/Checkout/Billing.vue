@@ -269,15 +269,15 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      const err = error.value.save?.graphQLErrors;
+      const err = error.value.save;
 
-      if (!err?.length) {
+      if (!err) {
         root.$router.push(root.localePath({ name: 'shipping' }));
 
         return;
       }
 
-      const message = err?.[0].extensions.message;
+      const message = err.message;
 
       send({ type: 'danger', message: root.$t(message) });
 

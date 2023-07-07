@@ -3,6 +3,7 @@ import {
   UseMakeOrderFactoryParams,
 } from '@vue-storefront/core';
 import type { Order, Context } from '@vue-storefront/sylius-api';
+import { errorHelper } from '../../helpers';
 import { useCart } from '../useCart';
 
 const factoryParams: UseMakeOrderFactoryParams<Order> = {
@@ -14,7 +15,9 @@ const factoryParams: UseMakeOrderFactoryParams<Order> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   make: async (context: Context, { customQuery }) => {
     const apiState = context.$sylius.config.state;
-    const cart = await context.$sylius.api.getCart(apiState.getCartId());
+    const cart = errorHelper(
+      await context.$sylius.api.getCart(apiState.getCartId())
+    );
 
     if (cart.items.length === 0) throw new Error('Cart is empty');
 
@@ -31,7 +34,7 @@ const factoryParams: UseMakeOrderFactoryParams<Order> = {
     apiState.setCartId(null);
     context.cart.load({ customQuery });
 
-    const { cartToken } = await context.$sylius.api.createCart();
+    const { cartToken } = errorHelper(await context.$sylius.api.createCart());
     apiState.setCartId(cartToken);
 
     return makeOrderResponse;

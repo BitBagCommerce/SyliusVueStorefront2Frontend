@@ -6,6 +6,7 @@ import {
   CustomQuery,
 } from '@vue-storefront/core';
 import { Context, Product, Cart } from '@vue-storefront/sylius-api';
+import { errorHelper } from 'composables/src/helpers';
 
 export const useCart = () => {
   const errorInit = {
@@ -60,7 +61,9 @@ export const useCart = () => {
         let cartId = apiState.getCartId();
 
         const createCart = async (): Promise<string> => {
-          const { cartToken } = await context.$sylius.api.createCart();
+          const { cartToken } = errorHelper(
+            await context.$sylius.api.createCart()
+          );
           apiState.setCartId(cartToken);
           return cartToken;
         };

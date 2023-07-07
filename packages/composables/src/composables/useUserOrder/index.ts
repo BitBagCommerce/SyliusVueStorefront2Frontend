@@ -6,6 +6,7 @@ import {
 } from '@vue-storefront/core';
 import { OrdersResponse, OrderSearchParams } from '../../types';
 import type { Context } from '@vue-storefront/sylius-api';
+import { errorHelper } from '../../helpers';
 
 const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams> = {
   searchOrders: async (
@@ -14,8 +15,8 @@ const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams> = {
     params: OrderSearchParams
   ): Promise<OrdersResponse> => {
     const apiState = context.$sylius.config.state;
-    const userOrdersResponse = await context.$sylius.api.getUserOrders(
-      apiState.getCustomerId()
+    const userOrdersResponse = errorHelper(
+      await context.$sylius.api.getUserOrders(apiState.getCustomerId())
     );
 
     return {
