@@ -56,7 +56,7 @@ context('Order placement', () => {
     page.checkout.shipping.continueToPaymentButton.click();
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
-    cy.wait('@pay').clearCookies();
+    cy.wait(10000).clearCookies();
     cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
     page.checkout.thankyou.heading.should('be.visible');
     cy.interceptGql('getCart', 'e2e-getCart-empty.json');
