@@ -29,7 +29,7 @@ context('Order placement', () => {
     cy.interceptGql('updateCartPayment', 'e2e-updateCartPayment.json');
     cy.interceptGql('createOrder', 'e2e-createOrder.json');
 
-    cy.intercept('GET', '*/pay', (req) => {
+    cy.intercept('GET', '**/pay', (req) => {
       req.url = 'http://localhost:3000/';
     }).as('pay');
 
