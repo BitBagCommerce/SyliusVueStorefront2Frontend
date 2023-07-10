@@ -15,7 +15,7 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       SYLIUS_API_ENDPOINT: https://vsf2-demo-sylius.bitbag.io/api/v2/graphql
     steps:
