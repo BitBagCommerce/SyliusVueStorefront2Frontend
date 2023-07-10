@@ -6,7 +6,6 @@ on:
       - main
       - develop
       - release-**
-      - VSF2-247/Disconnect-build-from-backend
   pull_request:
     branches:
       - main
