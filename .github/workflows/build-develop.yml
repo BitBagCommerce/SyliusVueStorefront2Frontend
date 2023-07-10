@@ -15,9 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test_repository:
+  build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       SYLIUS_API_ENDPOINT: ${{ secrets.SYLIUS_HOST_AUTHORIZED }}api/v2/graphql
     steps:
