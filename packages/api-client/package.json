@@ -10,8 +10,9 @@
     "build": "yarn graphql && rimraf lib server && rollup -c",
     "dev": "rollup -c -w",
     "prepublish": "yarn build",
-    "graphql": "DOTENV_CONFIG_PATH=../theme/.env yarn graphql-codegen -r dotenv/config",
-    "graphql-watch": "DOTENV_CONFIG_PATH=../theme/.env yarn graphql-codegen --watch -r dotenv/config"
+    "graphql": "yarn graphql-codegen -r dotenv/config",
+    "graphql-watch": "yarn graphql-codegen --watch -r dotenv/config",
+    "graphql-download": "env-cmd -xf ../theme/.env get-graphql-schema \\$SYLIUS_API_ENDPOINT > schema.graphql"
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
@@ -38,6 +39,10 @@
     "rollup-plugin-graphql": "^0.1.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.34.1"
+  },
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "get-graphql-schema": "^2.1.2"
   },
   "files": [
     "lib/**/*",
