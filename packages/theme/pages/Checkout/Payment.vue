@@ -190,7 +190,7 @@ export default {
         send({ type: 'danger', message: makeError.message });
         setCart(null);
 
-        router.push({ path: router.app.localePath('/') });
+        // router.push({ path: router.app.localePath('/') });
         return;
       }
 
@@ -203,7 +203,7 @@ export default {
         if (locales[localeIndex].code === locale) {
           redirected = true;
           const redirectHost = root.context.$config.theme.payment.redirectHost;
-          window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
+          // window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
           setCart(null);
         }
       }
@@ -213,13 +213,13 @@ export default {
           name: 'thank-you',
           query: { order: orderGetters.getId(order.value) },
         };
-        root.$router.push(root.localePath(thankYouPath));
+        // root.$router.push(root.localePath(thankYouPath));
       }
     };
 
     const redirectToHome = () => {
       if (!products.value?.length && !isRedirecting.value) {
-        router.push({ path: router.app.localePath('/') });
+        // router.push({ path: router.app.localePath('/') });
       }
     };
 
