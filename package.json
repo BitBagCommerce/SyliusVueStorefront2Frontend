@@ -28,7 +28,8 @@
     "commit": "cz",
     "heroku-postbuild": "scripts/build.sh",
     "graphql:api-client": "cd packages/api-client && yarn graphql",
-    "graphql-watch:api-client": "cd packages/api-client && yarn graphql-watch"
+    "graphql-watch:api-client": "cd packages/api-client && yarn graphql-watch",
+    "graphql-download:api-client": "cd packages/api-client && yarn graphql-download"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
