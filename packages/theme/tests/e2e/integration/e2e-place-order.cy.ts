@@ -29,19 +29,6 @@ context('Order placement', () => {
     cy.interceptGql('updateCartPayment', 'e2e-updateCartPayment.json');
     cy.interceptGql('createOrder', 'e2e-createOrder.json');
 
-    cy.intercept('GET', '**/pay', (req) => {
-      req.url = 'http://localhost:3000/';
-    }).as('pay');
-    cy.on('window:before:load', (win) => {
-      // just log the win.location.href for convenience
-      console.log('WINDOW BEFORE LOAD', win.location.href);
-
-      // if we're trying to load the page we want to stop, win.stop()
-      if (win.location.href === '**/pay') {
-        win.stop();
-      }
-    });
-
     // Add product to cart and go to checkout
     page.home.visit();
     page.home.header.categories.first().click();
@@ -65,8 +52,7 @@ context('Order placement', () => {
     page.checkout.shipping.continueToPaymentButton.click();
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
-    // cy.wait('@pay').clearCookies();
-    cy.wait(1000);
+    cy.wait(1000).clearCookies();
     cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
     page.checkout.thankyou.heading.should('be.visible');
     cy.interceptGql('getCart', 'e2e-getCart-empty.json');
