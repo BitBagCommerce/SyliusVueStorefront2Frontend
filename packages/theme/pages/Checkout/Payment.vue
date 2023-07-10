@@ -213,7 +213,7 @@ export default {
           name: 'thank-you',
           query: { order: orderGetters.getId(order.value) },
         };
-        root.$router.push(root.localePath(thankYouPath));
+        // root.$router.push(root.localePath(thankYouPath));
       }
     };
 
