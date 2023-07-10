@@ -40,11 +40,6 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
-        env:
-          SYLIUS_API_ENDPOINT: localhost:8000/api/v2/graphql
-          SYLIUS_THUMBNAIL_ENDPOINT: localhost:8000/media/cache/sylius_shop_product_thumbnail
-          SYLIUS_REGULAR_IMAGE_ENDPOINT: localhost:8000/media/cache/sylius_shop_product_large_thumbnail
-          SYLIUS_PAYMENT_GATEWAY_HOST: localhost:8000/
         with:
           config-file: packages/theme/tests/e2e/cypress-github-action.config.js
           install: yarn install
