@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - main
+      - develop
+      - release-**
+      - VSF2-247/Disconnect-build-from-backend
   pull_request:
     branches:
       - main
+      - develop
+      - release-**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -16,8 +21,6 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-22.04
-    env:
-      SYLIUS_API_ENDPOINT: https://vsf2-demo-sylius.bitbag.io/api/v2/graphql
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
