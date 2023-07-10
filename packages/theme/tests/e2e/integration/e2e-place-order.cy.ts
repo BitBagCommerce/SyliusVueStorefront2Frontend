@@ -32,6 +32,15 @@ context('Order placement', () => {
     cy.intercept('GET', '**/pay', (req) => {
       req.url = 'http://localhost:3000/';
     }).as('pay');
+    cy.on('window:before:load', (win) => {
+      // just log the win.location.href for convenience
+      console.log('WINDOW BEFORE LOAD', win.location.href);
+
+      // if we're trying to load the page we want to stop, win.stop()
+      if (win.location.href === '**/pay') {
+        win.stop();
+      }
+    });
 
     // Add product to cart and go to checkout
     page.home.visit();
