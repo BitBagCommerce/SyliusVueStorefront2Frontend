@@ -62,14 +62,11 @@ context('Order placement', () => {
     page.checkout.shipping.selectShippingButton.click();
     page.checkout.shipping.shippingMethods.first().click();
     cy.interceptGql('getCart', 'e2e-getCart-makeOrder.json');
-    cy.wait(5000);
     page.checkout.shipping.continueToPaymentButton.click();
-    cy.wait(5000);
     page.checkout.payment.paymentMethods.first().click();
-    cy.wait(5000);
     page.checkout.payment.makeAnOrderButton.click();
-    cy.wait(5000).clearCookies;
     // cy.wait('@pay').clearCookies();
+    cy.wait(1000);
     cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
     page.checkout.thankyou.heading.should('be.visible');
     cy.interceptGql('getCart', 'e2e-getCart-empty.json');
