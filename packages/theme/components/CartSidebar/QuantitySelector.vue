@@ -1,6 +1,7 @@
 <template>
   <div class="quantity" v-click-outside="() => handleCancel()">
     <SfButton
+      data-e2e="minus-quantity-button"
       v-if="!isConfirmOpen"
       class="sf-button--pure quantity__button"
       :disabled="disabled"
@@ -31,6 +32,7 @@
     />
 
     <SfButton
+      data-e2e="plus-quantity-button"
       v-if="!isConfirmOpen"
       class="sf-button--pure quantity__button"
       :disabled="disabled"

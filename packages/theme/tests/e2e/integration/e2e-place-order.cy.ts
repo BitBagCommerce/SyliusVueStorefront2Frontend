@@ -83,12 +83,13 @@ context('Order placement', () => {
       cy.interceptGql('updateCartShipping', 'e2e-updateCartShipping.json');
       cy.interceptGql('updateCartPayment', 'e2e-updateCartPayment.json');
       cy.interceptGql('createOrder', 'e2e-createOrder.json');
+      cy.interceptGql('addCouponToCart', 'e2e-addCouponToCart.json');
 
       // Add product to cart and go to checkout
       page.home.visit();
       page.home.header.categories.first().click();
       cy.interceptGql('getCart', 'e2e-getCart-withProduct.json');
-      page.category.addProductToCart();
+      page.category.addProductToCart(0, 7);
       page.product.header.openCart();
       page.cart.goToCheckoutButton.click();
 
