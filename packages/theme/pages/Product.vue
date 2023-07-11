@@ -80,12 +80,10 @@
                   ({{ totalReviews }})
                 </a>
               </div>
-              <WishlistDropdown
-                class="product__wishlist"
-                :wishlists="wishlists"
+              <WishlistButton
+                class="wishlist"
                 :product="product"
-                :visible="true"
-                :icon="'icon'"
+                buttonStyle="icon"
               />
             </div>
           </div>
@@ -240,8 +238,8 @@ import {
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
 import { useUiNotification } from '~/composables';
-import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
 import QuantitySelector from '~/components/CartSidebar/QuantitySelector.vue';
+import WishlistButton from '~/components/Wishlist/WishlistButton.vue';
 
 export default {
   name: 'Product',
@@ -464,8 +462,8 @@ export default {
     MobileStoreBanner,
     LazyHydrate,
     AddReviewForm,
-    WishlistDropdown,
     QuantitySelector,
+    WishlistButton,
   },
   data() {
     return {

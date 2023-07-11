@@ -23,13 +23,7 @@
       @click:add-to-cart="open(product)"
     />
 
-    <WishlistDropdown
-      class="wishlist"
-      :wishlists="wishlists"
-      :product="product"
-      :visible="isDropdownVisible"
-      :icon="'circleIcon'"
-    />
+    <WishlistButton class="wishlist" :product="product" buttonStyle="circle" />
   </div>
 </template>
 
@@ -38,6 +32,7 @@ import { productGetters, useCart, useWishlists } from '@vue-storefront/sylius';
 import useVariantSelector from '~/composables/useVariantSelector';
 import { SfProductCard } from '@storefront-ui/vue';
 import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
+import WishlistButton from '~/components/Wishlist/WishlistButton.vue';
 import { computed, useRouter } from '@nuxtjs/composition-api';
 
 export default {
@@ -45,6 +40,7 @@ export default {
   components: {
     WishlistDropdown,
     SfProductCard,
+    WishlistButton,
   },
   props: {
     product: {
