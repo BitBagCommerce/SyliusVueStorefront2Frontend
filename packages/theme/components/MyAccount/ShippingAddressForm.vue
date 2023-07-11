@@ -228,7 +228,7 @@ export default {
       street: props.address.street,
       city: props.address.city,
       postcode: props.address.postcode,
-      countryCode: props.address.countryCode,
+      countryCode: '',
       provinceName: props.address.provinceName,
       phoneNumber: props.address.phoneNumber,
     });
@@ -247,6 +247,7 @@ export default {
 
     onMounted(async () => {
       countries.value = await $vsf.$sylius.api.getCountries();
+      form.countryCode = props.address.countryCode;
     });
 
     return {
