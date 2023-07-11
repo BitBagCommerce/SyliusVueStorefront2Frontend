@@ -138,6 +138,11 @@ class PromoCode {
   get appliedCouponCode(): Cypress.Chainable {
     return el('applied-promo-code');
   }
+
+  public applyPromoCode(code: string) {
+    this.promoCode.type(code);
+    this.applyPromoCodeButton.click();
+  }
 }
 
 class Payment {

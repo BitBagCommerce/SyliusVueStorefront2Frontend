@@ -95,8 +95,7 @@ context('Order placement', () => {
       // Checkout process
       page.checkout.billing.heading.should('be.visible');
       cy.wait(1000);
-      page.checkout.promocode.promoCode.type(data.couponCode.code);
-      page.checkout.promocode.applyPromoCodeButton.click();
+      page.checkout.promocode.applyPromoCode(data.couponCode.code);
       page.checkout.promocode.appliedCouponCode.should('be.visible');
       cy.wait(1000);
       page.checkout.billing.fillForm(data.customer);
