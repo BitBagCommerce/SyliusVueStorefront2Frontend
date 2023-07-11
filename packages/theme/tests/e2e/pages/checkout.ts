@@ -1,5 +1,5 @@
 import { Customer } from '../types/customer';
-import { el } from './utils/element';
+import { el, vsfUiEl } from './utils/element';
 
 class Shipping {
   get firstName(): Cypress.Chainable {
@@ -126,6 +126,20 @@ class Billing {
   }
 }
 
+class PromoCode {
+  get promoCode(): Cypress.Chainable {
+    return vsfUiEl('promoCode');
+  }
+
+  get applyPromoCodeButton(): Cypress.Chainable {
+    return el('apply-promo-code');
+  }
+
+  get appliedCouponCode(): Cypress.Chainable {
+    return el('applied-promo-code');
+  }
+}
+
 class Payment {
   get makeAnOrderButton(): Cypress.Chainable {
     return el('make-an-order');
@@ -145,6 +159,7 @@ class ThankYou {
 export default {
   shipping: new Shipping(),
   billing: new Billing(),
+  promocode: new PromoCode(),
   payment: new Payment(),
   thankyou: new ThankYou(),
 };
