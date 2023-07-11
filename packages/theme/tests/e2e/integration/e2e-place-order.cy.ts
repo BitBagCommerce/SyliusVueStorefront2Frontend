@@ -95,9 +95,13 @@ context('Order placement', () => {
       // Checkout process
       page.checkout.billing.heading.should('be.visible');
       cy.wait(1000);
-      page.checkout.promocode.applyPromoCode(data.couponCode.code);
-      page.checkout.promocode.appliedCouponCode.should('be.visible');
+
+      // Apply coupon code
+      page.checkout.coupons.applyCouponCode(data.couponCode.code);
+      page.checkout.coupons.appliedCouponCode.should('be.visible');
       cy.wait(1000);
+
+      // Continue checkout process
       page.checkout.billing.fillForm(data.customer);
       cy.interceptGql('getCart', 'e2e-getCart-billingSubmit.json');
       page.checkout.billing.continueToShippingButton.click();

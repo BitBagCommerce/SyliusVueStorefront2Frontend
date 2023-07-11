@@ -126,12 +126,12 @@ class Billing {
   }
 }
 
-class PromoCode {
-  get promoCode(): Cypress.Chainable {
+class Coupons {
+  get couponCode(): Cypress.Chainable {
     return vsfUiEl('promoCode');
   }
 
-  get applyPromoCodeButton(): Cypress.Chainable {
+  get applyCouponCodeButton(): Cypress.Chainable {
     return el('apply-promo-code');
   }
 
@@ -139,9 +139,9 @@ class PromoCode {
     return el('applied-promo-code');
   }
 
-  public applyPromoCode(code: string) {
-    this.promoCode.type(code);
-    this.applyPromoCodeButton.click();
+  public applyCouponCode(code: string) {
+    this.couponCode.type(code);
+    this.applyCouponCodeButton.click();
   }
 }
 
@@ -164,7 +164,7 @@ class ThankYou {
 export default {
   shipping: new Shipping(),
   billing: new Billing(),
-  promocode: new PromoCode(),
+  coupons: new Coupons(),
   payment: new Payment(),
   thankyou: new ThankYou(),
 };
