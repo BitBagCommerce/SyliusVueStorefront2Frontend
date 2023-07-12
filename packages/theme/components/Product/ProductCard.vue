@@ -112,17 +112,6 @@ export default {
     height: auto;
   }
 
-  @include for-mobile {
-    .wishlist {
-      display: flex;
-      z-index: 1;
-
-      &.active {
-        z-index: 2;
-      }
-    }
-  }
-
   @include for-desktop {
     &:hover {
       --product-card-add-button-opacity: 1;
