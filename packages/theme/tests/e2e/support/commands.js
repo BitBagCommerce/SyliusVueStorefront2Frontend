@@ -25,8 +25,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('interceptGql', (url, path) => {
+Cypress.Commands.add('interceptApi', (url, data) => {
   cy.intercept('POST', '/api/sylius/' + url, (req) => {
-    req.reply({ fixture: '../fixtures/graphql-responses-data/' + path });
+    req.reply({ body: data });
   });
 });

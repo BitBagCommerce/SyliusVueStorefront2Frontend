@@ -32,7 +32,7 @@ const addAddress = {
 };
 
 const addCouponToCart = {
-  correctCode: {
+  correctCoupon: {
     tokenValue: 'VCiHr29mXv',
     localeCode: 'en_US',
     total: 7960,
