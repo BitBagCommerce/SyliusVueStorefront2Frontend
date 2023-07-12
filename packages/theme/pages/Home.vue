@@ -96,6 +96,7 @@
             gap: 10,
             breakpoints: { 1023: { peek: 30, perView: 2, gap: 0 } },
           }"
+          ref="carousel"
         >
           <template #prev="{ go }">
             <SfArrow
@@ -141,7 +142,13 @@ import {
   SfButton,
   SfLoader,
 } from '@storefront-ui/vue';
-import { computed, useContext, onMounted } from '@nuxtjs/composition-api';
+import {
+  ref,
+  computed,
+  useContext,
+  onMounted,
+  watch,
+} from '@nuxtjs/composition-api';
 
 import {
   useCart,
@@ -156,6 +163,7 @@ import loader from '~/static/icons/loader.svg';
 import ClientOnly from 'vue-client-only';
 import useVariantSelector from '~/composables/useVariantSelector';
 import ProductCard from '~/components/Product/ProductCard.vue';
+import useDropdown from '~/composables/useDropdown';
 
 export default {
   name: 'Home',
@@ -184,7 +192,10 @@ export default {
     const { send } = useUiNotification();
     const { open } = useVariantSelector();
     const { load, result, loading } = useProducts();
+    const { toggle } = useDropdown();
     const products = computed(() => result.value?.products || []);
+
+    const carousel = ref(null);
 
     const heroes = [
       {
@@ -296,6 +307,16 @@ export default {
       await load({ categorySlug: 'category/t-shirts' });
     });
 
+    // Closes dropdown whenever carousel moves.
+    watch(
+      () => carousel.value,
+      () => {
+        carousel.value?.glide.on('move', () => {
+          toggle();
+        });
+      }
+    );
+
     return {
       banners,
       heroes,
@@ -305,6 +326,7 @@ export default {
       handleAddToCart,
       loader,
       open,
+      carousel,
     };
   },
 };

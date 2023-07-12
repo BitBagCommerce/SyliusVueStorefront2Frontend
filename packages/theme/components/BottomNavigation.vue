@@ -119,7 +119,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .navigation-bottom {
-  z-index: 3;
+  z-index: 11;
 }
 .cart-button {
   position: relative;

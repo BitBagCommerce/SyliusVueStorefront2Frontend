@@ -340,7 +340,7 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar {
-  --sidebar-z-index: 3;
+  --sidebar-z-index: 30;
   --overlay-z-index: 3;
   --sidebar-top-padding: var(--spacer-sm) var(--spacer-base) 0
     var(--spacer-base);
