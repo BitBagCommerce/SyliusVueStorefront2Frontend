@@ -1,9 +1,6 @@
 <template>
   <div id="category">
-    <SfBreadcrumbs
-      class="breadcrumbs desktop-only"
-      :breadcrumbs="breadcrumbs"
-    />
+    <SfBreadcrumbs class="breadcrumbs" :breadcrumbs="breadcrumbs" />
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
         <SfLoader
@@ -462,6 +459,10 @@ export default {
 
 .breadcrumbs {
   margin: var(--spacer-base) auto var(--spacer-lg);
+
+  @include for-mobile {
+    margin-left: var(--spacer-sm);
+  }
 }
 
 .navbar {
