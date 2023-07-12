@@ -14,7 +14,7 @@
         </SfSteps>
         <nuxt-child v-else />
       </div>
-      <div v-if="!isThankYou" class="checkout__aside desktop-only">
+      <div v-if="!isThankYou" class="checkout__aside">
         <transition name="fade">
           <CartPreview key="order-summary" />
         </transition>

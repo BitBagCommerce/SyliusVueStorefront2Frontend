@@ -213,6 +213,12 @@ export default {
   width: 100%;
   background-color: var(--c-light);
   padding: var(--spacer-xl) var(--spacer-xl) 0;
+
+  @include for-mobile {
+    padding: var(--spacer-xl) var(--spacer-base) 0;
+    background-color: transparent;
+  }
+
   &:last-child {
     padding-bottom: var(--spacer-xl);
   }
@@ -249,7 +255,12 @@ export default {
   }
   &__input {
     --input-background: var(--c-white);
+
     flex: 1;
+
+    @include for-mobile {
+      --input-background: var(--c-light);
+    }
   }
 }
 
