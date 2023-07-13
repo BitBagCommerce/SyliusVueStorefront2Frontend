@@ -17,14 +17,12 @@ class Product extends Base {
   public decreaseQuantity(by = 1) {
     for (let i = 0; i < by; i++) {
       this.decreseQuantityButton.first().click();
-      cy.wait(100);
     }
   }
 
   public increaseQuantity(by = 1) {
     for (let i = 0; i < by; i++) {
       this.increaseQuantityButton.first().click();
-      cy.wait(100);
     }
   }
 }
