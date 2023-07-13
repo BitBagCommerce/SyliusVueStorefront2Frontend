@@ -8,6 +8,7 @@ import {
 } from '../../types';
 import { useCart } from '../useCart';
 import type { Context } from '@vue-storefront/sylius-api';
+import { errorHelper } from 'composables/src/helpers';
 
 const params: UseUserFactoryParamsExtension<
   User,
@@ -25,7 +26,11 @@ const params: UseUserFactoryParamsExtension<
     const customerId = apiState.getCustomerId();
     if (customerId) {
       try {
-        return await context.$sylius.api.getUser(customerId);
+        const response = errorHelper(
+          await context.$sylius.api.getUser(customerId)
+        );
+
+        return response;
       } catch (e) {
         await params.logOut(context);
 
@@ -57,16 +62,20 @@ const params: UseUserFactoryParamsExtension<
     { currentUser, updatedUserData, customQuery }
   ) => {
     const apiState = context.$sylius.config.state;
-    return await context.$sylius.api.updateUserProfile(
-      {
-        customer: {
-          id: apiState.getCustomerId(),
-          // emailCanonical: updatedUserData.email,
-          ...updatedUserData,
+    const response = errorHelper(
+      await context.$sylius.api.updateUserProfile(
+        {
+          customer: {
+            id: apiState.getCustomerId(),
+            // emailCanonical: updatedUserData.email,
+            ...updatedUserData,
+          },
         },
-      },
-      customQuery
+        customQuery
+      )
     );
+
+    return response;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -87,7 +96,7 @@ const params: UseUserFactoryParamsExtension<
     if (error)
       throw {
         ...error,
-        message: error.debugMessage,
+        message: error.extensions.message,
       };
 
     return registerUserResponse;
@@ -110,20 +119,17 @@ const params: UseUserFactoryParamsExtension<
     }
 
     try {
-      const loginUserResponse = await context.$sylius.api.loginUser({
-        login: {
-          username,
-          password,
-          rememberMe,
-          orderTokenValue,
-        },
-      });
-
-      if ((loginUserResponse as any).graphQLErrors !== undefined) {
-        throw {
-          message: "Can't authenticate with provided username/password.",
-        };
-      }
+      const loginUserResponse = errorHelper(
+        await context.$sylius.api.loginUser({
+          login: {
+            username,
+            password,
+            rememberMe,
+            orderTokenValue,
+          },
+        }),
+        "Can't authenticate with provided username/password."
+      );
 
       apiState.setCustomerToken(loginUserResponse.token);
       apiState.setCustomerRefreshToken(loginUserResponse.refreshToken);

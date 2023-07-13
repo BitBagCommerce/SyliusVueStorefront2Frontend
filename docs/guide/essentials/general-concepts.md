@@ -3,7 +3,11 @@
 ## API Client
 
 :::warning While working on API remember to
-Close your VSF2 server if it is running and run `yarn build`. Folder `packages/api-client` doesn't support hot reload and requires a separate build after making any changes.
+Close your VSF2 server if it is running and run `yarn build`. Folder `packages/api-client` doesn't support hot reload and requires a separate build after making any changes
+:::
+
+:::warning Code generation for GraphQL code
+This project uses [GraphQL Code Generation]('https://the-guild.dev/graphql/codegen') for generating TypeScript types from your GraphQL code, so if you want your types to be correct you have to run `graphql:api-client`, or `yarn build` because it also does that. One caveat is that your types are generated based on `packages/api-client/schema.graphql` file so each time your schema changes you have to update this file by running `yarn graphql-download:api-client` command.
 :::
 
 Inside of `/packages/api-client` folder you can find functions that directly send backend calls through GraphQL, and respective GraphQL code.
@@ -72,18 +76,19 @@ export const clearCartMutation = gql(`
 import { getProductsAttributesQuery } from './queries';
 import { extendQuery, query } from '../helpers';
 
-export async function getProduct(context, params, customQuery?: CustomQuery): Promise<any> {
+export async function getProduct(
+  context,
+  params,
+  customQuery?: CustomQuery
+): Promise<any> {
   try {
     // crating a query
-    const { productsQuery } = context.extendQuery(
-      customQuery,
-      {
-        productsQuery: {
-          query: getProductsAttributesQuery,
-          variables: params
-        }
-      }
-    );
+    const { productsQuery } = context.extendQuery(customQuery, {
+      productsQuery: {
+        query: getProductsAttributesQuery,
+        variables: params,
+      },
+    });
 
     // executing created query
     const data = await query({
@@ -101,10 +106,6 @@ export async function getProduct(context, params, customQuery?: CustomQuery): Pr
   }
 }
 ```
-
-:::tip Working with GraphQL code
-This project uses [GraphQL Code Generation]('https://the-guild.dev/graphql/codegen') for generating TypeScript types for your GraphQL code. Remember to run `graphql:api-client` after every change to your GraphQL code or `graphql-watch:api-client` to watch for file changes automatically, this ensures that types generated from your GraphQL are accurate.
-:::
 
 ## Composables
 

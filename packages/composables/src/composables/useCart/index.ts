@@ -6,6 +6,7 @@ import {
   CustomQuery,
 } from '@vue-storefront/core';
 import { Context, Product, Cart } from '@vue-storefront/sylius-api';
+import { errorHelper } from 'composables/src/helpers';
 
 export const useCart = () => {
   const errorInit = {
@@ -60,7 +61,9 @@ export const useCart = () => {
         let cartId = apiState.getCartId();
 
         const createCart = async (): Promise<string> => {
-          const { cartToken } = await context.$sylius.api.createCart();
+          const { cartToken } = errorHelper(
+            await context.$sylius.api.createCart()
+          );
           apiState.setCartId(cartToken);
           return cartToken;
         };
@@ -108,7 +111,7 @@ export const useCart = () => {
             productVariant:
               prod.selectedVariant.id ||
               `/api/v2/shop/orders/${prod.selectedVariant.code}`,
-            quantity: prod.selectedVariant.quantity,
+            quantity: prod.qty ?? prod.selectedVariant.quantity,
           }));
           const cart = await context.$sylius.api.addManyToCart(
             {
@@ -117,6 +120,14 @@ export const useCart = () => {
             },
             customQuery
           );
+
+          const errors = (cart as any)?.graphQLErrors;
+
+          if (errors)
+            throw {
+              message: errors?.[0]?.extensions.message,
+              ...errors,
+            };
 
           return cart;
         }
@@ -133,7 +144,7 @@ export const useCart = () => {
 
         if ((cart as any).graphQLErrors?.length) {
           throw {
-            message: (cart as any).graphQLErrors?.[0]?.debugMessage,
+            message: (cart as any).graphQLErrors?.[0]?.extensions.message,
           };
         }
 
@@ -192,7 +203,7 @@ export const useCart = () => {
 
         if ((cart as any).graphQLErrors?.length) {
           throw {
-            message: (cart as any).graphQLErrors?.[0]?.debugMessage,
+            message: (cart as any).graphQLErrors?.[0]?.extensions.message,
           };
         }
 
@@ -241,8 +252,8 @@ export const useCart = () => {
 
         if ((applyCouponResponse as any).graphQLErrors?.length) {
           throw {
-            message: (applyCouponResponse as any).graphQLErrors?.[0]
-              ?.debugMessage,
+            message: (applyCouponResponse as any).graphQLErrors?.[0]?.extensions
+              .message,
           };
         }
 

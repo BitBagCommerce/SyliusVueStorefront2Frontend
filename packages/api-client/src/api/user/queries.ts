@@ -28,7 +28,7 @@ export const getUserAddressesQuery = gql(`
         street
         city
         postcode
-        state: provinceName
+        provinceName
         countryCode
         phoneNumber
       }

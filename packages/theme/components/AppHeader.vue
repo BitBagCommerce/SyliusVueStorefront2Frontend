@@ -127,7 +127,7 @@ import {
   useProduct,
   useCategory,
 } from '@vue-storefront/sylius';
-import { computed, ref, watch } from '@nuxtjs/composition-api';
+import { computed, ref, watch, useRoute } from '@nuxtjs/composition-api';
 import LocaleSelector from './LocaleSelector';
 import SearchResults from '~/components/SearchResults';
 import HeaderNavigation from './HeaderNavigation';
@@ -160,6 +160,7 @@ export default {
       toggleLoginModal,
       isMobileMenuOpen,
     } = useUiState();
+    const route = useRoute();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { isAuthenticated } = useUser();
     const { cart } = useCart();
@@ -233,6 +234,8 @@ export default {
         if (isSearchOpen.value) handleSearch();
       }
     );
+
+    watch(() => route.value, closeSearch);
 
     const removeSearchResults = () => {
       result.value = null;

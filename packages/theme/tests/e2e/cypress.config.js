@@ -1,7 +1,8 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
-  fixturesFolder: 'fixtures',
+  projectId: 'zwgjzu',
+  fixturesFolder: './fixtures',
   viewportHeight: 1080,
   viewportWidth: 1920,
   screenshotOnRunFailure: true,
@@ -21,7 +22,7 @@ module.exports = defineConfig({
       return require('./plugins/index.js')(on, config);
     },
     baseUrl: 'http://localhost:3000',
-    specPattern: 'integration/**/*.cy.{js,jsx,ts,tsx}',
-    supportFile: 'support/index.js',
+    specPattern: './integration/**/*.cy.{js,jsx,ts,tsx}',
+    supportFile: './support/index.js',
   },
 });

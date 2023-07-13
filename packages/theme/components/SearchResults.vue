@@ -5,7 +5,7 @@
       :title="$t('Search results')"
       class="search"
     >
-      <transition name="sf-fade" mode="out-in">
+      <transition name="sf-fade" mode="out-in" @after-enter="handleToggle">
         <div
           v-if="products && products.length > 0"
           class="search__wrapper-results"
@@ -62,7 +62,6 @@
                 :key="index"
                 :product="product"
                 :index="index"
-                @click.native="$emit('close')"
               />
             </div>
           </SfMegaMenuColumn>
@@ -115,6 +114,7 @@ import { ref, watch, computed } from '@nuxtjs/composition-api';
 import { productGetters, useCart } from '@vue-storefront/sylius';
 import { useUiNotification } from '~/composables/';
 import ProductCard from '~/components/Product/ProductCard.vue';
+import useDropdown from '~/composables/useDropdown';
 
 export default {
   name: 'SearchResults',
@@ -141,6 +141,7 @@ export default {
   },
   setup(props, { emit, root }) {
     const { addItem: addItemToCart, isInCart, error } = useCart();
+    const { toggle } = useDropdown();
     const { send } = useUiNotification();
     const isSearchOpen = ref(props.visible);
     const products = computed(() => props.result?.products);
@@ -163,10 +164,17 @@ export default {
       });
     };
 
+    const handleToggle = () => {
+      const scrollable = document.querySelector('.sf-scrollable__content');
+
+      scrollable.addEventListener('scroll', () => toggle());
+    };
+
     watch(
       () => props.visible,
       (newVal) => {
         isSearchOpen.value = newVal;
+
         if (isSearchOpen.value) {
           document.body.classList.add('no-scroll');
         } else {
@@ -183,6 +191,7 @@ export default {
       categories,
       handleAddToCart,
       isInCart,
+      handleToggle,
     };
   },
 };

@@ -4,7 +4,9 @@
       {{ address.firstName }} {{ address.lastName }} <br />
       {{ address.street }} <br />
       {{ address.city }} {{ address.postcode }} <br />
-      {{ address.countryCode }} <br />
+      {{ address.countryCode
+      }}{{ address.provinceName ? `,  ${address.provinceName}` : '' }}
+      <br />
       <span v-if="address.phoneNumber" class="phone">
         {{ address.phoneNumber }}</span
       >
@@ -20,9 +22,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  setup(props) {
-    console.log(props, 'props');
   },
 };
 </script>

@@ -197,6 +197,7 @@ export const addAddress = async (
         countryCode: string;
         street: string;
         city: string;
+        provinceName: string;
         postcode: string;
         phoneNumber: string;
       };
@@ -206,6 +207,7 @@ export const addAddress = async (
         countryCode: string;
         street: string;
         city: string;
+        provinceName: string;
         postcode: string;
         phoneNumber: string;
       };

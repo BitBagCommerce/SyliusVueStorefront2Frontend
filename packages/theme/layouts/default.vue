@@ -19,6 +19,8 @@
     <LazyHydrate when-visible>
       <AppFooter />
     </LazyHydrate>
+
+    <DropdownContent />
   </div>
 </template>
 
@@ -41,6 +43,7 @@ import {
   useWishlists,
 } from '@vue-storefront/sylius';
 import VariantSelector from '~/components/VariantSelector.vue';
+import DropdownContent from '~/components/Dropdown/DropdownContent.vue';
 
 export default {
   name: 'DefaultLayout',
@@ -56,6 +59,7 @@ export default {
     LoginModal,
     Notification,
     VariantSelector,
+    DropdownContent,
   },
 
   middleware: ['is-connected'],

@@ -8,23 +8,49 @@ import { transformCart, transformItems } from './api/helpers';
 // we can approximate the final type of api by taking all the exports from `./api/index.ts`, and transforming the type of these exports accordingly
 import type * as api from './api/index';
 
+export type Extensions = {
+  category: string;
+  message: string;
+};
+
+export type Location = {
+  line: number;
+  column: number;
+};
+
+export type Trace = {
+  file?: string;
+  line?: number;
+  call?: string;
+  function?: string;
+};
+
+export type GraphQLError = {
+  debugMessage: string;
+  message: string;
+  extensions: Extensions;
+  locations: Location[];
+  path: string[];
+  trace: Trace[];
+};
+
+// error type returned/thrown by api functions
+export type GraphQLErrors = { graphQLErrors: GraphQLError[] };
+
 // generic type representing raw functions exported from api
 type ApiFunction<TArgs extends unknown[], TReturn> = (
   context: _Context,
   ...args: TArgs
 ) => Promise<TReturn>;
 
-// error type returned/thrown by api functions
-// ? seams to cose some issues if used as return type of ApiFunctionWithContext, for it to work properly it may be required to overview our current error handling in this project
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type GraphQlError = { graphQLErrors?: { debugMessage: string }[] };
-
 // transformed api function without context parameter, this is a form in which api functions will be accessible inside of context
 type ApiFunctionWithContext<TFunction> = TFunction extends ApiFunction<
   infer TArgs,
   infer TReturn
 >
-  ? (...args: TArgs) => Promise<TReturn>
+  ? (
+      ...args: TArgs
+    ) => Promise<(TReturn & { graphQLErrors: undefined }) | GraphQLErrors>
   : never;
 
 // generic which will give us our final type of api object from passed api functions
@@ -211,9 +237,9 @@ export type BillingAddress = {
   countryCode: string;
   street: string;
   city: string;
+  provinceName?: string;
   postcode: string;
   phoneNumber?: string;
-  state?: string;
 };
 
 export type CartItem = ReturnType<typeof transformItems>[number];
@@ -231,12 +257,6 @@ export type OrderItem = TODO;
 export type PasswordResetResult = TODO;
 
 export type ProductFilter = TODO;
-
-export type Review = Awaited<
-  ReturnType<Context['$sylius']['api']['getReviews']>
->;
-
-export type ReviewItem = Review[number];
 
 export type User = TODO;
 
@@ -256,10 +276,10 @@ export type UserAddressItem = {
   lastName: string;
   street: string;
   city: string;
+  provinceName?: string;
   postcode: string;
   countryCode: string;
   phoneNumber?: string;
-  state?: string;
 };
 
 export type UserShippingAddressSearchCriteria = TODO;

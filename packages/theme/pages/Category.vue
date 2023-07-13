@@ -177,20 +177,16 @@
                 </SfProperty>
               </template>
               <template #actions>
-                <WishlistDropdown
-                  class="desktop-only products__product-card-horizontal--wishlist-button"
-                  :wishlists="wishlists"
+                <WishlistButton
                   :product="product"
-                  :visible="true"
+                  class="desktop-only products__product-card-horizontal--wishlist-button"
                 />
               </template>
               <template #wishlist-icon>
-                <WishlistDropdown
-                  class="products__product-card-horizontal--wishlist-circle"
-                  :wishlists="wishlists"
+                <WishlistButton
                   :product="product"
-                  :visible="true"
-                  icon="circleIcon"
+                  buttonStyle="circle"
+                  class="products__product-card-horizontal--wishlist-circle"
                 />
               </template>
               <template #add-to-cart>
@@ -202,7 +198,7 @@
                     !productGetters.hasMultipleVariants(product)
                   "
                   @quantity-change="productsQuantity[product._id] = $event"
-                  @click="open(product)"
+                  @click="open(product, productsQuantity[product._id])"
                 />
               </template>
             </SfProductCardHorizontal>
@@ -284,9 +280,9 @@ import {
 import { useUiHelpers, useUiState, useUiNotification } from '~/composables';
 import LazyHydrate from 'vue-lazy-hydration';
 import CategoryPageHeader from '~/components/CategoryPageHeader';
-import WishlistDropdown from '~/components/Wishlist/WishlistDropdown.vue';
 import useVariantSelector from '~/composables/useVariantSelector';
 import ProductCard from '~/components/Product/ProductCard.vue';
+import WishlistButton from '~/components/Wishlist/WishlistButton.vue';
 
 // TODO(addToCart qty, horizontal): https://github.com/vuestorefront/storefront-ui/issues/1606
 export default {
@@ -435,7 +431,7 @@ export default {
     SfProperty,
     LazyHydrate,
     AddToCart,
-    WishlistDropdown,
+    WishlistButton,
   },
 };
 </script>
@@ -562,6 +558,11 @@ export default {
           display: block !important;
         }
       }
+    }
+
+    &--wishlist-button {
+      margin-bottom: var(--spacer-sm);
+      padding-bottom: var(--spacer-sm) !important;
     }
 
     ::v-deep {

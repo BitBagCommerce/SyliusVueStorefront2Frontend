@@ -81,12 +81,12 @@
             :errorMessage="errors[0]"
           />
         </ValidationProvider>
-        <ValidationProvider name="state" slim>
+        <ValidationProvider name="provinceName" slim>
           <SfInput
-            data-e2e="billing-state"
-            v-model="form.state"
+            data-e2e="billing-provinceName"
+            v-model="form.provinceName"
             :label="$t('State/Province')"
-            name="state"
+            name="provinceName"
             class="form__element form__element--half form__element--half-even"
           />
         </ValidationProvider>
@@ -260,7 +260,7 @@ export default {
       lastName: '',
       street: '',
       city: '',
-      state: '',
+      provinceName: '',
       countryCode: null,
       postcode: '',
       email: null,
@@ -269,15 +269,15 @@ export default {
 
     const handleFormSubmit = async () => {
       await save({ billingDetails: form.value });
-      const err = error.value.save?.graphQLErrors;
+      const err = error.value.save;
 
-      if (!err?.length) {
+      if (!err) {
         root.$router.push(root.localePath({ name: 'shipping' }));
 
         return;
       }
 
-      const message = err?.[0].extensions.message;
+      const message = err.message;
 
       send({ type: 'danger', message: root.$t(message) });
 

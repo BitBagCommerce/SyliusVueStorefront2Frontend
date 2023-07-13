@@ -203,7 +203,9 @@ export default {
         if (locales[localeIndex].code === locale) {
           redirected = true;
           const redirectHost = root.context.$config.theme.payment.redirectHost;
-          window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
+          if (!window.Cypress) {
+            window.location.href = `${redirectHost}/${locales[localeIndex].sylius}/order/${tokenValue}/pay`;
+          }
           setCart(null);
         }
       }
