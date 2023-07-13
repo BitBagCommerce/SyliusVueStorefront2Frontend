@@ -35,7 +35,7 @@ const addCouponToCart = {
   correctCoupon: {
     tokenValue: 'VCiHr29mXv',
     localeCode: 'en_US',
-    total: 7960,
+    total: 60908,
     taxTotal: 0,
     shippingTotal: 396,
     orderPromotionTotal: 0,
@@ -70,7 +70,7 @@ const addCouponToCart = {
     },
     items: [
       {
-        _id: 203,
+        _id: 220,
         variant: {
           id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
           code: 'Everyday_white_basic_T_Shirt-variant-0',
@@ -112,10 +112,10 @@ const addCouponToCart = {
           __typename: 'ProductVariant',
         },
         unitPrice: 7564,
-        total: 7564,
+        total: 60512,
         productName: 'Everyday white basic T-Shirt',
         variantName: 'S',
-        quantity: 1,
+        quantity: 8,
         __typename: 'OrderItem',
       },
     ],
@@ -154,7 +154,7 @@ const addToCart = {
     },
     items: [
       {
-        _id: 147,
+        _id: 220,
         variant: {
           id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
           code: 'Everyday_white_basic_T_Shirt-variant-0',
@@ -235,7 +235,7 @@ const addToCart = {
     },
     items: [
       {
-        _id: 207,
+        _id: 220,
         variant: {
           id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
           code: 'Everyday_white_basic_T_Shirt-variant-0',
@@ -342,7 +342,7 @@ const getCart = {
     },
     items: [
       {
-        _id: 148,
+        _id: 220,
         variant: {
           id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
           code: 'Everyday_white_basic_T_Shirt-variant-0',
@@ -434,7 +434,7 @@ const getCart = {
     },
     items: [
       {
-        _id: 148,
+        _id: 220,
         variant: {
           id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
           code: 'Everyday_white_basic_T_Shirt-variant-0',
@@ -537,7 +537,7 @@ const getCart = {
     },
     items: [
       {
-        _id: 166,
+        _id: 220,
         variant: {
           id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
           code: 'Everyday_white_basic_T_Shirt-variant-0',
@@ -583,87 +583,6 @@ const getCart = {
         productName: 'Everyday white basic T-Shirt',
         variantName: 'S',
         quantity: 1,
-        __typename: 'OrderItem',
-      },
-    ],
-    __typename: 'Order',
-  },
-  withPorductAnd8Quantity: {
-    tokenValue: 'VCiHr29mXv',
-    localeCode: 'en_US',
-    total: 60908,
-    taxTotal: 0,
-    shippingTotal: 396,
-    orderPromotionTotal: 0,
-    promotionCoupon: null,
-    shippingAddress: null,
-    billingAddress: null,
-    shipments: {
-      id: '/api/v2/shop/shipments/110',
-      _id: 110,
-      method: {
-        code: 'ups',
-        __typename: 'ShippingMethod',
-      },
-      __typename: 'Shipment',
-    },
-    payments: {
-      id: '/api/v2/shop/payments/110',
-      _id: 110,
-      method: {
-        code: 'cash_on_delivery',
-        __typename: 'PaymentMethod',
-      },
-      __typename: 'Payment',
-    },
-    items: [
-      {
-        _id: 207,
-        variant: {
-          id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
-          code: 'Everyday_white_basic_T_Shirt-variant-0',
-          onHand: 9,
-          onHold: 0,
-          tracked: false,
-          optionValues: [
-            {
-              option: {
-                id: '/api/v2/shop/product-options/t_shirt_size',
-                __typename: 'ProductOption',
-              },
-              code: 't_shirt_size_s',
-              value: 'S',
-              __typename: 'ProductOptionValue',
-            },
-          ],
-          product: {
-            options: [
-              {
-                id: '/api/v2/shop/product-options/t_shirt_size',
-                name: 'T-shirt size',
-                code: 't_shirt_size',
-                __typename: 'ProductOption',
-              },
-            ],
-            images: [
-              'http://localhost:8000/media/cache/sylius_shop_product_thumbnail//media/image/87/c0/69da93c92e0df08a57077f067d84.jpg',
-            ],
-          },
-          channelPricings: [
-            {
-              channelCode: 'FASHION_WEB',
-              price: 7564,
-              originalPrice: null,
-              __typename: 'ChannelPricing',
-            },
-          ],
-          __typename: 'ProductVariant',
-        },
-        unitPrice: 7564,
-        total: 60512,
-        productName: 'Everyday white basic T-Shirt',
-        variantName: 'S',
-        quantity: 8,
         __typename: 'OrderItem',
       },
     ],
@@ -4488,7 +4407,7 @@ const updateCartPayment = {
     },
     items: [
       {
-        _id: 166,
+        _id: 220,
         variant: {
           id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
           code: 'Everyday_white_basic_T_Shirt-variant-0',
@@ -4594,7 +4513,7 @@ const updateCartShipping = {
     },
     items: [
       {
-        _id: 159,
+        _id: 220,
         variant: {
           id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
           code: 'Everyday_white_basic_T_Shirt-variant-0',
