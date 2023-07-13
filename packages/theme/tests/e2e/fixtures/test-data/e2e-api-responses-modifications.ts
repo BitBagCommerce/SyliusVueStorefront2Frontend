@@ -98,13 +98,17 @@ const getCartModifications = {
   },
   addProduct(cart) {
     cart.items.push(productExample);
-    if (!cart.payments) {
+    if (!cart.payments.length) {
       cart.payments = paymentsDefault;
     }
-    if (!cart.shipments) {
+    if (!cart.shipments.length) {
       cart.shipments = shipmentsDefault;
     }
     cart = recalculatePrices(cart);
+    return cart;
+  },
+  addCouponCode(cart, promotionCoupon) {
+    cart.promotionCoupon = promotionCoupon;
     return cart;
   },
 };

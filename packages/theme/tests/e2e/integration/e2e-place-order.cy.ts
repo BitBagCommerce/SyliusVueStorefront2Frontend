@@ -60,11 +60,11 @@ context('Order placement', () => {
     page.home.visit();
     page.home.header.categories.first().click();
 
-    cy.wait(3000);
-
-    currentCart = apiModifications.getCartModifications.addProduct(currentCart);
-    cy.interceptApi('getCart', currentCart);
-    // cy.interceptApi('getCart', apiResponses.getCart.withProduct);
+    cy.wait(10).then(() => {
+      currentCart =
+        apiModifications.getCartModifications.addProduct(currentCart);
+      cy.interceptApi('getCart', currentCart);
+    });
 
     page.category.addProductToCart();
     page.product.header.openCart();
@@ -75,12 +75,13 @@ context('Order placement', () => {
     cy.wait(1000);
     page.checkout.billing.fillForm(data.customer);
 
-    currentCart = apiModifications.getCartModifications.setBillingAddress(
-      currentCart,
-      apiResponses.addAddress.billing.billingAddress
-    );
-    cy.interceptApi('getCart', currentCart);
-    // cy.interceptApi('getCart', apiResponses.getCart.billingSumbitted);
+    cy.wait(10).then(() => {
+      currentCart = apiModifications.getCartModifications.setBillingAddress(
+        currentCart,
+        apiResponses.addAddress.billing.billingAddress
+      );
+      cy.interceptApi('getCart', currentCart);
+    });
 
     page.checkout.billing.continueToShippingButton.click();
     page.checkout.shipping.heading.should('be.visible');
@@ -89,22 +90,26 @@ context('Order placement', () => {
     page.checkout.shipping.selectShippingButton.click();
     page.checkout.shipping.shippingMethods.first().click();
 
-    currentCart = apiModifications.getCartModifications.setShippingAddress(
-      currentCart,
-      apiResponses.addAddress.shpipping.shippingAddress
-    );
-    cy.interceptApi('getCart', currentCart);
-    // cy.interceptApi('getCart', apiResponses.getCart.shippingSumbitted);
+    cy.wait(10).then(() => {
+      currentCart = apiModifications.getCartModifications.setShippingAddress(
+        currentCart,
+        apiResponses.addAddress.shpipping.shippingAddress
+      );
+      cy.interceptApi('getCart', currentCart);
+    });
 
     page.checkout.shipping.continueToPaymentButton.click();
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
     cy.wait(1000).clearCookies();
     cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
-    page.checkout.thankyou.heading.should('be.visible');
 
-    currentCart = apiResponses.getCart.empty;
-    cy.interceptApi('getCart', currentCart);
+    cy.wait(10).then(() => {
+      currentCart = apiResponses.getCart.empty;
+      cy.interceptApi('getCart', currentCart);
+    });
+
+    page.checkout.thankyou.heading.should('be.visible');
   });
 
   it(
@@ -112,6 +117,7 @@ context('Order placement', () => {
     'Should successfully place an order with coupon code',
     () => {
       const data = cy.fixtures.data;
+      let currentCart = apiResponses.getCart.empty;
 
       // Mocking API responses
       cy.interceptApi(
@@ -120,7 +126,7 @@ context('Order placement', () => {
       );
       cy.interceptApi('getCategory', apiResponses.getCategory.categories);
       cy.interceptApi('createCart', apiResponses.createCart.cart);
-      cy.interceptApi('getCart', apiResponses.getCart.empty);
+      cy.interceptApi('getCart', currentCart);
       cy.interceptApi(
         'getFirstProductId',
         apiResponses.getFirstProductId.firstProductId
@@ -179,20 +185,20 @@ context('Order placement', () => {
       // cy.intercept('POST', '/api/sylius/addCouponToCart', (req) => {});
       // cy.intercept('POST', '/api/sylius/updateCartShipping', (req) => {});
 
-      let currentCart = apiResponses.getCart.empty;
-
       // Add product to cart and go to checkout
       page.home.visit();
       page.home.header.categories.first().click();
 
-      currentCart =
-        apiModifications.getCartModifications.addProduct(currentCart);
-      currentCart = apiModifications.getCartModifications.setQuantity(
-        currentCart,
-        220,
-        8
-      );
-      cy.interceptApi('getCart', currentCart);
+      cy.wait(10).then(() => {
+        currentCart =
+          apiModifications.getCartModifications.addProduct(currentCart);
+        currentCart = apiModifications.getCartModifications.setQuantity(
+          currentCart,
+          220,
+          8
+        );
+        cy.interceptApi('getCart', currentCart);
+      });
       // cy.interceptApi('getCart', apiResponses.getCart.withPorductAnd8Quantity);
 
       page.category.addProductToCart(0, 7);
@@ -202,6 +208,14 @@ context('Order placement', () => {
       // Checkout process
       page.checkout.billing.heading.should('be.visible');
       cy.wait(1000);
+
+      cy.wait(10).then(() => {
+        currentCart = apiModifications.getCartModifications.addCouponCode(
+          currentCart,
+          apiResponses.getCart.withCoupon.promotionCoupon
+        );
+        cy.interceptApi('getCart', currentCart);
+      });
 
       // Apply coupon code
       page.checkout.coupons.applyCouponCode(data.couponCode.code);
