@@ -89,8 +89,8 @@ export default {
     const inputQty = ref(props.qty);
     const isConfirmOpen = ref(false);
 
-    const handleConfirm = () => {
-      emit('quantity-change', inputQty.value);
+    const handleConfirm = (rawInput) => {
+      emit('quantity-change', inputQty.value, rawInput ?? inputQty.value);
       isConfirmOpen.value = false;
     };
 
@@ -109,7 +109,7 @@ export default {
 
       if (input < props.min) inputQty.value = props.min;
 
-      if (!isConfirm) handleConfirm();
+      if (!isConfirm) handleConfirm(input);
     };
 
     return {

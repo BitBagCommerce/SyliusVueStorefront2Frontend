@@ -47,7 +47,9 @@
             :min="minQty"
             :max="maxQty"
             class="sf-collected-product__quantity-selector"
-            @quantity-change="$emit('quantity-change', $event)"
+            @quantity-change="
+              (qty, rawQty) => $emit('quantity-change', qty, rawQty)
+            "
             :disabled="loading"
           />
         </div>
@@ -63,18 +65,11 @@
           <SfCircleIcon
             icon="cross"
             :aria-label="$t('Remove')"
-            class="
-              sf-circle-icon--small
-              sf-collected-product__remove
-              sf-collected-product__remove--circle-icon
-            "
+            class="sf-circle-icon--small sf-collected-product__remove sf-collected-product__remove--circle-icon"
             @click="removeHandler"
           />
           <SfButton
-            class="
-              sf-button--text
-              sf-collected-product__remove sf-collected-product__remove--text
-            "
+            class="sf-button--text sf-collected-product__remove sf-collected-product__remove--text"
             data-testid="collected-product-desktop-remove"
             @click="removeHandler"
           >
