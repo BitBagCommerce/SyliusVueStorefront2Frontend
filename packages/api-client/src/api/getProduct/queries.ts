@@ -76,6 +76,7 @@ export const BaseQuery = gql(`
               collection {
                 channelCode
                 price
+                originalPrice
               }
             }
             optionValues {
