@@ -1,0 +1,6046 @@
+input add_itemWishlistInput {
+  id: String!
+  productVariant: String!
+  clientMutationId: String
+}
+
+type add_itemWishlistPayload {
+  wishlist: Wishlist
+  clientMutationId: String
+}
+
+type Address implements Node {
+  id: ID!
+  customer: Customer
+  _id: Int!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String
+  company: String
+  countryCode: String!
+  provinceCode: String
+  provinceName: String
+  street: String!
+  city: String!
+  postcode: String!
+  createdAt: String!
+  updatedAt: String
+  fullName: String!
+}
+
+"""Cursor connection for Address."""
+type AddressCursorConnection {
+  edges: [AddressEdge]
+  pageInfo: AddressPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Address."""
+type AddressEdge {
+  node: Address
+  cursor: String!
+}
+
+input AddressInput {
+  id: ID
+  firstName: String
+  lastName: String
+  countryCode: String
+  provinceCode: String
+  phoneNumber: String
+  street: String
+  city: String
+  company: String
+  postcode: String
+  provinceName: String
+}
+
+"""Page connection for Address."""
+type AddressPageConnection {
+  collection: [Address]
+  paginationInfo: AddressPaginationInfo!
+}
+
+"""Information about the current page."""
+type AddressPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type AddressPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type AdjustableInterface implements Node {
+  id: ID!
+  adjustments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AdjustmentInterfaceCursorConnection
+  adjustmentsTotal: Int!
+}
+
+type Adjustment implements Node {
+  id: ID!
+  shipment: Shipment
+  _id: Int!
+  order: Order
+  orderItem: OrderItem
+  orderItemUnit: OrderItemUnit
+  type: String!
+  label: String
+  amount: Int!
+  neutral: Boolean!
+  locked: Boolean!
+  originCode: String
+  details: Iterable!
+  createdAt: String!
+  updatedAt: String
+  adjustable: AdjustableInterface
+  charge: Boolean!
+  credit: Boolean!
+}
+
+"""Cursor connection for Adjustment."""
+type AdjustmentCursorConnection {
+  edges: [AdjustmentEdge]
+  pageInfo: AdjustmentPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Adjustment."""
+type AdjustmentEdge {
+  node: Adjustment
+  cursor: String!
+}
+
+type AdjustmentInterface implements Node {
+  id: ID!
+  adjustable: AdjustableInterface
+  type: String!
+  label: String
+  amount: Int!
+  neutral: Boolean!
+  locked: Boolean!
+  charge: Boolean!
+  credit: Boolean!
+  originCode: String
+  order: Order
+  orderItem: OrderItem
+  orderItemUnit: OrderItemUnit
+  details: Iterable!
+  _id: Int!
+  createdAt: String!
+  updatedAt: String
+}
+
+"""Cursor connection for AdjustmentInterface."""
+type AdjustmentInterfaceCursorConnection {
+  edges: [AdjustmentInterfaceEdge]
+  pageInfo: AdjustmentInterfacePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of AdjustmentInterface."""
+type AdjustmentInterfaceEdge {
+  node: AdjustmentInterface
+  cursor: String!
+}
+
+"""Information about the current page."""
+type AdjustmentInterfacePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the current page."""
+type AdjustmentPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Administrator implements Node {
+  id: ID!
+  firstName: String
+  lastName: String
+  localeCode: String!
+  avatar: AvatarImage
+  _id: Int!
+  username: String
+  usernameCanonical: String
+  salt: String!
+  password: String
+  lastLogin: String
+  emailVerificationToken: String
+  passwordResetToken: String
+  passwordRequestedAt: String
+  verifiedAt: String
+  expiresAt: String
+  credentialsExpireAt: String
+  roles: Iterable!
+  oauthAccounts(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): UserOAuthCursorConnection
+  email: String
+  emailCanonical: String
+  encoderName: String
+  createdAt: String!
+  updatedAt: String
+  enabled: Boolean!
+  image: ImageInterface
+  credentialsNonExpired: Boolean!
+  accountNonExpired: Boolean!
+  accountNonLocked: Boolean!
+  verified: Boolean!
+  oAuthAccounts(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): UserOAuthInterfaceCursorConnection
+}
+
+"""Cursor connection for Administrator."""
+type AdministratorCursorConnection {
+  edges: [AdministratorEdge]
+  pageInfo: AdministratorPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Administrator."""
+type AdministratorEdge {
+  node: Administrator
+  cursor: String!
+}
+
+"""Information about the current page."""
+type AdministratorPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type AvatarImage implements Node {
+  id: ID!
+  _id: Int!
+  type: String
+  file: SplFileInfo
+  path: String!
+  owner: Administrator!
+}
+
+"""Cursor connection for AvatarImage."""
+type AvatarImageCursorConnection {
+  edges: [AvatarImageEdge]
+  pageInfo: AvatarImagePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of AvatarImage."""
+type AvatarImageEdge {
+  node: AvatarImage
+  cursor: String!
+}
+
+"""Information about the current page."""
+type AvatarImagePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type CatalogPromotion implements Node {
+  id: ID!
+  channels(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ChannelCursorConnection
+  _id: Int!
+  name: String!
+  code: String!
+  startDate: String
+  endDate: String
+  priority: Int!
+  exclusive: Boolean!
+  state: String!
+  scopes(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CatalogPromotionScopeCursorConnection
+  actions(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CatalogPromotionActionCursorConnection
+  enabled: Boolean!
+  translations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CatalogPromotionTranslationCursorConnection
+  label: String
+  description: String
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+type CatalogPromotionAction implements Node {
+  id: ID!
+  _id: Int!
+  type: String!
+  configuration: Iterable!
+  catalogPromotion: CatalogPromotion
+}
+
+"""Cursor connection for CatalogPromotionAction."""
+type CatalogPromotionActionCursorConnection {
+  edges: [CatalogPromotionActionEdge]
+  pageInfo: CatalogPromotionActionPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of CatalogPromotionAction."""
+type CatalogPromotionActionEdge {
+  node: CatalogPromotionAction
+  cursor: String!
+}
+
+"""Information about the current page."""
+type CatalogPromotionActionPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Cursor connection for CatalogPromotion."""
+type CatalogPromotionCursorConnection {
+  edges: [CatalogPromotionEdge]
+  pageInfo: CatalogPromotionPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of CatalogPromotion."""
+type CatalogPromotionEdge {
+  node: CatalogPromotion
+  cursor: String!
+}
+
+"""Information about the current page."""
+type CatalogPromotionPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type CatalogPromotionScope implements Node {
+  id: ID!
+  _id: Int!
+  type: String!
+  configuration: Iterable!
+  catalogPromotion: CatalogPromotion
+}
+
+"""Cursor connection for CatalogPromotionScope."""
+type CatalogPromotionScopeCursorConnection {
+  edges: [CatalogPromotionScopeEdge]
+  pageInfo: CatalogPromotionScopePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of CatalogPromotionScope."""
+type CatalogPromotionScopeEdge {
+  node: CatalogPromotionScope
+  cursor: String!
+}
+
+"""Information about the current page."""
+type CatalogPromotionScopePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type CatalogPromotionTranslation implements Node {
+  id: ID!
+  _id: Int!
+  label: String
+  description: String
+  locale: String!
+  translatable: CatalogPromotion!
+}
+
+"""Cursor connection for CatalogPromotionTranslation."""
+type CatalogPromotionTranslationCursorConnection {
+  edges: [CatalogPromotionTranslationEdge]
+  pageInfo: CatalogPromotionTranslationPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of CatalogPromotionTranslation."""
+type CatalogPromotionTranslationEdge {
+  node: CatalogPromotionTranslation
+  cursor: String!
+}
+
+"""Information about the current page."""
+type CatalogPromotionTranslationPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Channel implements Node {
+  id: ID!
+  baseCurrency: Currency!
+  defaultLocale: Locale!
+  defaultTaxZone: Zone
+  taxCalculationStrategy: String!
+  currencies(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CurrencyCursorConnection
+  locales: [Locale]
+  countries(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    enabled: Boolean
+  ): CountryPageConnection
+  themeName: String
+  contactEmail: String
+  contactPhoneNumber: String
+  skippingShippingStepAllowed: Boolean!
+  skippingPaymentStepAllowed: Boolean!
+  accountVerificationRequired: Boolean!
+  shopBillingData: ShopBillingData
+  menuTaxon: Taxon
+  _id: Int!
+  code: String!
+  name: String!
+  description: String
+  hostname: String
+  color: String
+  createdAt: String!
+  updatedAt: String
+  enabled: Boolean!
+}
+
+"""Cursor connection for Channel."""
+type ChannelCursorConnection {
+  edges: [ChannelEdge]
+  pageInfo: ChannelPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Channel."""
+type ChannelEdge {
+  node: Channel
+  cursor: String!
+}
+
+"""Page connection for Channel."""
+type ChannelPageConnection {
+  collection: [Channel]
+  paginationInfo: ChannelPaginationInfo!
+}
+
+"""Information about the current page."""
+type ChannelPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ChannelPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ChannelPricing implements Node {
+  id: ID!
+  channelCode: String!
+  price: Int
+  originalPrice: Int
+}
+
+"""Page connection for ChannelPricing."""
+type ChannelPricingPageConnection {
+  collection: [ChannelPricing]
+  paginationInfo: ChannelPricingPaginationInfo!
+}
+
+"""Information about the pagination."""
+type ChannelPricingPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+input clearWishlistInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type clearWishlistPayload {
+  wishlist: Wishlist
+  clientMutationId: String
+}
+
+"""The missing (SPL) Collection/Array/OrderedMap interface."""
+type Collection implements Node {
+  id: ID!
+  empty: Boolean!
+}
+
+type Country implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  provinces(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProvinceCursorConnection
+  enabled: Boolean!
+  name: String
+}
+
+"""Page connection for Country."""
+type CountryPageConnection {
+  collection: [Country]
+  paginationInfo: CountryPaginationInfo!
+}
+
+"""Information about the pagination."""
+type CountryPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+input createAdjustmentInput {
+  shipment: String
+  originCode: String
+  details: Iterable!
+  createdAt: String!
+  updatedAt: String
+  adjustable: String
+  clientMutationId: String
+}
+
+type createAdjustmentPayload {
+  adjustment: Adjustment
+  clientMutationId: String
+}
+
+input createAdministratorInput {
+  firstName: String
+  lastName: String
+  localeCode: String!
+  avatar: String
+  username: String
+  usernameCanonical: String
+  password: String
+  plainPassword: String
+  emailVerificationToken: String
+  passwordResetToken: String
+  passwordRequestedAt: String
+  locked: Boolean!
+  expiresAt: String
+  credentialsExpireAt: String
+  roles: Iterable!
+  oauthAccounts: [String]
+  email: String
+  emailCanonical: String
+  encoderName: String
+  createdAt: String!
+  enabled: Boolean!
+  image: String
+  role: Iterable!
+  oAuthAccounts: [String]
+  clientMutationId: String
+}
+
+type createAdministratorPayload {
+  administrator: Administrator
+  clientMutationId: String
+}
+
+input createAvatarImageInput {
+  type: String
+  file: String
+  path: String!
+  owner: String!
+  clientMutationId: String
+}
+
+type createAvatarImagePayload {
+  avatarImage: AvatarImage
+  clientMutationId: String
+}
+
+input createCatalogPromotionActionInput {
+  type: String!
+  configuration: Iterable!
+  catalogPromotion: String
+  clientMutationId: String
+}
+
+type createCatalogPromotionActionPayload {
+  catalogPromotionAction: CatalogPromotionAction
+  clientMutationId: String
+}
+
+input createCatalogPromotionInput {
+  channels: [String]
+  name: String!
+  code: String!
+  startDate: String
+  endDate: String
+  priority: Int!
+  exclusive: Boolean!
+  state: String!
+  scopes: [String]
+  actions: [String]
+  enabled: Boolean!
+  translations: [String]
+  currentLocale: String!
+  fallbackLocale: String!
+  channel: [String]
+  label: String
+  description: String
+  translation: [String]
+  scope: [String]
+  action: [String]
+  clientMutationId: String
+}
+
+type createCatalogPromotionPayload {
+  catalogPromotion: CatalogPromotion
+  clientMutationId: String
+}
+
+input createCatalogPromotionScopeInput {
+  type: String!
+  configuration: Iterable!
+  catalogPromotion: String
+  clientMutationId: String
+}
+
+type createCatalogPromotionScopePayload {
+  catalogPromotionScope: CatalogPromotionScope
+  clientMutationId: String
+}
+
+input createCatalogPromotionTranslationInput {
+  label: String
+  description: String
+  locale: String!
+  translatable: String!
+  clientMutationId: String
+}
+
+type createCatalogPromotionTranslationPayload {
+  catalogPromotionTranslation: CatalogPromotionTranslation
+  clientMutationId: String
+}
+
+input createCurrencyInput {
+  code: String!
+  clientMutationId: String
+}
+
+type createCurrencyPayload {
+  currency: Currency
+  clientMutationId: String
+}
+
+input createCustomerGroupInput {
+  code: String!
+  name: String!
+  clientMutationId: String
+}
+
+type createCustomerGroupPayload {
+  customerGroup: CustomerGroup
+  clientMutationId: String
+}
+
+input createExchangeRateInput {
+  ratio: String!
+  sourceCurrency: String!
+  targetCurrency: String!
+  clientMutationId: String
+}
+
+type createExchangeRatePayload {
+  exchangeRate: ExchangeRate
+  clientMutationId: String
+}
+
+input createLocaleInput {
+  code: String!
+  clientMutationId: String
+}
+
+type createLocalePayload {
+  locale: Locale
+  clientMutationId: String
+}
+
+input createOrderItemInput {
+  version: Int!
+  variant: String!
+  productName: String
+  variantName: String
+  order: String!
+  unitPrice: Int!
+  originalUnitPrice: Int
+  immutable: Boolean!
+  units: [String]
+  adjustments: [String]
+  adjustmentsRecursively: Iterable!
+  unit: [String]
+  adjustment: [String]
+  clientMutationId: String
+}
+
+type createOrderItemPayload {
+  orderItem: OrderItem
+  clientMutationId: String
+}
+
+input createOrderItemUnitInput {
+  shipment: String
+  adjustments: [String]
+  createdAt: String!
+  updatedAt: String
+  adjustment: [String]
+  clientMutationId: String
+}
+
+type createOrderItemUnitPayload {
+  orderItemUnit: OrderItemUnit
+  clientMutationId: String
+}
+
+input createPaymentInput {
+  clientMutationId: String
+}
+
+type createPaymentPayload {
+  payment: Payment
+  clientMutationId: String
+}
+
+input createProductAssociationTypeInput {
+  code: String!
+  name: String
+  translations: [String]
+  currentLocale: String!
+  fallbackLocale: String!
+  translation: [String]
+  clientMutationId: String
+}
+
+type createProductAssociationTypePayload {
+  productAssociationType: ProductAssociationType
+  clientMutationId: String
+}
+
+input createProductAssociationTypeTranslationInput {
+  name: String
+  locale: String!
+  translatable: String!
+  clientMutationId: String
+}
+
+type createProductAssociationTypeTranslationPayload {
+  productAssociationTypeTranslation: ProductAssociationTypeTranslation
+  clientMutationId: String
+}
+
+input createProductOptionInput {
+  code: String!
+  position: Int!
+  values: [String]
+  translations: [String]
+  currentLocale: String!
+  fallbackLocale: String!
+  name: String
+  value: [String]
+  translation: [String]
+  clientMutationId: String
+}
+
+type createProductOptionPayload {
+  productOption: ProductOption
+  clientMutationId: String
+}
+
+input createProductOptionTranslationInput {
+  name: String!
+  locale: String!
+  translatable: String!
+  clientMutationId: String
+}
+
+type createProductOptionTranslationPayload {
+  productOptionTranslation: ProductOptionTranslation
+  clientMutationId: String
+}
+
+input createProductOptionValueInput {
+  code: String!
+  option: String!
+  translations: [String]
+  currentLocale: String!
+  fallbackLocale: String!
+  value: String
+  translation: [String]
+  clientMutationId: String
+}
+
+type createProductOptionValuePayload {
+  productOptionValue: ProductOptionValue
+  clientMutationId: String
+}
+
+input createPromotionInput {
+  channels: [String]
+  code: String!
+  name: String!
+  description: String
+  priority: Int!
+  exclusive: Boolean!
+  usageLimit: Int
+  used: Int!
+  startsAt: String
+  endsAt: String
+  couponBased: Boolean!
+  coupons: [String]
+  rules: [String]
+  actions: [String]
+  appliesToDiscounted: Boolean!
+  createdAt: String!
+  updatedAt: String
+  channel: [String]
+  coupon: [String]
+  rule: [String]
+  action: [String]
+  clientMutationId: String
+}
+
+type createPromotionPayload {
+  promotion: Promotion
+  clientMutationId: String
+}
+
+input createProvinceInput {
+  code: String!
+  name: String!
+  abbreviation: String
+  country: String!
+  clientMutationId: String
+}
+
+type createProvincePayload {
+  province: Province
+  clientMutationId: String
+}
+
+input createResetPasswordRequestInput {
+  resetPasswordToken: String!
+  clientMutationId: String
+}
+
+type createResetPasswordRequestPayload {
+  resetPasswordRequest: ResetPasswordRequest
+  clientMutationId: String
+}
+
+input createShipmentInput {
+  order: String!
+  adjustments: [String]
+  state: String!
+  method: String!
+  units: [String]
+  tracking: String
+  shippedAt: String
+  createdAt: String!
+  updatedAt: String
+  adjustment: [String]
+  unit: [String]
+  clientMutationId: String
+}
+
+type createShipmentPayload {
+  shipment: Shipment
+  clientMutationId: String
+}
+
+input createShopBillingDataInput {
+  company: String
+  taxId: String
+  countryCode: String
+  street: String
+  city: String
+  postcode: String
+  clientMutationId: String
+}
+
+type createShopBillingDataPayload {
+  shopBillingData: ShopBillingData
+  clientMutationId: String
+}
+
+input createTaxCategoryInput {
+  code: String!
+  name: String!
+  description: String
+  rate: [String]
+  clientMutationId: String
+}
+
+type createTaxCategoryPayload {
+  taxCategory: TaxCategory
+  clientMutationId: String
+}
+
+input createVerifyCustomerAccountInput {
+  token: String!
+  clientMutationId: String
+}
+
+type createVerifyCustomerAccountPayload {
+  verifyCustomerAccount: VerifyCustomerAccount
+  clientMutationId: String
+}
+
+input createWishlistInput {
+  name: String!
+  channelCode: String!
+  clientMutationId: String
+}
+
+type createWishlistPayload {
+  wishlist: Wishlist
+  clientMutationId: String
+}
+
+type Currency implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  createdAt: String!
+  updatedAt: String
+  name: String
+}
+
+"""Cursor connection for Currency."""
+type CurrencyCursorConnection {
+  edges: [CurrencyEdge]
+  pageInfo: CurrencyPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Currency."""
+type CurrencyEdge {
+  node: Currency
+  cursor: String!
+}
+
+"""Information about the current page."""
+type CurrencyPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Customer implements Node {
+  id: ID!
+  orders(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): OrderCursorConnection
+  defaultAddress: Address
+  addresses(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AddressCursorConnection
+  user: User
+  _id: Int!
+  email: String!
+  emailCanonical: String!
+  firstName: String
+  lastName: String
+  birthday: String
+  gender: String!
+  group: CustomerGroup
+  phoneNumber: String
+  subscribedToNewsletter: Boolean!
+  createdAt: String!
+  updatedAt: String
+  fullName: String!
+  male: Boolean!
+  female: Boolean!
+}
+
+type CustomerGroup implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  name: String!
+}
+
+"""Cursor connection for CustomerGroup."""
+type CustomerGroupCursorConnection {
+  edges: [CustomerGroupEdge]
+  pageInfo: CustomerGroupPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of CustomerGroup."""
+type CustomerGroupEdge {
+  node: CustomerGroup
+  cursor: String!
+}
+
+"""Information about the current page."""
+type CustomerGroupPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+input deleteAddressInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteAddressPayload {
+  address: Address
+  clientMutationId: String
+}
+
+input deleteAdjustmentInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteAdjustmentPayload {
+  adjustment: Adjustment
+  clientMutationId: String
+}
+
+input deleteAdministratorInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteAdministratorPayload {
+  administrator: Administrator
+  clientMutationId: String
+}
+
+input deleteAvatarImageInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteAvatarImagePayload {
+  avatarImage: AvatarImage
+  clientMutationId: String
+}
+
+input deleteCatalogPromotionActionInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteCatalogPromotionActionPayload {
+  catalogPromotionAction: CatalogPromotionAction
+  clientMutationId: String
+}
+
+input deleteCatalogPromotionInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteCatalogPromotionPayload {
+  catalogPromotion: CatalogPromotion
+  clientMutationId: String
+}
+
+input deleteCatalogPromotionScopeInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteCatalogPromotionScopePayload {
+  catalogPromotionScope: CatalogPromotionScope
+  clientMutationId: String
+}
+
+input deleteCatalogPromotionTranslationInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteCatalogPromotionTranslationPayload {
+  catalogPromotionTranslation: CatalogPromotionTranslation
+  clientMutationId: String
+}
+
+input deleteCurrencyInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteCurrencyPayload {
+  currency: Currency
+  clientMutationId: String
+}
+
+input deleteCustomerGroupInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteCustomerGroupPayload {
+  customerGroup: CustomerGroup
+  clientMutationId: String
+}
+
+input deleteExchangeRateInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteExchangeRatePayload {
+  exchangeRate: ExchangeRate
+  clientMutationId: String
+}
+
+input deleteLocaleInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteLocalePayload {
+  locale: Locale
+  clientMutationId: String
+}
+
+input deleteOrderInput {
+  id: String
+  clientMutationId: String
+}
+
+input deleteOrderItemInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteOrderItemPayload {
+  orderItem: OrderItem
+  clientMutationId: String
+}
+
+input deleteOrderItemUnitInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteOrderItemUnitPayload {
+  orderItemUnit: OrderItemUnit
+  clientMutationId: String
+}
+
+type deleteOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input deletePaymentInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deletePaymentPayload {
+  payment: Payment
+  clientMutationId: String
+}
+
+input deleteProductAssociationTypeInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteProductAssociationTypePayload {
+  productAssociationType: ProductAssociationType
+  clientMutationId: String
+}
+
+input deleteProductAssociationTypeTranslationInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteProductAssociationTypeTranslationPayload {
+  productAssociationTypeTranslation: ProductAssociationTypeTranslation
+  clientMutationId: String
+}
+
+input deleteProductOptionInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteProductOptionPayload {
+  productOption: ProductOption
+  clientMutationId: String
+}
+
+input deleteProductOptionTranslationInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteProductOptionTranslationPayload {
+  productOptionTranslation: ProductOptionTranslation
+  clientMutationId: String
+}
+
+input deleteProductOptionValueInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteProductOptionValuePayload {
+  productOptionValue: ProductOptionValue
+  clientMutationId: String
+}
+
+input deletePromotionInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deletePromotionPayload {
+  promotion: Promotion
+  clientMutationId: String
+}
+
+input deleteProvinceInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteProvincePayload {
+  province: Province
+  clientMutationId: String
+}
+
+input deleteResetPasswordRequestInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteResetPasswordRequestPayload {
+  resetPasswordRequest: ResetPasswordRequest
+  clientMutationId: String
+}
+
+input deleteShipmentInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteShipmentPayload {
+  shipment: Shipment
+  clientMutationId: String
+}
+
+input deleteShopBillingDataInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteShopBillingDataPayload {
+  shopBillingData: ShopBillingData
+  clientMutationId: String
+}
+
+input deleteTaxCategoryInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteTaxCategoryPayload {
+  taxCategory: TaxCategory
+  clientMutationId: String
+}
+
+input deleteVerifyCustomerAccountInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteVerifyCustomerAccountPayload {
+  verifyCustomerAccount: VerifyCustomerAccount
+  clientMutationId: String
+}
+
+input deleteWishlistInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteWishlistPayload {
+  wishlist: Wishlist
+  clientMutationId: String
+}
+
+type ExchangeRate implements Node {
+  id: ID!
+  _id: Int!
+  ratio: String!
+  sourceCurrency: Currency!
+  targetCurrency: Currency!
+  createdAt: String!
+  updatedAt: String
+}
+
+"""Cursor connection for ExchangeRate."""
+type ExchangeRateCursorConnection {
+  edges: [ExchangeRateEdge]
+  pageInfo: ExchangeRatePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ExchangeRate."""
+type ExchangeRateEdge {
+  node: ExchangeRate
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ExchangeRatePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type GatewayConfig implements Node {
+  id: ID!
+  _id: Int!
+  factoryName: String!
+  gatewayName: String!
+  config: Iterable!
+}
+
+type ImageInterface implements Node {
+  id: ID!
+  type: String
+  file: SplFileInfo
+  path: String
+}
+
+"""
+The `Iterable` scalar type represents an array or a Traversable with any kind of data.
+"""
+scalar Iterable
+
+type Locale implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  createdAt: String!
+  updatedAt: String
+  name: String
+}
+
+type Mutation {
+  """Deletes a Address."""
+  deleteAddress(input: deleteAddressInput!): deleteAddressPayload
+
+  """Shop_posts a Address."""
+  shop_postAddress(input: shop_postAddressInput!): shop_postAddressPayload
+
+  """Shop_puts a Address."""
+  shop_putAddress(input: shop_putAddressInput!): shop_putAddressPayload
+
+  """Deletes a Adjustment."""
+  deleteAdjustment(input: deleteAdjustmentInput!): deleteAdjustmentPayload
+
+  """Updates a Adjustment."""
+  updateAdjustment(input: updateAdjustmentInput!): updateAdjustmentPayload
+
+  """Creates a Adjustment."""
+  createAdjustment(input: createAdjustmentInput!): createAdjustmentPayload
+
+  """Deletes a Administrator."""
+  deleteAdministrator(input: deleteAdministratorInput!): deleteAdministratorPayload
+
+  """Updates a Administrator."""
+  updateAdministrator(input: updateAdministratorInput!): updateAdministratorPayload
+
+  """Creates a Administrator."""
+  createAdministrator(input: createAdministratorInput!): createAdministratorPayload
+
+  """Deletes a AvatarImage."""
+  deleteAvatarImage(input: deleteAvatarImageInput!): deleteAvatarImagePayload
+
+  """Updates a AvatarImage."""
+  updateAvatarImage(input: updateAvatarImageInput!): updateAvatarImagePayload
+
+  """Creates a AvatarImage."""
+  createAvatarImage(input: createAvatarImageInput!): createAvatarImagePayload
+
+  """Deletes a CatalogPromotion."""
+  deleteCatalogPromotion(input: deleteCatalogPromotionInput!): deleteCatalogPromotionPayload
+
+  """Updates a CatalogPromotion."""
+  updateCatalogPromotion(input: updateCatalogPromotionInput!): updateCatalogPromotionPayload
+
+  """Creates a CatalogPromotion."""
+  createCatalogPromotion(input: createCatalogPromotionInput!): createCatalogPromotionPayload
+
+  """Deletes a CatalogPromotionAction."""
+  deleteCatalogPromotionAction(input: deleteCatalogPromotionActionInput!): deleteCatalogPromotionActionPayload
+
+  """Updates a CatalogPromotionAction."""
+  updateCatalogPromotionAction(input: updateCatalogPromotionActionInput!): updateCatalogPromotionActionPayload
+
+  """Creates a CatalogPromotionAction."""
+  createCatalogPromotionAction(input: createCatalogPromotionActionInput!): createCatalogPromotionActionPayload
+
+  """Deletes a CatalogPromotionScope."""
+  deleteCatalogPromotionScope(input: deleteCatalogPromotionScopeInput!): deleteCatalogPromotionScopePayload
+
+  """Updates a CatalogPromotionScope."""
+  updateCatalogPromotionScope(input: updateCatalogPromotionScopeInput!): updateCatalogPromotionScopePayload
+
+  """Creates a CatalogPromotionScope."""
+  createCatalogPromotionScope(input: createCatalogPromotionScopeInput!): createCatalogPromotionScopePayload
+
+  """Deletes a CatalogPromotionTranslation."""
+  deleteCatalogPromotionTranslation(input: deleteCatalogPromotionTranslationInput!): deleteCatalogPromotionTranslationPayload
+
+  """Updates a CatalogPromotionTranslation."""
+  updateCatalogPromotionTranslation(input: updateCatalogPromotionTranslationInput!): updateCatalogPromotionTranslationPayload
+
+  """Creates a CatalogPromotionTranslation."""
+  createCatalogPromotionTranslation(input: createCatalogPromotionTranslationInput!): createCatalogPromotionTranslationPayload
+
+  """Deletes a Currency."""
+  deleteCurrency(input: deleteCurrencyInput!): deleteCurrencyPayload
+
+  """Updates a Currency."""
+  updateCurrency(input: updateCurrencyInput!): updateCurrencyPayload
+
+  """Creates a Currency."""
+  createCurrency(input: createCurrencyInput!): createCurrencyPayload
+
+  """Shop_puts a Customer."""
+  shop_putCustomer(input: shop_putCustomerInput!): shop_putCustomerPayload
+
+  """Shop_set_default_addresss a Customer."""
+  shop_set_default_addressCustomer(input: shop_set_default_addressCustomerInput!): shop_set_default_addressCustomerPayload
+
+  """Shop_password_updates a Customer."""
+  shop_password_updateCustomer(input: shop_password_updateCustomerInput!): shop_password_updateCustomerPayload
+
+  """Shop_send_reset_password_emails a Customer."""
+  shop_send_reset_password_emailCustomer(input: shop_send_reset_password_emailCustomerInput!): shop_send_reset_password_emailCustomerPayload
+
+  """Shop_reset_passwords a Customer."""
+  shop_reset_passwordCustomer(input: shop_reset_passwordCustomerInput!): shop_reset_passwordCustomerPayload
+
+  """Deletes a CustomerGroup."""
+  deleteCustomerGroup(input: deleteCustomerGroupInput!): deleteCustomerGroupPayload
+
+  """Updates a CustomerGroup."""
+  updateCustomerGroup(input: updateCustomerGroupInput!): updateCustomerGroupPayload
+
+  """Creates a CustomerGroup."""
+  createCustomerGroup(input: createCustomerGroupInput!): createCustomerGroupPayload
+
+  """Deletes a ExchangeRate."""
+  deleteExchangeRate(input: deleteExchangeRateInput!): deleteExchangeRatePayload
+
+  """Updates a ExchangeRate."""
+  updateExchangeRate(input: updateExchangeRateInput!): updateExchangeRatePayload
+
+  """Creates a ExchangeRate."""
+  createExchangeRate(input: createExchangeRateInput!): createExchangeRatePayload
+
+  """Deletes a Locale."""
+  deleteLocale(input: deleteLocaleInput!): deleteLocalePayload
+
+  """Updates a Locale."""
+  updateLocale(input: updateLocaleInput!): updateLocalePayload
+
+  """Creates a Locale."""
+  createLocale(input: createLocaleInput!): createLocalePayload
+
+  """Shop_posts a Order."""
+  shop_postOrder(input: shop_postOrderInput!): shop_postOrderPayload
+
+  """Shop_add_items a Order."""
+  shop_add_itemOrder(input: shop_add_itemOrderInput!): shop_add_itemOrderPayload
+
+  """Shop_add_itemss a Order."""
+  shop_add_itemsOrder(input: shop_add_itemsOrderInput!): shop_add_itemsOrderPayload
+
+  """Shop_remove_items a Order."""
+  shop_remove_itemOrder(input: shop_remove_itemOrderInput!): shop_remove_itemOrderPayload
+
+  """Shop_change_quantitys a Order."""
+  shop_change_quantityOrder(input: shop_change_quantityOrderInput!): shop_change_quantityOrderPayload
+
+  """Deletes a Order."""
+  deleteOrder(input: deleteOrderInput!): deleteOrderPayload
+
+  """Shop_add_shipping_addresss a Order."""
+  shop_add_shipping_addressOrder(input: shop_add_shipping_addressOrderInput!): shop_add_shipping_addressOrderPayload
+
+  """Shop_add_billing_addresss a Order."""
+  shop_add_billing_addressOrder(input: shop_add_billing_addressOrderInput!): shop_add_billing_addressOrderPayload
+
+  """Shop_select_shipping_methods a Order."""
+  shop_select_shipping_methodOrder(input: shop_select_shipping_methodOrderInput!): shop_select_shipping_methodOrderPayload
+
+  """Shop_select_payment_methods a Order."""
+  shop_select_payment_methodOrder(input: shop_select_payment_methodOrderInput!): shop_select_payment_methodOrderPayload
+
+  """Shop_apply_coupons a Order."""
+  shop_apply_couponOrder(input: shop_apply_couponOrderInput!): shop_apply_couponOrderPayload
+
+  """Shop_remove_coupons a Order."""
+  shop_remove_couponOrder(input: shop_remove_couponOrderInput!): shop_remove_couponOrderPayload
+
+  """Shop_completes a Order."""
+  shop_completeOrder(input: shop_completeOrderInput!): shop_completeOrderPayload
+
+  """Deletes a OrderItem."""
+  deleteOrderItem(input: deleteOrderItemInput!): deleteOrderItemPayload
+
+  """Updates a OrderItem."""
+  updateOrderItem(input: updateOrderItemInput!): updateOrderItemPayload
+
+  """Creates a OrderItem."""
+  createOrderItem(input: createOrderItemInput!): createOrderItemPayload
+
+  """Deletes a OrderItemUnit."""
+  deleteOrderItemUnit(input: deleteOrderItemUnitInput!): deleteOrderItemUnitPayload
+
+  """Updates a OrderItemUnit."""
+  updateOrderItemUnit(input: updateOrderItemUnitInput!): updateOrderItemUnitPayload
+
+  """Creates a OrderItemUnit."""
+  createOrderItemUnit(input: createOrderItemUnitInput!): createOrderItemUnitPayload
+
+  """Deletes a Payment."""
+  deletePayment(input: deletePaymentInput!): deletePaymentPayload
+
+  """Updates a Payment."""
+  updatePayment(input: updatePaymentInput!): updatePaymentPayload
+
+  """Creates a Payment."""
+  createPayment(input: createPaymentInput!): createPaymentPayload
+
+  """Deletes a ProductAssociationType."""
+  deleteProductAssociationType(input: deleteProductAssociationTypeInput!): deleteProductAssociationTypePayload
+
+  """Updates a ProductAssociationType."""
+  updateProductAssociationType(input: updateProductAssociationTypeInput!): updateProductAssociationTypePayload
+
+  """Creates a ProductAssociationType."""
+  createProductAssociationType(input: createProductAssociationTypeInput!): createProductAssociationTypePayload
+
+  """Deletes a ProductAssociationTypeTranslation."""
+  deleteProductAssociationTypeTranslation(input: deleteProductAssociationTypeTranslationInput!): deleteProductAssociationTypeTranslationPayload
+
+  """Updates a ProductAssociationTypeTranslation."""
+  updateProductAssociationTypeTranslation(input: updateProductAssociationTypeTranslationInput!): updateProductAssociationTypeTranslationPayload
+
+  """Creates a ProductAssociationTypeTranslation."""
+  createProductAssociationTypeTranslation(input: createProductAssociationTypeTranslationInput!): createProductAssociationTypeTranslationPayload
+
+  """Deletes a ProductOption."""
+  deleteProductOption(input: deleteProductOptionInput!): deleteProductOptionPayload
+
+  """Updates a ProductOption."""
+  updateProductOption(input: updateProductOptionInput!): updateProductOptionPayload
+
+  """Creates a ProductOption."""
+  createProductOption(input: createProductOptionInput!): createProductOptionPayload
+
+  """Deletes a ProductOptionTranslation."""
+  deleteProductOptionTranslation(input: deleteProductOptionTranslationInput!): deleteProductOptionTranslationPayload
+
+  """Updates a ProductOptionTranslation."""
+  updateProductOptionTranslation(input: updateProductOptionTranslationInput!): updateProductOptionTranslationPayload
+
+  """Creates a ProductOptionTranslation."""
+  createProductOptionTranslation(input: createProductOptionTranslationInput!): createProductOptionTranslationPayload
+
+  """Deletes a ProductOptionValue."""
+  deleteProductOptionValue(input: deleteProductOptionValueInput!): deleteProductOptionValuePayload
+
+  """Updates a ProductOptionValue."""
+  updateProductOptionValue(input: updateProductOptionValueInput!): updateProductOptionValuePayload
+
+  """Creates a ProductOptionValue."""
+  createProductOptionValue(input: createProductOptionValueInput!): createProductOptionValuePayload
+
+  """Shop_creates a ProductReview."""
+  shop_createProductReview(input: shop_createProductReviewInput!): shop_createProductReviewPayload
+
+  """Shop_edits a ProductReview."""
+  shop_editProductReview(input: shop_editProductReviewInput!): shop_editProductReviewPayload
+
+  """Shop_deletes a ProductReview."""
+  shop_deleteProductReview(input: shop_deleteProductReviewInput!): shop_deleteProductReviewPayload
+
+  """Deletes a Promotion."""
+  deletePromotion(input: deletePromotionInput!): deletePromotionPayload
+
+  """Updates a Promotion."""
+  updatePromotion(input: updatePromotionInput!): updatePromotionPayload
+
+  """Creates a Promotion."""
+  createPromotion(input: createPromotionInput!): createPromotionPayload
+
+  """Deletes a Province."""
+  deleteProvince(input: deleteProvinceInput!): deleteProvincePayload
+
+  """Updates a Province."""
+  updateProvince(input: updateProvinceInput!): updateProvincePayload
+
+  """Creates a Province."""
+  createProvince(input: createProvinceInput!): createProvincePayload
+
+  """Deletes a ResetPasswordRequest."""
+  deleteResetPasswordRequest(input: deleteResetPasswordRequestInput!): deleteResetPasswordRequestPayload
+
+  """Updates a ResetPasswordRequest."""
+  updateResetPasswordRequest(input: updateResetPasswordRequestInput!): updateResetPasswordRequestPayload
+
+  """Creates a ResetPasswordRequest."""
+  createResetPasswordRequest(input: createResetPasswordRequestInput!): createResetPasswordRequestPayload
+
+  """Deletes a Shipment."""
+  deleteShipment(input: deleteShipmentInput!): deleteShipmentPayload
+
+  """Updates a Shipment."""
+  updateShipment(input: updateShipmentInput!): updateShipmentPayload
+
+  """Creates a Shipment."""
+  createShipment(input: createShipmentInput!): createShipmentPayload
+
+  """Deletes a ShopBillingData."""
+  deleteShopBillingData(input: deleteShopBillingDataInput!): deleteShopBillingDataPayload
+
+  """Updates a ShopBillingData."""
+  updateShopBillingData(input: updateShopBillingDataInput!): updateShopBillingDataPayload
+
+  """Creates a ShopBillingData."""
+  createShopBillingData(input: createShopBillingDataInput!): createShopBillingDataPayload
+
+  """Deletes a TaxCategory."""
+  deleteTaxCategory(input: deleteTaxCategoryInput!): deleteTaxCategoryPayload
+
+  """Updates a TaxCategory."""
+  updateTaxCategory(input: updateTaxCategoryInput!): updateTaxCategoryPayload
+
+  """Creates a TaxCategory."""
+  createTaxCategory(input: createTaxCategoryInput!): createTaxCategoryPayload
+
+  """Deletes a VerifyCustomerAccount."""
+  deleteVerifyCustomerAccount(input: deleteVerifyCustomerAccountInput!): deleteVerifyCustomerAccountPayload
+
+  """Updates a VerifyCustomerAccount."""
+  updateVerifyCustomerAccount(input: updateVerifyCustomerAccountInput!): updateVerifyCustomerAccountPayload
+
+  """Creates a VerifyCustomerAccount."""
+  createVerifyCustomerAccount(input: createVerifyCustomerAccountInput!): createVerifyCustomerAccountPayload
+
+  """Creates a Wishlist."""
+  createWishlist(input: createWishlistInput!): createWishlistPayload
+
+  """Updates a Wishlist."""
+  updateWishlist(input: updateWishlistInput!): updateWishlistPayload
+
+  """Clears a Wishlist."""
+  clearWishlist(input: clearWishlistInput!): clearWishlistPayload
+
+  """Deletes a Wishlist."""
+  deleteWishlist(input: deleteWishlistInput!): deleteWishlistPayload
+
+  """Add_items a Wishlist."""
+  add_itemWishlist(input: add_itemWishlistInput!): add_itemWishlistPayload
+
+  """Remove_items a Wishlist."""
+  remove_itemWishlist(input: remove_itemWishlistInput!): remove_itemWishlistPayload
+
+  """Shop_get_orders a PromotionCoupon."""
+  shop_get_orderPromotionCoupon(input: shop_get_orderPromotionCouponInput!): shop_get_orderPromotionCouponPayload
+
+  """Shop_registers a User."""
+  shop_registerUser(input: shop_registerUserInput!): shop_registerUserPayload
+
+  """Shop_logins a ShopUserToken."""
+  shop_loginShopUserToken(input: shop_loginShopUserTokenInput!): shop_loginShopUserTokenPayload
+
+  """Shop_refreshs a ShopUserToken."""
+  shop_refreshShopUserToken(input: shop_refreshShopUserTokenInput!): shop_refreshShopUserTokenPayload
+}
+
+"""A node, according to the Relay specification."""
+interface Node {
+  """The id of this node."""
+  id: ID!
+}
+
+type Order implements Node {
+  id: ID!
+  customer: Customer
+  channel: Channel
+  shippingAddress: Address
+  billingAddress: Address
+  payments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): PaymentCursorConnection
+  shipments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ShipmentCursorConnection
+  currencyCode: String!
+  localeCode: String!
+  promotionCoupon: PromotionCoupon
+  checkoutState: String!
+  paymentState: String!
+  shippingState: String!
+  promotions(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): PromotionCursorConnection
+  tokenValue: String
+  customerIp: String
+  createdByGuest: Boolean!
+  _id: Int!
+  checkoutCompletedAt: String
+  number: String
+  notes: String
+  items(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): OrderItemCursorConnection
+  itemsTotal: Int!
+  adjustments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AdjustmentCursorConnection
+  adjustmentsTotal: Int!
+  total: Int!
+  state: String!
+  createdAt: String!
+  updatedAt: String
+  user: UserInterface
+  itemUnits: Collection!
+  lastPayment: PaymentInterface
+  shippingRequired: Boolean!
+  promotionSubjectTotal: Int!
+  promotionSubjectCount: Int!
+  taxTotal: Int!
+  shippingTotal: Int!
+  orderPromotionTotal: Int!
+  nonDiscountedItemsTotal: Int!
+  checkoutCompleted: Boolean!
+  totalQuantity: Int!
+  empty: Boolean!
+  adjustmentsRecursively: Iterable!
+  adjustmentsTotalRecursively: Int!
+}
+
+"""Cursor connection for Order."""
+type OrderCursorConnection {
+  edges: [OrderEdge]
+  pageInfo: OrderPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Order."""
+type OrderEdge {
+  node: Order
+  cursor: String!
+}
+
+type OrderItem implements Node {
+  id: ID!
+  version: Int!
+  variant: ProductVariant!
+  productName: String
+  variantName: String
+  _id: Int!
+  order: Order!
+  quantity: Int!
+  unitPrice: Int!
+  originalUnitPrice: Int
+  total: Int!
+  immutable: Boolean!
+  units(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): OrderItemUnitCursorConnection
+  adjustments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AdjustmentCursorConnection
+  adjustmentsTotal: Int!
+  product: ProductInterface
+  taxTotal: Int!
+  discountedUnitPrice: Int!
+  fullDiscountedUnitPrice: Int!
+  subtotal: Int!
+  adjustmentsRecursively: Iterable!
+  adjustmentsTotalRecursively: Int!
+}
+
+"""Cursor connection for OrderItem."""
+type OrderItemCursorConnection {
+  edges: [OrderItemEdge]
+  pageInfo: OrderItemPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of OrderItem."""
+type OrderItemEdge {
+  node: OrderItem
+  cursor: String!
+}
+
+"""Information about the current page."""
+type OrderItemPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type OrderItemUnit implements Node {
+  id: ID!
+  shipment: Shipment
+  _id: Int!
+  adjustments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AdjustmentCursorConnection
+  adjustmentsTotal: Int!
+  orderItem: OrderItem!
+  createdAt: String!
+  updatedAt: String
+  stockable: StockableInterface
+  shippable: ShippableInterface
+  taxTotal: Int!
+  total: Int!
+}
+
+"""Cursor connection for OrderItemUnit."""
+type OrderItemUnitCursorConnection {
+  edges: [OrderItemUnitEdge]
+  pageInfo: OrderItemUnitPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of OrderItemUnit."""
+type OrderItemUnitEdge {
+  node: OrderItemUnit
+  cursor: String!
+}
+
+"""Information about the current page."""
+type OrderItemUnitPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the current page."""
+type OrderPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Payment implements Node {
+  id: ID!
+  order: Order!
+  _id: Int!
+  method: PaymentMethod
+  currencyCode: String!
+  amount: Int!
+  state: String!
+  details: Iterable!
+  createdAt: String!
+  updatedAt: String
+}
+
+"""Cursor connection for Payment."""
+type PaymentCursorConnection {
+  edges: [PaymentEdge]
+  pageInfo: PaymentPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Payment."""
+type PaymentEdge {
+  node: Payment
+  cursor: String!
+}
+
+type PaymentInterface implements Node {
+  id: ID!
+  order: Order!
+  method: PaymentMethod
+  state: String!
+  currencyCode: String!
+  amount: Int!
+  details: Iterable!
+  createdAt: String!
+  updatedAt: String
+  _id: Int!
+}
+
+type PaymentMethod implements Node {
+  id: ID!
+  channels(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ChannelPageConnection
+  gatewayConfig: GatewayConfig
+  _id: Int!
+  code: String!
+  environment: String
+  position: Int!
+  createdAt: String!
+  updatedAt: String
+  enabled: Boolean!
+  translations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): PaymentMethodTranslationPageConnection
+  name: String
+  description: String
+  instructions: String
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+"""Page connection for PaymentMethod."""
+type PaymentMethodPageConnection {
+  collection: [PaymentMethod]
+  paginationInfo: PaymentMethodPaginationInfo!
+}
+
+"""Information about the pagination."""
+type PaymentMethodPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type PaymentMethodTranslation implements Node {
+  id: ID!
+  _id: Int!
+  name: String!
+  description: String
+  instructions: String
+  locale: String!
+  translatable: PaymentMethod!
+}
+
+"""Page connection for PaymentMethodTranslation."""
+type PaymentMethodTranslationPageConnection {
+  collection: [PaymentMethodTranslation]
+  paginationInfo: PaymentMethodTranslationPaginationInfo!
+}
+
+"""Information about the pagination."""
+type PaymentMethodTranslationPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+"""Information about the current page."""
+type PaymentPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Product implements Node {
+  id: ID!
+  variantSelectionMethod: String!
+  productTaxons(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductTaxonPageConnection
+  channels(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ChannelPageConnection
+  mainTaxon: Taxon
+  reviews(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    reviewSubject_id: Int
+    reviewSubject_id_list: [Int]
+    author_id: Int
+    author_id_list: [Int]
+    status: String
+    status_list: [String]
+  ): ProductReviewPageConnection
+  averageRating: Float!
+  images(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductImagePageConnection
+  _id: Int!
+  code: String!
+  attributes(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    localeCode: String
+    localeCode_list: [String]
+  ): ProductAttributeValuePageConnection
+  variants(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductVariantPageConnection
+  options(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionCursorConnection
+  createdAt: String!
+  updatedAt: String
+  enabled: Boolean!
+  translations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductTranslationPageConnection
+  variantSelectionMethodChoice: Boolean!
+  variantSelectionMethodLabel: String!
+  shortDescription: String
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+  name: String
+  description: String
+  slug: String
+  metaKeywords: String
+  metaDescription: String
+  simple: Boolean!
+  configurable: Boolean!
+}
+
+type ProductAssociation implements Node {
+  id: ID!
+  _id: Int!
+  type: ProductAssociationType!
+  owner: Product!
+  associatedProducts(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    translations_name: String
+    translations_slug: String
+    translations_locale: String
+    translations_locale_list: [String]
+    order: [ProductFilter_order]
+    productTaxons_taxon_code: String
+    productTaxons_taxon_code_list: [String]
+    productTaxons_taxon_translations_slug: String
+    productTaxons_taxon_translations_slug_list: [String]
+    channels_code: String
+    channels_code_list: [String]
+    variants_channelPricings_price: [ProductFilter_variants_channelPricings_price]
+    averageRating: [ProductFilter_averageRating]
+    attributes: Iterable
+  ): ProductCursorConnection
+  createdAt: String!
+  updatedAt: String
+}
+
+"""Cursor connection for ProductAssociation."""
+type ProductAssociationCursorConnection {
+  edges: [ProductAssociationEdge]
+  pageInfo: ProductAssociationPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductAssociation."""
+type ProductAssociationEdge {
+  node: ProductAssociation
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProductAssociationPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type ProductAssociationType implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  name: String
+  createdAt: String!
+  updatedAt: String
+  translations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductAssociationTypeTranslationCursorConnection
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+"""Cursor connection for ProductAssociationType."""
+type ProductAssociationTypeCursorConnection {
+  edges: [ProductAssociationTypeEdge]
+  pageInfo: ProductAssociationTypePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductAssociationType."""
+type ProductAssociationTypeEdge {
+  node: ProductAssociationType
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProductAssociationTypePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type ProductAssociationTypeTranslation implements Node {
+  id: ID!
+  _id: Int!
+  name: String
+  locale: String!
+  translatable: ProductAssociationType!
+}
+
+"""Cursor connection for ProductAssociationTypeTranslation."""
+type ProductAssociationTypeTranslationCursorConnection {
+  edges: [ProductAssociationTypeTranslationEdge]
+  pageInfo: ProductAssociationTypeTranslationPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductAssociationTypeTranslation."""
+type ProductAssociationTypeTranslationEdge {
+  node: ProductAssociationTypeTranslation
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProductAssociationTypeTranslationPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type ProductAttribute implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  type: String!
+  configuration: Iterable!
+  storageType: String!
+  position: Int!
+  translatable: Boolean!
+  createdAt: String!
+  updatedAt: String
+  translations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductAttributeTranslationCursorConnection
+  name: String
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+"""Page connection for ProductAttribute."""
+type ProductAttributePageConnection {
+  collection: [ProductAttribute]
+  paginationInfo: ProductAttributePaginationInfo!
+}
+
+"""Information about the pagination."""
+type ProductAttributePaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ProductAttributeTranslation implements Node {
+  id: ID!
+  _id: Int!
+  name: String!
+  locale: String!
+  translatable: ProductAttribute!
+}
+
+"""Cursor connection for ProductAttributeTranslation."""
+type ProductAttributeTranslationCursorConnection {
+  edges: [ProductAttributeTranslationEdge]
+  pageInfo: ProductAttributeTranslationPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductAttributeTranslation."""
+type ProductAttributeTranslationEdge {
+  node: ProductAttributeTranslation
+  cursor: String!
+}
+
+"""Page connection for ProductAttributeTranslation."""
+type ProductAttributeTranslationPageConnection {
+  collection: [ProductAttributeTranslation]
+  paginationInfo: ProductAttributeTranslationPaginationInfo!
+}
+
+"""Information about the current page."""
+type ProductAttributeTranslationPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ProductAttributeTranslationPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ProductAttributeValue implements Node {
+  id: ID!
+  attribute: ProductAttribute!
+  localeCode: String
+  code: String
+  name: String
+  stringValue: String
+  product: ProductInterface
+  type: String
+}
+
+"""Cursor connection for ProductAttributeValue."""
+type ProductAttributeValueCursorConnection {
+  edges: [ProductAttributeValueEdge]
+  pageInfo: ProductAttributeValuePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductAttributeValue."""
+type ProductAttributeValueEdge {
+  node: ProductAttributeValue
+  cursor: String!
+}
+
+"""Page connection for ProductAttributeValue."""
+type ProductAttributeValuePageConnection {
+  collection: [ProductAttributeValue]
+  paginationInfo: ProductAttributeValuePaginationInfo!
+}
+
+"""Information about the current page."""
+type ProductAttributeValuePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ProductAttributeValuePaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+"""Cursor connection for Product."""
+type ProductCursorConnection {
+  edges: [ProductEdge]
+  pageInfo: ProductPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Product."""
+type ProductEdge {
+  node: Product
+  cursor: String!
+}
+
+input ProductFilter_averageRating {
+  between: String
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+}
+
+input ProductFilter_order {
+  code: String
+  translations_name: String
+  averageRating: String
+  createdAt: String
+  variants_channelPricings_price: String
+}
+
+input ProductFilter_variants_channelPricings_price {
+  between: String
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+}
+
+type ProductImage implements Node {
+  id: ID!
+  productVariants(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductVariantPageConnection
+  _id: Int!
+  type: String
+  file: SplFileInfo
+  path: String!
+  owner: Product!
+}
+
+"""Cursor connection for ProductImage."""
+type ProductImageCursorConnection {
+  edges: [ProductImageEdge]
+  pageInfo: ProductImagePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductImage."""
+type ProductImageEdge {
+  node: ProductImage
+  cursor: String!
+}
+
+"""Page connection for ProductImage."""
+type ProductImagePageConnection {
+  collection: [ProductImage]
+  paginationInfo: ProductImagePaginationInfo!
+}
+
+"""Information about the current page."""
+type ProductImagePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ProductImagePaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ProductInterface implements Node {
+  id: ID!
+  variantSelectionMethod: String!
+  variantSelectionMethodChoice: Boolean!
+  variantSelectionMethodLabel: String!
+  shortDescription: String
+  mainTaxon: Taxon
+  acceptedReviews: Collection!
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+  name: String
+  description: String
+  metaKeywords: String
+  metaDescription: String
+  variants(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductVariantCursorConnection
+  enabledVariants: Collection!
+  options(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionCursorConnection
+  associations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductAssociationCursorConnection
+  simple: Boolean!
+  configurable: Boolean!
+  attributes(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    localeCode: String
+    localeCode_list: [String]
+  ): ProductAttributeValueCursorConnection
+  code: String!
+  _id: Int!
+  slug: String
+  createdAt: String!
+  updatedAt: String
+  enabled: Boolean!
+  translations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductTranslationCursorConnection
+  productTaxons(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductTaxonCursorConnection
+  taxons: Collection!
+  channels(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ChannelCursorConnection
+  reviews(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    reviewSubject_id: Int
+    reviewSubject_id_list: [Int]
+    author_id: Int
+    author_id_list: [Int]
+    status: String
+    status_list: [String]
+  ): ProductReviewCursorConnection
+  averageRating: Float!
+  images(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductImageCursorConnection
+}
+
+type ProductOption implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  position: Int!
+  values(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionValueCursorConnection
+  createdAt: String!
+  updatedAt: String
+  translations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionTranslationCursorConnection
+  name: String
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+"""Cursor connection for ProductOption."""
+type ProductOptionCursorConnection {
+  edges: [ProductOptionEdge]
+  pageInfo: ProductOptionPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductOption."""
+type ProductOptionEdge {
+  node: ProductOption
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProductOptionPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type ProductOptionTranslation implements Node {
+  id: ID!
+  _id: Int!
+  name: String!
+  locale: String!
+  translatable: ProductOption!
+}
+
+"""Cursor connection for ProductOptionTranslation."""
+type ProductOptionTranslationCursorConnection {
+  edges: [ProductOptionTranslationEdge]
+  pageInfo: ProductOptionTranslationPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductOptionTranslation."""
+type ProductOptionTranslationEdge {
+  node: ProductOptionTranslation
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProductOptionTranslationPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type ProductOptionValue implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  option: ProductOption!
+  translations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionValueTranslationCursorConnection
+  value: String
+  optionCode: String
+  name: String
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+"""Cursor connection for ProductOptionValue."""
+type ProductOptionValueCursorConnection {
+  edges: [ProductOptionValueEdge]
+  pageInfo: ProductOptionValuePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductOptionValue."""
+type ProductOptionValueEdge {
+  node: ProductOptionValue
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProductOptionValuePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type ProductOptionValueTranslation implements Node {
+  id: ID!
+  _id: Int!
+  value: String!
+  locale: String!
+  translatable: ProductOptionValue!
+}
+
+"""Cursor connection for ProductOptionValueTranslation."""
+type ProductOptionValueTranslationCursorConnection {
+  edges: [ProductOptionValueTranslationEdge]
+  pageInfo: ProductOptionValueTranslationPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductOptionValueTranslation."""
+type ProductOptionValueTranslationEdge {
+  node: ProductOptionValueTranslation
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProductOptionValueTranslationPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Page connection for Product."""
+type ProductPageConnection {
+  collection: [Product]
+  paginationInfo: ProductPaginationInfo!
+}
+
+"""Information about the current page."""
+type ProductPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ProductPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ProductReview implements Node {
+  id: ID!
+  _id: Int!
+  title: String
+  rating: Int!
+  comment: String
+  author: Customer!
+  status: String!
+  reviewSubject: Product!
+  createdAt: String!
+  updatedAt: String
+}
+
+"""Cursor connection for ProductReview."""
+type ProductReviewCursorConnection {
+  edges: [ProductReviewEdge]
+  pageInfo: ProductReviewPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductReview."""
+type ProductReviewEdge {
+  node: ProductReview
+  cursor: String!
+}
+
+"""Page connection for ProductReview."""
+type ProductReviewPageConnection {
+  collection: [ProductReview]
+  paginationInfo: ProductReviewPaginationInfo!
+}
+
+"""Information about the current page."""
+type ProductReviewPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ProductReviewPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ProductTaxon implements Node {
+  id: ID!
+  _id: Int!
+  product: Product!
+  taxon: Taxon!
+  position: Int!
+}
+
+"""Cursor connection for ProductTaxon."""
+type ProductTaxonCursorConnection {
+  edges: [ProductTaxonEdge]
+  pageInfo: ProductTaxonPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductTaxon."""
+type ProductTaxonEdge {
+  node: ProductTaxon
+  cursor: String!
+}
+
+"""Page connection for ProductTaxon."""
+type ProductTaxonPageConnection {
+  collection: [ProductTaxon]
+  paginationInfo: ProductTaxonPaginationInfo!
+}
+
+"""Information about the current page."""
+type ProductTaxonPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ProductTaxonPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ProductTranslation implements Node {
+  id: ID!
+  shortDescription: String
+  _id: Int!
+  name: String!
+  slug: String!
+  description: String
+  metaKeywords: String
+  metaDescription: String
+  locale: String!
+  translatable: Product!
+}
+
+"""Cursor connection for ProductTranslation."""
+type ProductTranslationCursorConnection {
+  edges: [ProductTranslationEdge]
+  pageInfo: ProductTranslationPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductTranslation."""
+type ProductTranslationEdge {
+  node: ProductTranslation
+  cursor: String!
+}
+
+"""Page connection for ProductTranslation."""
+type ProductTranslationPageConnection {
+  collection: [ProductTranslation]
+  paginationInfo: ProductTranslationPaginationInfo!
+}
+
+"""Information about the current page."""
+type ProductTranslationPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ProductTranslationPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ProductVariant implements Node {
+  id: ID!
+  version: Int!
+  onHold: Int!
+  onHand: Int!
+  tracked: Boolean!
+  weight: Float
+  width: Float
+  height: Float
+  depth: Float
+  taxCategory: TaxCategory
+  shippingCategory: ShippingCategory
+  channelPricings(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    channelCode: String!
+  ): ChannelPricingPageConnection
+  shippingRequired: Boolean!
+  images(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductImagePageConnection
+  _id: Int!
+  code: String!
+  product: Product!
+  optionValues(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionValueCursorConnection
+  position: Int!
+  createdAt: String!
+  updatedAt: String
+  enabled: Boolean!
+  translations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductVariantTranslationPageConnection
+  inStock: Boolean!
+  inventoryName: String
+  shippingWeight: Float
+  shippingWidth: Float
+  shippingHeight: Float
+  shippingDepth: Float
+  shippingVolume: Float
+  name: String
+  descriptor: String!
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+"""Cursor connection for ProductVariant."""
+type ProductVariantCursorConnection {
+  edges: [ProductVariantEdge]
+  pageInfo: ProductVariantPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductVariant."""
+type ProductVariantEdge {
+  node: ProductVariant
+  cursor: String!
+}
+
+type ProductVariantInterface implements Node {
+  id: ID!
+  weight: Float
+  width: Float
+  height: Float
+  depth: Float
+  taxCategory: TaxCategory
+  shippingCategory: ShippingCategory
+  channelPricings(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    channelCode: String!
+  ): ChannelPricingPageConnection
+  shippingRequired: Boolean!
+  _id: Int!
+  name: String
+  descriptor: String!
+  optionValues(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionValueCursorConnection
+  product: Product!
+  position: Int!
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+  createdAt: String!
+  updatedAt: String
+  code: String!
+  enabled: Boolean!
+  translations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductVariantTranslationPageConnection
+  shippingWeight: Float
+  shippingVolume: Float
+  shippingWidth: Float
+  shippingHeight: Float
+  shippingDepth: Float
+  inventoryName: String
+  inStock: Boolean!
+  onHold: Int!
+  onHand: Int!
+  tracked: Boolean!
+  version: Int!
+  images(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductImagePageConnection
+}
+
+"""Cursor connection for ProductVariantInterface."""
+type ProductVariantInterfaceCursorConnection {
+  edges: [ProductVariantInterfaceEdge]
+  pageInfo: ProductVariantInterfacePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ProductVariantInterface."""
+type ProductVariantInterfaceEdge {
+  node: ProductVariantInterface
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProductVariantInterfacePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Page connection for ProductVariant."""
+type ProductVariantPageConnection {
+  collection: [ProductVariant]
+  paginationInfo: ProductVariantPaginationInfo!
+}
+
+"""Information about the current page."""
+type ProductVariantPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the pagination."""
+type ProductVariantPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ProductVariantTranslation implements Node {
+  id: ID!
+  _id: Int!
+  name: String
+  locale: String!
+  translatable: ProductVariant!
+}
+
+"""Page connection for ProductVariantTranslation."""
+type ProductVariantTranslationPageConnection {
+  collection: [ProductVariantTranslation]
+  paginationInfo: ProductVariantTranslationPaginationInfo!
+}
+
+"""Information about the pagination."""
+type ProductVariantTranslationPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type Promotion implements Node {
+  id: ID!
+  channels(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ChannelCursorConnection
+  _id: Int!
+  code: String!
+  name: String!
+  description: String
+  priority: Int!
+  exclusive: Boolean!
+  usageLimit: Int
+  used: Int!
+  startsAt: String
+  endsAt: String
+  couponBased: Boolean!
+  coupons(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): PromotionCouponCursorConnection
+  rules(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): PromotionRuleCursorConnection
+  actions(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): PromotionActionCursorConnection
+  appliesToDiscounted: Boolean!
+  createdAt: String!
+  updatedAt: String
+}
+
+type PromotionAction implements Node {
+  id: ID!
+  _id: Int!
+  type: String!
+  configuration: Iterable!
+  promotion: Promotion
+}
+
+"""Cursor connection for PromotionAction."""
+type PromotionActionCursorConnection {
+  edges: [PromotionActionEdge]
+  pageInfo: PromotionActionPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of PromotionAction."""
+type PromotionActionEdge {
+  node: PromotionAction
+  cursor: String!
+}
+
+"""Information about the current page."""
+type PromotionActionPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type PromotionCoupon implements Node {
+  id: ID!
+  perCustomerUsageLimit: Int
+  reusableFromCancelledOrders: Boolean!
+  _id: Int!
+  code: String!
+  usageLimit: Int
+  used: Int!
+  promotion: Promotion
+  expiresAt: String
+  createdAt: String!
+  updatedAt: String
+  valid: Boolean!
+}
+
+"""Cursor connection for PromotionCoupon."""
+type PromotionCouponCursorConnection {
+  edges: [PromotionCouponEdge]
+  pageInfo: PromotionCouponPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of PromotionCoupon."""
+type PromotionCouponEdge {
+  node: PromotionCoupon
+  cursor: String!
+}
+
+"""Information about the current page."""
+type PromotionCouponPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Cursor connection for Promotion."""
+type PromotionCursorConnection {
+  edges: [PromotionEdge]
+  pageInfo: PromotionPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Promotion."""
+type PromotionEdge {
+  node: Promotion
+  cursor: String!
+}
+
+"""Information about the current page."""
+type PromotionPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type PromotionRule implements Node {
+  id: ID!
+  _id: Int!
+  type: String!
+  configuration: Iterable!
+  promotion: Promotion
+}
+
+"""Cursor connection for PromotionRule."""
+type PromotionRuleCursorConnection {
+  edges: [PromotionRuleEdge]
+  pageInfo: PromotionRulePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of PromotionRule."""
+type PromotionRuleEdge {
+  node: PromotionRule
+  cursor: String!
+}
+
+"""Information about the current page."""
+type PromotionRulePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Province implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  name: String!
+  abbreviation: String
+  country: Country!
+}
+
+"""Cursor connection for Province."""
+type ProvinceCursorConnection {
+  edges: [ProvinceEdge]
+  pageInfo: ProvincePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Province."""
+type ProvinceEdge {
+  node: Province
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ProvincePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Query {
+  node(id: ID!): Node
+  address(id: ID!): Address
+  addresses(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): AddressPageConnection
+  adjustment(id: ID!): Adjustment
+  adjustments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AdjustmentCursorConnection
+  administrator(id: ID!): Administrator
+  administrators(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AdministratorCursorConnection
+  avatarImage(id: ID!): AvatarImage
+  avatarImages(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AvatarImageCursorConnection
+  catalogPromotion(id: ID!): CatalogPromotion
+  catalogPromotions(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CatalogPromotionCursorConnection
+  catalogPromotionAction(id: ID!): CatalogPromotionAction
+  catalogPromotionActions(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CatalogPromotionActionCursorConnection
+  catalogPromotionScope(id: ID!): CatalogPromotionScope
+  catalogPromotionScopes(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CatalogPromotionScopeCursorConnection
+  catalogPromotionTranslation(id: ID!): CatalogPromotionTranslation
+  catalogPromotionTranslations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CatalogPromotionTranslationCursorConnection
+  channels(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ChannelPageConnection
+  channel(id: ID!): Channel
+  channelPricings(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    channelCode: String!
+  ): ChannelPricingPageConnection
+  countries(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    enabled: Boolean
+  ): CountryPageConnection
+  country(id: ID!): Country
+  currency(id: ID!): Currency
+  currencies(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CurrencyCursorConnection
+  customer(id: ID!): Customer
+  customerGroup(id: ID!): CustomerGroup
+  customerGroups(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): CustomerGroupCursorConnection
+  exchangeRate(id: ID!): ExchangeRate
+  exchangeRates(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ExchangeRateCursorConnection
+  locale(id: ID!): Locale
+  locales: [Locale]
+  order(id: ID!): Order
+  orderItem(id: ID!): OrderItem
+  orderItems(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): OrderItemCursorConnection
+  orderItemUnit(id: ID!): OrderItemUnit
+  orderItemUnits(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): OrderItemUnitCursorConnection
+  payment(id: ID!): Payment
+  payments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): PaymentCursorConnection
+  paymentMethods(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    enabled: Boolean
+    channels_code: String
+    channels_code_list: [String]
+  ): PaymentMethodPageConnection
+  paymentMethod(id: ID!): PaymentMethod
+  products(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    translations_name: String
+    translations_slug: String
+    translations_locale: String
+    translations_locale_list: [String]
+    order: [ProductFilter_order]
+    productTaxons_taxon_code: String
+    productTaxons_taxon_code_list: [String]
+    productTaxons_taxon_translations_slug: String
+    productTaxons_taxon_translations_slug_list: [String]
+    variants_channelPricings_price: [ProductFilter_variants_channelPricings_price]
+    channels_code: String
+    channels_code_list: [String]
+    averageRating: [ProductFilter_averageRating]
+    attributes: Iterable
+  ): ProductPageConnection
+  product(id: ID!): Product
+  productAssociationType(id: ID!): ProductAssociationType
+  productAssociationTypes(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductAssociationTypeCursorConnection
+  productAssociationTypeTranslation(id: ID!): ProductAssociationTypeTranslation
+  productAssociationTypeTranslations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductAssociationTypeTranslationCursorConnection
+  productImages(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductImagePageConnection
+  productOption(id: ID!): ProductOption
+  productOptions(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionCursorConnection
+  productOptionTranslation(id: ID!): ProductOptionTranslation
+  productOptionTranslations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionTranslationCursorConnection
+  productOptionValue(id: ID!): ProductOptionValue
+  productOptionValues(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductOptionValueCursorConnection
+  productReviews(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    reviewSubject_id: Int
+    reviewSubject_id_list: [Int]
+    author_id: Int
+    author_id_list: [Int]
+    status: String
+    status_list: [String]
+  ): ProductReviewPageConnection
+  productTaxa(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductTaxonPageConnection
+  productTaxon(id: ID!): ProductTaxon
+  productTranslations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductTranslationPageConnection
+  productVariants(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductVariantPageConnection
+  productVariant(id: ID!): ProductVariant
+  productVariantTranslations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductVariantTranslationPageConnection
+  promotion(id: ID!): Promotion
+  promotions(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): PromotionCursorConnection
+  province(id: ID!): Province
+  provinces(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProvinceCursorConnection
+  resetPasswordRequest(id: ID!): ResetPasswordRequest
+  resetPasswordRequests(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ResetPasswordRequestCursorConnection
+  shipment(id: ID!): Shipment
+  shipments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ShipmentCursorConnection
+  shippingCategories(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ShippingCategoryPageConnection
+  shippingCategory(id: ID!): ShippingCategory
+  shippingMethods(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    enabled: Boolean
+    channels_code: String
+    channels_code_list: [String]
+    zone_members_code: String
+    zone_members_code_list: [String]
+  ): ShippingMethodPageConnection
+  shippingMethod(id: ID!): ShippingMethod
+  shippingMethodTranslations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ShippingMethodTranslationPageConnection
+  shippingMethodTranslation(id: ID!): ShippingMethodTranslation
+  shopBillingData(id: ID!): ShopBillingData
+  shopBillingDatas(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ShopBillingDataCursorConnection
+  taxCategory(id: ID!): TaxCategory
+  taxCategories(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TaxCategoryCursorConnection
+  taxa(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    translations_name: String
+    translations_slug: String
+    order: [TaxonFilter_order]
+  ): TaxonPageConnection
+  taxon(id: ID!): Taxon
+  taxonTranslations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): TaxonTranslationPageConnection
+  verifyCustomerAccount(id: ID!): VerifyCustomerAccount
+  verifyCustomerAccounts(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): VerifyCustomerAccountCursorConnection
+  zones(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ZonePageConnection
+  zone(id: ID!): Zone
+  zoneMember(id: ID!): ZoneMember
+  zoneMembers(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ZoneMemberPageConnection
+  wishlists(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): WishlistPageConnection
+  wishlist(id: ID!): Wishlist
+  paymentMethodTranslations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): PaymentMethodTranslationPageConnection
+  paymentMethodTranslation(id: ID!): PaymentMethodTranslation
+  productAttribute(id: ID!): ProductAttribute
+  productAttributes(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductAttributePageConnection
+  productAttributeTranslations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ProductAttributeTranslationPageConnection
+  productAttributeValue(id: ID!): ProductAttributeValue
+  productAttributeValues(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    localeCode: String
+    localeCode_list: [String]
+  ): ProductAttributeValuePageConnection
+  user(id: ID!): User
+  password_reset_tokenUser(passwordResetToken: String!): User
+}
+
+input remove_itemWishlistInput {
+  id: String!
+  productVariant: String!
+  clientMutationId: String
+}
+
+type remove_itemWishlistPayload {
+  wishlist: Wishlist
+  clientMutationId: String
+}
+
+type ResetPasswordRequest implements Node {
+  id: ID!
+  resetPasswordToken: String!
+}
+
+"""Cursor connection for ResetPasswordRequest."""
+type ResetPasswordRequestCursorConnection {
+  edges: [ResetPasswordRequestEdge]
+  pageInfo: ResetPasswordRequestPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ResetPasswordRequest."""
+type ResetPasswordRequestEdge {
+  node: ResetPasswordRequest
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ResetPasswordRequestPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Shipment implements Node {
+  id: ID!
+  order: Order!
+  adjustments(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): AdjustmentCursorConnection
+  adjustmentsTotal: Int!
+  _id: Int!
+  state: String!
+  method: ShippingMethod!
+  units(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): OrderItemUnitCursorConnection
+  tracking: String
+  shippedAt: String
+  createdAt: String!
+  updatedAt: String
+  tracked: Boolean!
+  shippables: Collection!
+  shippingWeight: Float!
+  shippingVolume: Float!
+  shippingUnitCount: Int!
+  shippingUnitTotal: Int!
+}
+
+"""Cursor connection for Shipment."""
+type ShipmentCursorConnection {
+  edges: [ShipmentEdge]
+  pageInfo: ShipmentPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Shipment."""
+type ShipmentEdge {
+  node: Shipment
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ShipmentPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type ShippableInterface implements Node {
+  id: ID!
+  shippingWeight: Float
+  shippingVolume: Float
+  shippingWidth: Float
+  shippingHeight: Float
+  shippingDepth: Float
+  shippingCategory: ShippingCategory
+}
+
+type ShippingCategory implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  name: String!
+  description: String
+  createdAt: String!
+  updatedAt: String
+}
+
+"""Page connection for ShippingCategory."""
+type ShippingCategoryPageConnection {
+  collection: [ShippingCategory]
+  paginationInfo: ShippingCategoryPaginationInfo!
+}
+
+"""Information about the pagination."""
+type ShippingCategoryPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ShippingMethod implements Node {
+  id: ID!
+  zone: Zone!
+  channels(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ChannelPageConnection
+  _id: Int!
+  code: String!
+  position: Int!
+  calculator: String!
+  configuration: Iterable!
+  archivedAt: String
+  createdAt: String!
+  updatedAt: String
+  enabled: Boolean!
+  translations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ShippingMethodTranslationPageConnection
+  name: String
+}
+
+"""Page connection for ShippingMethod."""
+type ShippingMethodPageConnection {
+  collection: [ShippingMethod]
+  paginationInfo: ShippingMethodPaginationInfo!
+}
+
+"""Information about the pagination."""
+type ShippingMethodPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type ShippingMethodTranslation implements Node {
+  id: ID!
+  _id: Int!
+  name: String!
+  description: String
+  locale: String!
+  translatable: ShippingMethod!
+}
+
+"""Page connection for ShippingMethodTranslation."""
+type ShippingMethodTranslationPageConnection {
+  collection: [ShippingMethodTranslation]
+  paginationInfo: ShippingMethodTranslationPaginationInfo!
+}
+
+"""Information about the pagination."""
+type ShippingMethodTranslationPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+input shop_add_billing_addressOrderInput {
+  email: String
+  orderTokenValue: String
+  billingAddress: AddressInput!
+  clientMutationId: String
+}
+
+type shop_add_billing_addressOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_add_itemOrderInput {
+  orderTokenValue: String
+  productVariant: String
+  quantity: Int
+  clientMutationId: String
+}
+
+type shop_add_itemOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_add_itemsOrderInput {
+  orderTokenValue: String!
+  cartItems: Iterable!
+  clientMutationId: String
+}
+
+type shop_add_itemsOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_add_shipping_addressOrderInput {
+  email: String
+  orderTokenValue: String
+  shippingAddress: AddressInput!
+  clientMutationId: String
+}
+
+type shop_add_shipping_addressOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_apply_couponOrderInput {
+  couponCode: String
+  orderTokenValue: String
+  clientMutationId: String
+}
+
+type shop_apply_couponOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_change_quantityOrderInput {
+  id: String
+  orderItemId: String
+  quantity: Int
+  clientMutationId: String
+}
+
+type shop_change_quantityOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_completeOrderInput {
+  id: String!
+  orderTokenValue: String!
+  notes: String
+  clientMutationId: String
+}
+
+type shop_completeOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_createProductReviewInput {
+  title: String!
+  rating: Int!
+  comment: String!
+  author: String!
+  reviewSubject: String!
+  clientMutationId: String
+}
+
+type shop_createProductReviewPayload {
+  productReview: ProductReview
+  clientMutationId: String
+}
+
+input shop_deleteProductReviewInput {
+  id: String!
+  clientMutationId: String
+}
+
+type shop_deleteProductReviewPayload {
+  productReview: ProductReview
+  clientMutationId: String
+}
+
+input shop_editProductReviewInput {
+  id: String!
+  title: String
+  rating: Int
+  comment: String
+  clientMutationId: String
+}
+
+type shop_editProductReviewPayload {
+  productReview: ProductReview
+  clientMutationId: String
+}
+
+input shop_get_orderPromotionCouponInput {
+  orderTokenValue: String!
+  clientMutationId: String
+}
+
+type shop_get_orderPromotionCouponPayload {
+  promotionCoupon: PromotionCoupon
+  clientMutationId: String
+}
+
+input shop_loginShopUserTokenInput {
+  username: String!
+  password: String!
+  rememberMe: Boolean!
+  orderTokenValue: String
+  clientMutationId: String
+}
+
+type shop_loginShopUserTokenPayload {
+  shopUserToken: ShopUserToken
+  clientMutationId: String
+}
+
+input shop_password_updateCustomerInput {
+  shopUserId: String
+  currentPassword: String
+  newPassword: String
+  confirmNewPassword: String
+  clientMutationId: String
+}
+
+type shop_password_updateCustomerPayload {
+  customer: Customer
+  clientMutationId: String
+}
+
+input shop_postAddressInput {
+  firstName: String!
+  lastName: String!
+  company: String
+  street: String!
+  countryCode: String!
+  provinceName: String
+  city: String!
+  postcode: String!
+  phoneNumber: String
+  clientMutationId: String
+}
+
+type shop_postAddressPayload {
+  address: Address
+  clientMutationId: String
+}
+
+input shop_postOrderInput {
+  tokenValue: String
+  localeCode: String
+  clientMutationId: String
+}
+
+type shop_postOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_putAddressInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  company: String
+  street: String
+  countryCode: String
+  provinceName: String
+  city: String
+  postcode: String
+  phoneNumber: String
+  clientMutationId: String
+}
+
+type shop_putAddressPayload {
+  address: Address
+  clientMutationId: String
+}
+
+input shop_putCustomerInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  phoneNumber: String
+  gender: String
+  birthday: String
+  subscribedToNewsletter: Boolean
+  clientMutationId: String
+}
+
+type shop_putCustomerPayload {
+  customer: Customer
+  clientMutationId: String
+}
+
+input shop_refreshShopUserTokenInput {
+  refreshToken: String!
+  clientMutationId: String
+}
+
+type shop_refreshShopUserTokenPayload {
+  shopUserToken: ShopUserToken
+  clientMutationId: String
+}
+
+input shop_registerUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  phoneNumber: String
+  subscribedToNewsletter: Boolean
+  clientMutationId: String
+}
+
+type shop_registerUserPayload {
+  user: User
+  clientMutationId: String
+}
+
+input shop_remove_couponOrderInput {
+  couponCode: String
+  orderTokenValue: String
+  clientMutationId: String
+}
+
+type shop_remove_couponOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_remove_itemOrderInput {
+  id: String
+  orderItemId: String
+  clientMutationId: String
+}
+
+type shop_remove_itemOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_reset_passwordCustomerInput {
+  newPassword: String!
+  confirmedNewPassword: String!
+  resetPasswordToken: String!
+  clientMutationId: String
+}
+
+type shop_reset_passwordCustomerPayload {
+  customer: Customer
+  clientMutationId: String
+}
+
+input shop_select_payment_methodOrderInput {
+  paymentId: String
+  orderTokenValue: String
+  paymentMethodCode: String
+  clientMutationId: String
+}
+
+type shop_select_payment_methodOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_select_shipping_methodOrderInput {
+  shipmentId: String
+  orderTokenValue: String
+  shippingMethodCode: String
+  clientMutationId: String
+}
+
+type shop_select_shipping_methodOrderPayload {
+  order: Order
+  clientMutationId: String
+}
+
+input shop_send_reset_password_emailCustomerInput {
+  email: String!
+  localeCode: String
+  clientMutationId: String
+}
+
+type shop_send_reset_password_emailCustomerPayload {
+  customer: Customer
+  clientMutationId: String
+}
+
+input shop_set_default_addressCustomerInput {
+  defaultAddress: ID!
+  clientMutationId: String
+}
+
+type shop_set_default_addressCustomerPayload {
+  customer: Customer
+  clientMutationId: String
+}
+
+type ShopBillingData implements Node {
+  id: ID!
+  _id: Int!
+  company: String
+  taxId: String
+  countryCode: String
+  street: String
+  city: String
+  postcode: String
+}
+
+"""Cursor connection for ShopBillingData."""
+type ShopBillingDataCursorConnection {
+  edges: [ShopBillingDataEdge]
+  pageInfo: ShopBillingDataPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of ShopBillingData."""
+type ShopBillingDataEdge {
+  node: ShopBillingData
+  cursor: String!
+}
+
+"""Information about the current page."""
+type ShopBillingDataPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type ShopUserToken implements Node {
+  id: ID!
+  _id: Int!
+
+  """JWT Token"""
+  token: String!
+
+  """JWT Refresh Token"""
+  refreshToken: String!
+
+  """Sylius Shop User"""
+  user: User!
+}
+
+type SplFileInfo implements Node {
+  id: ID!
+  filename: String!
+  writable: Boolean!
+  readable: Boolean!
+  executable: Boolean!
+  file: Boolean!
+  dir: Boolean!
+  link: Boolean!
+}
+
+type StockableInterface implements Node {
+  id: ID!
+  inventoryName: String
+  inStock: Boolean!
+  onHold: Int!
+  onHand: Int!
+  tracked: Boolean!
+}
+
+type TaxCategory implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  name: String!
+  description: String
+  rates(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TaxRateCursorConnection
+  createdAt: String!
+  updatedAt: String
+}
+
+"""Cursor connection for TaxCategory."""
+type TaxCategoryCursorConnection {
+  edges: [TaxCategoryEdge]
+  pageInfo: TaxCategoryPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of TaxCategory."""
+type TaxCategoryEdge {
+  node: TaxCategory
+  cursor: String!
+}
+
+"""Information about the current page."""
+type TaxCategoryPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Taxon implements Node {
+  id: ID!
+  images(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TaxonImageCursorConnection
+  _id: Int!
+  code: String!
+  root: Taxon
+  parent: Taxon
+  children(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+    translations_name: String
+    translations_slug: String
+    order: [TaxonFilter_order]
+  ): TaxonPageConnection
+  left: Int!
+  right: Int!
+  level: Int!
+  position: Int!
+  translations(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): TaxonTranslationPageConnection
+  enabled: Boolean!
+  createdAt: String!
+  updatedAt: String
+  name: String
+  slug: String
+  description: String
+  ancestors: Collection!
+  enabledChildren: Collection!
+  fullname: String
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+input TaxonFilter_order {
+  createdAt: String
+}
+
+type TaxonImage implements Node {
+  id: ID!
+  _id: Int!
+  type: String
+  file: SplFileInfo
+  path: String!
+  owner: Taxon!
+}
+
+"""Cursor connection for TaxonImage."""
+type TaxonImageCursorConnection {
+  edges: [TaxonImageEdge]
+  pageInfo: TaxonImagePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of TaxonImage."""
+type TaxonImageEdge {
+  node: TaxonImage
+  cursor: String!
+}
+
+"""Information about the current page."""
+type TaxonImagePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Page connection for Taxon."""
+type TaxonPageConnection {
+  collection: [Taxon]
+  paginationInfo: TaxonPaginationInfo!
+}
+
+"""Information about the pagination."""
+type TaxonPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type TaxonTranslation implements Node {
+  id: ID!
+  _id: Int!
+  name: String!
+  slug: String!
+  description: String
+  locale: String!
+  translatable: Taxon!
+}
+
+"""Page connection for TaxonTranslation."""
+type TaxonTranslationPageConnection {
+  collection: [TaxonTranslation]
+  paginationInfo: TaxonTranslationPaginationInfo!
+}
+
+"""Information about the pagination."""
+type TaxonTranslationPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type TaxRate implements Node {
+  id: ID!
+  zone: Zone!
+  _id: Int!
+  code: String!
+  category: TaxCategory!
+  name: String!
+  amount: String!
+  includedInPrice: Boolean!
+  calculator: String!
+  createdAt: String!
+  updatedAt: String
+  amountAsPercentage: Float!
+  label: String
+}
+
+"""Cursor connection for TaxRate."""
+type TaxRateCursorConnection {
+  edges: [TaxRateEdge]
+  pageInfo: TaxRatePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of TaxRate."""
+type TaxRateEdge {
+  node: TaxRate
+  cursor: String!
+}
+
+"""Information about the current page."""
+type TaxRatePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type TranslatableInterface implements Node {
+  id: ID!
+  translations(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+  translation(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): TranslationInterfaceCursorConnection
+}
+
+type TranslationInterface implements Node {
+  id: ID!
+  translatable: TranslatableInterface
+  locale: String
+}
+
+"""Cursor connection for TranslationInterface."""
+type TranslationInterfaceCursorConnection {
+  edges: [TranslationInterfaceEdge]
+  pageInfo: TranslationInterfacePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of TranslationInterface."""
+type TranslationInterfaceEdge {
+  node: TranslationInterface
+  cursor: String!
+}
+
+"""Information about the current page."""
+type TranslationInterfacePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+input updateAdjustmentInput {
+  id: ID!
+  shipment: String
+  originCode: String
+  details: Iterable
+  createdAt: String
+  updatedAt: String
+  adjustable: String
+  clientMutationId: String
+}
+
+type updateAdjustmentPayload {
+  adjustment: Adjustment
+  clientMutationId: String
+}
+
+input updateAdministratorInput {
+  id: ID!
+  firstName: String
+  lastName: String
+  localeCode: String
+  avatar: String
+  username: String
+  usernameCanonical: String
+  password: String
+  plainPassword: String
+  emailVerificationToken: String
+  passwordResetToken: String
+  passwordRequestedAt: String
+  locked: Boolean
+  expiresAt: String
+  credentialsExpireAt: String
+  roles: Iterable
+  oauthAccounts: [String]
+  email: String
+  emailCanonical: String
+  encoderName: String
+  createdAt: String
+  enabled: Boolean
+  image: String
+  role: Iterable
+  oAuthAccounts: [String]
+  clientMutationId: String
+}
+
+type updateAdministratorPayload {
+  administrator: Administrator
+  clientMutationId: String
+}
+
+input updateAvatarImageInput {
+  id: ID!
+  type: String
+  file: String
+  path: String
+  owner: String
+  clientMutationId: String
+}
+
+type updateAvatarImagePayload {
+  avatarImage: AvatarImage
+  clientMutationId: String
+}
+
+input updateCatalogPromotionActionInput {
+  id: ID!
+  type: String
+  configuration: Iterable
+  catalogPromotion: String
+  clientMutationId: String
+}
+
+type updateCatalogPromotionActionPayload {
+  catalogPromotionAction: CatalogPromotionAction
+  clientMutationId: String
+}
+
+input updateCatalogPromotionInput {
+  id: ID!
+  channels: [String]
+  name: String
+  code: String
+  startDate: String
+  endDate: String
+  priority: Int
+  exclusive: Boolean
+  state: String
+  scopes: [String]
+  actions: [String]
+  enabled: Boolean
+  translations: [String]
+  currentLocale: String
+  fallbackLocale: String
+  channel: [String]
+  label: String
+  description: String
+  translation: [String]
+  scope: [String]
+  action: [String]
+  clientMutationId: String
+}
+
+type updateCatalogPromotionPayload {
+  catalogPromotion: CatalogPromotion
+  clientMutationId: String
+}
+
+input updateCatalogPromotionScopeInput {
+  id: ID!
+  type: String
+  configuration: Iterable
+  catalogPromotion: String
+  clientMutationId: String
+}
+
+type updateCatalogPromotionScopePayload {
+  catalogPromotionScope: CatalogPromotionScope
+  clientMutationId: String
+}
+
+input updateCatalogPromotionTranslationInput {
+  id: ID!
+  label: String
+  description: String
+  locale: String
+  translatable: String
+  clientMutationId: String
+}
+
+type updateCatalogPromotionTranslationPayload {
+  catalogPromotionTranslation: CatalogPromotionTranslation
+  clientMutationId: String
+}
+
+input updateCurrencyInput {
+  id: ID!
+  code: String
+  clientMutationId: String
+}
+
+type updateCurrencyPayload {
+  currency: Currency
+  clientMutationId: String
+}
+
+input updateCustomerGroupInput {
+  id: ID!
+  code: String
+  name: String
+  clientMutationId: String
+}
+
+type updateCustomerGroupPayload {
+  customerGroup: CustomerGroup
+  clientMutationId: String
+}
+
+input updateExchangeRateInput {
+  id: ID!
+  ratio: String
+  sourceCurrency: String
+  targetCurrency: String
+  clientMutationId: String
+}
+
+type updateExchangeRatePayload {
+  exchangeRate: ExchangeRate
+  clientMutationId: String
+}
+
+input updateLocaleInput {
+  id: ID!
+  code: String
+  clientMutationId: String
+}
+
+type updateLocalePayload {
+  locale: Locale
+  clientMutationId: String
+}
+
+input updateOrderItemInput {
+  id: ID!
+  version: Int
+  variant: String
+  productName: String
+  variantName: String
+  order: String
+  unitPrice: Int
+  originalUnitPrice: Int
+  immutable: Boolean
+  units: [String]
+  adjustments: [String]
+  adjustmentsRecursively: Iterable
+  unit: [String]
+  adjustment: [String]
+  clientMutationId: String
+}
+
+type updateOrderItemPayload {
+  orderItem: OrderItem
+  clientMutationId: String
+}
+
+input updateOrderItemUnitInput {
+  id: ID!
+  shipment: String
+  adjustments: [String]
+  createdAt: String
+  updatedAt: String
+  adjustment: [String]
+  clientMutationId: String
+}
+
+type updateOrderItemUnitPayload {
+  orderItemUnit: OrderItemUnit
+  clientMutationId: String
+}
+
+input updatePaymentInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type updatePaymentPayload {
+  payment: Payment
+  clientMutationId: String
+}
+
+input updateProductAssociationTypeInput {
+  id: ID!
+  code: String
+  name: String
+  translations: [String]
+  currentLocale: String
+  fallbackLocale: String
+  translation: [String]
+  clientMutationId: String
+}
+
+type updateProductAssociationTypePayload {
+  productAssociationType: ProductAssociationType
+  clientMutationId: String
+}
+
+input updateProductAssociationTypeTranslationInput {
+  id: ID!
+  name: String
+  locale: String
+  translatable: String
+  clientMutationId: String
+}
+
+type updateProductAssociationTypeTranslationPayload {
+  productAssociationTypeTranslation: ProductAssociationTypeTranslation
+  clientMutationId: String
+}
+
+input updateProductOptionInput {
+  id: ID!
+  code: String
+  position: Int
+  values: [String]
+  translations: [String]
+  currentLocale: String
+  fallbackLocale: String
+  name: String
+  value: [String]
+  translation: [String]
+  clientMutationId: String
+}
+
+type updateProductOptionPayload {
+  productOption: ProductOption
+  clientMutationId: String
+}
+
+input updateProductOptionTranslationInput {
+  id: ID!
+  name: String
+  locale: String
+  translatable: String
+  clientMutationId: String
+}
+
+type updateProductOptionTranslationPayload {
+  productOptionTranslation: ProductOptionTranslation
+  clientMutationId: String
+}
+
+input updateProductOptionValueInput {
+  id: ID!
+  code: String
+  option: String
+  translations: [String]
+  currentLocale: String
+  fallbackLocale: String
+  value: String
+  translation: [String]
+  clientMutationId: String
+}
+
+type updateProductOptionValuePayload {
+  productOptionValue: ProductOptionValue
+  clientMutationId: String
+}
+
+input updatePromotionInput {
+  id: ID!
+  channels: [String]
+  code: String
+  name: String
+  description: String
+  priority: Int
+  exclusive: Boolean
+  usageLimit: Int
+  used: Int
+  startsAt: String
+  endsAt: String
+  couponBased: Boolean
+  coupons: [String]
+  rules: [String]
+  actions: [String]
+  appliesToDiscounted: Boolean
+  createdAt: String
+  updatedAt: String
+  channel: [String]
+  coupon: [String]
+  rule: [String]
+  action: [String]
+  clientMutationId: String
+}
+
+type updatePromotionPayload {
+  promotion: Promotion
+  clientMutationId: String
+}
+
+input updateProvinceInput {
+  id: ID!
+  code: String
+  name: String
+  abbreviation: String
+  country: String
+  clientMutationId: String
+}
+
+type updateProvincePayload {
+  province: Province
+  clientMutationId: String
+}
+
+input updateResetPasswordRequestInput {
+  id: ID!
+  resetPasswordToken: String
+  clientMutationId: String
+}
+
+type updateResetPasswordRequestPayload {
+  resetPasswordRequest: ResetPasswordRequest
+  clientMutationId: String
+}
+
+input updateShipmentInput {
+  id: ID!
+  order: String
+  adjustments: [String]
+  state: String
+  method: String
+  units: [String]
+  tracking: String
+  shippedAt: String
+  createdAt: String
+  updatedAt: String
+  adjustment: [String]
+  unit: [String]
+  clientMutationId: String
+}
+
+type updateShipmentPayload {
+  shipment: Shipment
+  clientMutationId: String
+}
+
+input updateShopBillingDataInput {
+  id: ID!
+  company: String
+  taxId: String
+  countryCode: String
+  street: String
+  city: String
+  postcode: String
+  clientMutationId: String
+}
+
+type updateShopBillingDataPayload {
+  shopBillingData: ShopBillingData
+  clientMutationId: String
+}
+
+input updateTaxCategoryInput {
+  id: ID!
+  code: String
+  name: String
+  description: String
+  rate: [String]
+  clientMutationId: String
+}
+
+type updateTaxCategoryPayload {
+  taxCategory: TaxCategory
+  clientMutationId: String
+}
+
+input updateVerifyCustomerAccountInput {
+  id: ID!
+  token: String
+  clientMutationId: String
+}
+
+type updateVerifyCustomerAccountPayload {
+  verifyCustomerAccount: VerifyCustomerAccount
+  clientMutationId: String
+}
+
+input updateWishlistInput {
+  id: ID!
+  name: String
+  clientMutationId: String
+}
+
+type updateWishlistPayload {
+  wishlist: Wishlist
+  clientMutationId: String
+}
+
+type User implements Node {
+  id: ID!
+  customer: Customer!
+  _id: Int!
+  username: String
+  usernameCanonical: String
+  salt: String!
+  password: String
+  plainPassword: String
+  lastLogin: String
+  emailVerificationToken: String
+  passwordResetToken: String
+  passwordRequestedAt: String
+  verifiedAt: String
+  expiresAt: String
+  credentialsExpireAt: String
+  roles: Iterable!
+  oauthAccounts(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): UserOAuthCursorConnection
+  email: String
+  emailCanonical: String
+  encoderName: String
+  createdAt: String!
+  updatedAt: String
+  enabled: Boolean!
+  verified: Boolean!
+  credentialsNonExpired: Boolean!
+  accountNonExpired: Boolean!
+  accountNonLocked: Boolean!
+  oAuthAccounts(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): UserOAuthInterfaceCursorConnection
+}
+
+type UserInterface implements Node {
+  id: ID!
+  email: String
+  emailCanonical: String
+  username: String
+  usernameCanonical: String
+  emailVerificationToken: String
+  passwordResetToken: String
+  passwordRequestedAt: String
+  verified: Boolean!
+  verifiedAt: String
+  expiresAt: String
+  credentialsExpireAt: String
+  lastLogin: String
+  oAuthAccounts(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): UserOAuthInterfaceCursorConnection
+  encoderName: String
+  accountNonExpired: Boolean!
+  accountNonLocked: Boolean!
+  credentialsNonExpired: Boolean!
+  enabled: Boolean!
+  roles: Iterable!
+  password: String
+  salt: String!
+  plainPassword: String
+  _id: Int!
+  createdAt: String!
+  updatedAt: String
+}
+
+type UserOAuth implements Node {
+  id: ID!
+  _id: Int!
+  provider: String!
+  identifier: String!
+  accessToken: String
+  refreshToken: String
+  user: User
+}
+
+"""Cursor connection for UserOAuth."""
+type UserOAuthCursorConnection {
+  edges: [UserOAuthEdge]
+  pageInfo: UserOAuthPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of UserOAuth."""
+type UserOAuthEdge {
+  node: UserOAuth
+  cursor: String!
+}
+
+type UserOAuthInterface implements Node {
+  id: ID!
+  provider: String!
+  identifier: String!
+  accessToken: String
+  refreshToken: String
+  user: User
+  _id: Int!
+}
+
+"""Cursor connection for UserOAuthInterface."""
+type UserOAuthInterfaceCursorConnection {
+  edges: [UserOAuthInterfaceEdge]
+  pageInfo: UserOAuthInterfacePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of UserOAuthInterface."""
+type UserOAuthInterfaceEdge {
+  node: UserOAuthInterface
+  cursor: String!
+}
+
+"""Information about the current page."""
+type UserOAuthInterfacePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the current page."""
+type UserOAuthPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type VerifyCustomerAccount implements Node {
+  id: ID!
+}
+
+"""Cursor connection for VerifyCustomerAccount."""
+type VerifyCustomerAccountCursorConnection {
+  edges: [VerifyCustomerAccountEdge]
+  pageInfo: VerifyCustomerAccountPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of VerifyCustomerAccount."""
+type VerifyCustomerAccountEdge {
+  node: VerifyCustomerAccount
+  cursor: String!
+}
+
+"""Information about the current page."""
+type VerifyCustomerAccountPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Wishlist implements Node {
+  id: ID!
+  _id: Int!
+  name: String
+  wishlistProducts(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): WishlistProductCursorConnection
+  shopUser: User
+  token: String!
+  channel: Channel
+  products(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): WishlistProductInterfaceCursorConnection
+  productVariants(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+  ): ProductVariantInterfaceCursorConnection
+}
+
+"""Page connection for Wishlist."""
+type WishlistPageConnection {
+  collection: [Wishlist]
+  paginationInfo: WishlistPaginationInfo!
+}
+
+"""Information about the pagination."""
+type WishlistPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+type WishlistProduct implements Node {
+  id: ID!
+  _id: Int!
+  wishlist: Wishlist!
+  product: Product
+  variant: ProductVariant
+  quantity: Int!
+}
+
+"""Cursor connection for WishlistProduct."""
+type WishlistProductCursorConnection {
+  edges: [WishlistProductEdge]
+  pageInfo: WishlistProductPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of WishlistProduct."""
+type WishlistProductEdge {
+  node: WishlistProduct
+  cursor: String!
+}
+
+type WishlistProductInterface implements Node {
+  id: ID!
+  wishlist: Wishlist!
+  product: Product
+  variant: ProductVariant
+  quantity: Int!
+  _id: Int!
+}
+
+"""Cursor connection for WishlistProductInterface."""
+type WishlistProductInterfaceCursorConnection {
+  edges: [WishlistProductInterfaceEdge]
+  pageInfo: WishlistProductInterfacePageInfo!
+  totalCount: Int!
+}
+
+"""Edge of WishlistProductInterface."""
+type WishlistProductInterfaceEdge {
+  node: WishlistProductInterface
+  cursor: String!
+}
+
+"""Information about the current page."""
+type WishlistProductInterfacePageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Information about the current page."""
+type WishlistProductPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Zone implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  name: String!
+  type: String!
+  scope: String
+  members(
+    """Returns the current page."""
+    page: Int
+
+    """Returns the number of items per page."""
+    itemsPerPage: Int
+  ): ZoneMemberPageConnection
+}
+
+type ZoneMember implements Node {
+  id: ID!
+  _id: Int!
+  code: String!
+  belongsTo: Zone
+}
+
+"""Page connection for ZoneMember."""
+type ZoneMemberPageConnection {
+  collection: [ZoneMember]
+  paginationInfo: ZoneMemberPaginationInfo!
+}
+
+"""Information about the pagination."""
+type ZoneMemberPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+"""Page connection for Zone."""
+type ZonePageConnection {
+  collection: [Zone]
+  paginationInfo: ZonePaginationInfo!
+}
+
+"""Information about the pagination."""
+type ZonePaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+

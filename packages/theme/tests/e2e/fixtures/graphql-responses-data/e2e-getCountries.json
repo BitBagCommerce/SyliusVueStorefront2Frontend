@@ -1,0 +1,74 @@
+[
+  {
+    "key": "US",
+    "enabled": true,
+    "label": "United States",
+    "__typename": "Country"
+  },
+  {
+    "key": "FR",
+    "enabled": true,
+    "label": "France",
+    "__typename": "Country"
+  },
+  {
+    "key": "DE",
+    "enabled": true,
+    "label": "Germany",
+    "__typename": "Country"
+  },
+  {
+    "key": "AU",
+    "enabled": true,
+    "label": "Australia",
+    "__typename": "Country"
+  },
+  {
+    "key": "CA",
+    "enabled": true,
+    "label": "Canada",
+    "__typename": "Country"
+  },
+  {
+    "key": "MX",
+    "enabled": true,
+    "label": "Mexico",
+    "__typename": "Country"
+  },
+  {
+    "key": "NZ",
+    "enabled": true,
+    "label": "New Zealand",
+    "__typename": "Country"
+  },
+  {
+    "key": "PT",
+    "enabled": true,
+    "label": "Portugal",
+    "__typename": "Country"
+  },
+  {
+    "key": "ES",
+    "enabled": true,
+    "label": "Spain",
+    "__typename": "Country"
+  },
+  {
+    "key": "CN",
+    "enabled": true,
+    "label": "China",
+    "__typename": "Country"
+  },
+  {
+    "key": "GB",
+    "enabled": true,
+    "label": "United Kingdom",
+    "__typename": "Country"
+  },
+  {
+    "key": "PL",
+    "enabled": true,
+    "label": "Poland",
+    "__typename": "Country"
+  }
+]

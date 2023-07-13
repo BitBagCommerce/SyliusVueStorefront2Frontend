@@ -1,0 +1,164 @@
+[
+  {
+    "id": "1",
+    "code": "MENU_CATEGORY",
+    "name": "Category",
+    "position": 0,
+    "slug": "category",
+    "description": "Consequatur provident odit consequuntur dolores recusandae ab. Voluptas earum nobis sed sit itaque non. Aut nulla qui vel fuga cupiditate ea error aliquam.",
+    "parent": null,
+    "enabled": true,
+    "level": 0,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "2",
+    "code": "t_shirts",
+    "name": "T-shirts",
+    "position": 0,
+    "slug": "category/t-shirts",
+    "description": "Dolorem unde dolorem quasi non eveniet. Odio unde vel rerum consequuntur earum. Atque iste in eaque natus velit est.",
+    "parent": {
+      "id": "1",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 1,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "3",
+    "code": "mens_t_shirts",
+    "name": "Men",
+    "position": 0,
+    "slug": "t-shirts/men",
+    "description": "Et rem maxime architecto saepe. Dolor nisi qui qui porro voluptate quia nemo.",
+    "parent": {
+      "id": "2",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 2,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "4",
+    "code": "womens_t_shirts",
+    "name": "Women",
+    "position": 1,
+    "slug": "t-shirts/women",
+    "description": "Labore recusandae quod inventore quis magni porro aut praesentium. Consequatur eligendi quod omnis excepturi ut optio. Quisquam expedita aut incidunt itaque. Nulla vero eius sit consequatur totam quos.",
+    "parent": {
+      "id": "2",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 2,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "5",
+    "code": "caps",
+    "name": "Caps",
+    "position": 1,
+    "slug": "category/caps",
+    "description": "Fugiat non commodi eligendi. Eligendi non eum ea quia aut necessitatibus nobis. Delectus ratione est tempora tenetur aut tenetur consequatur.",
+    "parent": {
+      "id": "1",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 1,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "6",
+    "code": "simple_caps",
+    "name": "Simple",
+    "position": 0,
+    "slug": "caps/simple",
+    "description": "Fuga nisi eum voluptatem vel debitis et quia. A quia quia laborum reiciendis voluptatem facere aut.",
+    "parent": {
+      "id": "5",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 2,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "7",
+    "code": "caps_with_pompons",
+    "name": "With pompons",
+    "position": 1,
+    "slug": "caps/with-pompons",
+    "description": "Porro et repudiandae molestiae enim ipsam accusantium. Molestiae animi iste magni consectetur at iste rem. Corrupti molestias aut consequatur aut dolor. Sed nam est delectus eum.",
+    "parent": {
+      "id": "5",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 2,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "8",
+    "code": "dresses",
+    "name": "Dresses",
+    "position": 2,
+    "slug": "category/dresses",
+    "description": "Eius illo magni culpa. Ut numquam maxime quod accusamus minima. Nihil reiciendis et voluptate modi sequi. Accusantium quo id quis a et commodi corrupti sint.",
+    "parent": {
+      "id": "1",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 1,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "9",
+    "code": "jeans",
+    "name": "Jeans",
+    "position": 3,
+    "slug": "category/jeans",
+    "description": "Laboriosam blanditiis est veritatis. Consequatur beatae nihil consequatur.",
+    "parent": {
+      "id": "1",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 1,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "10",
+    "code": "mens_jeans",
+    "name": "Men",
+    "position": 0,
+    "slug": "jeans/men",
+    "description": "Quaerat dolorem animi excepturi temporibus. Ullam quo fuga officia cupiditate maxime quod aut dolore. Beatae nam sed distinctio explicabo quis. Saepe aperiam quis omnis quia est eaque.",
+    "parent": {
+      "id": "9",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 2,
+    "__typename": "Taxon"
+  },
+  {
+    "id": "11",
+    "code": "womens_jeans",
+    "name": "Women",
+    "position": 1,
+    "slug": "jeans/women",
+    "description": "Recusandae deserunt voluptas delectus deserunt est et ut. Ea ea et sint et debitis ut. Est impedit sint vero ad quo. Perferendis id qui ex porro velit eum.",
+    "parent": {
+      "id": "9",
+      "__typename": "Taxon"
+    },
+    "enabled": true,
+    "level": 2,
+    "__typename": "Taxon"
+  }
+]
