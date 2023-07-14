@@ -108,6 +108,7 @@ context('Order placement with coupon code', () => {
       page.checkout.billing.continueToShippingButton.click();
       page.checkout.shipping.heading.should('be.visible');
       cy.wait(1000);
+      page.checkout.coupons.appliedCouponCode.should('be.visible');
       page.checkout.shipping.fillForm(data.customer);
       page.checkout.shipping.selectShippingButton.click();
       page.checkout.shipping.shippingMethods.first().click();
@@ -122,6 +123,7 @@ context('Order placement with coupon code', () => {
 
       page.checkout.shipping.continueToPaymentButton.click();
       page.checkout.payment.paymentMethods.first().click();
+      page.checkout.coupons.appliedCouponCode.should('be.visible');
       page.checkout.payment.makeAnOrderButton.click();
       cy.wait(1000).clearCookies();
       cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
