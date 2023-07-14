@@ -12,6 +12,8 @@ import {
   getProductNotFiltered,
 } from '../fixtures/test-data/e2e-api-responses';
 
+import * as apiModifications from '../fixtures/test-data/e2e-api-responses-modifications';
+
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
     cy.fixtures = {
@@ -26,6 +28,7 @@ context('Copy billing data to shipping form', () => {
     'Should successfully copy data from billing form',
     () => {
       const data = cy.fixtures.data;
+      let currentCart = getCart.empty;
 
       // Mocking API responses
       cy.interceptApi('getMinimalProduct', getMinimalProduct.minimalProducts);
@@ -48,7 +51,13 @@ context('Copy billing data to shipping form', () => {
       // Add product to cart
       page.home.visit();
       page.home.header.categories.first().click();
-      cy.interceptApi('getCart', getCart.withProduct);
+
+      cy.wait(10).then(() => {
+        currentCart =
+          apiModifications.getCartModifications.addProduct(currentCart);
+        cy.interceptApi('getCart', currentCart);
+      });
+
       page.category.addProductToCart();
       page.product.header.openCart();
       page.cart.goToCheckoutButton.click();
@@ -57,6 +66,15 @@ context('Copy billing data to shipping form', () => {
       page.checkout.billing.heading.should('be.visible');
       cy.wait(1000);
       page.checkout.billing.fillForm(data.customer);
+
+      cy.wait(10).then(() => {
+        currentCart = apiModifications.getCartModifications.setBillingAddress(
+          currentCart,
+          addAddress.billing.billingAddress
+        );
+        cy.interceptApi('getCart', currentCart);
+      });
+
       cy.interceptApi('getCart', getCart.billingSumbitted);
       page.checkout.billing.continueToShippingButton.click();
 
