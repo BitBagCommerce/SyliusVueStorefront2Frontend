@@ -321,4 +321,8 @@ export default {
   'Item has been added to wishlist': 'Item has been added to wishlist',
   'Item has been removed from wishlist': 'Item has been removed from wishlist',
   'Wishlist cleared successfully': 'Wishlist cleared successfully',
+  'There are not that many items on stock':
+    'There are not that many items on stock',
+  "Can't add less than one item to cart":
+    "Can't add less than one item to cart",
 };

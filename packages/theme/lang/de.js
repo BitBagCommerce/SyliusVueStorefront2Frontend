@@ -334,4 +334,8 @@ export default {
   'Item has been removed from wishlist':
     'Artikel wurde von der Wunschliste entfernt',
   'Wishlist cleared successfully': 'Wunschliste erfolgreich gelöscht',
+  'There are not that many items on stock':
+    'Es sind nicht so viele Artikel auf Lager',
+  "Can't add less than one item to cart":
+    'Es kann nicht weniger als ein Artikel in den Warenkorb gelegt werden',
 };
