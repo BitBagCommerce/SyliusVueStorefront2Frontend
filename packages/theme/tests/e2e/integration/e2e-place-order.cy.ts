@@ -1,6 +1,6 @@
 import page from '../pages/factory';
 import * as apiResponses from '../fixtures/test-data/e2e-api-responses';
-import * as apiModifications from '../fixtures/test-data/e2e-api-responses-modifications';
+import { getCartModifications } from '../fixtures/test-data/e2e-api-responses-modifications';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
@@ -61,8 +61,7 @@ context('Order placement', () => {
     page.home.header.categories.first().click();
 
     cy.wait(10).then(() => {
-      currentCart =
-        apiModifications.getCartModifications.addProduct(currentCart);
+      currentCart = getCartModifications.addProduct(currentCart);
       cy.interceptApi('getCart', currentCart);
     });
 
@@ -76,7 +75,7 @@ context('Order placement', () => {
     page.checkout.billing.fillForm(data.customer);
 
     cy.wait(10).then(() => {
-      currentCart = apiModifications.getCartModifications.setBillingAddress(
+      currentCart = getCartModifications.setBillingAddress(
         currentCart,
         apiResponses.addAddress.billing.billingAddress
       );
@@ -91,7 +90,7 @@ context('Order placement', () => {
     page.checkout.shipping.shippingMethods.first().click();
 
     cy.wait(10).then(() => {
-      currentCart = apiModifications.getCartModifications.setShippingAddress(
+      currentCart = getCartModifications.setShippingAddress(
         currentCart,
         apiResponses.addAddress.shpipping.shippingAddress
       );
@@ -169,13 +168,8 @@ context('Order placement', () => {
       page.home.header.categories.first().click();
 
       cy.wait(10).then(() => {
-        currentCart =
-          apiModifications.getCartModifications.addProduct(currentCart);
-        currentCart = apiModifications.getCartModifications.setQuantity(
-          currentCart,
-          220,
-          8
-        );
+        currentCart = getCartModifications.addProduct(currentCart);
+        currentCart = getCartModifications.setQuantity(currentCart, 220, 8);
         cy.interceptApi('getCart', currentCart);
       });
 
@@ -189,7 +183,7 @@ context('Order placement', () => {
       cy.wait(1000);
 
       cy.wait(10).then(() => {
-        currentCart = apiModifications.getCartModifications.setCouponCode(
+        currentCart = getCartModifications.setCouponCode(
           currentCart,
           apiResponses.addCouponToCart.correctCoupon.promotionCoupon
         );
@@ -204,7 +198,7 @@ context('Order placement', () => {
       page.checkout.billing.fillForm(data.customer);
 
       cy.wait(10).then(() => {
-        currentCart = apiModifications.getCartModifications.setBillingAddress(
+        currentCart = getCartModifications.setBillingAddress(
           currentCart,
           apiResponses.addAddress.billing.billingAddress
         );
@@ -219,7 +213,7 @@ context('Order placement', () => {
       page.checkout.shipping.shippingMethods.first().click();
 
       cy.wait(10).then(() => {
-        currentCart = apiModifications.getCartModifications.setShippingAddress(
+        currentCart = getCartModifications.setShippingAddress(
           currentCart,
           apiResponses.addAddress.shpipping.shippingAddress
         );

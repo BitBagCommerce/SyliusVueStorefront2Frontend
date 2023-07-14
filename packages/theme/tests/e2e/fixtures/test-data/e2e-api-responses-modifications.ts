@@ -1,4 +1,4 @@
-const productExample = {
+const productDefault = {
   _id: 220,
   variant: {
     id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
@@ -97,7 +97,7 @@ const getCartModifications = {
     return cart;
   },
   addProduct(cart) {
-    cart.items.push(productExample);
+    cart.items.push(productDefault);
     if (!cart.payments.length) {
       cart.payments = paymentsDefault;
     }

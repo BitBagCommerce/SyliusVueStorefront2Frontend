@@ -12,7 +12,7 @@ import {
   getProductNotFiltered,
 } from '../fixtures/test-data/e2e-api-responses';
 
-import * as apiModifications from '../fixtures/test-data/e2e-api-responses-modifications';
+import { getCartModifications } from '../fixtures/test-data/e2e-api-responses-modifications';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
@@ -53,8 +53,7 @@ context('Copy billing data to shipping form', () => {
       page.home.header.categories.first().click();
 
       cy.wait(10).then(() => {
-        currentCart =
-          apiModifications.getCartModifications.addProduct(currentCart);
+        currentCart = getCartModifications.addProduct(currentCart);
         cy.interceptApi('getCart', currentCart);
       });
 
@@ -68,7 +67,7 @@ context('Copy billing data to shipping form', () => {
       page.checkout.billing.fillForm(data.customer);
 
       cy.wait(10).then(() => {
-        currentCart = apiModifications.getCartModifications.setBillingAddress(
+        currentCart = getCartModifications.setBillingAddress(
           currentCart,
           addAddress.billing.billingAddress
         );
