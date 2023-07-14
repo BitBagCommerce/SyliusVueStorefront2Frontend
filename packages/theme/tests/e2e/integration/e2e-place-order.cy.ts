@@ -1,6 +1,6 @@
 import page from '../pages/factory';
-import * as apiResponses from '../fixtures/test-data/e2e-api-responses';
-import { getCartModifications } from '../fixtures/test-data/e2e-api-responses-modifications';
+import * as apiResponses from '../fixtures/api/e2e-api-responses';
+import { getCartModifications } from '../fixtures/api/e2e-api-responses-modifications';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {

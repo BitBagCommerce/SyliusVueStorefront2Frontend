@@ -10,9 +10,9 @@ import {
   addToCart,
   addAddress,
   getProductNotFiltered,
-} from '../fixtures/test-data/e2e-api-responses';
+} from '../fixtures/api/e2e-api-responses';
 
-import { getCartModifications } from '../fixtures/test-data/e2e-api-responses-modifications';
+import { getCartModifications } from '../fixtures/api/e2e-api-responses-modifications';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
