@@ -27,6 +27,7 @@
 
 Cypress.Commands.add('interceptApi', (url, data) => {
   cy.intercept('POST', '/api/sylius/' + url, (req) => {
+    req.url = '/api/sylius/' + url;
     req.reply({ body: data });
   });
 });
