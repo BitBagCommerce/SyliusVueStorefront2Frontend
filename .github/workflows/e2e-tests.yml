@@ -31,16 +31,16 @@ jobs:
       SYLIUS_DEFAULT_LOCALE: en_US
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14.19.0'
+          node-version: '14.21.3'
           cache: 'yarn'
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v3
         with:
           config-file: packages/theme/tests/e2e/cypress-github-action.config.js
           install: yarn install
