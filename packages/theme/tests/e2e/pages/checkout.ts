@@ -1,57 +1,56 @@
 import { Customer } from '../types/customer';
-import { el, vsfUiEl } from './utils/element';
 
 class Shipping {
   get firstName(): Cypress.Chainable {
-    return el('shipping-firstName');
+    return cy.el('shipping-firstName');
   }
 
   get lastName(): Cypress.Chainable {
-    return el('shipping-lastName');
+    return cy.el('shipping-lastName');
   }
 
   get streetName(): Cypress.Chainable {
-    return el('shipping-streetName');
+    return cy.el('shipping-streetName');
   }
 
   get city(): Cypress.Chainable {
-    return el('shipping-city');
+    return cy.el('shipping-city');
   }
 
   get provinceName(): Cypress.Chainable {
-    return el('shipping-provinceName');
+    return cy.el('shipping-provinceName');
   }
 
   get country(): Cypress.Chainable {
-    return el('shipping-country', 'select');
+    return cy.el('shipping-country', 'select');
   }
 
   get zipcode(): Cypress.Chainable {
-    return el('shipping-zipcode');
+    return cy.el('shipping-zipcode');
   }
 
   get phone(): Cypress.Chainable {
-    return el('shipping-phone');
+    return cy.el('shipping-phone');
   }
 
   get continueToPaymentButton(): Cypress.Chainable {
-    return el('continue-to-payment');
+    return cy.el('continue-to-payment');
   }
 
   get heading(): Cypress.Chainable {
-    return el('shipping-heading', undefined, { timeout: 10000 });
+    return cy.el('shipping-heading', undefined, { timeout: 10000 });
   }
 
   get selectShippingButton(): Cypress.Chainable {
-    return el('select-shipping');
+    return cy.el('select-shipping');
   }
 
   get copyBillingAddress(): Cypress.Chainable {
-    return el('copy-billing-address');
+    return cy.el('copy-billing-address');
   }
 
   get shippingMethods(): Cypress.Chainable {
-    return el('shipping-method', 'label', { timeout: 10000 });
+    return cy.el('shipping-method', 'label', { timeout: 10000 });
   }
 
   public fillForm(customer: Customer) {
@@ -68,47 +67,47 @@ class Shipping {
 
 class Billing {
   get firstName(): Cypress.Chainable {
-    return el('billing-firstName');
+    return cy.el('billing-firstName');
   }
 
   get lastName(): Cypress.Chainable {
-    return el('billing-lastName');
+    return cy.el('billing-lastName');
   }
 
   get streetName(): Cypress.Chainable {
-    return el('billing-streetName');
+    return cy.el('billing-streetName');
   }
 
   get city(): Cypress.Chainable {
-    return el('billing-city');
+    return cy.el('billing-city');
   }
 
   get provinceName(): Cypress.Chainable {
-    return el('billing-provinceName');
+    return cy.el('billing-provinceName');
   }
 
   get country(): Cypress.Chainable {
-    return el('billing-country', 'select');
+    return cy.el('billing-country', 'select');
   }
 
   get zipcode(): Cypress.Chainable {
-    return el('billing-zipcode');
+    return cy.el('billing-zipcode');
   }
 
   get phone(): Cypress.Chainable {
-    return el('billing-phone');
+    return cy.el('billing-phone');
   }
 
   get email(): Cypress.Chainable {
-    return el('billing-email');
+    return cy.el('billing-email');
   }
 
   get continueToShippingButton(): Cypress.Chainable {
-    return el('continue-to-shipping');
+    return cy.el('continue-to-shipping');
   }
 
   get heading(): Cypress.Chainable {
-    return el('billing-heading');
+    return cy.el('billing-heading');
   }
 
   public fillForm(customer: Customer) {
@@ -128,15 +127,15 @@ class Billing {
 
 class Coupons {
   get couponCode(): Cypress.Chainable {
-    return vsfUiEl('promoCode');
+    return cy.vsfUiEl('promoCode');
   }
 
   get applyCouponCodeButton(): Cypress.Chainable {
-    return el('apply-promo-code');
+    return cy.el('apply-promo-code');
   }
 
   get appliedCouponCode(): Cypress.Chainable {
-    return el('applied-promo-code');
+    return cy.el('applied-promo-code');
   }
 
   public applyCouponCode(code: string) {
@@ -147,17 +146,17 @@ class Coupons {
 
 class Payment {
   get makeAnOrderButton(): Cypress.Chainable {
-    return el('make-an-order');
+    return cy.el('make-an-order');
   }
 
   get paymentMethods(): Cypress.Chainable {
-    return el('payment-method', undefined, { timeout: 10000 });
+    return cy.el('payment-method', undefined, { timeout: 10000 });
   }
 }
 
 class ThankYou {
   get heading(): Cypress.Chainable {
-    return el('thank-you-banner', 'h2');
+    return cy.el('thank-you-banner', 'h2');
   }
 }
 

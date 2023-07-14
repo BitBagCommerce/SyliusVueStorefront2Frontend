@@ -1,9 +1,8 @@
-import { el } from './utils/element';
 import product from './product';
 
 class Category {
   get products(): Cypress.Chainable {
-    return el('category-product-card', 'a');
+    return cy.el('category-product-card', 'a');
   }
 
   public addProductToCart(id = 0, quantity = 0): void {
