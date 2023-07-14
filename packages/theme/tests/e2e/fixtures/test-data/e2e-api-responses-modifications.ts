@@ -107,7 +107,7 @@ const getCartModifications = {
     cart = recalculatePrices(cart);
     return cart;
   },
-  addCouponCode(cart, promotionCoupon) {
+  setCouponCode(cart, promotionCoupon) {
     cart.promotionCoupon = promotionCoupon;
     return cart;
   },

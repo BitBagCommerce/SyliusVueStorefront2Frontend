@@ -136,10 +136,7 @@ context('Order placement', () => {
         apiResponses.getProductAttribute.productAttributes
       );
       cy.interceptApi('getCountries', apiResponses.getCountries.countries);
-      cy.interceptApi(
-        'addToCart',
-        apiResponses.addToCart.singleProductAnd8Quantity
-      );
+      cy.interceptApi('addToCart', apiResponses.addToCart.singleProduct);
       cy.interceptApi('addAddress', apiResponses.addAddress.billing);
       cy.interceptApi(
         'getProductNotFiltered',
@@ -167,24 +164,6 @@ context('Order placement', () => {
         apiResponses.addCouponToCart.correctCoupon
       );
 
-      // cy.intercept('POST', '/api/sylius/getMinimalProduct', (req) => {});
-      // cy.intercept('POST', '/api/sylius/getCategory', (req) => {});
-      // cy.intercept('POST', '/api/sylius/createCart', (req) => {});
-      // cy.intercept('POST', '/api/sylius/getCart', (req) => {});
-      // cy.intercept('POST', '/api/sylius/getFirstProductId', (req) => {});
-      // cy.intercept('POST', '/api/sylius/getProductAttribute', (req) => {});
-      // cy.intercept('POST', '/api/sylius/getCountries', (req) => {});
-      // cy.intercept('POST', '/api/sylius/addToCart', (req) => {});
-      // cy.intercept('POST', '/api/sylius/addAddress', (req) => {});
-      // cy.intercept('POST', '/api/sylius/getProductNotFiltered', (req) => {});
-      // cy.intercept('POST', '/api/sylius/getShippingMethods', (req) => {});
-      // cy.intercept('POST', '/api/sylius/getPaymentMethods', (req) => {});
-      // cy.intercept('POST', '/api/sylius/updateCartShipping', (req) => {});
-      // cy.intercept('POST', '/api/sylius/updateCartPayment', (req) => {});
-      // cy.intercept('POST', '/api/sylius/createOrder', (req) => {});
-      // cy.intercept('POST', '/api/sylius/addCouponToCart', (req) => {});
-      // cy.intercept('POST', '/api/sylius/updateCartShipping', (req) => {});
-
       // Add product to cart and go to checkout
       page.home.visit();
       page.home.header.categories.first().click();
@@ -199,7 +178,6 @@ context('Order placement', () => {
         );
         cy.interceptApi('getCart', currentCart);
       });
-      // cy.interceptApi('getCart', apiResponses.getCart.withPorductAnd8Quantity);
 
       page.category.addProductToCart(0, 7);
       page.product.header.openCart();
@@ -207,12 +185,13 @@ context('Order placement', () => {
 
       // Checkout process
       page.checkout.billing.heading.should('be.visible');
+
       cy.wait(1000);
 
       cy.wait(10).then(() => {
-        currentCart = apiModifications.getCartModifications.addCouponCode(
+        currentCart = apiModifications.getCartModifications.setCouponCode(
           currentCart,
-          apiResponses.getCart.withCoupon.promotionCoupon
+          apiResponses.addCouponToCart.correctCoupon.promotionCoupon
         );
         cy.interceptApi('getCart', currentCart);
       });
@@ -222,15 +201,15 @@ context('Order placement', () => {
       page.checkout.coupons.appliedCouponCode.should('be.visible');
       cy.wait(1000);
 
-      // Continue checkout process
       page.checkout.billing.fillForm(data.customer);
 
-      currentCart = apiModifications.getCartModifications.setBillingAddress(
-        currentCart,
-        apiResponses.addAddress.billing.billingAddress
-      );
-      cy.interceptApi('getCart', currentCart);
-      // cy.interceptApi('getCart', apiResponses.getCart.billingSumbitted);
+      cy.wait(10).then(() => {
+        currentCart = apiModifications.getCartModifications.setBillingAddress(
+          currentCart,
+          apiResponses.addAddress.billing.billingAddress
+        );
+        cy.interceptApi('getCart', currentCart);
+      });
 
       page.checkout.billing.continueToShippingButton.click();
       page.checkout.shipping.heading.should('be.visible');
@@ -239,22 +218,26 @@ context('Order placement', () => {
       page.checkout.shipping.selectShippingButton.click();
       page.checkout.shipping.shippingMethods.first().click();
 
-      currentCart = apiModifications.getCartModifications.setShippingAddress(
-        currentCart,
-        apiResponses.addAddress.shpipping.shippingAddress
-      );
-      cy.interceptApi('getCart', currentCart);
-      // cy.interceptApi('getCart', apiResponses.getCart.shippingSumbitted);
+      cy.wait(10).then(() => {
+        currentCart = apiModifications.getCartModifications.setShippingAddress(
+          currentCart,
+          apiResponses.addAddress.shpipping.shippingAddress
+        );
+        cy.interceptApi('getCart', currentCart);
+      });
 
       page.checkout.shipping.continueToPaymentButton.click();
       page.checkout.payment.paymentMethods.first().click();
       page.checkout.payment.makeAnOrderButton.click();
       cy.wait(1000).clearCookies();
       cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
-      page.checkout.thankyou.heading.should('be.visible');
 
-      currentCart = apiResponses.getCart.empty;
-      cy.interceptApi('getCart', currentCart);
+      cy.wait(10).then(() => {
+        currentCart = apiResponses.getCart.empty;
+        cy.interceptApi('getCart', currentCart);
+      });
+
+      page.checkout.thankyou.heading.should('be.visible');
     }
   );
 });
