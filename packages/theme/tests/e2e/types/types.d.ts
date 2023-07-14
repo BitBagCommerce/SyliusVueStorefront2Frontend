@@ -1,5 +1,8 @@
 declare namespace Cypress {
   interface Chainable<> {
-    interceptGql(url: string, path: string): Chainable<any>;
+    interceptApi(
+      url: string,
+      data: Record<string, unknown> | Record<string, unknown>[]
+    ): Chainable<any>;
   }
 }

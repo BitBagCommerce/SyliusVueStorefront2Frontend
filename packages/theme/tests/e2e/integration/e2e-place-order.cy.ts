@@ -1,4 +1,6 @@
 import page from '../pages/factory';
+import * as apiResponses from '../fixtures/api/e2e-api-responses';
+import { getCartModifications } from '../fixtures/api/e2e-api-responses-modifications';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
@@ -11,28 +13,58 @@ before(() => {
 context('Order placement', () => {
   it(['e2e', 'happypath'], 'Should successfully place an order', () => {
     const data = cy.fixtures.data;
+    let currentCart = apiResponses.getCart.empty;
 
     // Mocking API responses
-    cy.interceptGql('getMinimalProduct', 'e2e-getMinimalProduct.json');
-    cy.interceptGql('getCategory', 'e2e-getCategory.json');
-    cy.interceptGql('createCart', 'e2e-createCart.json');
-    cy.interceptGql('getCart', 'e2e-getCart-empty.json');
-    cy.interceptGql('getFirstProductId', 'e2e-getFirstProductId.json');
-    cy.interceptGql('getProductAttribute', 'e2e-getProductAttribute.json');
-    cy.interceptGql('getCountries', 'e2e-getCountries.json');
-    cy.interceptGql('addToCart', 'e2e-addToCart.json');
-    cy.interceptGql('addAddress', 'e2e-addAddress-billing.json');
-    cy.interceptGql('getProductNotFiltered', 'e2e-getProductNotFiltered.json');
-    cy.interceptGql('getShippingMethods', 'e2e-getShippingMethods.json');
-    cy.interceptGql('getPaymentMethods', 'e2e-getPaymentMethods.json');
-    cy.interceptGql('updateCartShipping', 'e2e-updateCartShipping.json');
-    cy.interceptGql('updateCartPayment', 'e2e-updateCartPayment.json');
-    cy.interceptGql('createOrder', 'e2e-createOrder.json');
+    cy.interceptApi(
+      'getMinimalProduct',
+      apiResponses.getMinimalProduct.minimalProducts
+    );
+    cy.interceptApi('getCategory', apiResponses.getCategory.categories);
+    cy.interceptApi('createCart', apiResponses.createCart.cart);
+    cy.interceptApi('getCart', currentCart);
+    cy.interceptApi(
+      'getFirstProductId',
+      apiResponses.getFirstProductId.firstProductId
+    );
+    cy.interceptApi(
+      'getProductAttribute',
+      apiResponses.getProductAttribute.productAttributes
+    );
+    cy.interceptApi('getCountries', apiResponses.getCountries.countries);
+    cy.interceptApi('addToCart', apiResponses.addToCart.singleProduct);
+    cy.interceptApi('addAddress', apiResponses.addAddress.billing);
+    cy.interceptApi(
+      'getProductNotFiltered',
+      apiResponses.getProductNotFiltered.productsNotFiltered
+    );
+    cy.interceptApi(
+      'getShippingMethods',
+      apiResponses.getShippingMethods.shippingMethods
+    );
+    cy.interceptApi(
+      'getPaymentMethods',
+      apiResponses.getPaymentMethods.paymentMethods
+    );
+    cy.interceptApi(
+      'updateCartShipping',
+      apiResponses.updateCartShipping.cartShipping
+    );
+    cy.interceptApi(
+      'updateCartPayment',
+      apiResponses.updateCartPayment.cartPayment
+    );
+    cy.interceptApi('createOrder', apiResponses.createOrder.order);
 
     // Add product to cart and go to checkout
     page.home.visit();
     page.home.header.categories.first().click();
-    cy.interceptGql('getCart', 'e2e-getCart-withProduct.json');
+
+    cy.wait(10).then(() => {
+      currentCart = getCartModifications.addProduct(currentCart);
+      cy.interceptApi('getCart', currentCart);
+    });
+
     page.category.addProductToCart();
     page.product.header.openCart();
     page.cart.goToCheckoutButton.click();
@@ -41,20 +73,41 @@ context('Order placement', () => {
     page.checkout.billing.heading.should('be.visible');
     cy.wait(1000);
     page.checkout.billing.fillForm(data.customer);
-    cy.interceptGql('getCart', 'e2e-getCart-billingSubmit.json');
+
+    cy.wait(10).then(() => {
+      currentCart = getCartModifications.setBillingAddress(
+        currentCart,
+        apiResponses.addAddress.billing.billingAddress
+      );
+      cy.interceptApi('getCart', currentCart);
+    });
+
     page.checkout.billing.continueToShippingButton.click();
     page.checkout.shipping.heading.should('be.visible');
     cy.wait(1000);
     page.checkout.shipping.fillForm(data.customer);
     page.checkout.shipping.selectShippingButton.click();
     page.checkout.shipping.shippingMethods.first().click();
-    cy.interceptGql('getCart', 'e2e-getCart-makeOrder.json');
+
+    cy.wait(10).then(() => {
+      currentCart = getCartModifications.setShippingAddress(
+        currentCart,
+        apiResponses.addAddress.shpipping.shippingAddress
+      );
+      cy.interceptApi('getCart', currentCart);
+    });
+
     page.checkout.shipping.continueToPaymentButton.click();
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
     cy.wait(1000).clearCookies();
     cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
+
+    cy.wait(10).then(() => {
+      currentCart = apiResponses.getCart.empty;
+      cy.interceptApi('getCart', currentCart);
+    });
+
     page.checkout.thankyou.heading.should('be.visible');
-    cy.interceptGql('getCart', 'e2e-getCart-empty.json');
   });
 });

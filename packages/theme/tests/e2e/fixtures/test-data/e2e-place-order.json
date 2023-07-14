@@ -24,5 +24,9 @@
         "email": "john.doe{random}@example.com"
       }
     }
+  },
+  "couponCode": {
+    "code": "christmas_sale",
+    "wrongCode": "non_existing_coupon_code"
   }
 }
