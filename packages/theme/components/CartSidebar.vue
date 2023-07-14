@@ -42,7 +42,8 @@
                   productGetters.getQuantityLimit(product.selectedVariant)
                 "
                 @quantity-change="
-                  updateQuantity({ product, quantity: parseInt($event) })
+                  (quantity, rawQuantity) =>
+                    updateQuantity({ product, quantity, rawQuantity })
                 "
                 :loading="loading"
               >
@@ -183,17 +184,30 @@ export default {
         cartItemRemovingInProgressId.value.filter((id) => id !== productId);
     };
 
-    const updateQuantity = debounce(async ({ product, quantity }) => {
-      await updateItemQty({ product, quantity });
+    const updateQuantity = debounce(
+      async ({ product, quantity, rawQuantity }) => {
+        const currentQuantity = cartGetters.getItemQty(product);
 
-      const { updateItemQty: updateError } = error.value;
+        if (
+          (quantity !== rawQuantity && quantity === currentQuantity) ||
+          quantity === currentQuantity
+        )
+          return;
 
-      if (updateError) {
-        send({ type: 'danger', message: root.$t(updateError.message) });
-      } else {
-        send({ type: 'info', message: root.$t('Your cart has been updated') });
-      }
-    }, 500);
+        await updateItemQty({ product, quantity });
+
+        const { updateItemQty: updateError } = error.value;
+
+        if (updateError)
+          send({ type: 'danger', message: root.$t(updateError.message) });
+        else
+          send({
+            type: 'info',
+            message: root.$t('Your cart has been updated'),
+          });
+      },
+      500
+    );
 
     return {
       updateQuantity,
