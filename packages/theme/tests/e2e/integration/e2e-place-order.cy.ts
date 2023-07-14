@@ -109,6 +109,7 @@ context('Order placement', () => {
     });
 
     page.checkout.thankyou.heading.should('be.visible');
+    cy.wait(10000);
   });
 
   it(
