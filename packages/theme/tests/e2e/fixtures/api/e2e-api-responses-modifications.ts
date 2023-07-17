@@ -48,8 +48,8 @@ const getCartModifications = {
     cart = recalculatePrices(cart);
     return cart;
   },
-  addProduct(cart, quantity = 1, productDefaultId = 0) {
-    const newProduct = products.t_shirts[productDefaultId];
+  addProduct(cart, quantity = 1, productDefaultId = 0, category = 't_shirts') {
+    const newProduct = products[category][productDefaultId];
     newProduct.quantity = quantity;
     cart.items.push(newProduct);
 
