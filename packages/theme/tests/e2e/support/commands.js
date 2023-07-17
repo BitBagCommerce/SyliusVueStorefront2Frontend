@@ -31,3 +31,15 @@ Cypress.Commands.add('interceptApi', (url, data) => {
     req.reply({ body: data });
   });
 });
+
+Cypress.Commands.add('el', (selector, children, options) => {
+  return children
+    ? cy.get(`[data-e2e="${selector}"] ${children}`, options)
+    : cy.get(`[data-e2e="${selector}"]`, options);
+});
+
+Cypress.Commands.add('vsfUiEl', (selector, children, options) => {
+  return children
+    ? cy.get(`[data-testid="${selector}"] ${children}`, options)
+    : cy.get(`[data-testid="${selector}"]`, options);
+});

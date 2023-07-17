@@ -24,6 +24,7 @@
     </SfButton>
 
     <SfInput
+      data-e2e="quantity-input"
       class="sf-input--filled quantity__input"
       type="number"
       @input="handleInput($event, true)"
@@ -43,6 +44,7 @@
 
     <SfButton
       v-else
+      data-e2e="confirm-quantity-button"
       class="sf-button--pure quantity__button quantity__button--primary"
       @click="handleConfirm()"
     >

@@ -1,17 +1,24 @@
 import Base from './base';
-import { el } from './utils/element';
 
 class Product extends Base {
   get addToCartButton(): Cypress.Chainable {
-    return el('product_add-to-cart');
+    return cy.el('product_add-to-cart');
   }
 
   get decreseQuantityButton(): Cypress.Chainable {
-    return el('minus-quantity-button');
+    return cy.el('minus-quantity-button');
   }
 
   get increaseQuantityButton(): Cypress.Chainable {
-    return el('plus-quantity-button');
+    return cy.el('plus-quantity-button');
+  }
+
+  get confirmQuantityButton(): Cypress.Chainable {
+    return cy.el('confirm-quantity-button');
+  }
+
+  get quantityInput(): Cypress.Chainable {
+    return cy.el('quantity-input');
   }
 
   public decreaseQuantity(by = 1) {

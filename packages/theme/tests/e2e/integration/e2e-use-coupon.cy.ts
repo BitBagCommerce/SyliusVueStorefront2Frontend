@@ -68,8 +68,7 @@ context('Order placement with coupon code', () => {
       page.home.header.categories.first().click();
 
       cy.wait(10).then(() => {
-        currentCart = getCartModifications.addProduct(currentCart);
-        currentCart = getCartModifications.setQuantity(currentCart, 220, 8);
+        currentCart = getCartModifications.addProduct(currentCart, 8);
         cy.interceptApi('getCart', currentCart);
       });
 
