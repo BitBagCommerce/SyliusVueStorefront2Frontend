@@ -11,10 +11,10 @@ import {
 } from '../fixtures/api/e2e-api-responses';
 import { getCartModifications } from '../fixtures/api/e2e-api-responses-modifications';
 
-context('Order placement with coupon code', () => {
+context('Changing quantity of items', () => {
   it(
     ['e2e', 'happypath'],
-    'Should successfully place an order with coupon code',
+    'Should add product to cart with different quantities',
     () => {
       let currentCart = getCart.empty;
 
