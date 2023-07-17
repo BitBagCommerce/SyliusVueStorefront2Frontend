@@ -147,8 +147,8 @@ const getCartModifications = {
     cart = recalculatePrices(cart);
     return cart;
   },
-  addProduct(cart, quantity = 1, productId = 0) {
-    const newProduct = productDefault[productId];
+  addProduct(cart, quantity = 1, productDefaultId = 0) {
+    const newProduct = productDefault[productDefaultId];
     newProduct.quantity = quantity;
     cart.items.push(newProduct);
 
