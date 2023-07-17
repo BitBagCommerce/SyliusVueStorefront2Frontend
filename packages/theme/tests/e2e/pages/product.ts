@@ -13,6 +13,14 @@ class Product extends Base {
     return cy.el('plus-quantity-button');
   }
 
+  get confirmQuantityButton(): Cypress.Chainable {
+    return cy.el('confirm-quantity-button');
+  }
+
+  get quantityInput(): Cypress.Chainable {
+    return cy.el('quantity-input');
+  }
+
   public decreaseQuantity(by = 1) {
     for (let i = 0; i < by; i++) {
       this.decreseQuantityButton.first().click();
