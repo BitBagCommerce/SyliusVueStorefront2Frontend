@@ -188,11 +188,18 @@ export default {
       async ({ product, quantity, rawQuantity }) => {
         const currentQuantity = cartGetters.getItemQty(product);
 
-        if (
-          (quantity !== rawQuantity && quantity === currentQuantity) ||
-          quantity === currentQuantity
-        )
+        if (quantity !== rawQuantity && quantity === currentQuantity) {
+          send({
+            type: 'danger',
+            message: root.$t(
+              quantity > rawQuantity
+                ? "Can't add less than one item to cart"
+                : 'There are not that many items on stock'
+            ),
+          });
+
           return;
+        }
 
         await updateItemQty({ product, quantity });
 
