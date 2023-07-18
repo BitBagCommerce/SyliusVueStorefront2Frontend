@@ -37,7 +37,7 @@ context('Adding products to cart', () => {
 
     // Add product
     cy.wait(10).then(() => {
-      currentCart = getCartModifications.addProduct(currentCart, 8);
+      currentCart = getCartModifications.addProduct(currentCart);
       cy.interceptApi('addToCart', currentCart);
     });
 
