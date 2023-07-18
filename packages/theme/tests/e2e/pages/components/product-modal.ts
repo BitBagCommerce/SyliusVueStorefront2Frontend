@@ -42,11 +42,13 @@ class ProductModal {
   public selectVariant(
     selectorId: number,
     variant: number | string,
-    compareValue?: string
+    expectedValue?: string
   ) {
     this.getVariantSelector.eq(selectorId).select(variant);
-    if (compareValue) {
-      this.getVariantSelector.eq(selectorId).should('have.value', compareValue);
+    if (expectedValue) {
+      this.getVariantSelector
+        .eq(selectorId)
+        .should('have.value', expectedValue);
     }
   }
 }

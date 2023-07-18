@@ -17,7 +17,7 @@ class Category {
     selectVariants?: {
       selectorId: number;
       variant: number | string;
-      compareValue?: string;
+      expectedValue?: string;
     }[]
   ) {
     // Open product modal
@@ -39,7 +39,7 @@ class Category {
         productModal.selectVariant(
           variant.selectorId,
           variant.variant,
-          variant.compareValue
+          variant.expectedValue
         );
       }
     }

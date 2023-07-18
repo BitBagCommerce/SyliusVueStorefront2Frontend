@@ -79,7 +79,7 @@ context('Adding products to cart', () => {
       {
         selectorId: 0,
         variant: 1,
-        compareValue:
+        expectedValue:
           getMinimalProduct.minimalProducts.products[2].options[0].values[1]
             .code,
       },
