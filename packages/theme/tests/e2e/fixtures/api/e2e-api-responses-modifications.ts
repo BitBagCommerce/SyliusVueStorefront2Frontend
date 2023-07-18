@@ -1,4 +1,4 @@
-import { products } from '../test-data/e2e-products';
+import { products, variants } from '../test-data/e2e-products';
 
 const shipmentsDefault = {
   id: '/api/v2/shop/shipments/110',
@@ -48,11 +48,33 @@ const getCartModifications = {
     cart = recalculatePrices(cart);
     return cart;
   },
-  addProduct(cart, quantity = 1, productDefaultId = 0, category = 't_shirts') {
+  setProductVariant(variantType, variantId) {
+    this.variantName = variants[variantType].values[variantId].value;
+    return this;
+  },
+  addProduct(
+    cart,
+    quantity = 1,
+    productDefaultId = 0,
+    category = 't_shirts',
+    selectedVariants = [{ option: 't_shirt_size', id: 0 }]
+  ) {
     const newProduct = products[category][productDefaultId];
+    // Change quantity
     newProduct.quantity = quantity;
+    // Change variant
+    for (const selectedVariant of selectedVariants) {
+      newProduct.variantName =
+        variants[selectedVariant.option].values[selectedVariant.id].value;
+      newProduct.variant.optionValues[0].code =
+        variants.t_shirt_size.values[selectedVariant.id].code;
+      newProduct.variant.optionValues[0].value =
+        variants.t_shirt_size.values[selectedVariant.id].value;
+    }
+    // Add product to cart
     cart.items.push(newProduct);
 
+    // Add default payments and shipments data
     if (!cart.payments.length) {
       cart.payments = paymentsDefault;
     }

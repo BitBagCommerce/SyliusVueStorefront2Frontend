@@ -297,4 +297,41 @@ const products = {
   ],
 };
 
-export { products };
+const variants = {
+  t_shirt_size: {
+    values: [
+      {
+        id: '/api/v2/shop/product-option-values/t_shirt_size_s',
+        code: 't_shirt_size_s',
+        value: 'S',
+        __typename: 'ProductOptionValue',
+      },
+      {
+        id: '/api/v2/shop/product-option-values/t_shirt_size_m',
+        code: 't_shirt_size_m',
+        value: 'M',
+        __typename: 'ProductOptionValue',
+      },
+      {
+        id: '/api/v2/shop/product-option-values/t_shirt_size_l',
+        code: 't_shirt_size_l',
+        value: 'L',
+        __typename: 'ProductOptionValue',
+      },
+      {
+        id: '/api/v2/shop/product-option-values/t_shirt_size_xl',
+        code: 't_shirt_size_xl',
+        value: 'XL',
+        __typename: 'ProductOptionValue',
+      },
+      {
+        id: '/api/v2/shop/product-option-values/t_shirt_size_xxl',
+        code: 't_shirt_size_xxl',
+        value: 'XXL',
+        __typename: 'ProductOptionValue',
+      },
+    ],
+  },
+};
+
+export { products, variants };

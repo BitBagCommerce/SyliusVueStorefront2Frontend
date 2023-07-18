@@ -71,7 +71,13 @@ context('Adding products to cart', () => {
 
     // Add product with specific variant
     cy.wait(10).then(() => {
-      currentCart = getCartModifications.addProduct(currentCart, 1, 2);
+      currentCart = getCartModifications.addProduct(
+        currentCart,
+        1,
+        2,
+        't_shirts',
+        [{ option: 't_shirt_size', id: 1 }]
+      );
       cy.interceptApi('addToCart', currentCart);
     });
 
