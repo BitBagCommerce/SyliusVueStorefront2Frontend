@@ -33,6 +33,9 @@ export const addToCartMutation = gql(`
         taxTotal
         shippingTotal
         orderPromotionTotal
+        customer {
+          email
+        }
         promotionCoupon {
           code
           promotion {
@@ -160,6 +163,9 @@ export const addManyToCartMutation = gql(`
         taxTotal
         shippingTotal
         orderPromotionTotal
+        customer {
+          email
+        }
         promotionCoupon {
           code
           promotion {
@@ -287,6 +293,9 @@ export const removeFromCartMutation = gql(`
         taxTotal
         shippingTotal
         orderPromotionTotal
+        customer {
+          email
+        }
         promotionCoupon {
           code
           promotion {
@@ -474,6 +483,9 @@ export const applyCouponMutation = gql(`
         taxTotal
         shippingTotal
         orderPromotionTotal
+        customer {
+          email
+        }
         promotionCoupon {
           code
           promotion {
@@ -599,6 +611,9 @@ export const removeCouponFromCartMutation = gql(`
         taxTotal
         shippingTotal
         orderPromotionTotal
+        customer {
+          email
+        }
         promotionCoupon {
           code
           promotion {
@@ -728,6 +743,9 @@ export const updateCartQuantityMutation = gql(`
         taxTotal
         shippingTotal
         orderPromotionTotal
+        customer {
+          email
+        }
         promotionCoupon {
           code
           promotion {
@@ -853,6 +871,9 @@ export const updateCartPaymentMutation = gql(`
         taxTotal
         shippingTotal
         orderPromotionTotal
+        customer {
+          email
+        }
         promotionCoupon {
           code
           promotion {
@@ -978,6 +999,9 @@ export const updateCartShippingMutation = gql(`
         taxTotal
         shippingTotal
         orderPromotionTotal
+        customer {
+          email
+        }
         promotionCoupon {
           code
           promotion {

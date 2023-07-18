@@ -200,6 +200,7 @@ import {
   useUser,
   useUserShipping,
   userShippingGetters,
+  useCart,
 } from '@vue-storefront/sylius';
 import { required, min, digits, email } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
@@ -252,6 +253,7 @@ export default {
       load: loadUserShipping,
       loading,
     } = useUserShipping();
+    const { cart, load: loadCart } = useCart();
     const { send } = useUiNotification();
     const canAddNewAddress = ref(true);
     const countries = ref([]);
@@ -268,7 +270,13 @@ export default {
     });
 
     const handleFormSubmit = async () => {
-      await save({ billingDetails: form.value });
+      const email = cart.value?.customer?.email;
+
+      if (!email || email !== form.value.email) {
+        await save({ billingDetails: form.value });
+        await loadCart();
+      }
+
       const err = error.value.save;
 
       if (!err) {
@@ -303,10 +311,18 @@ export default {
       return Boolean(addresses?.length);
     });
 
+    const handleOrderEmail = () => {
+      const email = cart.value?.customer?.email;
+
+      if (email) form.value.email = email;
+    };
+
     onMounted(async () => {
       if (!billing.value) {
         await load();
       }
+
+      handleOrderEmail();
 
       countries.value = await $vsf.$sylius.api.getCountries();
       form.value = {
