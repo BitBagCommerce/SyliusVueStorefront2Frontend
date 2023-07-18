@@ -31,24 +31,6 @@ context('Adding products to cart', () => {
       getProductNotFiltered.productsNotFiltered
     );
 
-    // cy.intercept('POST', '/api/sylius/getMinimalProduct', (req) => {});
-    // cy.intercept('POST', '/api/sylius/getCategory', (req) => {});
-    // cy.intercept('POST', '/api/sylius/createCart', (req) => {});
-    // cy.intercept('POST', '/api/sylius/getCart', (req) => {});
-    // cy.intercept('POST', '/api/sylius/getFirstProductId', (req) => {});
-    // cy.intercept('POST', '/api/sylius/getProductAttribute', (req) => {});
-    // cy.intercept('POST', '/api/sylius/getCountries', (req) => {});
-    // cy.intercept('POST', '/api/sylius/addToCart', (req) => {});
-    // cy.intercept('POST', '/api/sylius/addAddress', (req) => {});
-    // cy.intercept('POST', '/api/sylius/getProductNotFiltered', (req) => {});
-    // cy.intercept('POST', '/api/sylius/getShippingMethods', (req) => {});
-    // cy.intercept('POST', '/api/sylius/getPaymentMethods', (req) => {});
-    // cy.intercept('POST', '/api/sylius/updateCartShipping', (req) => {});
-    // cy.intercept('POST', '/api/sylius/updateCartPayment', (req) => {});
-    // cy.intercept('POST', '/api/sylius/createOrder', (req) => {});
-    // cy.intercept('POST', '/api/sylius/addCouponToCart', (req) => {});
-    // cy.intercept('POST', '/api/sylius/updateCartShipping', (req) => {});
-
     // Go to category page
     page.home.visit();
     page.home.header.categories.first().click();
