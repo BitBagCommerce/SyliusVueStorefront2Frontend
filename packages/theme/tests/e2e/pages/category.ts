@@ -10,17 +10,42 @@ class Category {
     return cy.vsfUiEl('product-add-icon');
   }
 
-  public addProductToCart(id = 0, quantity = 1, typeQuantity = false): void {
+  public addProductToCart(
+    id = 0,
+    quantity = 1,
+    typeQuantity = false,
+    selectVariants?: {
+      selectorId: number;
+      variant: number | string;
+      compareValue?: string;
+    }[]
+  ) {
+    // Open product modal
     this.addToCartButton.eq(id).click();
-    productModal.modalAddToCartButton.first().should('be.visible');
+    productModal.addToCartButton.first().should('be.visible');
+
+    // Change quantity
     if (typeQuantity) {
       product.quantityInput.type(`{selectall}${quantity}`).wait(200);
       product.confirmQuantityButton.click().wait(200);
     } else {
       product.increaseQuantity(quantity - 1);
     }
-    product.quantityInput.should('have.value', `${quantity}`);
-    productModal.modalAddToCartButton.first().click();
+    productModal.quantityInput.should('have.value', `${quantity}`);
+
+    // Select variant
+    if (selectVariants) {
+      for (const variant of selectVariants) {
+        productModal.selectVariant(
+          variant.selectorId,
+          variant.variant,
+          variant.compareValue
+        );
+      }
+    }
+
+    // Add to cart
+    productModal.addToCartButton.first().click();
   }
 }
 

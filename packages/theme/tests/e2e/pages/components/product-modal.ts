@@ -27,8 +27,27 @@ class ProductModal {
     }
   }
 
-  get modalAddToCartButton(): Cypress.Chainable {
+  get addToCartButton(): Cypress.Chainable {
     return cy.el('modal__add-to-cart');
+  }
+
+  get getVariantSelector(): Cypress.Chainable {
+    return cy.el('modal-variant-selector', '> select');
+  }
+
+  get getVariantSelectorOptions(): Cypress.Chainable {
+    return cy.el('modal-variant-selector', '> select > option');
+  }
+
+  public selectVariant(
+    selectorId: number,
+    variant: number | string,
+    compareValue?: string
+  ) {
+    this.getVariantSelector.eq(selectorId).select(variant);
+    if (compareValue) {
+      this.getVariantSelector.eq(selectorId).should('have.value', compareValue);
+    }
   }
 }
 

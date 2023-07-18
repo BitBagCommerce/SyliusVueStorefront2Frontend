@@ -75,7 +75,15 @@ context('Adding products to cart', () => {
       cy.interceptApi('addToCart', currentCart);
     });
 
-    page.category.addProductToCart(2);
+    page.category.addProductToCart(2, 1, true, [
+      {
+        selectorId: 0,
+        variant: 1,
+        compareValue:
+          getMinimalProduct.minimalProducts.products[2].options[0].values[1]
+            .code,
+      },
+    ]);
 
     // Check cart sidebar content
     page.product.header.openCart();
