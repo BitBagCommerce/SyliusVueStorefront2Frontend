@@ -14,7 +14,7 @@ class Header {
     };
   }
 
-  openCart(): Cypress.Chainable {
+  openCartSidebar(): Cypress.Chainable {
     const click = ($el) => $el.click();
     return click(this.cart).should(() => {
       expect(Cypress.$('[data-e2e="sidebar-cart"]')).to.exist;

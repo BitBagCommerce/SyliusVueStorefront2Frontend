@@ -99,6 +99,7 @@
             </p>
             <SfSelect
               v-for="(item, key) in Object.keys(options)"
+              data-e2e="variant-selector"
               :key="key"
               :value="configuration[item]"
               @input="(value) => updateFilter({ value, filter: item })"

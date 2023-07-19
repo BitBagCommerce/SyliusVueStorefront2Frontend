@@ -1,7 +1,11 @@
-import product from './product';
+import Base from './base';
 import productModal from './components/product-modal';
 
-class Category {
+class Category extends Base {
+  get path() {
+    return '/c/category/t-shirts';
+  }
+
   get products(): Cypress.Chainable {
     return cy.el('category-product-card', 'a');
   }
@@ -22,30 +26,8 @@ class Category {
   ) {
     // Open product modal
     this.addToCartButton.eq(id).click();
-    productModal.addToCartButton.first().should('be.visible');
-
-    // Change quantity
-    if (typeQuantity) {
-      product.quantityInput.type(`{selectall}${quantity}`).wait(200);
-      product.confirmQuantityButton.click().wait(200);
-    } else {
-      product.increaseQuantity(quantity - 1);
-    }
-    productModal.quantityInput.should('have.value', `${quantity}`);
-
-    // Select variant
-    if (selectVariants) {
-      for (const variant of selectVariants) {
-        productModal.selectVariant(
-          variant.selectorId,
-          variant.variant,
-          variant.expectedValue
-        );
-      }
-    }
-
-    // Add to cart
-    productModal.addToCartButton.first().click();
+    // Handle adding product to cart in modal
+    productModal.addProductToCart(quantity, typeQuantity, selectVariants);
   }
 }
 

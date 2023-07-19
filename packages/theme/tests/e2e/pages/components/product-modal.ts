@@ -1,55 +1,55 @@
+import quantitySelector from './quantity-selector';
+import variantsSelector from './variants-selector';
+
 class ProductModal {
-  get decreseQuantityButton(): Cypress.Chainable {
-    return cy.el('minus-quantity-button');
-  }
-
-  get increaseQuantityButton(): Cypress.Chainable {
-    return cy.el('plus-quantity-button');
-  }
-
-  get confirmQuantityButton(): Cypress.Chainable {
-    return cy.el('confirm-quantity-button');
-  }
-
-  get quantityInput(): Cypress.Chainable {
-    return cy.el('quantity-input');
-  }
-
-  public decreaseQuantity(by = 1) {
-    for (let i = 0; i < by; i++) {
-      this.decreseQuantityButton.first().click();
-    }
-  }
-
-  public increaseQuantity(by = 1) {
-    for (let i = 0; i < by; i++) {
-      this.increaseQuantityButton.first().click();
-    }
-  }
-
   get addToCartButton(): Cypress.Chainable {
     return cy.el('modal__add-to-cart');
   }
 
-  get getVariantSelector(): Cypress.Chainable {
-    return cy.el('modal-variant-selector', '> select');
+  get quantitySelector() {
+    return quantitySelector;
   }
 
-  get getVariantSelectorOptions(): Cypress.Chainable {
-    return cy.el('modal-variant-selector', '> select > option');
+  get variantsSelector() {
+    return variantsSelector;
   }
 
-  public selectVariant(
-    selectorId: number,
-    variant: number | string,
-    expectedValue?: string
+  public addProductToCart(
+    quantity = 1,
+    typeQuantity = false,
+    selectVariants?: {
+      selectorId: number;
+      variant: number | string;
+      expectedValue?: string;
+    }[]
   ) {
-    this.getVariantSelector.eq(selectorId).select(variant);
-    if (expectedValue) {
-      this.getVariantSelector
-        .eq(selectorId)
-        .should('have.value', expectedValue);
+    // Check if modal is open
+    this.addToCartButton.first().should('be.visible');
+
+    // Change quantity
+    if (typeQuantity) {
+      this.quantitySelector.quantityInput
+        .type(`{selectall}${quantity}`)
+        .wait(200);
+      this.quantitySelector.confirmQuantityButton.click().wait(200);
+    } else {
+      this.quantitySelector.increaseQuantity(quantity - 1);
     }
+    this.quantitySelector.quantityInput.should('have.value', `${quantity}`);
+
+    // Select variant
+    if (selectVariants) {
+      for (const variant of selectVariants) {
+        this.variantsSelector.selectVariant(
+          variant.selectorId,
+          variant.variant,
+          variant.expectedValue
+        );
+      }
+    }
+
+    // Add to cart
+    this.addToCartButton.first().click();
   }
 }
 
