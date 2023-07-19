@@ -3,6 +3,7 @@ import checkout from './checkout';
 import cart from './components/cart-sidebar';
 import home from './home';
 import product from './product';
+import productModal from './components/product-modal';
 
 class Page {
   get cart() {
@@ -23,6 +24,10 @@ class Page {
 
   get product() {
     return product;
+  }
+
+  get productModal() {
+    return productModal;
   }
 }
 

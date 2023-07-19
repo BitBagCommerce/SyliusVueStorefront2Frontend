@@ -1,103 +1,4 @@
-const productDefault = [
-  {
-    _id: 220,
-    variant: {
-      id: '/api/v2/shop/product-variants/Everyday_white_basic_T_Shirt-variant-0',
-      code: 'Everyday_white_basic_T_Shirt-variant-0',
-      onHand: 9,
-      onHold: 0,
-      tracked: false,
-      optionValues: [
-        {
-          option: {
-            id: '/api/v2/shop/product-options/t_shirt_size',
-            __typename: 'ProductOption',
-          },
-          code: 't_shirt_size_s',
-          value: 'S',
-          __typename: 'ProductOptionValue',
-        },
-      ],
-      product: {
-        options: [
-          {
-            id: '/api/v2/shop/product-options/t_shirt_size',
-            name: 'T-shirt size',
-            code: 't_shirt_size',
-            __typename: 'ProductOption',
-          },
-        ],
-        images: [
-          'http://localhost:8000/media/cache/sylius_shop_product_thumbnail//media/image/87/c0/69da93c92e0df08a57077f067d84.jpg',
-        ],
-      },
-      channelPricings: [
-        {
-          channelCode: 'FASHION_WEB',
-          price: 7564,
-          originalPrice: null,
-          __typename: 'ChannelPricing',
-        },
-      ],
-      __typename: 'ProductVariant',
-    },
-    unitPrice: 7564,
-    total: 7564,
-    productName: 'Everyday white basic T-Shirt',
-    variantName: 'S',
-    quantity: 1,
-    __typename: 'OrderItem',
-  },
-  {
-    _id: 221,
-    variant: {
-      id: '/api/v2/shop/product-variants/Loose_white_designer_T_Shirt-variant-0',
-      code: 'Loose_white_designer_T_Shirt-variant-0',
-      onHand: 0,
-      onHold: 0,
-      tracked: false,
-      optionValues: [
-        {
-          option: {
-            id: '/api/v2/shop/product-options/t_shirt_size',
-            __typename: 'ProductOption',
-          },
-          code: 't_shirt_size_s',
-          value: 'S',
-          __typename: 'ProductOptionValue',
-        },
-      ],
-      product: {
-        options: [
-          {
-            id: '/api/v2/shop/product-options/t_shirt_size',
-            name: 'T-shirt size',
-            code: 't_shirt_size',
-            __typename: 'ProductOption',
-          },
-        ],
-        images: [
-          'http://localhost:8000/media/cache/sylius_shop_product_thumbnail//media/image/bf/b7/a58730f775089f491901791faabf.jpg',
-        ],
-      },
-      channelPricings: [
-        {
-          channelCode: 'FASHION_WEB',
-          price: 8013,
-          originalPrice: null,
-          __typename: 'ChannelPricing',
-        },
-      ],
-      __typename: 'ProductVariant',
-    },
-    unitPrice: 8013,
-    total: 8013,
-    productName: 'Loose white designer T-Shirt',
-    variantName: 'S',
-    quantity: 1,
-    __typename: 'OrderItem',
-  },
-];
+import { products, variants } from '../test-data/e2e-products';
 
 const shipmentsDefault = {
   id: '/api/v2/shop/shipments/110',
@@ -147,11 +48,32 @@ const getCartModifications = {
     cart = recalculatePrices(cart);
     return cart;
   },
-  addProduct(cart, quantity = 1, productDefaultId = 0) {
-    const newProduct = productDefault[productDefaultId];
+  addProduct(
+    cart,
+    quantity = 1,
+    productDefaultId = 0,
+    category = 't_shirts',
+    selectedVariants?: { option: string; id: number }[]
+  ) {
+    const newProduct = products[category][productDefaultId];
+    // Change quantity
     newProduct.quantity = quantity;
+    // Change variant
+    // TODO: Add support for multiple variants changes (e.g. color and size)
+    if (selectedVariants) {
+      for (const selectedVariant of selectedVariants) {
+        newProduct.variantName =
+          variants[selectedVariant.option].values[selectedVariant.id].value;
+        newProduct.variant.optionValues[0].code =
+          variants[selectedVariant.option].values[selectedVariant.id].code;
+        newProduct.variant.optionValues[0].value =
+          variants[selectedVariant.option].values[selectedVariant.id].value;
+      }
+    }
+    // Add product to cart
     cart.items.push(newProduct);
 
+    // Add default payments and shipments data
     if (!cart.payments.length) {
       cart.payments = paymentsDefault;
     }
