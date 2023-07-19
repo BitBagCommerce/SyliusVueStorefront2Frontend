@@ -65,9 +65,9 @@ const getCartModifications = {
         newProduct.variantName =
           variants[selectedVariant.option].values[selectedVariant.id].value;
         newProduct.variant.optionValues[0].code =
-          variants.t_shirt_size.values[selectedVariant.id].code;
+          variants[selectedVariant.option].values[selectedVariant.id].code;
         newProduct.variant.optionValues[0].value =
-          variants.t_shirt_size.values[selectedVariant.id].value;
+          variants[selectedVariant.option].values[selectedVariant.id].value;
       }
     }
     // Add product to cart
