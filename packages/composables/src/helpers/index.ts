@@ -26,7 +26,7 @@ export const errorHelper = <
   response: TResponse,
   customMessage?: string
 ): ExcludeError<TResponse> => {
-  if ('graphQLErrors' in response)
+  if (response && typeof response === 'object' && 'graphQLErrors' in response)
     throw {
       message: customMessage ?? response.graphQLErrors[0]?.extensions.message,
       details: response.graphQLErrors,
