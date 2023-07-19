@@ -1,5 +1,4 @@
 import Base from './base';
-import product from './product';
 import productModal from './components/product-modal';
 
 class Category extends Base {
@@ -27,35 +26,8 @@ class Category extends Base {
   ) {
     // Open product modal
     this.addToCartButton.eq(id).click();
-    productModal.addToCartButton.first().should('be.visible');
-
-    // Change quantity
-    if (typeQuantity) {
-      product.quantitySelector.quantityInput
-        .type(`{selectall}${quantity}`)
-        .wait(200);
-      product.quantitySelector.confirmQuantityButton.click().wait(200);
-    } else {
-      product.quantitySelector.increaseQuantity(quantity - 1);
-    }
-    productModal.quantitySelector.quantityInput.should(
-      'have.value',
-      `${quantity}`
-    );
-
-    // Select variant
-    if (selectVariants) {
-      for (const variant of selectVariants) {
-        productModal.variantsSelector.selectVariant(
-          variant.selectorId,
-          variant.variant,
-          variant.expectedValue
-        );
-      }
-    }
-
-    // Add to cart
-    productModal.addToCartButton.first().click();
+    // Handle adding product to cart in modal
+    productModal.addProductToCart(quantity, typeQuantity, selectVariants);
   }
 }
 
