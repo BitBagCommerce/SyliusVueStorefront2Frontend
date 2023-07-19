@@ -53,19 +53,22 @@ const getCartModifications = {
     quantity = 1,
     productDefaultId = 0,
     category = 't_shirts',
-    selectedVariants = [{ option: 't_shirt_size', id: 0 }]
+    selectedVariants?: { option: string; id: number }[]
   ) {
     const newProduct = products[category][productDefaultId];
     // Change quantity
     newProduct.quantity = quantity;
     // Change variant
-    for (const selectedVariant of selectedVariants) {
-      newProduct.variantName =
-        variants[selectedVariant.option].values[selectedVariant.id].value;
-      newProduct.variant.optionValues[0].code =
-        variants.t_shirt_size.values[selectedVariant.id].code;
-      newProduct.variant.optionValues[0].value =
-        variants.t_shirt_size.values[selectedVariant.id].value;
+    // TODO: Add support for multiple variants changes (e.g. color and size)
+    if (selectedVariants) {
+      for (const selectedVariant of selectedVariants) {
+        newProduct.variantName =
+          variants[selectedVariant.option].values[selectedVariant.id].value;
+        newProduct.variant.optionValues[0].code =
+          variants.t_shirt_size.values[selectedVariant.id].code;
+        newProduct.variant.optionValues[0].value =
+          variants.t_shirt_size.values[selectedVariant.id].value;
+      }
     }
     // Add product to cart
     cart.items.push(newProduct);
