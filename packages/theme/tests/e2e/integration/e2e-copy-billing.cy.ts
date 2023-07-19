@@ -58,8 +58,8 @@ context('Copy billing data to shipping form', () => {
       });
 
       page.category.addProductToCart();
-      page.product.header.openCart();
-      page.cart.goToCheckoutButton.click();
+      page.category.header.openCartSidebar();
+      page.cartSidebar.goToCheckoutButton.click();
 
       // Fill in billing form
       page.checkout.billing.heading.should('be.visible');

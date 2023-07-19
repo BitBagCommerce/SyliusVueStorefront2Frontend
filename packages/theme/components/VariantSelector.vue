@@ -51,7 +51,7 @@
     <div v-if="optionKeys.length > 0" class="modal__selects">
       <SfSelect
         v-for="(item, key) in optionKeys"
-        data-e2e="modal-variant-selector"
+        data-e2e="variant-selector"
         :key="key"
         :value="attributes[item]"
         @input="setAttribute(item, $event)"

@@ -74,6 +74,6 @@ context('Adding products to cart', () => {
     ]);
 
     // Check cart sidebar content
-    page.product.header.openCart();
+    page.category.header.openCartSidebar();
   });
 });

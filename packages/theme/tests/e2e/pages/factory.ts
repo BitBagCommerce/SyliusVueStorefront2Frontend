@@ -1,13 +1,13 @@
 import category from './category';
 import checkout from './checkout';
-import cart from './components/cart-sidebar';
+import cartSidebar from './components/cart-sidebar';
 import home from './home';
 import product from './product';
 import productModal from './components/product-modal';
 
 class Page {
-  get cart() {
-    return cart;
+  get cartSidebar() {
+    return cartSidebar;
   }
 
   get category() {

@@ -73,8 +73,8 @@ context('Order placement with coupon code', () => {
       });
 
       page.category.addProductToCart(0, 7);
-      page.product.header.openCart();
-      page.cart.goToCheckoutButton.click();
+      page.category.header.openCartSidebar();
+      page.cartSidebar.goToCheckoutButton.click();
 
       // Checkout process
       page.checkout.billing.heading.should('be.visible');

@@ -1,7 +1,12 @@
+import Base from './base';
 import product from './product';
 import productModal from './components/product-modal';
 
-class Category {
+class Category extends Base {
+  get path() {
+    return '/c/category/t-shirts';
+  }
+
   get products(): Cypress.Chainable {
     return cy.el('category-product-card', 'a');
   }
@@ -26,17 +31,22 @@ class Category {
 
     // Change quantity
     if (typeQuantity) {
-      product.quantityInput.type(`{selectall}${quantity}`).wait(200);
-      product.confirmQuantityButton.click().wait(200);
+      product.quantitySelector.quantityInput
+        .type(`{selectall}${quantity}`)
+        .wait(200);
+      product.quantitySelector.confirmQuantityButton.click().wait(200);
     } else {
-      product.increaseQuantity(quantity - 1);
+      product.quantitySelector.increaseQuantity(quantity - 1);
     }
-    productModal.quantityInput.should('have.value', `${quantity}`);
+    productModal.quantitySelector.quantityInput.should(
+      'have.value',
+      `${quantity}`
+    );
 
     // Select variant
     if (selectVariants) {
       for (const variant of selectVariants) {
-        productModal.selectVariant(
+        productModal.variantsSelector.selectVariant(
           variant.selectorId,
           variant.variant,
           variant.expectedValue

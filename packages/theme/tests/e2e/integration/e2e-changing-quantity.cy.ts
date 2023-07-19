@@ -55,9 +55,13 @@ context('Changing quantity of items', () => {
       page.category.addProductToCart(1, 12, true);
 
       // Check cart sidebar content
-      page.product.header.openCart();
-      page.product.quantityInput.eq(0).should('have.value', '8');
-      page.product.quantityInput.eq(1).should('have.value', '12');
+      page.category.header.openCartSidebar();
+      page.cartSidebar.quantitySelector.quantityInput
+        .eq(0)
+        .should('have.value', '8');
+      page.cartSidebar.quantitySelector.quantityInput
+        .eq(1)
+        .should('have.value', '12');
     }
   );
 });
