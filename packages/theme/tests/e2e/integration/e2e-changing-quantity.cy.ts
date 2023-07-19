@@ -44,7 +44,29 @@ context('Changing quantity of items', () => {
         cy.interceptApi('addToCart', currentCart);
       });
 
-      page.category.addProductToCart(0, 8);
+      // Open product modal
+      page.category.addToCartButton.eq(0).click();
+      page.productModal.addToCartButton.should('be.visible');
+      // Decrease quantity (should not go below 1)
+      page.productModal.quantitySelector.decreaseQuantity(2);
+      page.productModal.quantitySelector.quantityInput.should(
+        'have.value',
+        '1'
+      );
+      // Increase quantity to 10
+      page.productModal.quantitySelector.increaseQuantity(9);
+      page.productModal.quantitySelector.quantityInput.should(
+        'have.value',
+        '10'
+      );
+      // Decrease quantity to 8
+      page.productModal.quantitySelector.decreaseQuantity(2);
+      page.productModal.quantitySelector.quantityInput.should(
+        'have.value',
+        '8'
+      );
+      // Add to cart
+      page.productModal.addToCartButton.click();
 
       // Change quantity using input
       cy.wait(10).then(() => {
