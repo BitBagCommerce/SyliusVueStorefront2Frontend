@@ -48,10 +48,6 @@ const getCartModifications = {
     cart = recalculatePrices(cart);
     return cart;
   },
-  setProductVariant(variantType, variantId) {
-    this.variantName = variants[variantType].values[variantId].value;
-    return this;
-  },
   addProduct(
     cart,
     quantity = 1,
