@@ -132,25 +132,25 @@ jobs:
 
       -   name: Prepare test application database
           run: |
-              (cd SyliusVueStorefront2Plugin/tests/Application && SyliusVueStorefront2Plugin/bin/console doctrine:database:create -vvv)
-              (cd SyliusVueStorefront2Plugin/tests/Application && SyliusVueStorefront2Plugin/bin/console doctrine:schema:create -vvv)
+              (cd SyliusVueStorefront2Plugin/tests/Application && bin/console doctrine:database:create -vvv)
+              (cd SyliusVueStorefront2Plugin/tests/Application && bin/console doctrine:schema:create -vvv)
 
       -   name: Prepare test application assets
           run: |
-              (cd SyliusVueStorefront2Plugin/tests/Application && SyliusVueStorefront2Plugin/bin/console assets:install public -vvv)
+              (cd SyliusVueStorefront2Plugin/tests/Application && bin/console assets:install public -vvv)
               (cd SyliusVueStorefront2Plugin/tests/Application && yarn build)
 
       -   name: Prepare test application cache
-          run: (cd SyliusVueStorefront2Plugin/tests/Application && SyliusVueStorefront2Plugin/bin/console cache:warmup -vvv)
+          run: (cd SyliusVueStorefront2Plugin/tests/Application && bin/console cache:warmup -vvv)
 
       -   name: Load fixtures in test application
-          run: (cd SyliusVueStorefront2Plugin/tests/Application && SyliusVueStorefront2Plugin/bin/console sylius:fixtures:load -n)
+          run: (cd SyliusVueStorefront2Plugin/tests/Application && bin/console sylius:fixtures:load -n)
 
       -   name: Validate composer.json
           run: composer validate --ansi --strict
 
       -   name: Validate database schema
-          run: (cd SyliusVueStorefront2Plugin/tests/Application && SyliusVueStorefront2Plugin/bin/console doctrine:schema:validate)
+          run: (cd SyliusVueStorefront2Plugin/tests/Application && bin/console doctrine:schema:validate)
       # End of install backend api
 
       - name: Cypress run
