@@ -35,7 +35,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: BitBagCommerce/SyliusVueStorefront2Plugin
-          path: backend-api
 
       - name: Setup node
         uses: actions/setup-node@v2
