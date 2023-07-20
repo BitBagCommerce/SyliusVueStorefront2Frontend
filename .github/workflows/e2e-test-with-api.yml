@@ -41,8 +41,12 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14.21.3'
-          cache: 'yarn'
-          cache-dependency-path: '**/yarn.lock'
+
+      - name : Cache
+        uses: actions/cache@v2
+        with:
+          path: "./node_modules"
+          key: node-modules-${{ hashFiles('frontend/yarn.lock') }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v3
