@@ -45,16 +45,10 @@ jobs:
         with:
           node-version: '14.21.3'
 
-      # - name : Cache
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: "**node_modules"
-      #     key: node-modules-${{ hashFiles('**yarn.lock') }}
-
       - name: Cypress run
         uses: cypress-io/github-action@v3
         with:
-          config-file: '**packages/theme/tests/e2e/cypress-github-action.config.js'
+          config-file: packages/theme/tests/e2e/cypress-github-action.config.js
           install: yarn install
           build: yarn build
           start: yarn start
