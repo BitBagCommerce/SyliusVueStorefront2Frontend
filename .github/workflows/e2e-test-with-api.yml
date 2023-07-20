@@ -95,10 +95,10 @@ jobs:
               restore-keys: |
                   ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14.21.3'
+      # - name: Setup node
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '14.21.3'
 
       - name: Cypress run
         uses: cypress-io/github-action@v3
