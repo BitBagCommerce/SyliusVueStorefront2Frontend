@@ -325,4 +325,10 @@ export default {
     'There are not that many items on stock',
   "Can't add less than one item to cart":
     "Can't add less than one item to cart",
+  'Name: a-z': 'Name: a-z',
+  'Name: z-a': 'Name: z-a',
+  'Price: highest': 'Price: highest',
+  'Price: lowest': 'Price: lowest',
+  'Rating: highest': 'Rating: highest',
+  'Rating: lowest': 'Rating: lowest',
 };

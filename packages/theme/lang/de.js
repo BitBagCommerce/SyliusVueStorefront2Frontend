@@ -338,4 +338,10 @@ export default {
     'Es sind nicht so viele Artikel auf Lager',
   "Can't add less than one item to cart":
     'Es kann nicht weniger als ein Artikel in den Warenkorb gelegt werden',
+  'Name: a-z': 'Name: a-z',
+  'Name: z-a': 'Name: z-a',
+  'Price: highest': 'Preis: höchster',
+  'Price: lowest': 'Preis: am niedrigsten',
+  'Rating: highest': 'Bewertung: höchste',
+  'Rating: lowest': 'Bewertung: niedrigste',
 };
