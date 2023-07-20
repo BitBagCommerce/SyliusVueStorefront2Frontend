@@ -1,0 +1,51 @@
+name: Cypress - End to end tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - release-**
+      - VSF2-304
+  pull_request:
+    branches:
+      - main
+      - develop
+      - release-**
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  e2e_tests:
+    name: Cypress - End to end tests
+    runs-on: ubuntu-22.04
+    env:
+      SYLIUS_API_ENDPOINT: http://localhost:8000/api/v2/graphql
+      PORT: 3000
+      MIDDLEWARE_URL: http://localhost:3000/api/
+      SYLIUS_CHANNEL_CODE: FASHION_WEB
+      SYLIUS_THUMBNAIL_ENDPOINT: http://localhost:8000/media/cache/sylius_shop_product_thumbnail
+      SYLIUS_REGULAR_IMAGE_ENDPOINT: http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail
+      SYLIUS_PAYMENT_GATEWAY_HOST: http://localhost:8000/
+      SYLIUS_DEFAULT_LOCALE: en_US
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.21.3'
+          cache: 'yarn'
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v3
+        with:
+          config-file: packages/theme/tests/e2e/cypress-github-action.config.js
+          install: yarn install
+          build: yarn build
+          start: yarn start
+          browser: electron
+          wait-on: 'http://localhost:3000'
