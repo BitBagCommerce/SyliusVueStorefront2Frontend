@@ -46,7 +46,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: "**node_modules"
-          key: node-modules-${{ hashFiles('frontend/yarn.lock') }}
+          key: node-modules-${{ hashFiles('**yarn.lock') }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v3
