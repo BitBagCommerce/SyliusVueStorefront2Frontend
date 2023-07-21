@@ -131,7 +131,7 @@ jobs:
           run: (cd SyliusVueStorefront2Plugin/tests/Application && yarn install)
 
       -   name: LS
-          run: (cd vendor && ls -la)
+          run: (cd SyliusVueStorefront2Plugin/tests/Application/bin/../../../vendor && ls -la)
 
       -   name: Prepare test application database
           run: |
