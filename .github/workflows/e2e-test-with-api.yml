@@ -49,7 +49,7 @@ jobs:
       - name: Checkout api code
         uses: actions/checkout@v2
         with:
-          repository: BitBagCommerce/SyliusVueStorefront2Plugin
+          repository: BitBagCommerce/SyliusVueStorefront2Plugin/VSF2-304
           path: SyliusVueStorefront2Plugin
 
       -   name: Setup PHP
