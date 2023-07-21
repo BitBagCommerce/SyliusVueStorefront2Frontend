@@ -31,14 +31,14 @@ jobs:
           mysql: [ "8.0" ]
 
     env:
-      # SYLIUS_API_ENDPOINT: http://localhost:8000/api/v2/graphql
-      # PORT: 3000
-      # MIDDLEWARE_URL: http://localhost:3000/api/
-      # SYLIUS_CHANNEL_CODE: FASHION_WEB
-      # SYLIUS_THUMBNAIL_ENDPOINT: http://localhost:8000/media/cache/sylius_shop_product_thumbnail
-      # SYLIUS_REGULAR_IMAGE_ENDPOINT: http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail
-      # SYLIUS_PAYMENT_GATEWAY_HOST: http://localhost:8000/
-      # SYLIUS_DEFAULT_LOCALE: en_US
+      SYLIUS_API_ENDPOINT: http://localhost:8000/api/v2/graphql
+      PORT: 3000
+      MIDDLEWARE_URL: http://localhost:3000/api/
+      SYLIUS_CHANNEL_CODE: FASHION_WEB
+      SYLIUS_THUMBNAIL_ENDPOINT: http://localhost:8000/media/cache/sylius_shop_product_thumbnail
+      SYLIUS_REGULAR_IMAGE_ENDPOINT: http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail
+      SYLIUS_PAYMENT_GATEWAY_HOST: http://localhost:8000/
+      SYLIUS_DEFAULT_LOCALE: en_US
       APP_ENV: test
       DATABASE_URL: "mysql://root:root@127.0.0.1/sylius?serverVersion=${{ matrix.mysql }}"
     steps:
