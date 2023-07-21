@@ -39,6 +39,8 @@ jobs:
       SYLIUS_REGULAR_IMAGE_ENDPOINT: http://localhost:8000/media/cache/sylius_shop_product_large_thumbnail
       SYLIUS_PAYMENT_GATEWAY_HOST: http://localhost:8000/
       SYLIUS_DEFAULT_LOCALE: en_US
+      APP_ENV: test
+      DATABASE_URL: "mysql://root:root@127.0.0.1/sylius?serverVersion=${{ matrix.mysql }}"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -131,7 +133,7 @@ jobs:
           run: (cd SyliusVueStorefront2Plugin/tests/Application && yarn install)
 
       -   name: LS
-          run: (cd SyliusVueStorefront2Plugin/tests/Application/bin/../../../vendor && ls -la)
+          run: (cd vendor && ls -la)
 
       -   name: Prepare test application database
           run: |
