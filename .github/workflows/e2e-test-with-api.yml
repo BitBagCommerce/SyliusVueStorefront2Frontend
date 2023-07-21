@@ -79,7 +79,7 @@ jobs:
           run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
 
       -   name: Install certificates
-          run: symfony server:ca:install
+          run: (cd SyliusVueStorefront2Plugin && symfony server:ca:install)
 
       -   name: Run Chrome Headless
           run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &
@@ -102,25 +102,25 @@ jobs:
                     -   name: Restrict Symfony version
                     if: matrix.symfony != ''
                     run: |
-                        composer global config --no-plugins allow-plugins.symfony/flex true
-                        composer global config --no-plugins allow-plugins.symfony/thanks true
-                        composer global require --no-progress --no-scripts --no-plugins "symfony/flex:^1.10"
-                        composer config extra.symfony.require "${{ matrix.symfony }}"
+                        (cd SyliusVueStorefront2Plugin && composer global config --no-plugins allow-plugins.symfony/flex true)
+                        (cd SyliusVueStorefront2Plugin && composer global config --no-plugins allow-plugins.symfony/thanks true)
+                        (cd SyliusVueStorefront2Plugin && composer global require --no-progress --no-scripts --no-plugins "symfony/flex:^1.10")
+                        (cd SyliusVueStorefront2Plugin && composer config extra.symfony.require "${{ matrix.symfony }}")
 
       -   name: Restrict Sylius version
           if: matrix.sylius != ''
-          run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
+          run: (cd SyliusVueStorefront2Plugin && composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction)
 
       -   name: Install PHP dependencies
           run: |
-              composer config --no-plugins allow-plugins.symfony/thanks true
-              composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-              composer config --no-plugins allow-plugins.phpstan/extension-installer true
-              composer install --no-interaction
+              (cd SyliusVueStorefront2Plugin && composer config --no-plugins allow-plugins.symfony/thanks true)
+              (cd SyliusVueStorefront2Plugin && composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true)
+              (cd SyliusVueStorefront2Plugin && composer config --no-plugins allow-plugins.phpstan/extension-installer true)
+              (cd SyliusVueStorefront2Plugin && composer install --no-interaction)
 
       -   name: Get Yarn cache directory
           id: yarn-cache
-          run: echo "::set-output name=dir::$(yarn cache dir)"
+          run: (cd SyliusVueStorefront2Plugin && echo "::set-output name=dir::$(yarn cache dir)")
 
       -   name: Cache Yarn
           uses: actions/cache@v2
