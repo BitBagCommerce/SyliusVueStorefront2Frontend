@@ -161,7 +161,7 @@ jobs:
           run: (cd SyliusVueStorefront2Plugin/tests/Application && bin/console sylius:fixtures:load -n)
 
       -   name: Validate composer.json
-          run: composer validate --ansi --strict
+          run: (cd SyliusVueStorefront2Plugin && composer validate --ansi --strict)
 
       -   name: Validate database schema
           run: (cd SyliusVueStorefront2Plugin/tests/Application && bin/console doctrine:schema:validate)
