@@ -348,4 +348,10 @@ export default {
   cancelled: 'abgesagt',
   shipped: 'versendet',
   ready: 'bereit',
+  'Name: a-z': 'Name: a-z',
+  'Name: z-a': 'Name: z-a',
+  'Price: highest': 'Preis: höchster',
+  'Price: lowest': 'Preis: am niedrigsten',
+  'Rating: highest': 'Bewertung: höchste',
+  'Rating: lowest': 'Bewertung: niedrigste',
 };

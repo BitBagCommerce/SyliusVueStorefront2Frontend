@@ -335,4 +335,10 @@ export default {
   cancelled: 'cancelled',
   shipped: 'shipped',
   ready: 'ready',
+  'Name: a-z': 'Name: a-z',
+  'Name: z-a': 'Name: z-a',
+  'Price: highest': 'Price: highest',
+  'Price: lowest': 'Price: lowest',
+  'Rating: highest': 'Rating: highest',
+  'Rating: lowest': 'Rating: lowest',
 };
