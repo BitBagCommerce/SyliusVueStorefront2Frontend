@@ -135,7 +135,7 @@ jobs:
 
       -   name: Prepare test application database
           run: |
-              (cd SyliusVueStorefront2Plugin/tests/Application && bin/console doctrine:database:create -vvv)
+              (cd SyliusVueStorefront2Plugin/tests/Application && ls -la && bin/console doctrine:database:create -vvv)
               (cd SyliusVueStorefront2Plugin/tests/Application && bin/console doctrine:schema:create -vvv)
 
       -   name: Prepare test application assets
