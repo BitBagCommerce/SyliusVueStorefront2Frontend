@@ -134,7 +134,7 @@ jobs:
           run: (cd SyliusVueStorefront2Plugin/tests/Application && yarn install)
 
       -   name: Composer dump autoload
-          run: composer dump-autoload
+          run: (cd SyliusVueStorefront2Plugin/tests/Application && composer dump-autoload)
 
       -   name: Prepare test application database
           run: |
