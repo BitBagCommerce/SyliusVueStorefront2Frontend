@@ -93,7 +93,7 @@ export default {
     );
 
     const closeLangModal = (e) => {
-      if (e?.target?.dataset.toggleBtn) return;
+      if (e?.target?.dataset.toggleBtn || !isLangModalOpen.value) return;
 
       isLangModalOpen.value = false;
       context.emit('click', isLangModalOpen.value);
