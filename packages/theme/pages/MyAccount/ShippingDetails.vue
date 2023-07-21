@@ -24,11 +24,7 @@
     <SfTabs v-else :open-tab="1" key="address-list" class="tab-orphan">
       <SfTab :title="$t('My addresses')">
         <p class="message">
-          {{
-            $t(
-              'Manage all the billing/shipping addresses you want (work place, home address...) This way you won"t have to enter the shipping address manually with each order.'
-            )
-          }}
+          {{ $t('myAddressesDescription') }}
         </p>
         <SfLoader :class="{ loading }" :loading="loading">
           <div v-if="!loading">
