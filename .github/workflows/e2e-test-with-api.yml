@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: BitBagCommerce/SyliusVueStorefront2Plugin
-          path: ../SyliusVueStorefront2Plugin
+          path: SyliusVueStorefront2Plugin
           ref: VSF2-304
 
       -   name: Setup PHP
