@@ -133,8 +133,8 @@ jobs:
       -   name: Install JS dependencies
           run: (cd SyliusVueStorefront2Plugin/tests/Application && yarn install)
 
-      -   name: LS
-          run: (cd vendor && ls -la)
+      -   name: Composer dump autoload
+          run: composer dump-autoload
 
       -   name: Prepare test application database
           run: |
