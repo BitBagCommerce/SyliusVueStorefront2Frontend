@@ -2,19 +2,9 @@ import page from '../pages/factory';
 
 context('Adding products to cart', () => {
   it(['e2e', 'happypath'], 'Should successfully add product to cart', () => {
-    const apiData = {};
-    cy.intercept('POST', '/api/sylius/**', (req) => {
-      // Regex gets everything to /sylius/ including /sylius/ and it is replaced with empty string
-      // Exaple url: http://localhost:8000/api/sylius/getCart
-      // This way we get only the data name (getCart, addProductToCart, etc.)
-      const dataName = req.url.replace(/.*\/sylius\//, '');
-      req.reply((res) => {
-        if (apiData[dataName] === undefined) {
-          apiData[dataName] = [res.body];
-        } else {
-          apiData[dataName].push(res.body);
-        }
-      });
+    let apiData = {};
+    cy.dataAutogenIntercepts(apiData).then((newData) => {
+      apiData = newData;
     });
 
     // Go to category page
@@ -38,16 +28,6 @@ context('Adding products to cart', () => {
     // Check cart sidebar content
     page.category.header.openCartSidebar();
 
-    cy.wait(4000).then(() => {
-      cy.writeFile(
-        'fixtures/api/e2e-add-product-to-cart.ts',
-        'const apiData = ' +
-          JSON.stringify(apiData) +
-          ';\n\nexport default apiData;\n'
-      ).then(() => {
-        console.log('Responses data file written!');
-        cy.wait(2000);
-      });
-    });
+    cy.dataAutogenSaveToFile(apiData, 'e2e-add-product-to-cart');
   });
 });

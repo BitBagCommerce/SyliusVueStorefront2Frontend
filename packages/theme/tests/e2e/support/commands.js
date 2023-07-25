@@ -43,3 +43,38 @@ Cypress.Commands.add('vsfUiEl', (selector, children, options) => {
     ? cy.get(`[data-testid="${selector}"] ${children}`, options)
     : cy.get(`[data-testid="${selector}"]`, options);
 });
+
+Cypress.Commands.add('dataAutogenIntercepts', (apiData) => {
+  cy.intercept('POST', '/api/sylius/**', (req) => {
+    // Regex gets everything to /sylius/ including /sylius/ and it is replaced with empty string
+    // Exaple url: http://localhost:8000/api/sylius/getCart
+    // This way we get only the data name (getCart, addProductToCart, etc.)
+    const dataName = req.url.replace(/.*\/sylius\//, '');
+    req.reply((res) => {
+      if (apiData[dataName] === undefined) {
+        apiData[dataName] = [res.body];
+      } else {
+        apiData[dataName].push(res.body);
+      }
+    });
+  });
+  return cy.wrap(apiData);
+});
+
+Cypress.Commands.add('dataAutogenSaveToFile', (apiData, fileName) => {
+  cy.wait(4000).then(() => {
+    cy.writeFile(
+      'fixtures/api/' + fileName + '.ts',
+      'const apiData = ' +
+        JSON.stringify(apiData) +
+        ';\n\nexport default apiData;\n'
+    ).then(() => {
+      console.log(
+        'Responses data file saved!',
+        '\n',
+        'Location: e2e/fixtures/api/' + fileName + '.ts'
+      );
+      cy.wait(2000);
+    });
+  });
+});
