@@ -2,7 +2,7 @@
 
 ## Introduction
 
-We use Cypress for end to end testing. Cypress is a great tool for testing, it allows us to mock data, but we need to intercept api calls manually and there is a lot of them. We don't want to test our api in end to end tests, we want to test only our application. To solve this problem we created a simple solution.
+We use Cypress for end to end testing. It is a great tool for testing, it allows us to mock data, but we need to intercept api calls manually and there is a lot of them. We don't want to test our api in end to end tests, we want to test only our application. To solve this problem we created a simple solution.
 
 :::tip Tests separation concept
 
@@ -25,6 +25,7 @@ End to end tests are run on Github automatically when merging to one of main bra
 :::
 
 **Example test:**
+_`packages/theme/tests/e2e/-file-name.cy.ts`_
 
 ```ts
 import page from '../pages/factory';
@@ -162,7 +163,7 @@ context('Adding products to cart', () => {
 Now we can run our test and mock data file will be generated automatically.
 
 :::warning Remember
-Run your test with real backend api while generating mock data. After generating data, remove data generation commands from your test. Otherwise mock data file will be overwritten every time you run your test.
+Run your test with real backend api while generating mock data. After generating data, remove data generation commands from your test. Otherwise mock data file will be overwritten every time you run your test. If it is already mocked or partially mocked, it will not generate any data but it will overwrite existing data with empty object.
 :::
 
 After generating data **run prettier to format it properly.**
@@ -171,14 +172,69 @@ After generating data **run prettier to format it properly.**
 yarn prettier --write "packages/theme/tests/e2e/fixtures/api/[my-file-name].ts"
 ```
 
-You can use this command **to run test and format mock data file** automatically (although you can run test in any way you want) just replace `[my-test-file-name]` with your file name:
+You can use this command **to run test and format mock data file** automatically (although you can run test in any way you want) just replace `[my-test-file-name]` with your file name without extension:
 
 ```bash
-fileName=[my-test-file-name] && yarn test:e2e --spec "integration/$fileName.cy.ts" && yarn prettier --write "packages/theme/tests/e2e/fixtures/api/$fileName.ts"
+fileName=[my-test-file-name] && yarn test:hl --spec "integration/$fileName.cy.ts" && yarn prettier --write "packages/theme/tests/e2e/fixtures/api/$fileName.ts"
 ```
 
 :::warning Updating mock data
 When you update your test you need to update mock data file as well. Otherwise it might stop working, or behave differently than expected. Repeat steps from above to update mock data.
 :::
+
+## Generated mock data format
+
+Generated data is saved in _`packages/theme/tests/e2e/fixtures/api/`_ directory. It is saved as `my-test-file-name.ts` file (name is same as one provided in `cy.dataAutogenSaveToFile()`). It has to be formatted by prettier to be readable.
+
+Data structure is predefined by our custom commands and it should look like this:
+
+```ts
+// Predefined object containing all api calls responses
+const apiData = {
+  // Name of object property is generated from url part after /sylius/, for example:
+  // http://localhost:8000/api/sylius/getCart
+  // is converted to "getCart"
+  getCart: [
+    {
+      // Response data from call 1
+      // Responses are ussualy objects{} or arrays[]
+    },
+    // If there is more than one call to the same api endpoint
+    // (http://localhost:8000/api/sylius/getCart)
+    // it will be added as another object in array
+    {
+      // Response data from call 2
+    },
+  ],
+  // Other api call
+  // http://localhost:8000/api/sylius/getCategory
+  // Note that it is always saved as array,
+  // even if there is only one call/one response,
+  // it is done to keep it consistent and convinient to use
+  getCategory: [
+    {
+      // Response data from call 1
+    },
+  ],
+};
+
+// Export data
+export default apiData;
+```
+
+This format lets us use data in our tests easily. Autocompletion should work as well, so we can see all available api responses, and we don't have to know what is inside `apiData` object. You will see why this is so convinient later.
+
+After importing `apiData` object we can get single api response like that:
+
+```ts
+import apiData from 'my-test-file-name';
+
+// Response 1 from getCart api call
+apiData.getCart[0];
+// Response 2 from getCart api call
+apiData.getCart[1];
+// Response 1 from getCategory api call
+apiData.getCategory[0];
+```
 
 ## Using generated mock data in tests
