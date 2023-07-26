@@ -10,7 +10,7 @@ declare namespace Cypress {
 
   interface cy {
     fixtures: { data: any };
-    dataAutogenIntercepts(
+    dataAutogenIntercept(
       apiData: Record<string, unknown>
     ): Chainable<Record<string, unknown>>;
     dataAutogenSaveToFile(
