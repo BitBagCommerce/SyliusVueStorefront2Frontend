@@ -116,6 +116,10 @@ This works similarly to mannualy getting api data calls but it also **automatica
 
 To generate mock data automatically we need to use custom `cy.dataAutogenIntercept()` and `cy.dataAutogenSaveToFile()` commands.
 
+:::tip Custom cypress commands
+You can always see the code of our custom commands in `packages/theme/tests/e2e/support/commands.js` file.
+:::
+
 #### `dataAutogenIntercepts(apiData: Record<string, unknown>): Chainable<Record<string, unknown>>;`
 
 This command intercepts all api calls, saves api response data in proper format and returns it. It should be used like that **at the beginning of our test**:
@@ -250,3 +254,115 @@ apiData.getCategory[0];
 Practical use of this data is shown in next section.
 
 ## Using generated mock data in tests
+
+After generating mock data we can use it in our tests. We need to import it and use it to mock api calls. By using `cy.interceptApi()` command it should be very simple.
+
+:::tip Custom cypress commands
+You can always see the code of our custom commands in `packages/theme/tests/e2e/support/commands.js` file.
+:::
+
+First import mock data file:
+
+```ts
+import apiData from '../fixtures/api/my-test-file-name';
+// Rest of our test...
+```
+
+Then we can use `cy.interceptApi()` command to mock api calls. It is used like that (data is always saved in array, even if there is only one element, so you can always use `[0]` to get first element and be sure it works):
+
+```ts
+// url ending should be same as apiData property name
+// as our data is based on that url
+// It will intercept all api calls to /api/sylius/getCategory
+// And send mock data from apiData.getCategory[0] as response body
+cy.interceptApi('getCategory', apiData.getCategory[0]);
+```
+
+### Finding correct order of interceptions
+
+You can see when every api call is made when running tests using `yarn test`. Based on that you want to add interceptions. It is the best to add `cy.interceptApi()` command right before action that makes api call. It makes it easier to edit tests later.
+
+For exapmle `page.category.addProductToCart(0);` makes an api call to _`/api/sylius/addToCart`_ so we can add `cy.interceptApi()` command right before it with mock data from `apiData.addToCart[0]`
+
+Note that api call is made right after clicking on add to cart button (end of `page.category.addProductToCart()` command).
+![Add to cart actuion makes an api call](../../assets/testing-mocking-api-data/add-to-cart-api-call.png)
+
+So we have to add interception right before it:
+
+```ts
+cy.interceptApi('addToCart', apiData.addToCart[0]);
+page.category.addProductToCart(0);
+```
+
+:::warning Order of interceptions - Debugging
+If action are made too fast, order of api calls might not be accurate because api call is displayed in cypress console when it finishes, **not** when it starts.
+
+If you want to be sure that order of api calls is accurate you can use `cy.wait()` command to wait before and after each action that makes an api call.
+
+For example:
+
+```ts
+// Other commands...
+
+cy.wait(5000);
+// Go to home page
+page.home.visit();
+cy.wait(5000);
+
+// Next command
+```
+
+Only 4 calls are made on `page.home.visit();`, using `cy.wait()` we can be sure that oredring is correct, because previous call have time to finish, and next command is called after 5 seconds.
+
+:::
+
+When you find correct order of interceptions you can add them to your test.
+
+### Final test with mock data example
+
+In this example we are adding 3 products, so `addToCart` is called 3 times. If there is more than one call with same url ending, data should alyaws be in same order as api calls. So there is no need to check if we are using correct data.
+
+```ts
+import page from '../pages/factory';
+import apiData from '../fixtures/api/my-test-file-name';
+
+context('Adding products to cart', () => {
+  it(['e2e', 'happypath'], 'Should successfully add product to cart', () => {
+    // Visit homepage
+    cy.interceptApi('getCategory', apiData.getCategory[0]);
+    cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[0]);
+    cy.interceptApi('createCart', apiData.createCart[0]);
+    cy.interceptApi('getCart', apiData.getCart[0]);
+    page.home.visit();
+
+    // Go to category page
+    cy.interceptApi('getFirstProductId', apiData.getFirstProductId[0]);
+    cy.interceptApi('getProductAttribute', apiData.getProductAttribute[0]);
+    cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[0]);
+    cy.interceptApi('getProductNotFiltered', apiData.getProductNotFiltered[0]);
+    page.home.header.categories.first().click();
+
+    // Add product
+    cy.interceptApi('addToCart', apiData.addToCart[0]);
+    page.category.addProductToCart(0);
+
+    // Add product with quantity
+    cy.interceptApi('addToCart', apiData.addToCart[1]);
+    page.category.addProductToCart(1, 12, true);
+
+    // Add product with specific variant
+    cy.interceptApi('addToCart', apiData.addToCart[2]);
+    page.category.addProductToCart(2, 1, true, [
+      {
+        selectorId: 0,
+        variant: 1,
+      },
+    ]);
+
+    // Check cart sidebar content
+    page.category.header.openCartSidebar();
+  });
+});
+```
+
+Now we can run our test and it should work without backend api running.
