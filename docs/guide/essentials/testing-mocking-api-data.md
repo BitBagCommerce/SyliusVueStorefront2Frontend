@@ -47,17 +47,20 @@ context('Adding products to cart', () => {
 
 This test is going to work only with real backend api running.
 
-## Getting api data
+## Getting api data manually
 
-To get api responses in Cypress tests we can use [`cy.intercept()`](https://docs.cypress.io/api/commands/intercept) command. This command is used to intercept requests. It's very simple to use. We also have custom command `cy.interceptApi()` to make it even simpler for our use case. More on that later.
+> This might help you understand how mock data is generated automatically and used. If you are not intrested in this you can skip to [next section](#automatic-mock-data-generation).
+
+To get api responses in Cypress tests we can use [`cy.intercept()`](https://docs.cypress.io/api/commands/intercept) command. This command is used to intercept requests. It's very simple to use. We also have custom command `cy.interceptApi()` to make it even simpler for our use case, but more on that later.
 
 ### Why do we need to intercept api calls?
 
 We need to intercept api calls to get data from them. By default you can see api calls in Cypress console but you can't get response data from them. To get data we need to intercept them.
 
-**Without using `cy.intercept()`**
+**Running spec using `yarn test` without adding `cy.intercept()`, backend is working**<br>
+(Note that there is no response body in console)
 
-{IMAGE RUNNING TEST WITHOUT INTERCEPT}
+![Running test without intercept](../../assets/testing-mocking-api-data/running-test-without-intercept.png)
 
 ### Intercepting all api calls
 
@@ -65,7 +68,7 @@ Now let's intercept all api calls. We need to add `cy.intercept()` command to ou
 
 We will use it like that `cy.intercept('POST', '/api/sylius/**', (req) => {});`.
 
-Every api call is made using `POST` method and starts with `/api/sylius/` so we can use it to intercept all api calls. Only url ending is different, so we use `**` to match any ending.
+Every our api call in cypress is made using `POST` method and starts with `/api/sylius/` so we can use it to intercept all api calls. Only url ending is different, so we use `**` to match any ending.
 
 By adding `(req) => {}` at the end, even though we don't do anything with our requests, it causes Cypress to also show api responses in console.
 
@@ -98,15 +101,18 @@ context('Adding products to cart', () => {
 });
 ```
 
-**Cypress output:**
+**Cypress output:**<br>
+(Response body is now visible in console)
 
-{IMAGE RUNNING TEST WITH INTERCEPT AND GETTING RESPONSES}
+![Running test with intercept and getting responses](../../assets/testing-mocking-api-data/running-test-with-intercept.png)
 
-Now we can see api responses in console. We can use them to create mock data manually. However, it's not very convenient. We need to copy data from console and paste it to our mock data file. It's also easy to make a mistake.
+Now we can see api response body in console. We can use that to create mock data manually by simply copying it. However, it's not very convenient. We need to copy data from console and paste it to our mock data file, then reapeat for every single api call. It's also easy to make a mistake.
 
 This is why we created custom commands to generate mock data file automatically.
 
 ## Automatic mock data generation
+
+This works similarly to mannualy getting api data calls but it also **automatically saves api responses in proper format to variable and a to file at the end.** It's very simple to use. We just need to add two commands to our test.
 
 To generate mock data automatically we need to use custom `cy.dataAutogenIntercept()` and `cy.dataAutogenSaveToFile()` commands.
 
@@ -123,6 +129,8 @@ cy.dataAutogenIntercept(apiDataGen).then((newData) => {
 
 First we create empty object `apiDataGen` that will be used to store our mock data. Then we pass it to `cy.dataAutogenIntercept()` command. This way `apiDataGen` will be updated with every api call. It will be used later to save mock data to file.
 
+This by itself can also be used to display api response body in console while using `yarn test` and will not affect how our test works.
+
 #### `cy.dataAutogenSaveToFile(apiData: Record<string, unknown>, fileName: string): void;`
 
 This command saves mock data to file. It should be used **at the end of our test**. This one is straight forward. We just pass `apiDataGen` object containing our api responses and file name to it (it should be same as our test file name, without extension, as it is added automatically).
@@ -133,7 +141,7 @@ cy.dataAutogenSaveToFile(apiDataGen, 'my-test-file-name');
 
 ### Using both commands in practice to generate mock data
 
-Now let's use both commands together to generate mock data. We need to add `cy.dataAutogenIntercept()` command at the beginning of our test and `cy.dataAutogenSaveToFile()` at the end.
+Now let's use both commands together to generate mock data. We need to add `cy.dataAutogenIntercept()` command at the beginning of our test and `cy.dataAutogenSaveToFile()` at the end. Nothing else is needed.
 
 ```ts
 import page from '../pages/factory';
@@ -155,7 +163,7 @@ context('Adding products to cart', () => {
     // Check cart sidebar content
     page.category.header.openCartSidebar();
 
-    cy.dataAutogenSaveToFile(apiDataGen, 'e2e-add-product-to-cart');
+    cy.dataAutogenSaveToFile(apiDataGen, 'my-test-file-name');
   });
 });
 ```
@@ -185,6 +193,8 @@ When you update your test you need to update mock data file as well. Otherwise i
 ## Generated mock data format
 
 Generated data is saved in _`packages/theme/tests/e2e/fixtures/api/`_ directory. It is saved as `my-test-file-name.ts` file (name is same as one provided in `cy.dataAutogenSaveToFile()`). It has to be formatted by prettier to be readable.
+
+> It is not necessary to know how mock data looks like and how it is generated, but it might be useful if you have to debug something. If you are not interested in this you can go to [next section](#using-generated-mock-data-in-tests) where it is shown how to use generated mock data in tests.
 
 Data structure is predefined by our custom commands and it should look like this:
 
@@ -236,5 +246,7 @@ apiData.getCart[1];
 // Response 1 from getCategory api call
 apiData.getCategory[0];
 ```
+
+Practical use of this data is shown in next section.
 
 ## Using generated mock data in tests
