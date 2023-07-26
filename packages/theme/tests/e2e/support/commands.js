@@ -44,10 +44,10 @@ Cypress.Commands.add('vsfUiEl', (selector, children, options) => {
     : cy.get(`[data-testid="${selector}"]`, options);
 });
 
-Cypress.Commands.add('dataAutogenIntercepts', (apiData) => {
+Cypress.Commands.add('dataAutogenIntercept', (apiData) => {
   cy.intercept('POST', '/api/sylius/**', (req) => {
     // Regex gets everything to /sylius/ including /sylius/ and it is replaced with empty string
-    // Exaple url: http://localhost:8000/api/sylius/getCart
+    // Example url: http://localhost:8000/api/sylius/getCart
     // This way we get only the data name (getCart, addProductToCart, etc.)
     const dataName = req.url.replace(/.*\/sylius\//, '');
     req.reply((res) => {

@@ -4,7 +4,7 @@ import apiData from '../fixtures/api/e2e-add-product-to-cart';
 context('Adding products to cart', () => {
   it(['e2e', 'happypath'], 'Should successfully add product to cart', () => {
     // let apiDataGen = {};
-    // cy.dataAutogenIntercepts(apiDataGen).then((newData) => {
+    // cy.dataAutogenIntercept(apiDataGen).then((newData) => {
     //   apiDataGen = newData;
     // });
 
