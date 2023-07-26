@@ -22,7 +22,7 @@ declare namespace Cypress {
   interface Chainable<> {
     el(selector: string, children?: string, options?: Options): Chainable<any>;
     interceptApi(
-      url: string,
+      urlEnding: string,
       data: Record<string, unknown> | Record<string, unknown>[]
     ): Chainable<any>;
     vsfUiEl(

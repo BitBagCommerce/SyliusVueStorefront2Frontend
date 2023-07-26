@@ -25,9 +25,9 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('interceptApi', (url, data) => {
-  cy.intercept('POST', '/api/sylius/' + url, (req) => {
-    req.url = '/api/sylius/' + url;
+Cypress.Commands.add('interceptApi', (urlEnding, data) => {
+  cy.intercept('POST', '/api/sylius/' + urlEnding, (req) => {
+    req.url = '/api/sylius/' + urlEnding;
     req.reply({ body: data });
   });
 });
