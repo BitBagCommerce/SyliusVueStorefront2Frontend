@@ -27,7 +27,7 @@ End to end tests are run on Github automatically when merging to one of main bra
 :::
 
 **Example test:**
-_`packages/theme/tests/e2e/-file-name.cy.ts`_
+_`packages/theme/tests/e2e/integration/my-test-file-name.cy.ts`_
 
 ```ts
 import page from '../pages/factory';
@@ -59,7 +59,7 @@ To get api responses in Cypress tests we can use [`cy.intercept()`](https://docs
 
 We need to intercept api calls to get data from them. By default you can see api calls in Cypress console but you can't get response data from them. To get data we need to intercept them.
 
-**Running spec using `yarn test` without adding `cy.intercept()`, backend is working**<br>
+**Image shows running spec using `yarn test` without adding `cy.intercept()`, backend is working**<br>
 (Note that there is no response body in console)
 
 ![Running test without intercept](../../assets/testing-mocking-api-data/running-test-without-intercept.png)
@@ -114,7 +114,7 @@ This is why we created custom commands to generate mock data file automatically.
 
 ## Automatic mock data generation
 
-This works similarly to mannualy getting api data calls but it also **automatically saves api responses in proper format to variable and a to file at the end.** It's very simple to use. We just need to add two commands to our test.
+This works similarly to mannualy getting api data calls but it also **automatically saves api responses in proper format to variable and to a file at the end.** It's very simple to use. We just need to add two commands to our test.
 
 To generate mock data automatically we need to use custom `cy.dataAutogenIntercept()` and `cy.dataAutogenSaveToFile()` commands.
 
@@ -152,7 +152,7 @@ Now let's use both commands together to generate mock data. We need to add `cy.d
 :::danger Ending test before api calls are finished - Fix
 There might be a case where test is finished and data is saved before api calls are finished. **It will result in missing parts of mock data.** To avoid this we can use additional `cy.wait()` command just before `cy.dataAutogenSaveToFile()` to wait for api calls to finish before saving data to file.
 
-Funtion `cy.dataAutogenSaveToFile()` already waits for 10 seconds, but it might not be enough for slower computers or in edge cases.
+Function `cy.dataAutogenSaveToFile()` already waits for 10 seconds, but it might not be enough for slower computers or in edge cases.
 :::
 
 ```ts
@@ -286,11 +286,33 @@ Then we can use `cy.interceptApi()` command to mock api calls. It is used like t
 cy.interceptApi('getCategory', apiData.getCategory[0]);
 ```
 
+**Every api call to the same endpoint should be in same order as mock data saved in file** so you can use `[1]` to get second element and so on. Every api endpoint has it's own array of responses.:
+
+```ts
+cy.interceptApi('getCategory', apiData.getCategory[0]);
+cy.interceptApi('getCategory', apiData.getCategory[1]);
+cy.interceptApi('getCategory', apiData.getCategory[2]);
+// [3], [4], [5]...
+// Other api endpoint
+cy.interceptApi('getCart', apiData.getCart[0]);
+cy.interceptApi('getCart', apiData.getCart[1]);
+// [2], [3], [4]...
+```
+
+**Order should not be mixed up** (assuming that mock data was generated correctly):
+
+```ts
+// This is probably wrong
+cy.interceptApi('getCategory', apiData.getCategory[2]);
+cy.interceptApi('getCategory', apiData.getCategory[0]);
+cy.interceptApi('getCategory', apiData.getCategory[1]);
+```
+
 ### Finding correct order of interceptions
 
 You can see when every api call is made when running tests using `yarn test`. Based on that you want to add interceptions. It is the best to add `cy.interceptApi()` command right before action that makes api call. It makes it easier to edit tests later.
 
-For exapmle `page.category.addProductToCart(0);` makes an api call to _`/api/sylius/addToCart`_ so we can add `cy.interceptApi()` command right before it with mock data from `apiData.addToCart[0]`
+For exapmle `page.category.addProductToCart(0);` makes an api call to _`/api/sylius/addToCart`_ so we should add `cy.interceptApi()` command right before it with mock data from `apiData.addToCart[0]`
 
 Note that api call is made right after clicking on add to cart button (end of `page.category.addProductToCart()` command).
 ![Add to cart actuion makes an api call](../../assets/testing-mocking-api-data/add-to-cart-api-call.png)
@@ -324,13 +346,15 @@ _Waiting times needed might differ, make sure to set enough for your computer_
 
 Only 4 calls are made on `page.home.visit();`, using `cy.wait()` we can be sure that oredring is correct, because previous call have time to finish, and next command is called after 5 seconds.
 
+After making sure that order is correct you can remove `cy.wait()` commands.
+
 :::
 
 When you find correct order of interceptions you can add them to your test.
 
 ### Final test with mock data example
 
-In this example we are adding 3 products, so `addToCart` is called 3 times. If there is more than one call with same url ending, data should alyaws be in same order as api calls. So there is no need to check if we are using correct data.
+In this example we are adding 3 products, so `addToCart` is called 3 times. If there is more than one call with same url ending, data should always be in same order as api calls. So there is no need to check if we are using correct data.
 
 ```ts
 import page from '../pages/factory';
@@ -339,16 +363,16 @@ import apiData from '../fixtures/api/my-test-file-name';
 context('Adding products to cart', () => {
   it(['e2e', 'happypath'], 'Should successfully add product to cart', () => {
     // Visit homepage
-    cy.interceptApi('getCategory', apiData.getCategory[0]);
     cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[0]);
+    cy.interceptApi('getCategory', apiData.getCategory[0]);
     cy.interceptApi('createCart', apiData.createCart[0]);
     cy.interceptApi('getCart', apiData.getCart[0]);
     page.home.visit();
 
     // Go to category page
+    cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[1]);
     cy.interceptApi('getFirstProductId', apiData.getFirstProductId[0]);
     cy.interceptApi('getProductAttribute', apiData.getProductAttribute[0]);
-    cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[0]);
     cy.interceptApi('getProductNotFiltered', apiData.getProductNotFiltered[0]);
     page.home.header.categories.first().click();
 
@@ -376,3 +400,10 @@ context('Adding products to cart', () => {
 ```
 
 Now we can run our test and it should work without backend api running.
+
+Make sure that data gives expected test results. If not, try to find out why.
+Common bug causes:
+
+- wrong mock data (check if data is correct)
+- wrong order of interceptions.
+- wrong data used in interceptions (`[0]` used twice, or mixed up order of data used).
