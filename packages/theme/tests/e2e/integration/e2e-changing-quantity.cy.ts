@@ -1,48 +1,29 @@
 import page from '../pages/factory';
-import {
-  getCategory,
-  getMinimalProduct,
-  getFirstProductId,
-  getCart,
-  getProductAttribute,
-  addToCart,
-  getProductNotFiltered,
-  createCart,
-} from '../fixtures/api/e2e-api-responses';
-import { getCartModifications } from '../fixtures/api/e2e-api-responses-modifications';
+import apiData from '../fixtures/api/e2e-changing-quantity';
 
 context('Changing quantity of items', () => {
   it(
     ['e2e', 'happypath'],
     'Should add product to cart with different quantities',
     () => {
-      let currentCart = getCart.empty;
-
       // Mocking API responses
-      cy.interceptApi('getMinimalProduct', getMinimalProduct.minimalProducts);
-      cy.interceptApi('getCategory', getCategory.categories);
-      cy.interceptApi('createCart', createCart.cart);
-      cy.interceptApi('getCart', currentCart);
-      cy.interceptApi('getFirstProductId', getFirstProductId.firstProductId);
-      cy.interceptApi(
-        'getProductAttribute',
-        getProductAttribute.productAttributes
-      );
-      cy.interceptApi('addToCart', addToCart.singleProduct);
-      cy.interceptApi(
-        'getProductNotFiltered',
-        getProductNotFiltered.productsNotFiltered
-      );
+      cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[0]);
+      cy.interceptApi('getCategory', apiData.getCategory[0]);
+      cy.interceptApi('createCart', apiData.createCart[0]);
+      cy.interceptApi('getCart', apiData.getCart[0]);
 
       // Go to category page
       page.home.visit();
+      cy.interceptApi(
+        'getProductNotFiltered',
+        apiData.getProductNotFiltered[0]
+      );
+      cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[1]);
+      cy.interceptApi('getFirstProductId', apiData.getFirstProductId[0]);
+      cy.interceptApi('getProductAttribute', apiData.getProductAttribute[0]);
       page.home.header.categories.first().click();
 
       // Change quantity using buttons
-      cy.wait(10).then(() => {
-        currentCart = getCartModifications.addProduct(currentCart, 8);
-        cy.interceptApi('addToCart', currentCart);
-      });
 
       // Open product modal
       page.category.addToCartButton.eq(0).click();
@@ -66,13 +47,11 @@ context('Changing quantity of items', () => {
         '8'
       );
       // Add to cart
+      cy.interceptApi('addToCart', apiData.addToCart[0]);
       page.productModal.addToCartButton.click();
 
       // Change quantity using input
-      cy.wait(10).then(() => {
-        currentCart = getCartModifications.addProduct(currentCart, 12, 1);
-        cy.interceptApi('addToCart', currentCart);
-      });
+      cy.interceptApi('addToCart', apiData.addToCart[1]);
 
       page.category.addProductToCart(1, 12, true);
 
