@@ -3,7 +3,7 @@ import variantsSelector from './variants-selector';
 
 class ProductModal {
   get addToCartButton(): Cypress.Chainable {
-    return cy.el('modal__add-to-cart');
+    return cy.el('modal__add-to-cart', '> button');
   }
 
   get quantitySelector() {
@@ -49,7 +49,15 @@ class ProductModal {
     }
 
     // Add to cart
-    this.addToCartButton.first().click();
+    cy.wait(500);
+    this.addToCartButton.first().should('be.visible');
+    this.addToCartButton
+      .first()
+      .should('not.have.class', 'is-disabled--button')
+      .then(() => {
+        this.addToCartButton.first().click();
+      });
+    cy.wait(1000);
   }
 }
 
