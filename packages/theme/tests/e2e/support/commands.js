@@ -62,7 +62,7 @@ Cypress.Commands.add('dataAutogenIntercept', (apiData) => {
 });
 
 Cypress.Commands.add('dataAutogenSaveToFile', (apiData, fileName) => {
-  cy.wait(4000).then(() => {
+  cy.wait(10000).then(() => {
     cy.writeFile(
       'fixtures/api/' + fileName + '.ts',
       'const apiData = ' +

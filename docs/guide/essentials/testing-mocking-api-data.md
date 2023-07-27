@@ -4,6 +4,8 @@
 
 We use Cypress for end to end testing. It is a great tool for testing, it allows us to mock data, but we need to intercept api calls manually and there is a lot of them. We don't want to test our api in end to end tests, we want to test only our application. To solve this problem we created a simple solution.
 
+**This guide will show you how to use automatic mock data generation and how to use that data in tests.**
+
 :::tip Tests separation concept
 
 VSF2 is a headless application. It means that it's frontend is separated from backend api but it highly depends on responses provided by it.
@@ -146,6 +148,12 @@ cy.dataAutogenSaveToFile(apiDataGen, 'my-test-file-name');
 ### Using both commands in practice to generate mock data
 
 Now let's use both commands together to generate mock data. We need to add `cy.dataAutogenIntercept()` command at the beginning of our test and `cy.dataAutogenSaveToFile()` at the end. Nothing else is needed.
+
+:::danger Ending test before api calls are finished - Fix
+There might be a case where test is finished and data is saved before api calls are finished. **It will result in missing parts of mock data.** To avoid this we can use additional `cy.wait()` command just before `cy.dataAutogenSaveToFile()` to wait for api calls to finish before saving data to file.
+
+Funtion `cy.dataAutogenSaveToFile()` already waits for 10 seconds, but it might not be enough for slower computers or in edge cases.
+:::
 
 ```ts
 import page from '../pages/factory';
@@ -311,6 +319,8 @@ cy.wait(5000);
 
 // Next command
 ```
+
+_Waiting times needed might differ, make sure to set enough for your computer_
 
 Only 4 calls are made on `page.home.visit();`, using `cy.wait()` we can be sure that oredring is correct, because previous call have time to finish, and next command is called after 5 seconds.
 
