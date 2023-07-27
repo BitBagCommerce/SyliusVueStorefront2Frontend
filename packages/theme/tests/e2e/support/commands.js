@@ -64,15 +64,13 @@ Cypress.Commands.add('dataAutogenIntercept', (apiData) => {
 Cypress.Commands.add('dataAutogenSaveToFile', (apiData, fileName) => {
   cy.wait(10000).then(() => {
     cy.writeFile(
-      'fixtures/api/' + fileName + '.ts',
-      'const apiData = ' +
-        JSON.stringify(apiData) +
-        ';\n\nexport default apiData;\n'
+      `fixtures/api/${fileName}.ts`,
+      `const apiData = ${JSON.stringify(apiData)};\n\nexport default apiData;\n`
     ).then(() => {
       console.log(
         'Responses data file saved!',
         '\n',
-        'Location: e2e/fixtures/api/' + fileName + '.ts'
+        `Location: e2e/fixtures/api/${fileName}.ts`
       );
       cy.wait(2000);
     });
