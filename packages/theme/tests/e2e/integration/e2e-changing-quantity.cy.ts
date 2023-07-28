@@ -6,14 +6,14 @@ context('Changing quantity of items', () => {
     ['e2e', 'happypath'],
     'Should add product to cart with different quantities',
     () => {
-      // Mocking API responses
+      // Visit homepage
       cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[0]);
       cy.interceptApi('getCategory', apiData.getCategory[0]);
       cy.interceptApi('createCart', apiData.createCart[0]);
       cy.interceptApi('getCart', apiData.getCart[0]);
+      page.home.visit();
 
       // Go to category page
-      page.home.visit();
       cy.interceptApi(
         'getProductNotFiltered',
         apiData.getProductNotFiltered[0]
@@ -24,7 +24,6 @@ context('Changing quantity of items', () => {
       page.home.header.categories.first().click();
 
       // Change quantity using buttons
-
       // Open product modal
       page.category.addToCartButton.eq(0).click();
       page.productModal.addToCartButton.should('be.visible');
