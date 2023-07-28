@@ -12,7 +12,7 @@ VSF2 is a headless application. It means that it's frontend is separated from ba
 
 We want to separate our tests from backend api. We don't want to test our api in end to end tests. We want to test only our application. To do this **we need to mock data from api**. We can do this **by intercepting api calls** and returning mock data. This way we can test our application without backend api running.
 
-This is important because we don't want our tests to fail when backend api fails. Backend api has it's own tests and if something breakes there it should not affect our tests.
+This is important because we don't want our tests to fail when backend api fails. Backend api has it's own tests and if something breaks there it should not affect our tests.
 
 :::
 
@@ -51,7 +51,7 @@ This test is going to work only with real backend api running.
 
 ## Getting api data manually
 
-> This might help you understand how mock data is generated automatically and used. If you are not intrested in this you can skip to [next section](#automatic-mock-data-generation).
+> This might help you understand how mock data is generated automatically and used. If you are not interested in this you can skip to [next section](#automatic-mock-data-generation).
 
 To get api responses in Cypress tests we can use [`cy.intercept()`](https://docs.cypress.io/api/commands/intercept) command. This command is used to intercept requests. It's very simple to use. We also have custom command `cy.interceptApi()` to make it even simpler for our use case, but more on that later.
 
@@ -108,13 +108,13 @@ context('Adding products to cart', () => {
 
 ![Running test with intercept and getting responses](../../assets/testing-mocking-api-data/running-test-with-intercept.png)
 
-Now we can see api response body in console. We can use that to create mock data manually by simply copying it. However, it's not very convenient. We need to copy data from console and paste it to our mock data file, then reapeat for every single api call. It's also easy to make a mistake.
+Now we can see api response body in console. We can use that to create mock data manually by simply copying it. However, it's not very convenient. We need to copy data from console and paste it to our mock data file, then repeat for every single api call. It's also easy to make a mistake.
 
 This is why we created custom commands to generate mock data file automatically.
 
 ## Automatic mock data generation
 
-This works similarly to mannualy getting api data calls but it also **automatically saves api responses in proper format to variable and to a file at the end.** It's very simple to use. We just need to add two commands to our test.
+This works similarly to manually getting api data calls but it also **automatically saves api responses in proper format to variable and to a file at the end.** It's very simple to use. We just need to add two commands to our test.
 
 To generate mock data automatically we need to use custom `cy.dataAutogenIntercept()` and `cy.dataAutogenSaveToFile()` commands.
 
@@ -219,7 +219,7 @@ const apiData = {
   getCart: [
     {
       // Response data from call 1
-      // Responses are ussualy objects{} or arrays[]
+      // Responses are usually objects{} or arrays[]
     },
     // If there is more than one call to the same api endpoint
     // (http://localhost:8000/api/sylius/getCart)
@@ -232,7 +232,7 @@ const apiData = {
   // http://localhost:8000/api/sylius/getCategory
   // Note that it is always saved as array,
   // even if there is only one call/one response,
-  // it is done to keep it consistent and convinient to use
+  // it is done to keep it consistent and convenient to use
   getCategory: [
     {
       // Response data from call 1
@@ -244,7 +244,7 @@ const apiData = {
 export default apiData;
 ```
 
-This format lets us use data in our tests easily. Autocompletion should work as well, so we can see all available api responses, and we don't have to know what is inside `apiData` object. You will see why this is so convinient later.
+This format lets us use data in our tests easily. Autocompletion should work as well, so we can see all available api responses, and we don't have to know what is inside `apiData` object. You will see why this is so convenient later.
 
 After importing `apiData` object we can get single api response like that:
 
@@ -312,7 +312,7 @@ cy.interceptApi('getCategory', apiData.getCategory[1]);
 
 You can see when every api call is made when running tests using `yarn test`. Based on that you want to add interceptions. It is the best to add `cy.interceptApi()` command right before action that makes api call. It makes it easier to edit tests later.
 
-For exapmle `page.category.addProductToCart(0);` makes an api call to _`/api/sylius/addToCart`_ so we should add `cy.interceptApi()` command right before it with mock data from `apiData.addToCart[0]`
+For example `page.category.addProductToCart(0);` makes an api call to _`/api/sylius/addToCart`_ so we should add `cy.interceptApi()` command right before it with mock data from `apiData.addToCart[0]`
 
 Note that api call is made right after clicking on add to cart button (end of `page.category.addProductToCart()` command).
 ![Add to cart actuion makes an api call](../../assets/testing-mocking-api-data/add-to-cart-api-call.png)
@@ -344,7 +344,7 @@ cy.wait(5000);
 
 _Waiting times needed might differ, make sure to set enough for your computer_
 
-Only 4 calls are made on `page.home.visit();`, using `cy.wait()` we can be sure that oredring is correct, because previous call have time to finish, and next command is called after 5 seconds.
+Only 4 calls are made on `page.home.visit();`, using `cy.wait()` we can be sure that ordering is correct, because previous call have time to finish, and next command is called after 5 seconds.
 
 After making sure that order is correct you can remove `cy.wait()` commands.
 
