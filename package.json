@@ -23,6 +23,7 @@
     "start": "cd packages/theme && yarn start",
     "test": "cd packages/theme && yarn test:e2e",
     "test:hl": "cd packages/theme && yarn test:e2e:hl",
+    "test:hl:data-gen-all": "cd packages/theme && yarn test:e2e:hl && yarn prettier --write tests/e2e/fixtures/api/**",
     "update:check": "ncu && lerna run update:check --stream",
     "update:update": "ncu -u && lerna run update:update --stream",
     "commit": "cz",

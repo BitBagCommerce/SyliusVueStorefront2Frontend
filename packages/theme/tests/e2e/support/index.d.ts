@@ -10,19 +10,21 @@ declare namespace Cypress {
 
   interface cy {
     fixtures: { data: any };
-  }
-
-  interface Chainable<> {
-    interceptApi(
-      url: string,
-      data: Record<string, unknown> | Record<string, unknown>[]
-    ): Chainable<any>;
+    dataAutogenIntercept(
+      apiData: Record<string, unknown>
+    ): Chainable<Record<string, unknown>>;
+    dataAutogenSaveToFile(
+      apiData: Record<string, unknown>,
+      fileName: string
+    ): void;
   }
 
   interface Chainable<> {
     el(selector: string, children?: string, options?: Options): Chainable<any>;
-  }
-  interface Chainable<> {
+    interceptApi(
+      urlEnding: string,
+      data: Record<string, unknown> | Record<string, unknown>[]
+    ): Chainable<any>;
     vsfUiEl(
       selector: string,
       children?: string,

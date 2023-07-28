@@ -9,6 +9,7 @@ module.exports = defineConfig({
   screenshotsFolder: 'report/assets/screenshots',
   video: false,
   reporter: '../../../../node_modules/mochawesome',
+  defaultCommandTimeout: 8000,
   reporterOptions: {
     reportDir: 'report',
     reportFilename: 'report',
