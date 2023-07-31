@@ -89,7 +89,7 @@ context('Order placement', () => {
     cy.interceptApi('getCart', apiData.getCart[8]);
     cy.interceptApi('getCategory', apiData.getCategory[1]);
     cy.interceptApi('createCart', apiData.createCart[2]);
-    cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
+    cy.visit('/en/checkout/thank-you?order=000000010');
 
     page.checkout.thankyou.heading.should('be.visible');
   });
