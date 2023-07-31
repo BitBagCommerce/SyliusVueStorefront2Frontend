@@ -101,7 +101,7 @@ context('Order placement', () => {
     page.checkout.payment.paymentMethods.first().click();
     page.checkout.payment.makeAnOrderButton.click();
     cy.wait(1000).clearCookies();
-    cy.visit('http://localhost:3000/en/checkout/thank-you?order=000000010');
+    cy.visit('/en/checkout/thank-you?order=000000010');
 
     cy.wait(10).then(() => {
       currentCart = apiResponses.getCart.empty;
