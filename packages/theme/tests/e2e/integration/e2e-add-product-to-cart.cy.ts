@@ -13,7 +13,7 @@ context('Adding products to cart', () => {
     // Go to category page
     cy.interceptApi('getFirstProductId', apiData.getFirstProductId[0]);
     cy.interceptApi('getProductAttribute', apiData.getProductAttribute[0]);
-    cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[0]);
+    cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[1]);
     cy.interceptApi('getProductNotFiltered', apiData.getProductNotFiltered[0]);
     page.home.header.categories.first().click();
 

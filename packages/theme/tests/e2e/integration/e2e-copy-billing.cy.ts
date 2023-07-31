@@ -1,18 +1,5 @@
 import page from '../pages/factory';
-import {
-  getMinimalProduct,
-  getCategory,
-  createCart,
-  getCart,
-  getFirstProductId,
-  getProductAttribute,
-  getCountries,
-  addToCart,
-  addAddress,
-  getProductNotFiltered,
-} from '../fixtures/api/e2e-api-responses';
-
-import { getCartModifications } from '../fixtures/api/e2e-api-responses-modifications';
+import apiData from '../fixtures/api/e2e-copy-billing';
 
 before(() => {
   cy.fixture('test-data/e2e-place-order').then((fixture) => {
@@ -28,37 +15,33 @@ context('Copy billing data to shipping form', () => {
     'Should successfully copy data from billing form',
     () => {
       const data = cy.fixtures.data;
-      let currentCart = getCart.empty;
+      // Visit homepage
+      cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[0]);
+      cy.interceptApi('getCategory', apiData.getCategory[0]);
+      cy.interceptApi('createCart', apiData.createCart[0]);
+      cy.interceptApi('getCart', apiData.getCart[0]);
+      page.home.visit();
 
-      // Mocking API responses
-      cy.interceptApi('getMinimalProduct', getMinimalProduct.minimalProducts);
-      cy.interceptApi('getCategory', getCategory.categories);
-      cy.interceptApi('createCart', createCart.cart);
-      cy.interceptApi('getCart', getCart.empty);
-      cy.interceptApi('getFirstProductId', getFirstProductId.firstProductId);
-      cy.interceptApi(
-        'getProductAttribute',
-        getProductAttribute.productAttributes
-      );
-      cy.interceptApi('getCountries', getCountries.countries);
-      cy.interceptApi('addToCart', addToCart.singleProduct);
-      cy.interceptApi('addAddress', addAddress.billing);
+      // Go to category page
       cy.interceptApi(
         'getProductNotFiltered',
-        getProductNotFiltered.productsNotFiltered
+        apiData.getProductNotFiltered[0]
       );
-
-      // Add product to cart
-      page.home.visit();
+      cy.interceptApi('getMinimalProduct', apiData.getMinimalProduct[1]);
+      cy.interceptApi('getFirstProductId', apiData.getFirstProductId[0]);
+      cy.interceptApi('getProductAttribute', apiData.getProductAttribute[0]);
       page.home.header.categories.first().click();
 
-      cy.wait(10).then(() => {
-        currentCart = getCartModifications.addProduct(currentCart);
-        cy.interceptApi('getCart', currentCart);
-      });
-
+      // Add product to cart
+      cy.interceptApi('addToCart', apiData.addToCart[0]);
       page.category.addProductToCart();
+
+      // Go to checkout
       page.category.header.openCartSidebar();
+
+      cy.interceptApi('getCart', apiData.getCart[1]);
+      cy.interceptApi('getFirstProductId', apiData.getFirstProductId[1]);
+      cy.interceptApi('getCountries', apiData.getCountries[0]);
       page.cartSidebar.goToCheckoutButton.click();
 
       // Fill in billing form
@@ -66,16 +49,15 @@ context('Copy billing data to shipping form', () => {
       cy.wait(1000);
       page.checkout.billing.fillForm(data.customer);
 
-      cy.wait(10).then(() => {
-        currentCart = getCartModifications.setBillingAddress(
-          currentCart,
-          addAddress.billing.billingAddress
-        );
-        cy.interceptApi('getCart', currentCart);
-      });
+      cy.interceptApi('getCart', apiData.getCart[2]).as('getCart2');
 
-      cy.interceptApi('getCart', getCart.billingSumbitted);
+      cy.interceptApi('addAddress', apiData.addAddress[0]);
+      cy.interceptApi('getFirstProductId', apiData.getFirstProductId[2]);
+      cy.interceptApi('getCountries', apiData.getCountries[1]);
       page.checkout.billing.continueToShippingButton.click();
+      cy.wait('@getCart2').then(() => {
+        cy.interceptApi('getCart', apiData.getCart[3]);
+      });
 
       // Copy billing address
       page.checkout.shipping.heading.should('be.visible');
