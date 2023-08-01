@@ -36,6 +36,7 @@ context('User login', () => {
       cy.interceptApi('getUserAddresses', apiDataLogin.getUserAddresses[0]);
       cy.interceptApi('getUserOrders', apiDataLogin.getUserOrders[0]);
       cy.interceptApi('getFirstProductId', apiDataLogin.getFirstProductId[0]);
+      cy.interceptApi('getWishlists', apiDataLogin.getWishlists[0]);
       page.loginModal.login(data.user.email, data.user.password);
 
       page.myAccount.myAccountContent.should('be.visible');
@@ -64,14 +65,13 @@ context('User login', () => {
       cy.interceptApi('createCart', apiDataLoginRememberMe.createCart[1]);
       cy.interceptApi('getUser', apiDataLoginRememberMe.getUser[0]);
       cy.interceptApi('getCart', apiDataLoginRememberMe.getCart[1]);
+      cy.interceptApi('getUserAddresses', apiDataLogin.getUserAddresses[0]);
+      cy.interceptApi('getUserOrders', apiDataLogin.getUserOrders[0]);
+      cy.interceptApi('getFirstProductId', apiDataLogin.getFirstProductId[0]);
+      cy.interceptApi('getWishlists', apiDataLogin.getWishlists[0]);
       cy.interceptApi(
         'getUserAddresses',
         apiDataLoginRememberMe.getUserAddresses[0]
-      );
-      cy.interceptApi('getUserOrders', apiDataLoginRememberMe.getUserOrders[0]);
-      cy.interceptApi(
-        'getFirstProductId',
-        apiDataLoginRememberMe.getFirstProductId[0]
       );
       page.loginModal.login(data.user.email, data.user.password, true);
 
