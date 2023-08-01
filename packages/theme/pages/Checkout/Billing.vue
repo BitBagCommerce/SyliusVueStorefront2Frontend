@@ -270,12 +270,8 @@ export default {
     });
 
     const handleFormSubmit = async () => {
-      const email = cart.value?.customer?.email;
-
-      if (isAuthenticated.value || email || email !== form.value.email) {
-        await save({ billingDetails: form.value });
-        await loadCart();
-      }
+      await save({ billingDetails: form.value });
+      await loadCart();
 
       const err = error.value.save;
 
