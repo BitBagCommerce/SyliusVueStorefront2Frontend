@@ -35,6 +35,39 @@ context('Adding products to cart', () => {
 
   it(
     ['e2e', 'happypath'],
+    'Should successfully add product to cart that has no variant options',
+    () => {
+      // Visit homepage
+      // cy.interceptApi('getCategory', apiDataProduct.getCategory[0]);
+      // cy.interceptApi('getMinimalProduct', apiDataProduct.getMinimalProduct[0]);
+      // cy.interceptApi('createCart', apiDataProduct.createCart[0]);
+      // cy.interceptApi('getCart', apiDataProduct.getCart[0]);
+      page.home.visit();
+
+      // Go to category page
+      // cy.interceptApi('getFirstProductId', apiDataProduct.getFirstProductId[0]);
+      // cy.interceptApi(
+      //   'getProductAttribute',
+      //   apiDataProduct.getProductAttribute[0]
+      // );
+      // cy.interceptApi('getMinimalProduct', apiDataProduct.getMinimalProduct[1]);
+      // cy.interceptApi(
+      //   'getProductNotFiltered',
+      //   apiDataProduct.getProductNotFiltered[0]
+      // );
+      page.home.header.categories.eq(1).click();
+
+      // Add product
+      // cy.interceptApi('addToCart', apiDataProduct.addToCart[0]);
+      page.category.addProductToCart(0);
+
+      // Check cart sidebar content
+      page.category.header.openCartSidebar();
+    }
+  );
+
+  it(
+    ['e2e', 'happypath'],
     'Should successfully add product with quantity to cart',
     () => {
       // Visit homepage
@@ -77,7 +110,7 @@ context('Adding products to cart', () => {
 
   it(
     ['e2e', 'happypath'],
-    'Should successfully add product wirth variant to cart',
+    'Should successfully add product with variant to cart',
     () => {
       // Visit homepage
       cy.interceptApi('getCategory', apiDataVariant.getCategory[0]);
