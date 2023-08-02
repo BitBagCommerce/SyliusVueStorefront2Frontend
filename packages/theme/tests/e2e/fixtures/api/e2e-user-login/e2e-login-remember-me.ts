@@ -1921,6 +1921,25 @@ const apiData = {
     ],
   ],
   getUserOrders: [[]],
+  refreshLoginUser: [
+    {
+      token:
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTA5Njg4NTEsImV4cCI6MTY5MDk3MjQ1MSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiZW1haWwxQGZha2VtYWlsLmNvbSJ9.eRedopPU_BNj_4Oqpk-EVjw17pv296UVcdjYqS0Bz-wq4UeB4no_1xlGOPpWYH_IQ9xttr7bi4jLWXdOSsa7zoQwwo02cEZqCs_WXc9Svw9zzEjeBzxM_U_AIQyxMinIUEmG6oxK9L_chlSP4mfrBpbmy80X6HhE8IWJd6TtgXjCiW_ukDcrZIr_xYivgnpdr82t6oG2YKHT3RVRztnA_mhTAoYAEvUdyD011jq9gR-XZ0q7N6xID9XUtZYY3gax930Ltw8SXMxqU4arUVktTyVmX0a5mOAVS9WTnrkeruiQNRa3pCK_CvOBR0bvZk8ZIX8d0WaHs__qDeqcs-BuPhQt3I8cz3UA1j0oNZeEcEl_3oAJvfJmBscAnTPsRbPisvfPdqvpqhynK7enS7XPXKVWQOHjtvX139nQc9MkY5OZ5D5KXnlBBGqurh8Mrd2eD2iPfoQuVWdQ2QG0sW4KiV1EoKo9xPyhR7avHYDxNAeP1KKYadbjTH0UgsBwtgP7nCfF1PdQWlnV1Vd6XTJuIPnIVUHZhCE6cQNFW-yNBIJnMYQT7QorWEgcQTK3cwCihsWz4Q_agFmEn4nFA3K18z14Dd8K8L2e_d60pjDx0aIAYLK29IId2bOYGy9I1N1lIkcGi3UAdGKb8HI6Ed1kugSfqVd0XerOszXp6zRmA3s',
+      refreshToken:
+        'a9149d0e836ba9d840289a64f698a3cc1ad8c7f0afbb34e1abae33c5ad5428380c2c389ec433889972dc828487b50b097fd0078331e0cc87d469c9288f05e324',
+      user: {
+        id: '/api/v2/users/28',
+        username: 'email1@fakemail.com',
+        customer: {
+          id: '/api/v2/shop/customers/198',
+          firstName: 'Testname',
+          __typename: 'Customer',
+        },
+        __typename: 'User',
+      },
+      __typename: 'ShopUserToken',
+    },
+  ],
 };
 
 export default apiData;

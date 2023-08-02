@@ -30,6 +30,7 @@ context('User login', () => {
       page.loginModal.modal.should('be.visible');
 
       cy.interceptApi('loginUser', apiDataLogin.loginUser[0]);
+      cy.interceptApi('refreshLoginUser', apiDataLogin.refreshLoginUser[0]);
       cy.interceptApi('createCart', apiDataLogin.createCart[1]);
       cy.interceptApi('getUser', apiDataLogin.getUser[0]);
       cy.interceptApi('getCart', apiDataLogin.getCart[1]);
@@ -62,6 +63,7 @@ context('User login', () => {
       page.loginModal.modal.should('be.visible');
 
       cy.interceptApi('loginUser', apiDataLoginRememberMe.loginUser[0]);
+      cy.interceptApi('refreshLoginUser', apiDataLogin.refreshLoginUser[0]);
       cy.interceptApi('createCart', apiDataLoginRememberMe.createCart[1]);
       cy.interceptApi('getUser', apiDataLoginRememberMe.getUser[0]);
       cy.interceptApi('getCart', apiDataLoginRememberMe.getCart[1]);
