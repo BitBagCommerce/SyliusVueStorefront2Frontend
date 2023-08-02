@@ -147,12 +147,12 @@ const apiData = {
     ],
   ],
   createCart: [
-    { cartToken: '/api/v2/shop/orders/QJ8irH_b0L' },
-    { cartToken: '/api/v2/shop/orders/h7vh1_CXRx' },
+    { cartToken: '/api/v2/shop/orders/8puP19g4ym' },
+    { cartToken: '/api/v2/shop/orders/-EcFlOQZZm' },
   ],
   getCart: [
     {
-      tokenValue: 'QJ8irH_b0L',
+      tokenValue: '8puP19g4ym',
       localeCode: 'en_US',
       total: 0,
       taxTotal: 0,
@@ -167,7 +167,7 @@ const apiData = {
       __typename: 'Order',
     },
     {
-      tokenValue: 'h7vh1_CXRx',
+      tokenValue: '-EcFlOQZZm',
       localeCode: 'en_US',
       total: 0,
       taxTotal: 0,
@@ -1871,9 +1871,9 @@ const apiData = {
   loginUser: [
     {
       token:
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTA4ODkzMzgsImV4cCI6MTY5MDg5MjkzOCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiZW1haWwxQGZha2VtYWlsLmNvbSJ9.pNEO6y8JqjWC65UAQlicDc6be1s11i7JlWImuNId1hHKpZQrFd62UgWWGJLCCC5pGEVBckqzFQq3cw2g9IswJx66cjF2bJktk7ZtuHXZdD717z3KxobbUSYjMVLfo0S59O2CCoL2UqDhq8ohirRapTni5uccaXwg7P3JTdFUsHOxTwIERwJaniLJtODxFAJ1mA8KSoyyZX2KFyuicQsSQDVUzAOP1XsWA00eKu0TR7V3lJvPZSM6YZpBgmpuVO5ZBXV5YJzdsJRK9GBkbJaNoZvLwcyED73Kwp-Ai2g5YSVwg5od35bYzhVT-0vuxxGh7NwWRqIFI_cYhwtocf9xPLgFNXDacL5VYikeUKEKy56gLgEBX5Sfc_nz_xNs1sA41VPVBE1r2Gp2fM9QssN0QTPxEXiY8t_cxnG-lXjuZer1QB1CGwInu7I3JTKV-7FK_wadyAZ5hh6u-TTzA9E1__d6p5kVCOmIgJF4p3cJXCwkgsbvXPNdJXase5oqxu-pnQORnDvoViuBrkHUN1M3CKC6e5YR7LC625kYyMnNotVXxF08PrIY11KQwg4bpLc-L3JGXk2eEqWn8YuNnCdxBIGmKDTqdrw0WoLVoEVAGKhwI0fCdw2g5XhGzRXNCrwMI0NLnO-5-60fdHSmfF_14Acrk9Ys3tfwoSPaVcD_3yY',
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTA5NTUwMTAsImV4cCI6MTY5MDk1ODYxMCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiZW1haWwxQGZha2VtYWlsLmNvbSJ9.1tb83a3U0xZ8CVTlt97hhMx5IjSGn55ElF5G2lw_eB4gH-9yM_wBkZSYRadmkAxL5HzlDYjeemZDP1LzXRDiaGxtWkesCnyMK0zNNg_PJnP-aRVHQgpUH4jE_fqCcsJj5o2ciErMlFdn2shVD6LRt9C6Q7P77i62U5Pk_O-nBBMVcA788Apr-4asd4Wy1MyZIdPpJOvWXKYOzotVXFze2CFxOXuL7ckhs6bGApW5TmvLIIRtJF4kNH6Kj3Y9YObt7JObXrCnadI1DSkktgkpsszGI0uc4X8JNtKtHOfjzz-ph_yIoxjmR7fnFN_26u7nldiMGZ3gig-t2LDqwZqm6eGmsfJdhhfeyJSV1ntGJWt4iggdTPEjW0TsTUmgei7IhNwvrrT5ZoQACImcFrQIVlL5b_WJDyBfa1hzctHN8vjpLPEBc4C54RHZ6yPf5XgND_TwaXZQiswGIIYzRVUF8UD7vUQE4aONKaOEm2wnTKFfifSvt51HccRnZHQiAZPcY73XGYybXJVPv-Scn74BGwZIB89f2z5M5pqjSztqwhUyL59w2eSZN_Cfb0d3SEsz5fmD4Fb-qZ0JhaPNwSesYmgRTOwXPnT-jDTq0PWb6iPjL68mdZFA62BUnfJxQLZUFQh0mhRvJECSdFDTWPmz_Xq9O8ZTNfBQ54cPFxes8KQ',
       refreshToken:
-        '177d16719b28f583318c6bc8f5937c5cda8ed3b5b34082c74ce6cc50e0db590467a4c7e267c9f1f8121ab5651efda72e1abb3b02665b83ff441241bb9c48fcfc',
+        '37fb7d4304e06bd20ef1bb103496a395681ca3be66c3ab207d7d2fd8d3795daa6a367b73836c7818f68b695aeeaf579a5cef303f7c80a236dfb6767754c60fed',
       user: {
         customer: { id: '/api/v2/shop/customers/198', __typename: 'Customer' },
         __typename: 'User',
@@ -1911,6 +1911,8 @@ const apiData = {
         'http://localhost:8000/media/cache/sylius_shop_product_thumbnail',
     },
   ],
+  getUserAddresses: [[]],
+  getUserOrders: [[]],
   getFirstProductId: [
     [
       {
@@ -1919,8 +1921,6 @@ const apiData = {
       },
     ],
   ],
-  getUserAddresses: [[]],
-  getUserOrders: [[]],
 };
 
 export default apiData;

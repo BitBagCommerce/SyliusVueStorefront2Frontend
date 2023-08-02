@@ -147,12 +147,12 @@ const apiData = {
     ],
   ],
   createCart: [
-    { cartToken: '/api/v2/shop/orders/bftZhVH1zO' },
-    { cartToken: '/api/v2/shop/orders/PyUukvtJpD' },
+    { cartToken: '/api/v2/shop/orders/c-~0WZ8G_6' },
+    { cartToken: '/api/v2/shop/orders/b0x7RHKxqP' },
   ],
   getCart: [
     {
-      tokenValue: 'bftZhVH1zO',
+      tokenValue: 'c-~0WZ8G_6',
       localeCode: 'en_US',
       total: 0,
       taxTotal: 0,
@@ -167,7 +167,7 @@ const apiData = {
       __typename: 'Order',
     },
     {
-      tokenValue: 'PyUukvtJpD',
+      tokenValue: 'b0x7RHKxqP',
       localeCode: 'en_US',
       total: 0,
       taxTotal: 0,
@@ -1871,9 +1871,9 @@ const apiData = {
   loginUser: [
     {
       token:
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTA4ODkzNTgsImV4cCI6MTY5MDg5Mjk1OCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiZW1haWwxQGZha2VtYWlsLmNvbSJ9.LH2IbX-C2WJdBWZcN9sL5qCyjXZCrcXQ3P0SG_PuOv-UmXSFXOsZ-wZN3er4o3dRr-yBFvS_USnbU3H7xnmMbHQqykuhfBGxwgt4YMd3vu3eI3nFudsfsdH-NeSqOVdcIs-Xu5IxPaQy6OHNoUll_y3gaQ_PvgqyX08c4QtK0A1YgEIEZXEIwu0RRUMSPOKSi0Y0G0kp9sjAKLZrWuy-0V4ZqI6v2oWYgrWqjLWXyHLdKjJkCHekYjUbN8x_Ffg5SSyjc7pSDU7BIF_btaZFBitLBN_bn5vqcRhG_vGr64Mqsb95cUsPyBgtWsct_i9XZKPkaHptpUHtmN_uvtIIdGhYoA1t-XaVl0rtfnWOMDq4OY8WO5ndmV7imOaPkMv1gGxTJpAtfa5nzSHXB-SRJF6oWboAKEY9h5vGUzkHN3j81Wb9iP8eozk5iAl4VPY7fRwDVXFwJr1IWc30EsfnSM86fTKtirlod8W9buwKhPXZtDBg3xsyDDbMmVoZitxs8edt59AQLJ1kz9HhiC6GcRtGZo7XW7gRSb58iQUBFNMrAXfrMIUr2nLGpLHjYXvl3kbYHteGBWYKI9TRMxQ026RQ0uaU-FOgwJssZdkhyu9bRpIRmUfq7n1FzXKauGginV-lUFnvbNqVmIunxuqfeKAKocKo7QRO4pQMGb-pwGc',
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTA5NTUwMjksImV4cCI6MTY5MDk1ODYyOSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiZW1haWwxQGZha2VtYWlsLmNvbSJ9.dbHL9zcv6edsYoDD1oWavUGpGoX95eSbcTK9XYLHXrh-bwKEuFdoi4MXTYGhTCCM-rGbOLQ6gkSdUBvDnQLkWZlYwUDzFg-3FhJ86RCnCMU8uB9i6s5qsQtGNbxo_Cpl0cpHvNUf_Ibnibn0skTD48gkhnIWbgWYaKS5x0nSclyFki4Tg2z6ZB2ci3Q1CKb2b8Y3WuXXkikHuXJ6lU4x4zbhWBNs5hH51OiUWHSSkrNICg1-HEqmkJPjtnA9dh68BfXZc31RMBA0pF10emZ4yaTBNeUo_1OGEMRSuyDBCYygrBBzRKfouZxBUxljOwMdvxkvPnwiuy6iUlr68BBGrLdA8HPLB6eMzC2JUNB8b5_QVRihQOD_gWs0uH2VyELQ0n3e0h7TQeqjuXbNLoD_D905L19QcKYZrm9GM2PXjTSnwsUs2lFXtAanNp-TaS7syVjMVMrhKIuUrb4VdwGdiXKLp-nyIVBjrct-aYWsG2j6SCh3meygNITMnVi5tTIHUFHqv6JIdI9JCFAdpGM5r1NVfBwTZf9sUCbkKAXdy2C8qTpV9j4XaNVhLA90KWe6w31PyXzJxnLLPHDQNIePszQgM-P8V11YR74GGuE7KJApaqbVHt63ddsQ7iHcBKdU73e8cPkX7A6cRI6EE2gL9Yj1Sb4iT9o5EJPyhbaX77Y',
       refreshToken:
-        '14198d2f378a5697efcf5793a55e56abba28beb01fd2885510e59ef22a21cd860631fc920e670f42f2ba95696c66d04dd35f1054ced71bbcfda0f7696af334c1',
+        'a9149d0e836ba9d840289a64f698a3cc1ad8c7f0afbb34e1abae33c5ad5428380c2c389ec433889972dc828487b50b097fd0078331e0cc87d469c9288f05e324',
       user: {
         customer: { id: '/api/v2/shop/customers/198', __typename: 'Customer' },
         __typename: 'User',
