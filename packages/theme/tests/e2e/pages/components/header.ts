@@ -20,14 +20,16 @@ class Header {
 
   openCartSidebar(): Cypress.Chainable {
     const click = ($el) => $el.click();
-    return click(this.cart).should(() => {
-      expect(Cypress.$('[data-e2e="sidebar-cart"]')).to.exist;
-    });
+    return click(this.cart)
+      .wait(500)
+      .should(() => {
+        expect(Cypress.$('[data-e2e="sidebar-cart"]')).to.exist;
+      });
   }
 
   openMyAccount(): Cypress.Chainable {
     const click = ($el) => $el.click();
-    return click(this.account);
+    return click(this.account).wait(500);
   }
 }
 
