@@ -31,13 +31,18 @@ class LoginModal {
     return cy.el('login-modal-error');
   }
 
-  public login(email: string, password: string, rememberMe?: boolean): void {
+  public login(
+    email: string,
+    password: string,
+    rememberMe?: boolean
+  ): Cypress.Chainable {
     this.emailInput.type(email);
     this.passwordInput.type(password);
     if (rememberMe) {
       this.rememberMeCheckbox.click();
     }
     this.submitButton.click();
+    return cy;
   }
 }
 
