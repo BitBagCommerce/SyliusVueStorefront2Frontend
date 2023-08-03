@@ -4,6 +4,8 @@ import cartSidebar from './components/cart-sidebar';
 import home from './home';
 import product from './product';
 import productModal from './components/product-modal';
+import myAccount from './my-account';
+import loginModal from './components/login-modal';
 
 class Page {
   get cartSidebar() {
@@ -28,6 +30,14 @@ class Page {
 
   get productModal() {
     return productModal;
+  }
+
+  get myAccount() {
+    return myAccount;
+  }
+
+  get loginModal() {
+    return loginModal;
   }
 }
 

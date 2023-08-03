@@ -54,9 +54,7 @@ class ProductModal {
     this.addToCartButton
       .first()
       .should('not.have.class', 'is-disabled--button')
-      .then(() => {
-        this.addToCartButton.first().click();
-      });
+      .click();
     cy.wait(1000);
   }
 }
