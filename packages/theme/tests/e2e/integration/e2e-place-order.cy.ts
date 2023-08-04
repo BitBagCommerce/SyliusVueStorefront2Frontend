@@ -130,6 +130,10 @@ context('Order placement', () => {
         apiDataOrderLoggedIn.getFirstProductId[0]
       );
       cy.interceptApi('getWishlists', apiDataOrderLoggedIn.getWishlists[0]);
+      cy.interceptApi(
+        'refreshLoginUser',
+        apiDataOrderLoggedIn.refreshLoginUser[0]
+      );
       page.loginModal.login(
         data.userLogin.user.email,
         data.userLogin.user.password
