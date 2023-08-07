@@ -100,7 +100,7 @@
           <SfButton
             type="button"
             class="sf-button color-secondary summary__back-button"
-            @click="$router.push('/checkout/shipping')"
+            @click="$router.push(localeRoute({ name: 'shipping', params: { isFormSubmitted: isShippingFormSubmitted } }))"
           >
             {{ $t('Go back') }}
           </SfButton>
@@ -179,6 +179,7 @@ export default {
 
     const isRedirecting = ref(false);
     const isPaymentReady = ref(false);
+    const isShippingFormSubmitted = root.$route.params?.isFormSubmitted ?? false;
 
     const processOrder = async () => {
       isRedirecting.value = true;
@@ -234,6 +235,7 @@ export default {
     return {
       isPaymentReady,
       isRedirecting,
+      isShippingFormSubmitted,
       loading,
       cartLoading,
       products,
