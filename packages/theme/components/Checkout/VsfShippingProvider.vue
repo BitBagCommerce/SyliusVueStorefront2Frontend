@@ -74,7 +74,7 @@ export default {
   },
   setup(props) {
     const { cart } = useCart();
-    const { save: saveShippingMethod } = useShippingProvider();
+    const { save: saveShippingMethod, load: loadShippingMethod, state: shippingState } = useShippingProvider();
     const selectedMethod = ref(null);
 
     const updateShipping = (code) => {
@@ -92,6 +92,13 @@ export default {
     };
 
     onMounted(async () => {
+
+      await loadShippingMethod();
+
+      if (shippingState.value) {
+        selectedMethod.value = shippingState.value.code;
+      }
+
       if (props.shippingMethods.value?.length) {
         selectedMethod.value = cart.value.shipments
           ? cart.value.shipments.method.code
