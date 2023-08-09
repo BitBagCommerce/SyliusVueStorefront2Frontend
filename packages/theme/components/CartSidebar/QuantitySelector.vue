@@ -106,14 +106,20 @@ export default {
     };
 
     const handleInput = (input, isConfirm) => {
-      isConfirmOpen.value = isConfirm;
-      inputQty.value = parseInt(input);
+      inputQty.value = input;
+      const newInput = input.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');
+       if (newInput === input) {
+        isConfirmOpen.value = isConfirm;
+        inputQty.value = parseInt(input);
 
-      if (props.max !== null && input > props.max) inputQty.value = props.max;
+        if (props.max !== null && input > props.max) inputQty.value = props.max;
 
-      if (input < props.min) inputQty.value = props.min;
+        if (input < props.min) inputQty.value = props.min;
 
-      if (!isConfirm) handleConfirm(input);
+        if (!isConfirm) handleConfirm(input);
+      } else {
+        inputQty.value = newInput;
+      }
     };
 
     return {
