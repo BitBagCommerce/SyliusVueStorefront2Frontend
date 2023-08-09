@@ -205,16 +205,33 @@ export default {
   --mega-menu-column-header-margin: var(--spacer-sm) 0 var(--spacer-xl);
   --mega-menu-content-padding: 0 0 var(--spacer-2xl) 0;
   --mega-menu-height: auto;
+
   @include for-desktop {
     --mega-menu-content-padding: var(--spacer-xl) 0;
   }
+
+  @include for-mobile {
+    --mega-menu-height: auto;
+    top: 5.25rem;
+    bottom: 0;
+    overflow: scroll;
+    z-index: 10;
+  }
+
   &__wrapper-results {
     width: 100%;
     display: flex;
     flex-direction: column;
+
     @include for-desktop {
       flex-direction: row;
       flex: 1;
+    }
+
+    @include for-mobile {
+      ::v-deep .sf-scrollable__content {
+        display: contents;
+      }
     }
   }
   &__categories {
@@ -253,6 +270,8 @@ export default {
     --product-card-add-button-bottom: var(--spacer-base);
   }
   &--mobile {
+    --scrollable-max-height: 35vh;
+
     padding: var(--spacer-base) var(--spacer-sm);
     display: grid;
     grid-gap: var(--spacer-sm);
@@ -261,17 +280,24 @@ export default {
     background: var(--c-white);
   }
 }
+
 .see-all {
   padding: var(--spacer-xl) 0 0 var(--spacer-sm);
 }
 .action-buttons {
-  padding: var(--spacer-xl) var(--spacer-sm);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacer-sm);
   background: var(--c-white);
-  width: 100%;
+
   &__button {
-    width: calc(100% - 32px);
+    width: calc(100% - var(--spacer-sm));
+    margin: 0 auto;
   }
 }
+
 .results-listing {
   display: flex;
   flex-wrap: wrap;

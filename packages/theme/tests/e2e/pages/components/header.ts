@@ -1,8 +1,6 @@
-import { el } from '../utils/element';
-
 class Header {
   get cart(): Cypress.Chainable {
-    return el('app-header-cart');
+    return cy.el('app-header-cart');
   }
 
   get categories(): Cypress.Chainable {
@@ -11,16 +9,27 @@ class Header {
 
   get category() {
     return {
-      women: () => el('app-header-url_women'),
-      men: () => el('app-header-url_men'),
+      women: () => cy.el('app-header-url_women'),
+      men: () => cy.el('app-header-url_men'),
     };
   }
 
-  openCart(): Cypress.Chainable {
+  get account(): Cypress.Chainable {
+    return cy.el('app-header-account');
+  }
+
+  openCartSidebar(): Cypress.Chainable {
     const click = ($el) => $el.click();
-    return click(this.cart).should(() => {
-      expect(Cypress.$('[data-e2e="sidebar-cart"]')).to.exist;
-    });
+    return click(this.cart)
+      .wait(500)
+      .should(() => {
+        expect(Cypress.$('[data-e2e="sidebar-cart"]')).to.exist;
+      });
+  }
+
+  openMyAccount(): Cypress.Chainable {
+    const click = ($el) => $el.click();
+    return click(this.account).wait(500);
   }
 }
 

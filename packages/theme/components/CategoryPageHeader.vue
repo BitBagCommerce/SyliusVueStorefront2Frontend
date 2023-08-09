@@ -16,7 +16,7 @@
       </SfButton>
     </LazyHydrate>
 
-    <div class="navbar__sort desktop-only">
+    <div class="navbar__sort">
       <span class="navbar__label">{{ $t('Sort by') }}:</span>
       <SfSelect
         :value="sortBy.selected"
@@ -30,7 +30,7 @@
           :value="option.id"
           class="sort-by__option"
         >
-          {{ option.value }}
+          {{ $t(option.value) }}
         </SfSelectOption>
       </SfSelect>
     </div>
@@ -151,8 +151,14 @@ export default {
     align-items: center;
     padding: 0;
     justify-content: space-between;
+    row-gap: var(--spacer-sm);
+
     @include for-desktop {
       padding: var(--spacer-xs) var(--spacer-xl);
+    }
+
+    @include for-mobile {
+      flex-wrap: wrap;
     }
   }
   &__filters-icon {
@@ -201,6 +207,12 @@ export default {
     --select-margin: 0;
     --select-option-font-size: var(--font-size-sm);
     --select-error-message-height: 0;
+
+    @include for-mobile {
+      --select-width: 100%;
+      --select-selected-padding: 0;
+    }
+
     ::v-deep .sf-select__dropdown {
       font-size: var(--font-size-sm);
       font-family: var(--font-family--secondary);
@@ -215,6 +227,15 @@ export default {
     display: flex;
     align-items: center;
     margin: 0 auto 0 var(--spacer-2xl);
+
+    @include for-mobile {
+      margin: 0;
+      order: 2;
+      flex: 1 0 100%;
+      gap: var(--spacer-sm);
+      justify-content: flex-end;
+      white-space: nowrap;
+    }
   }
   &__counter {
     font-family: var(--font-family--secondary);

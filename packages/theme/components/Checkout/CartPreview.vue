@@ -25,6 +25,7 @@
             ]"
           />
           <SfProperty
+            data-e2e="applied-promo-code"
             v-for="discount in discounts"
             :key="discount.id"
             :name="discount.name + (discount.code && ` (${discount.code})`)"
@@ -35,6 +36,7 @@
               <span class="sf-property__value" style="text-align: right">
                 {{ props.value }}
                 <a
+                  data-e2e="remove-promo-code"
                   href="#"
                   @click.prevent="handleCouponRemoval(discount)"
                   class="text-primary"
@@ -65,14 +67,18 @@
     </div>
     <form @submit.prevent="submitCouponForm" class="highlighted promo-code">
       <SfInput
+        data-e2e="promo-code"
         v-model="promoCode"
         name="promoCode"
         :label="$t('Enter promo code')"
         class="sf-input--filled promo-code__input"
       />
-      <SfButton type="submit" class="promo-code__button">{{
-        $t('Apply')
-      }}</SfButton>
+      <SfButton
+        data-e2e="apply-promo-code"
+        type="submit"
+        class="promo-code__button"
+        >{{ $t('Apply') }}</SfButton
+      >
     </form>
     <div class="highlighted">
       <SfCharacteristic
@@ -213,6 +219,12 @@ export default {
   width: 100%;
   background-color: var(--c-light);
   padding: var(--spacer-xl) var(--spacer-xl) 0;
+
+  @include for-mobile {
+    padding: var(--spacer-xl) var(--spacer-base) 0;
+    background-color: transparent;
+  }
+
   &:last-child {
     padding-bottom: var(--spacer-xl);
   }
@@ -249,7 +261,12 @@ export default {
   }
   &__input {
     --input-background: var(--c-white);
+
     flex: 1;
+
+    @include for-mobile {
+      --input-background: var(--c-light);
+    }
   }
 }
 

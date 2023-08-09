@@ -321,4 +321,24 @@ export default {
   'Item has been added to wishlist': 'Item has been added to wishlist',
   'Item has been removed from wishlist': 'Item has been removed from wishlist',
   'Wishlist cleared successfully': 'Wishlist cleared successfully',
+  'There are not that many items on stock':
+    'There are not that many items on stock',
+  "Can't add less than one item to cart":
+    "Can't add less than one item to cart",
+  'Payment State': 'Payment State',
+  'Shipping State': 'Shipping State',
+  myAddressesDescription:
+    'Manage all the billing/shipping addresses you want (work place, home address...) This way you won"t have to enter the shipping address manually with each order.',
+  awaiting: 'awaiting',
+  paid: 'paid',
+  refunded: 'refunded',
+  cancelled: 'cancelled',
+  shipped: 'shipped',
+  ready: 'ready',
+  'Name: a-z': 'Name: a-z',
+  'Name: z-a': 'Name: z-a',
+  'Price: highest': 'Price: highest',
+  'Price: lowest': 'Price: lowest',
+  'Rating: highest': 'Rating: highest',
+  'Rating: lowest': 'Rating: lowest',
 };

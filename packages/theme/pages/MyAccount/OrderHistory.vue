@@ -112,12 +112,12 @@
                 }}</SfTableData>
                 <SfTableData>
                   <span :class="getStatusTextClass(order)">{{
-                    orderGetters.getPaymentStatus(order)
+                    $t(orderGetters.getPaymentStatus(order))
                   }}</span>
                 </SfTableData>
                 <SfTableData>
                   <span :class="getStatusTextClass(order)">{{
-                    orderGetters.getShippingStatus(order)
+                    $t(orderGetters.getShippingStatus(order))
                   }}</span>
                 </SfTableData>
                 <SfTableData class="orders__view orders__element--right">
@@ -171,16 +171,16 @@ export default {
     SfProperty,
     SfLoader,
   },
-  setup() {
+  setup(_, { root }) {
     const { orders, search, loading } = useUserOrder();
     const currentOrder = ref(null);
 
     const tableHeaders = [
-      'Order ID',
-      'Order date',
-      'Amount',
-      'Payment state',
-      'Shipping state',
+      root.$t('Order ID'),
+      root.$t('Order Date'),
+      root.$t('Amount'),
+      root.$t('Payment State'),
+      root.$t('Shipping State'),
     ];
 
     const getStatusTextClass = (order) => {

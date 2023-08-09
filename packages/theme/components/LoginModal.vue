@@ -18,7 +18,11 @@
       <div v-if="isLogin">
         <ValidationObserver v-slot="{ handleSubmit }" key="log-in">
           <form class="form" @submit.prevent="handleSubmit(handleLogin)">
-            <div v-show="error.login" class="login-error">
+            <div
+              v-show="error.login"
+              class="login-error"
+              data-e2e="login-modal-error"
+            >
               <SfAlert :message="error.login" type="danger" />
             </div>
             <ValidationProvider rules="required|email" v-slot="{ errors }">
@@ -64,8 +68,12 @@
           </form>
         </ValidationObserver>
         <div class="action">
-          <SfButton class="sf-button--text" @click="setIsForgottenValue(true)">
-            {{ $t('Forgotten password?') }}
+          <SfButton
+            class="sf-button--text"
+            data-e2e="login-modal-forgotten-password"
+            @click="setIsForgottenValue(true)"
+          >
+            {{ $t('Forgot password?') }}
           </SfButton>
         </div>
         <div class="bottom">
@@ -73,6 +81,7 @@
           <p class="bottom__paragraph">{{ $t('No account') }}</p>
           <SfButton
             class="register-today-button sf-button--full-width form__button color-light"
+            data-e2e="login-modal-register"
             @click="setIsLoginValue(false)"
           >
             {{ $t('Register today') }}

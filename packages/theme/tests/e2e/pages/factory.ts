@@ -1,12 +1,15 @@
 import category from './category';
 import checkout from './checkout';
-import cart from './components/cart-sidebar';
+import cartSidebar from './components/cart-sidebar';
 import home from './home';
 import product from './product';
+import productModal from './components/product-modal';
+import myAccount from './my-account';
+import loginModal from './components/login-modal';
 
 class Page {
-  get cart() {
-    return cart;
+  get cartSidebar() {
+    return cartSidebar;
   }
 
   get category() {
@@ -23,6 +26,18 @@ class Page {
 
   get product() {
     return product;
+  }
+
+  get productModal() {
+    return productModal;
+  }
+
+  get myAccount() {
+    return myAccount;
+  }
+
+  get loginModal() {
+    return loginModal;
   }
 }
 

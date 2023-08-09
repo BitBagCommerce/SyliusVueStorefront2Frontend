@@ -183,7 +183,7 @@
       <VsfShippingProvider
         v-if="isFormSubmitted"
         :shipping-methods="shippingMethods"
-        @submit="$router.push(localePath({ name: 'payment' }))"
+        @submit="$router.push(localeRoute({ name: 'payment', params: { isFormSubmitted: isFormSubmitted } }))"
         @cancel="isFormSubmitted = false"
       />
     </form>
@@ -246,7 +246,7 @@ export default {
       message: root.$t('Please provide a valid phone number'),
     });
 
-    const isFormSubmitted = ref(false);
+    const isFormSubmitted = ref(root.$route.params?.isFormSubmitted ?? false);
     const sameAsBilling = ref(false);
     const countries = ref([]);
     const shippingMethods = ref([]);
@@ -274,12 +274,16 @@ export default {
       phoneNumber: null,
     });
 
+    const getShippingMethods = async () => {
+      return shippingMethods.value = await $sylius.api.getShippingMethods({
+        zone: form.value.countryCode,
+      });
+    };
+
     const handleFormSubmit = async () => {
       await save({ shippingDetails: form.value });
 
-      shippingMethods.value = await $sylius.api.getShippingMethods({
-        zone: form.value.countryCode,
-      });
+      await getShippingMethods();
 
       if (shippingMethods.value.length) {
         isFormSubmitted.value = true;
@@ -329,6 +333,9 @@ export default {
         countries.value = await $sylius.api.getCountries();
       }
       if (shipping.value) form.value = shipping.value;
+      if (isFormSubmitted.value) {
+        await getShippingMethods();
+      }
       if (isAuthenticated.value) {
         form.value.email = user.value.email ?? null;
         await loadUserShipping();

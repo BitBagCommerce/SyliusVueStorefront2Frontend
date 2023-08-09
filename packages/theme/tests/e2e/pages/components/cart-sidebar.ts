@@ -1,9 +1,13 @@
-import { el } from '../utils/element';
+import quantitySelector from './quantity-selector';
 
-class Cart {
+class CartSidebar {
   get goToCheckoutButton(): Cypress.Chainable {
-    return el('go-to-checkout-btn');
+    return cy.el('go-to-checkout-btn');
+  }
+
+  get quantitySelector() {
+    return quantitySelector;
   }
 }
 
-export default new Cart();
+export default new CartSidebar();

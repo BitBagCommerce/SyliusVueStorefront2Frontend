@@ -1,5 +1,5 @@
 import { ComposableError, ExcludeError } from '../types';
-import type { GraphQLErrors } from '@vue-storefront/sylius-api';
+import type { GraphQLErrors, Context } from '@vue-storefront/sylius-api';
 
 /**
  * Function for handling errors on GraphQL responses. If GraphQL response doesn't have any errors it returns your response without error type on it, but if it has errors it throws a formatted error. Only use inside of composables.
@@ -26,7 +26,7 @@ export const errorHelper = <
   response: TResponse,
   customMessage?: string
 ): ExcludeError<TResponse> => {
-  if ('graphQLErrors' in response)
+  if (response && typeof response === 'object' && 'graphQLErrors' in response)
     throw {
       message: customMessage ?? response.graphQLErrors[0]?.extensions.message,
       details: response.graphQLErrors,
@@ -34,3 +34,29 @@ export const errorHelper = <
 
   return response as any;
 };
+
+type wishlistResponse = ExcludeError<
+  Awaited<ReturnType<Context['$sylius']['api']['getWishlists']>>
+>;
+
+export const transformWishlists = (wishlistResponse: wishlistResponse) =>
+  wishlistResponse.wishlists.map((wishlist) => ({
+    id: wishlist.id,
+    name: wishlist.name,
+    itemCount: wishlist.wishlistProducts.totalCount,
+    items: wishlist.wishlistProducts.edges.map(({ node }) => ({
+      ...node,
+      variant: {
+        ...node.variant,
+        optionValues: node.variant.optionValues.edges.map((edge) => edge.node),
+        channelPricings: node.variant.channelPricings?.collection,
+        product: {
+          ...node.variant.product,
+          options: node.variant.product.options.edges.map((edge) => edge.node),
+          images: node.variant.product.images.collection.map(
+            (image) => `${wishlistResponse.imagePath}/${image.path}`
+          ),
+        },
+      },
+    })),
+  }));

@@ -14,7 +14,11 @@ const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
-    return {};
+    if (!context.cart.cart?.value) await context.cart.load({ customQuery });
+    return {
+      ...context.cart.cart.value.shipments?.method,
+      state: '',
+    };
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

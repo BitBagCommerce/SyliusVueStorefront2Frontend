@@ -334,4 +334,24 @@ export default {
   'Item has been removed from wishlist':
     'Artikel wurde von der Wunschliste entfernt',
   'Wishlist cleared successfully': 'Wunschliste erfolgreich gelöscht',
+  'There are not that many items on stock':
+    'Es sind nicht so viele Artikel auf Lager',
+  "Can't add less than one item to cart":
+    'Es kann nicht weniger als ein Artikel in den Warenkorb gelegt werden',
+  'Payment State': 'Zahlungsstatus',
+  'Shipping State': 'Versandstaat',
+  myAddressesDescription:
+    'Verwalten Sie alle gewünschten Rechnungs-/Lieferadressen (Arbeitsplatz, Privatadresse usw.). Auf diese Weise müssen Sie die Lieferadresse nicht bei jeder Bestellung manuell eingeben.',
+  awaiting: 'warten',
+  paid: 'bezahlt',
+  refunded: 'zurückerstattet',
+  cancelled: 'abgesagt',
+  shipped: 'versendet',
+  ready: 'bereit',
+  'Name: a-z': 'Name: a-z',
+  'Name: z-a': 'Name: z-a',
+  'Price: highest': 'Preis: höchster',
+  'Price: lowest': 'Preis: am niedrigsten',
+  'Rating: highest': 'Bewertung: höchste',
+  'Rating: lowest': 'Bewertung: niedrigste',
 };

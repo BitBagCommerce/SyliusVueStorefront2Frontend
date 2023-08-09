@@ -9,6 +9,9 @@ export const getCartQuery = gql(`
       taxTotal
       shippingTotal
       orderPromotionTotal
+      customer {
+        email
+      }
       promotionCoupon {
         code
         promotion {

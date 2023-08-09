@@ -34,6 +34,10 @@ module.exports = {
           ['/guide/essentials/general-concepts', 'General Concepts'],
           ['/guide/essentials/page-walkthrough', 'Page Walkthrough'],
           ['/guide/essentials/testing', 'Testing'],
+          [
+            '/guide/essentials/testing-mocking-api-data',
+            'Testing - Mocking Api Data',
+          ],
           ['/guide/essentials/non-blocking-ui', 'Non Blocking UI'],
         ],
       },

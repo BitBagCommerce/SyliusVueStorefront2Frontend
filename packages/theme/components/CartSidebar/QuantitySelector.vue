@@ -1,6 +1,7 @@
 <template>
   <div class="quantity" v-click-outside="() => handleCancel()">
     <SfButton
+      data-e2e="minus-quantity-button"
       v-if="!isConfirmOpen"
       class="sf-button--pure quantity__button"
       :disabled="disabled"
@@ -23,6 +24,7 @@
     </SfButton>
 
     <SfInput
+      data-e2e="quantity-input"
       class="sf-input--filled quantity__input"
       type="number"
       @input="handleInput($event, true)"
@@ -31,6 +33,7 @@
     />
 
     <SfButton
+      data-e2e="plus-quantity-button"
       v-if="!isConfirmOpen"
       class="sf-button--pure quantity__button"
       :disabled="disabled"
@@ -41,6 +44,7 @@
 
     <SfButton
       v-else
+      data-e2e="confirm-quantity-button"
       class="sf-button--pure quantity__button quantity__button--primary"
       @click="handleConfirm()"
     >
@@ -89,8 +93,8 @@ export default {
     const inputQty = ref(props.qty);
     const isConfirmOpen = ref(false);
 
-    const handleConfirm = () => {
-      emit('quantity-change', inputQty.value);
+    const handleConfirm = (rawInput) => {
+      emit('quantity-change', inputQty.value, rawInput ?? inputQty.value);
       isConfirmOpen.value = false;
     };
 
@@ -109,7 +113,7 @@ export default {
 
       if (input < props.min) inputQty.value = props.min;
 
-      if (!isConfirm) handleConfirm();
+      if (!isConfirm) handleConfirm(input);
     };
 
     return {
