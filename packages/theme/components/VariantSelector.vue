@@ -68,7 +68,6 @@
         </SfSelectOption>
       </SfSelect>
     </div>
-
     <AddToCart
       data-e2e="modal__add-to-cart"
       class="modal__add-to-cart"
@@ -142,13 +141,6 @@ export default {
       });
       close();
     };
-
-    watch(
-      () => product.value,
-      () => {
-        qty.value = initialQty.value;
-      }
-    );
 
     return {
       productGetters,
