@@ -1,5 +1,6 @@
 <template>
   <div class="quantity" v-click-outside="() => handleCancel()">
+    {{ inputQty }}
     <SfButton
       data-e2e="minus-quantity-button"
       v-if="!isConfirmOpen"
@@ -107,8 +108,11 @@ export default {
 
     const handleInput = (input, isConfirm) => {
       inputQty.value = input;
-      const newInput = input.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');
-       if (newInput === input) {
+      let newInput = input;
+      if (typeof input === 'string') {
+        newInput = input.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');
+      }
+      if (newInput === input) {
         isConfirmOpen.value = isConfirm;
         inputQty.value = parseInt(input);
 
