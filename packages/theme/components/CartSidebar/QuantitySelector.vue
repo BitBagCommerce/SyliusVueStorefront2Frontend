@@ -1,6 +1,5 @@
 <template>
   <div class="quantity" v-click-outside="() => handleCancel()">
-    {{ inputQty }}
     <SfButton
       data-e2e="minus-quantity-button"
       v-if="!isConfirmOpen"
