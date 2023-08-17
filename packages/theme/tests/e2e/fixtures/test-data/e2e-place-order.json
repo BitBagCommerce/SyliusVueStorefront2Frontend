@@ -28,5 +28,15 @@
   "couponCode": {
     "code": "christmas_sale",
     "wrongCode": "non_existing_coupon_code"
+  },
+  "userLogin": {
+    "user": {
+      "email": "email1@fakemail.com",
+      "password": "StrongPassword123"
+    },
+    "nonExistingUser": {
+      "email": "nonexistingemail@fakemail.com",
+      "password": "nonExistingPassword123"
+    }
   }
 }

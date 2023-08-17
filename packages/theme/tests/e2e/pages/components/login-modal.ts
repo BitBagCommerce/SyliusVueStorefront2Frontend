@@ -41,7 +41,10 @@ class LoginModal {
     if (rememberMe) {
       this.rememberMeCheckbox.click();
     }
-    this.submitButton.should('not.have.class', 'is-disabled--button').click();
+    this.submitButton
+      .should('not.have.class', 'is-disabled--button')
+      .click()
+      .wait(10000);
     return cy;
   }
 }

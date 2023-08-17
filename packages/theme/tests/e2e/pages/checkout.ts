@@ -110,7 +110,7 @@ class Billing {
     return cy.el('billing-heading');
   }
 
-  public fillForm(customer: Customer) {
+  public fillForm(customer: Customer, loggedIn = false) {
     this.firstName.type(customer.firstName);
     this.lastName.type(customer.lastName);
     this.streetName.type(customer.address?.billing.streetName);
@@ -119,9 +119,15 @@ class Billing {
     this.provinceName.type(customer.address?.billing.provinceName);
     this.zipcode.type(customer.address?.billing.zipcode);
     this.phone.type(customer.address?.billing.phone);
-    this.email.type(
-      customer.address?.billing.email.replace('{random}', Date.now().toString())
-    );
+
+    if (!loggedIn) {
+      this.email.type(
+        customer.address?.billing.email.replace(
+          '{random}',
+          Date.now().toString()
+        )
+      );
+    }
   }
 }
 
