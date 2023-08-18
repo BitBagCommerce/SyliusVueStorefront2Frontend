@@ -61,7 +61,7 @@
 <script>
 import { SfButton, SfInput, SfIcon } from '@storefront-ui/vue';
 import { clickOutside } from '@storefront-ui/vue/src/utilities/directives/click-outside/click-outside-directive.js';
-import { ref } from '@nuxtjs/composition-api';
+import { ref, watch } from '@nuxtjs/composition-api';
 
 export default {
   name: 'QuantitySelector',
@@ -109,7 +109,10 @@ export default {
       inputQty.value = input;
       let newInput = input;
       if (typeof input === 'string') {
-        newInput = input.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0');
+        newInput = input
+          .replace(/[^0-9.]/g, '')
+          .replace(/(\..*?)\..*/g, '$1')
+          .replace(/^0[^.]/, '0');
       }
       if (newInput === input) {
         isConfirmOpen.value = isConfirm;
@@ -124,6 +127,13 @@ export default {
         inputQty.value = newInput;
       }
     };
+
+    watch(
+      () => props.qty,
+      (newQty) => {
+        inputQty.value = newQty;
+      }
+    );
 
     return {
       inputQty,

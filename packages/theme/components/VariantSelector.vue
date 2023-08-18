@@ -142,6 +142,22 @@ export default {
       close();
     };
 
+    watch(
+      () => product.value,
+      (newValue) => {
+        const stock = productGetters.getStockForVariant(
+          product?.value?.selectedVariant
+        );
+        if (
+          newValue &&
+          product.value.selectedVariant.tracked &&
+          qty.value > stock
+        ) {
+          qty.value = stock;
+        }
+      }
+    );
+
     return {
       productGetters,
       close,
